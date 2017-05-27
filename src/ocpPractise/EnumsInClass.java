@@ -9,9 +9,9 @@ package ocpPractise;
  *
  * @author sanu
  */
-public class ClassDesign {
+public class EnumsInClass {
 
-    private enum AGGREGATION {
+    public enum AGGREGATION {
         HOURLY("724"), DAILY("31"), WEEKLY("4"), MONTHLY("1");
 
         private final String duration;
@@ -25,7 +25,7 @@ public class ClassDesign {
         }
     }
 
-    public enum SEASON {
+    public enum SEASON{
         WINTER {
             public void officeHours() {
                 System.out.println("10am to 7pm");
@@ -55,6 +55,7 @@ public class ClassDesign {
     public static void main(String[] args) {
 
         for (AGGREGATION temp : AGGREGATION.values()) {
+            if(temp.HOURLY.getDuration().compareTo(String.valueOf(100)) > 0)
             System.out.println(temp.getDuration());
         }
 

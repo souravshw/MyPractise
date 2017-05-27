@@ -19,9 +19,13 @@ public class InnerClasses {
             System.out.println(a);
         }
     }
-
+    /*
+    Accessing Local Inner class from outer class.
+    */
     public void go() {
-        FirstInsideClass in = new FirstInsideClass();
+        
+        InnerClasses outer = new InnerClasses();
+        FirstInsideClass in = outer.new FirstInsideClass();
         in.printNum();
     }
 

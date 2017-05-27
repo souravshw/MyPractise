@@ -1,9 +1,12 @@
 package InnerClass;
 //class that have no name is known as anonymous inner class in java. It should be used if you have to override method of class or interface.
 
- abstract class Concrete {
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-     abstract void eat();
+abstract class Concrete {
+
+    abstract void eat();
 
     void drink() {
         System.out.println("Drink pepsi Motto");
@@ -12,10 +15,14 @@ package InnerClass;
 
 interface Boy {
 
-    void height();
+    void height() throws Exception;
+
+    public default String getfly() {
+        return "a";
+    }
 }
 
-class AnonymousInner {
+class AnonymousInner implements Boy {
 
     public static void main(String args[]) {
         Concrete p = new Concrete() {
@@ -28,9 +35,32 @@ class AnonymousInner {
 
         Boy b = new Boy() {
             public void height() {
+                System.out.println(Boy.class);
                 System.out.println("I am Very tall.");
             }
         };
-        b.height();
+
+        try {
+            b.height();
+        } catch (Exception ex) {
+            Logger.getLogger(AnonymousInner.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        System.out.println(b.getfly());
+    }
+
+    @Override
+    public void height() throws Exception {
+        System.out.println("I am Mad");
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+            System.out.println("Hello");
+        }
+    }
+
+    @Override
+    public String getfly() {
+        return Boy.super.getfly();
     }
 }

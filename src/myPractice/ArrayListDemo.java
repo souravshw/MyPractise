@@ -70,9 +70,7 @@ class Student implements Comparable {
 		return name + " " + Integer.toString(roll);
 	}
 
-	@Override
 	public int compareTo(Object arg0) {
-		// System.out.println(this.toString()+" "+((Student)arg0).toString());
 		if (this.roll > ((Student) arg0).getRoll())
 			return 1;
 		else if (this.roll < ((Student) arg0).getRoll())

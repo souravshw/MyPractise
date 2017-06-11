@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * @author sanu
+ * Using Synchronized blocks and multiple locks.
  * Here we will be using the lock variables in order to lock the semaphore variable.
  */
 public class FourthProgramPartTwo {

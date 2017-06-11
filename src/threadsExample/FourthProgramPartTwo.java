@@ -26,23 +26,27 @@ public class FourthProgramPartTwo {
     private List<Integer> in1 = new ArrayList<Integer>();
     private List<Integer> in2 = new ArrayList<Integer>();
 
-    public synchronized void stageOne() {
+    public  void stageOne() {
+        synchronized(lock1){
         try {
             Thread.sleep(1);
         } catch (InterruptedException ex) {
             Logger.getLogger(FourthProgram.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        in1.add(random.nextInt(10000));
+        in1.add(random.nextInt(100));
+        }
     }
 
-    public synchronized void stageTwo() {
+    public  void stageTwo() {
+        synchronized (lock2){
         try {
             Thread.sleep(1);
         } catch (InterruptedException ex) {
             Logger.getLogger(FourthProgram.class.getName()).log(Level.SEVERE, null, ex);
         }
-        in2.add(random.nextInt(10000));
+        in2.add(random.nextInt(100));
+        }
     }
 
     public void process() {

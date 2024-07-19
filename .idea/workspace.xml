@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="12b2eea6-c000-4cb5-8744-4e1f042395b3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/0.0.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/120minutes.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/180minutes.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/240minutes.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/300minutes.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/60minutes.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Annotation_Examples/CustomAnnotation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Annotation_Examples/Deprecated_Example.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Annotation_Examples/Override_Annotation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Annotation_Examples/Suppress_Warnings.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Enums_Example/EnumInClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Enums_Example/EnumOutsideClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Enums_Example/Enum_Switch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Enums_Example/Enums_Constant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Exception_Examples/CompileTimeExceptionPropogation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Exception_Examples/CustomException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Exception_Examples/FinalExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Exception_Examples/MulCatch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Exception_Examples/OverridingExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Exception_Examples/RunTimeExceptionPropagation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Exception_Examples/ThrowExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Exception_Examples/ThrowsExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FileHandling_Examples/CapitalizeRead.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FileHandling_Examples/FileManip.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FileHandling_Examples/FileRead.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FileHandling_Examples/FileWrite.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FileHandling_Examples/wordcheck" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Generics_Examples/GenericBound.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Generics_Examples/GenericClassExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Generics_Examples/GenericLowerBound.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Generics_Examples/GenericMethodExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Generics_Examples/GenericUnboundWildCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Generics_Examples/GenericUpperBound.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/InnerClass/AnonymousInner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/InnerClass/LocalInner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/InnerClass/MemeberInnerClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/InnerClass/NestedInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/InnerClass/NestedInterfaceInClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/InnerClass/StaticNestedClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/InnerClass/StaticNestedClassWithStaticMethod.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Serialisation_Examples/Deserialise.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Serialisation_Examples/Serialisehasa.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Serialisation_Examples/Serialiseisa.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Serialisation_Examples/Serialize.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Serialisation_Examples/TransientExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/advancedClassDesign/BaseballTeam.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/advancedClassDesign/Book.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/advancedClassDesign/Employee.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/advancedClassDesign/StringEqulals.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/ArrayListDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/ArrayListHack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/ArraysClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/BigDecimalClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/BigIntegerClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/BinaryGapCodility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/BubbleSort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/COOKMACH.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/Cartridge.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/ComparatorHack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/CreateFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/DataBaseConnectivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/Datatypes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/DecimalToBinary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/DequeHack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/DuplicatesNumber.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/Emma.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/Enum_Practice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/ExceptionPractice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/GenericDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/GenericHack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/HashMapDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/HashMap_Java.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/InnerClassPractise.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/InsertionSort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/IterableInterfaceImplementation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/Java1DArray.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/Java2DArrayEasy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/JavaHashSet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/JavaStack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/JdbcTest1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/LocDiff.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/MainGravity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/MainMagicTrick.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/NewException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/NewSalary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/NewThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/PatternChecker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/PeakValue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/PermutationString.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/PrimitiveAndReference.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/PriorityQueueTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/ProjectEuler3and5.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/ProjectEulerFibo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/QuantLand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/QueueDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/QuickSort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/RemCharacter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/ReverseString.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/RunnableExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/Salary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/SelectionSort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/Setdemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/Solution.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/StaticInitializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/StringAnagrams.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/StringCompare.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/StringOccurance.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/StringReverse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/StringToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/StringsIntroduction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/TapeEquilibriumCodility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/TheChef.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/ZeroIndexedArrayCodility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/dodouble.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/qqqqq.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/tempGeneric.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/myPractice/test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ocpPractise/EnumsInClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ocpPractise/InnerClasses.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ocpPractise/NestedInnerClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ocpPractise/characters.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/threadsExample/FourthProgram.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/threadsExample/FourthProgramPartTwo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/threadsExample/SemaphoreExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/threadsExample/ThirdProgram.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/threadsExample/ThreadExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/example/AppTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2jSVvs89KDFi5b46XGoAwuyKysi" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/code/TestPractise/src/main/java"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\code\TestPractise\src\main\java" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\code\TestPractise\src\main\java" />
+      <recent name="C:\code\TestPractise\src\main\java\org" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="MyPractise" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="MyPractise" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="12b2eea6-c000-4cb5-8744-4e1f042395b3" name="Changes" comment="" />
+      <created>1721380703758</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1721380703758</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

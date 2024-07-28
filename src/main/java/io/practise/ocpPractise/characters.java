@@ -6,28 +6,27 @@
 package io.practise.ocpPractise;
 
 /**
- *
  * @author sanu
  */
 public enum characters {
-    A("a"), B("b"), C("c") {
-        public void printSmallCase() {
-            System.out.print(this.getCase());
-        }
-    };
-
-    private String smallCase;
-
-    public String getCase() {
-        return this.smallCase;
+  A("a"), B("b"), C("c") {
+    public void printSmallCase() {
+      System.out.print(this.getCase());
     }
+  };
 
-    private characters(String se) {
-        this.smallCase = se;
-    }
+  private String smallCase;
 
-    void printSmallCase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  private characters(String se) {
+    this.smallCase = se;
+  }
+
+  public String getCase() {
+    return this.smallCase;
+  }
+
+  void printSmallCase() {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
 
 }

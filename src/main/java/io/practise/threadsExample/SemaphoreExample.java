@@ -8,20 +8,19 @@ package io.practise.threadsExample;
 import java.util.concurrent.Semaphore;
 
 /**
- *
  * @author sanu
  */
 public class SemaphoreExample {
-    
-    static Semaphore semaphore = new Semaphore(2);
-    
-    static class MyAtmThread extends Thread{
-        
-    }
 
-    public static void main(String[] args) {
-        
-    }
+  static Semaphore semaphore = new Semaphore(2);
+
+  public static void main(String[] args) {
+
+  }
+
+  static class MyAtmThread extends Thread {
+
+  }
 }
 
 //class Semaphore extends Thread {

@@ -6,36 +6,35 @@
 package io.practise.threadsExample;
 
 /**
- *
  * @author sanu
  */
 public class ThreadExample {
 
-    public ThreadExample() {
-        new SimpleThread("Thread 1").start();
-        new SimpleThread("Thread 2").start();
-        new SimpleThread("Thread 3").start();
-        new SimpleThread("Thread 4").start();
-        new SimpleThread("Thread 5").start();
-    }
+  public ThreadExample() {
+    new SimpleThread("Thread 1").start();
+    new SimpleThread("Thread 2").start();
+    new SimpleThread("Thread 3").start();
+    new SimpleThread("Thread 4").start();
+    new SimpleThread("Thread 5").start();
+  }
 
-    public static void main(String args[]) {
-        ThreadExample te = new ThreadExample();
+  public static void main(String args[]) {
+    ThreadExample te = new ThreadExample();
 
-    }
+  }
 
 }
 
 class SimpleThread extends Thread {
 
-    public SimpleThread(String name) {
-        super(name);
-    }
+  public SimpleThread(String name) {
+    super(name);
+  }
 
-    public void run() {
-        for (int i = 0; i < 10; i++) {
-            System.out.println(this.getName() + " " + i);
-            
-        }
+  public void run() {
+    for (int i = 0; i < 10; i++) {
+      System.out.println(this.getName() + " " + i);
+
     }
+  }
 }

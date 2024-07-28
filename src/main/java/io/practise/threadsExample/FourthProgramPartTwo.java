@@ -17,75 +17,75 @@ import java.util.logging.Logger;
  * Here we will be using the lock variables in order to lock the semaphore variable.
  */
 public class FourthProgramPartTwo {
-    
-    private Object lock1 = new Object();
-    private Object lock2 = new Object();
 
-    private Random random = new Random();
+  private Object lock1 = new Object();
+  private Object lock2 = new Object();
 
-    private List<Integer> in1 = new ArrayList<Integer>();
-    private List<Integer> in2 = new ArrayList<Integer>();
+  private Random random = new Random();
 
-    public  void stageOne() {
-        synchronized(lock1){
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(FourthProgram.class.getName()).log(Level.SEVERE, null, ex);
-        }
+  private List<Integer> in1 = new ArrayList<Integer>();
+  private List<Integer> in2 = new ArrayList<Integer>();
 
-        in1.add(random.nextInt(100));
-        }
+  public static void main(String... args) {
+    System.out.println("Starting .........");
+    FourthProgramPartTwo fp = new FourthProgramPartTwo();
+    long startTime = System.currentTimeMillis();
+    Thread t1 = new Thread(new Runnable() {
+      public void run() {
+        fp.process();
+      }
+    });
+
+    Thread t2 = new Thread(new Runnable() {
+      public void run() {
+        fp.process();
+      }
+    });
+
+    t1.start();
+    t2.start();
+
+    try {
+      t1.join();
+      t2.join();
+    } catch (InterruptedException ex) {
+      Logger.getLogger(FourthProgram.class.getName()).log(Level.SEVERE, null, ex);
     }
 
-    public  void stageTwo() {
-        synchronized (lock2){
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(FourthProgram.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        in2.add(random.nextInt(100));
-        }
+    long endTime = System.currentTimeMillis();
+    System.out.println("Time Consumed: " + (endTime - startTime));
+
+    System.out.println("List 1: " + fp.in1.size() + " List 2: " + fp.in2.size());
+  }
+
+  public void stageOne() {
+    synchronized (lock1) {
+      try {
+        Thread.sleep(1);
+      } catch (InterruptedException ex) {
+        Logger.getLogger(FourthProgram.class.getName()).log(Level.SEVERE, null, ex);
+      }
+
+      in1.add(random.nextInt(100));
     }
+  }
 
-    public void process() {
-        for (int i = 0; i < 1000; i++) {
-            stageOne();
-            stageTwo();
-        }
+  public void stageTwo() {
+    synchronized (lock2) {
+      try {
+        Thread.sleep(1);
+      } catch (InterruptedException ex) {
+        Logger.getLogger(FourthProgram.class.getName()).log(Level.SEVERE, null, ex);
+      }
+      in2.add(random.nextInt(100));
     }
+  }
 
-    public static void main(String... args) {
-        System.out.println("Starting .........");
-        FourthProgramPartTwo fp = new FourthProgramPartTwo();
-        long startTime = System.currentTimeMillis();
-        Thread t1 = new Thread(new Runnable() {
-            public void run() {
-                fp.process();
-            }
-        });
-
-        Thread t2 = new Thread(new Runnable() {
-            public void run() {
-                fp.process();
-            }
-        });
-
-        t1.start();
-        t2.start();
-
-        try {
-            t1.join();
-            t2.join();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(FourthProgram.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        long endTime = System.currentTimeMillis();
-        System.out.println("Time Consumed: " + (endTime - startTime));
-
-        System.out.println("List 1: " + fp.in1.size() + " List 2: " + fp.in2.size());
+  public void process() {
+    for (int i = 0; i < 1000; i++) {
+      stageOne();
+      stageTwo();
     }
-    
+  }
+
 }

@@ -12,7 +12,7 @@ public class FileManip {
    */
   public static void main(String[] args) {
     // TODO Auto-generated method stub
-    Path path = Paths.get("C:/Users/Sony/Desktop/testfile");
+    Path path = Paths.get("C:/Users/soushaw/Desktop/testfile");
 //Creating a file
 
     try {
@@ -33,7 +33,7 @@ try {
          */
 //Moving a file
     try {
-      Files.move(path, Paths.get("C:/Users/Sony/Desktop/hive/testfile"));
+      Files.move(path, Paths.get("C:/Users/soushaw/Desktop/hive/testfile"));
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

@@ -5,10 +5,9 @@ import org.junit.Test;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
+
+import static org.junit.Assert.assertFalse;
 
 public class TestMethodReference {
 
@@ -26,7 +25,7 @@ public class TestMethodReference {
 
   @Test
   public void testThirdMethodReference() {
-    Supplier<LocalDateTime> test = () -> LocalDateTime.now();
+    Supplier<LocalDateTime> test = LocalDateTime::now;
     System.out.println(test.get());
   }
 
@@ -48,10 +47,48 @@ public class TestMethodReference {
     System.out.println(integerSupplier.get());
   }
 
-
   @Test
   public void testSystem() {
     System system = null;
     system.out.println("test");
+  }
+
+  @Test
+  public void testPerson() {
+    BiPredicate<Person, Person> isEquals = Person::equals;
+
+    Person p1 = new Person();
+    Person p2 = new Person();
+
+    assertFalse(isEquals.test(p1, p2));
+  }
+}
+
+class Student {
+  private final String name = "student";
+
+  public String getName() {
+    return name;
+  }
+}
+
+class Person {
+  private String name;
+  private int age;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public int getAge() {
+    return age;
+  }
+
+  public void setAge(int age) {
+    this.age = age;
   }
 }

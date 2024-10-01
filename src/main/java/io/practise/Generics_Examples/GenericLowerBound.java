@@ -25,9 +25,9 @@ public class GenericLowerBound {
     Teacher t1 = new Teacher("Jassi", 23, 45, "Maths");
     Teacher t2 = new Teacher("Jassi", 23, 45, "Bio");
     Teacher t3 = new Teacher("Jassi", 23, 45, "English");
-    Dog d1 = new Dog("Jassi", 23);
-    Dog d2 = new Dog("Jassi", 23);
-    Dog d3 = new Dog("Jassi", 23);
+    Sardar d1 = new Sardar("Jassi", 23);
+    Sardar d2 = new Sardar("Jassi", 23);
+    Sardar d3 = new Sardar("Jassi", 23);
     ArrayList<Person> ap = new ArrayList<Person>();
     ap.add(p1);
     ap.add(p2);
@@ -40,7 +40,7 @@ public class GenericLowerBound {
     at.add(t1);
     at.add(t2);
     at.add(t3);
-    ArrayList<Dog> ad = new ArrayList<Dog>();
+    ArrayList<Sardar> ad = new ArrayList<Sardar>();
     ad.add(d1);
     ad.add(d2);
     ad.add(d3);

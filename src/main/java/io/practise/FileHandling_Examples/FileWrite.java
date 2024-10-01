@@ -22,7 +22,7 @@ public class FileWrite {
 
     PrintWriter w = null;
     try {
-      w = new PrintWriter(new FileWriter("C:/Users/Sony/Desktop/wordcheckOutput.txt"));
+      w = new PrintWriter(new FileWriter("C:/Users/soushaw/Desktop/wordcheckOutput.txt"));
       for (String s : argv) {
         System.out.println(s);
         w.println(s);

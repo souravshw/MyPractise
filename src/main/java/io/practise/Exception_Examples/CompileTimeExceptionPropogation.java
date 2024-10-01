@@ -20,7 +20,6 @@ public class CompileTimeExceptionPropogation {
     try {
       m();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }

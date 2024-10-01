@@ -17,7 +17,7 @@ public class CapitalizeRead {
     // TODO Auto-generated method stub
     FileReader f = null;
     try {
-      f = new FileReader("C:/Users/Sony/Desktop/wordcheck");
+      f = new FileReader("C:/Users/soushaw/Desktop/wordcheck");
 			/* Old way of Reading file
 		    int c=0;
 		    while(c=f.read()!=-1)

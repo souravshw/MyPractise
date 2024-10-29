@@ -2,10 +2,6 @@ package io.practise.Enums_Example;
 
 class Enum_Switch {
 
-    enum Day {
-        SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
-    }
-
     public static void main(String args[]) {
         Day day = Day.MONDAY;
 
@@ -19,5 +15,9 @@ class Enum_Switch {
             default:
                 System.out.println("other day");
         }
+    }
+
+    enum Day {
+        SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
     }
 }

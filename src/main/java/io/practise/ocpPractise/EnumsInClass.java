@@ -6,10 +6,22 @@
 package io.practise.ocpPractise;
 
 /**
- *
  * @author sanu
  */
 public class EnumsInClass {
+
+    public static void main(String[] args) {
+
+        for (AGGREGATION temp : AGGREGATION.values()) {
+            if (temp.HOURLY.getDuration().compareTo(String.valueOf(100)) > 0)
+                System.out.println(temp.getDuration());
+        }
+
+        for (SEASON temp : SEASON.values()) {
+            temp.officeHours();
+        }
+
+    }
 
     public enum AGGREGATION {
         HOURLY("724"), DAILY("31"), WEEKLY("4"), MONTHLY("1");
@@ -25,7 +37,7 @@ public class EnumsInClass {
         }
     }
 
-    public enum SEASON{
+    public enum SEASON {
         WINTER {
             public void officeHours() {
                 System.out.println("10am to 7pm");
@@ -50,19 +62,6 @@ public class EnumsInClass {
         public void officeHours() {
             System.out.println("Please select the season mentioned above");
         }
-    }
-
-    public static void main(String[] args) {
-
-        for (AGGREGATION temp : AGGREGATION.values()) {
-            if(temp.HOURLY.getDuration().compareTo(String.valueOf(100)) > 0)
-            System.out.println(temp.getDuration());
-        }
-
-        for (SEASON temp : SEASON.values()) {
-            temp.officeHours();
-        }
-
     }
 
 }

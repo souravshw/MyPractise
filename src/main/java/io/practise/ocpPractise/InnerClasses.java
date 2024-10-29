@@ -6,10 +6,34 @@
 package io.practise.ocpPractise;
 
 /**
- *
  * @author sanu
  */
 public class InnerClasses {
+
+    public static void main(String[] args) {
+        InnerClasses in = new InnerClasses();
+        in.go();
+
+        for (characters c : characters.values()) {
+            if (c.equals(characters.C)) {
+                c.printSmallCase();
+                System.out.println(" Hi");
+            } else {
+                System.out.println(c.getCase());
+            }
+        }
+
+    }
+
+    /*
+    Accessing Local Inner class from outer class.
+    */
+    public void go() {
+
+        InnerClasses outer = new InnerClasses();
+        FirstInsideClass in = outer.new FirstInsideClass();
+        in.printNum();
+    }
 
     public class FirstInsideClass {
 
@@ -18,29 +42,6 @@ public class InnerClasses {
         public void printNum() {
             System.out.println(a);
         }
-    }
-    /*
-    Accessing Local Inner class from outer class.
-    */
-    public void go() {
-        
-        InnerClasses outer = new InnerClasses();
-        FirstInsideClass in = outer.new FirstInsideClass();
-        in.printNum();
-    }
-
-    public static void main(String[] args) {
-        InnerClasses in = new InnerClasses();
-        in.go();
-
-        for (characters c : characters.values()) {
-            if (c.equals(characters.C)) {
-                c.printSmallCase(); System.out.println(" Hi");
-            } else {
-                System.out.println(c.getCase());
-            }
-        }
-
     }
 
 }

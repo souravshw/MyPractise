@@ -9,18 +9,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author sanu
- * Every object in  has intrinsic lock, or mutex. As we are implementing synchronized then the thread 
- * will have to wait to acquire the lock for the common resource. 
+ * Every object in  has intrinsic lock, or mutex. As we are implementing synchronized then the thread
+ * will have to wait to acquire the lock for the common resource.
  */
 public class ThirdProgram {
 
     int count = 0;
-
-    public synchronized void doWork() {
-        count++;
-    }
 
     public static void main(String[] args) {
         ThirdProgram tp = new ThirdProgram();
@@ -55,5 +50,9 @@ public class ThirdProgram {
 
         System.out.println("Time Consumption: " + (endTime - startTime));
         System.out.println("Count: " + tp.count);
+    }
+
+    public synchronized void doWork() {
+        count++;
     }
 }

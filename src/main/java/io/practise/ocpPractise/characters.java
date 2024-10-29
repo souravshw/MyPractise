@@ -6,7 +6,6 @@
 package io.practise.ocpPractise;
 
 /**
- *
  * @author sanu
  */
 public enum characters {
@@ -18,12 +17,12 @@ public enum characters {
 
     private String smallCase;
 
-    public String getCase() {
-        return this.smallCase;
-    }
-
     private characters(String se) {
         this.smallCase = se;
+    }
+
+    public String getCase() {
+        return this.smallCase;
     }
 
     void printSmallCase() {

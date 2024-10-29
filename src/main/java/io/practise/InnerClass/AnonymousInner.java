@@ -4,21 +4,21 @@ package io.practise.InnerClass;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-abstract class Concrete {
-
-    abstract void eat();
-
-    void drink() {
-        System.out.println("Drink pepsi Motto");
-    }
-}
-
 interface Boy {
 
     void height() throws Exception;
 
     public default String getfly() {
         return "a";
+    }
+}
+
+abstract class Concrete {
+
+    abstract void eat();
+
+    void drink() {
+        System.out.println("Drink pepsi Motto");
     }
 }
 

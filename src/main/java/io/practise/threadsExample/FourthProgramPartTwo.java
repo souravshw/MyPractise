@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * Here we will be using the lock variables in order to lock the semaphore variable.
  */
 public class FourthProgramPartTwo {
-    
+
     private Object lock1 = new Object();
     private Object lock2 = new Object();
 
@@ -25,36 +25,6 @@ public class FourthProgramPartTwo {
 
     private List<Integer> in1 = new ArrayList<Integer>();
     private List<Integer> in2 = new ArrayList<Integer>();
-
-    public  void stageOne() {
-        synchronized(lock1){
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(FourthProgram.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        in1.add(random.nextInt(100));
-        }
-    }
-
-    public  void stageTwo() {
-        synchronized (lock2){
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(FourthProgram.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        in2.add(random.nextInt(100));
-        }
-    }
-
-    public void process() {
-        for (int i = 0; i < 1000; i++) {
-            stageOne();
-            stageTwo();
-        }
-    }
 
     public static void main(String... args) {
         System.out.println("Starting .........");
@@ -87,5 +57,35 @@ public class FourthProgramPartTwo {
 
         System.out.println("List 1: " + fp.in1.size() + " List 2: " + fp.in2.size());
     }
-    
+
+    public void stageOne() {
+        synchronized (lock1) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FourthProgram.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            in1.add(random.nextInt(100));
+        }
+    }
+
+    public void stageTwo() {
+        synchronized (lock2) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FourthProgram.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            in2.add(random.nextInt(100));
+        }
+    }
+
+    public void process() {
+        for (int i = 0; i < 1000; i++) {
+            stageOne();
+            stageTwo();
+        }
+    }
+
 }

@@ -9,24 +9,24 @@ package io.practise.ocpPractise;
  * @author sanu
  */
 public enum characters {
-    A("a"), B("b"), C("c") {
-        public void printSmallCase() {
-            System.out.print(this.getCase());
-        }
-    };
-
-    private String smallCase;
-
-    private characters(String se) {
-        this.smallCase = se;
+  A("a"), B("b"), C("c") {
+    public void printSmallCase() {
+      System.out.print(this.getCase());
     }
+  };
 
-    public String getCase() {
-        return this.smallCase;
-    }
+  private String smallCase;
 
-    void printSmallCase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  private characters(String se) {
+    this.smallCase = se;
+  }
+
+  public String getCase() {
+    return this.smallCase;
+  }
+
+  void printSmallCase() {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
 
 }

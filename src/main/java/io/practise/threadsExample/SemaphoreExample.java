@@ -12,15 +12,15 @@ import java.util.concurrent.Semaphore;
  */
 public class SemaphoreExample {
 
-    static Semaphore semaphore = new Semaphore(2);
+  static Semaphore semaphore = new Semaphore(2);
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
-    }
+  }
 
-    static class MyAtmThread extends Thread {
+  static class MyAtmThread extends Thread {
 
-    }
+  }
 }
 
 //class Semaphore extends Thread {

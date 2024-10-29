@@ -10,47 +10,47 @@ package io.practise.myPractice;
  */
 public class ArraysClass {
 
-    private double[] arr;
-    private int nElem;
+  private double[] arr;
+  private int nElem;
 
-    public void initializeArray(int size) {
-        arr = new double[size];
-        nElem = 0;
-    }
+  public void initializeArray(int size) {
+    arr = new double[size];
+    nElem = 0;
+  }
 
-    public void display() {
-        System.out.print("[");
-        for (int i = 0; i < arr.length; i++)
-            System.out.print(arr[i] + " ");
-        System.out.print("]\n");
-    }
+  public void display() {
+    System.out.print("[");
+    for (int i = 0; i < arr.length; i++)
+      System.out.print(arr[i] + " ");
+    System.out.print("]\n");
+  }
 
-    public void insert(int elem) {
-        arr[nElem] = elem;
-        nElem++;
-    }
+  public void insert(int elem) {
+    arr[nElem] = elem;
+    nElem++;
+  }
 
-    public double[] getArray() {
-        return arr;
-    }
+  public double[] getArray() {
+    return arr;
+  }
 
-    public int getNElem() {
-        return nElem;
-    }
+  public int getNElem() {
+    return nElem;
+  }
 
-    public double getIndElement(int index) {
-        return arr[index];
-    }
+  public double getIndElement(int index) {
+    return arr[index];
+  }
 
-    public void insertAtIndex(int index, double elem) {
-        arr[index] = elem;
-    }
+  public void insertAtIndex(int index, double elem) {
+    arr[index] = elem;
+  }
 
-    public void swap(int index1, int index2) {
-        double temp;
-        System.out.println("Swapping " + arr[index1] + " " + arr[index2]);
-        temp = arr[index1];
-        arr[index1] = arr[index2];
-        arr[index2] = temp;
-    }
+  public void swap(int index1, int index2) {
+    double temp;
+    System.out.println("Swapping " + arr[index1] + " " + arr[index2]);
+    temp = arr[index1];
+    arr[index1] = arr[index2];
+    arr[index2] = temp;
+  }
 }

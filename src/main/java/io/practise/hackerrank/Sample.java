@@ -425,6 +425,7 @@ public class Sample {
 
     private static void sumOf() {
         List<Integer> oneToTen = of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
         System.out.println(oneToTen.stream()
                 .mapToInt(Integer::intValue)
                 .sum());
@@ -451,6 +452,7 @@ public class Sample {
 
         Arrays.sort(splitIt);
         Arrays.sort(splitIt2);
+
         if (Arrays.equals(splitIt,splitIt2)) {
             System.out.println("is Anagram");
         }else{

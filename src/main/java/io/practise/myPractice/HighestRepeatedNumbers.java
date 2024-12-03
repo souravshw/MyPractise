@@ -1,8 +1,7 @@
 package io.practise.myPractice;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,6 +15,8 @@ public class HighestRepeatedNumbers {
     public static void main(String[] args) {
 
         int[] arr = {3, 5, 7, 3, 5, 20, 3, 4, 7, 11, 5, 3, 4};
+
+        List arrayList = List.of(3, 5, 7, 3, 5, 20, 3, 4, 7, 11, 5, 3, 4);
 
         Arrays.sort(arr);
 
@@ -33,7 +34,7 @@ public class HighestRepeatedNumbers {
             }
         }
 
-        System.out.println(treeMap);
+        System.out.println(arrayList.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting())));
     }
 
 }

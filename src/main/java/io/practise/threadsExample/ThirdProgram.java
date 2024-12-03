@@ -15,44 +15,44 @@ import java.util.logging.Logger;
  */
 public class ThirdProgram {
 
-  int count = 0;
+    int count = 0;
 
-  public static void main(String[] args) {
-    ThirdProgram tp = new ThirdProgram();
-    long startTime = System.currentTimeMillis();
-    Thread t1 = new Thread(new Runnable() {
-      public void run() {
-        for (int i = 0; i < 10000; i++) {
-          tp.doWork();
+    public static void main(String[] args) {
+        ThirdProgram tp = new ThirdProgram();
+        long startTime = System.currentTimeMillis();
+        Thread t1 = new Thread(new Runnable() {
+            public void run() {
+                for (int i = 0; i < 10000; i++) {
+                    tp.doWork();
+                }
+            }
+        });
+
+        Thread t2 = new Thread(new Runnable() {
+            public void run() {
+                for (int i = 0; i < 10000; i++) {
+                    tp.doWork();
+                }
+            }
+        });
+
+        t1.start();
+        t2.start();
+
+        try {
+            t1.join();
+            t2.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ThirdProgram.class.getName()).log(Level.SEVERE, null, ex);
         }
-      }
-    });
 
-    Thread t2 = new Thread(new Runnable() {
-      public void run() {
-        for (int i = 0; i < 10000; i++) {
-          tp.doWork();
-        }
-      }
-    });
+        long endTime = System.currentTimeMillis();
 
-    t1.start();
-    t2.start();
-
-    try {
-      t1.join();
-      t2.join();
-    } catch (InterruptedException ex) {
-      Logger.getLogger(ThirdProgram.class.getName()).log(Level.SEVERE, null, ex);
+        System.out.println("Time Consumption: " + (endTime - startTime));
+        System.out.println("Count: " + tp.count);
     }
 
-    long endTime = System.currentTimeMillis();
-
-    System.out.println("Time Consumption: " + (endTime - startTime));
-    System.out.println("Count: " + tp.count);
-  }
-
-  public synchronized void doWork() {
-    count++;
-  }
+    public synchronized void doWork() {
+        count++;
+    }
 }

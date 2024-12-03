@@ -13,7 +13,7 @@ interface Boy {
   }
 }
 
-abstract class Concrete {
+abstract class Concrete1 {
 
   abstract void eat();
 
@@ -22,7 +22,7 @@ abstract class Concrete {
   }
 }
 
-abstract class Concrete {
+abstract class Concrete2 {
 
     abstract void eat();
 
@@ -34,7 +34,7 @@ abstract class Concrete {
 class AnonymousInner implements Boy {
 
   public static void main(String args[]) {
-    Concrete p = new Concrete() {
+    Concrete1 p = new Concrete1() {
       void eat() {
         System.out.println("Nice Fruits");
       }

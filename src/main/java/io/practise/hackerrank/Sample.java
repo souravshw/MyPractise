@@ -275,9 +275,9 @@ public class Sample {
 
     private static void generateFibonacciSeries() {
 
-        Stream.iterate(new int[]{0,1},t->new int[]{ t[1], t[0]+ t[1] })
+        Stream.iterate(new int[]{0, 1}, t -> new int[]{t[1], t[0] + t[1]})
                 .limit(10)
-                .map(t->t[0])
+                .map(t -> t[0])
                 .forEach(System.out::print);
 
         Function<int[], List<Integer>> intArraytoListOFInt = array -> Arrays.stream(array).boxed()

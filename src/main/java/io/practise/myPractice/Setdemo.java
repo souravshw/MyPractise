@@ -11,7 +11,6 @@ public class Setdemo {
     HashSet s = new HashSet();
     SortedSet ss = new TreeSet(new NewComparator());
     Iterator i;
-
     st.add(new Student("A", 6));
     st.add(new Student("B", 4));
     st.add(new Student("C", 3));

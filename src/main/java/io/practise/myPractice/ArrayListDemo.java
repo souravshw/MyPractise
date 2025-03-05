@@ -1,10 +1,10 @@
 package io.practise.myPractice;
 
 import java.util.*;
-
+/**
 public class ArrayListDemo {
 
-  ArrayList<Student> lt = new ArrayList<Student>(30);
+  ArrayList<Student1> lt = new ArrayList<Student1>(30);
   LinkedList llt = new LinkedList();
   Vector vl = new Vector();
 
@@ -35,13 +35,13 @@ public class ArrayListDemo {
   }
 
   public void addList() {
-    lt.add(new Student("A", 6));
-    lt.add(new Student("B", 4));
-    lt.add(new Student("C", 3));
-    lt.add(new Student("D", 9));
-    lt.add(new Student("C", 9));
-    lt.add(new Student("B", 2));
-    lt.add(new Student("C", 3));
+    lt.add(new Student1("A", 6));
+    lt.add(new Student1("B", 4));
+    lt.add(new Student1("C", 3));
+    lt.add(new Student1("D", 9));
+    lt.add(new Student1("C", 9));
+    lt.add(new Student1("B", 2));
+    lt.add(new Student1("C", 3));
 
     vl.addAll(lt);
     vl.addAll(lt);
@@ -67,12 +67,13 @@ class Student implements Comparable {
   }
 
   public int compareTo(Object arg0) {
-    if (this.roll > ((Student) arg0).getRoll())
+    if (this.roll > ((Student1) arg0).getRoll())
       return 1;
-    else if (this.roll < ((Student) arg0).getRoll())
+    else if (this.roll < ((Student1) arg0).getRoll())
       return -1;
     else
       return 0;
   }
 
 }
+ **/

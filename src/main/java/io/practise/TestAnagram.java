@@ -24,6 +24,19 @@ public class TestAnagram {
     String str1 = "A decimal pointt";
     String str2 = "I'm a dot in placee";
 
+    String s1= "sanjay";
+
+    String s2= "jain";
+
+
+
+    String s3= "sanjayjain";
+
+    s1 = s1.concat(s2);
+
+
+    System.out.println(s1.equals(s3));
+
     String allowedCharacters = "qwertyuioplkjhgfdsazxccvbnm";
 
     List<String> list = new ArrayList<>();

@@ -15,6 +15,7 @@ public class PriorityQueueTest {
     queue.add(m2);
     queue.add(m3);
 
+
     while (!queue.isEmpty()) {
       System.out.println("Remove :" + queue.remove());
     }

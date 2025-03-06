@@ -11,6 +11,7 @@ public class TestMapSorting {
         map.put("Sanu", 58);
 
         sortByValuesWithoutStream((Map<String, Integer>) map.clone());
+
         sortByvaluesWithStream((Map<String, Integer>) map.clone());
 
         // 1 3 6 9

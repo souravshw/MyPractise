@@ -53,6 +53,9 @@ public class WissenProgram {
                 o2.getSubjects().stream().filter(subject1 -> subject1.getName().equals("maths")).collect(Collectors.toList()).get(0).getMarks()))
                 .limit(3).forEach(System.out::println);
 
+
+
+
     }
 }
 

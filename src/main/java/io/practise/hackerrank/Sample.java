@@ -1,5 +1,7 @@
 package io.practise.hackerrank;
 
+import org.junit.Test;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
@@ -220,7 +222,7 @@ public class Sample {
          *
          * Write a Java 8 program to find the first non-repeated character in a string.
          */
-        firstNonRepeatingCharacter();
+
 
         /**
          * Generate the Fibonacci series
@@ -291,8 +293,9 @@ public class Sample {
         System.out.println(collect);
     }
 
-    private static void firstNonRepeatingCharacter() {
-        String tempStr = "rohitrohi";
+    @Test
+    public void firstNonRepeatingCharacter() {
+        String tempStr = "rohitrohit";
         System.out.println (Arrays.stream (tempStr.split (""))
                 .filter (str -> tempStr.indexOf (str) == tempStr.lastIndexOf (str))
                 .findFirst ()

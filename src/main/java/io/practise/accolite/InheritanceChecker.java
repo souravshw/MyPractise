@@ -3,7 +3,7 @@ package io.practise.accolite;
 public class InheritanceChecker {
     public static void main(String[] args) {
 
-        A b = new B();
+        B b = new B();
         b.m1();
     }
 }
@@ -17,6 +17,14 @@ class A {
         System.out.println("A m1()");
 
     }
+
+    public void m2() {
+
+        System.out.println("A m2()");
+
+    }
+
+
 
 }
 

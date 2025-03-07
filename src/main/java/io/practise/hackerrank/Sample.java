@@ -17,6 +17,8 @@ import static java.util.stream.Collectors.*;
 public class Sample {
     public static void main(String[] args) {
 
+        Sample sample = new Sample();
+
         /**
          * Separate odd and even numbers in a list of integers.
          *
@@ -178,7 +180,7 @@ public class Sample {
          * Write a Java 8 program to find the most repeated element in an array.
          */
 
-        mostRepeatedElement();
+        sample.mostRepeatedElement();
 
         /**
          * Check if a string is a palindrome using Java 8 streams
@@ -262,7 +264,7 @@ public class Sample {
     }
 
     private static void lastElementInTheArray() {
-        int[] intArray = {0,1,2,3,4,5};
+        int[] intArray = {0, 1, 2, 3, 4, 5};
         Integer lastElementInTheArray = Arrays.stream(intArray)
                 .boxed()
                 .reduce((first, second) -> second).orElse(-1);
@@ -270,7 +272,7 @@ public class Sample {
     }
 
     private static void firstTenOddNumbers() {
-        Stream.iterate(1,i->i+2)
+        Stream.iterate(1, i -> i + 2)
                 .limit(10)
                 .forEach(System.out::print);
     }
@@ -295,41 +297,41 @@ public class Sample {
 
     @Test
     public void firstNonRepeatingCharacter() {
-        String tempStr = "rohitrohit";
-        System.out.println (Arrays.stream (tempStr.split (""))
-                .filter (str -> tempStr.indexOf (str) == tempStr.lastIndexOf (str))
-                .findFirst ()
-                .orElse (""));
+        String tempStr = "rohitrohi";
+        System.out.println(Arrays.stream(tempStr.split(""))
+                .filter(str -> tempStr.indexOf(str) == tempStr.lastIndexOf(str))
+                .findFirst()
+                .orElse(""));
 
     }
 
     private static void checkIsTheStringPalindrome() {
         String str = "momd";
         String temp = str.replaceAll("\\s+", "").toLowerCase();
-        System.out.println("is palindrome string " +IntStream.range(0, temp.length() / 2)
+        System.out.println("is palindrome string " + IntStream.range(0, temp.length() / 2)
                 .noneMatch(i -> temp.charAt(i) != temp.charAt(temp.length() - i - 1)));
     }
 
     private static void firstRepeatedCharacter() {
         String word = "rohttoh";
-        System.out.println (Arrays.stream (word.split (""))
-                .filter (str -> word.indexOf (str) != word.lastIndexOf (str))
-                .findFirst ().orElse (""));
+        System.out.println(Arrays.stream(word.split(""))
+                .filter(str -> word.indexOf(str) != word.lastIndexOf(str))
+                .findFirst().orElse(""));
     }
 
     private static void duplicateCharactersInString() {
         String word = "rohttoh";
-        System.out.println ("original String " + word);
+        System.out.println("original String " + word);
 
 
-        System.out.println (Arrays.stream (word.split (""))
-        .filter (str -> word.indexOf (str) != word.lastIndexOf (str))
-        .map (str -> str.charAt (0))
-        .collect (toList ()));
+        System.out.println(Arrays.stream(word.split(""))
+                .filter(str -> word.indexOf(str) != word.lastIndexOf(str))
+                .map(str -> str.charAt(0))
+                .collect(toList()));
     }
 
     private static void extractDuplicateElements() {
-        List<Integer> duplicateElements = of(1, 2,2,2,3, 3, 4, 5,1,1,56, 7, 8, 9, 10);
+        List<Integer> duplicateElements = of(1, 2, 2, 2, 3, 3, 4, 5, 1, 1, 56, 7, 8, 9, 10);
 
         System.out.println("maxed Elements " + duplicateElements);
 
@@ -344,37 +346,38 @@ public class Sample {
     }
 
     private static void stringsStartsWithNumber() {
-        String [] words= {"rohit","foo","nemo","target1","12Target","2robot"};
+        String[] words = {"rohit", "foo", "nemo", "target1", "12Target", "2robot"};
 
         System.out.println("original Strings " + Arrays.toString(words));
 
         List<String> stringStartNumber = Arrays.stream(words)
-                 .filter(word -> Character.isDigit(word.charAt(0))).collect(Collectors.toList());
+                .filter(word -> Character.isDigit(word.charAt(0))).collect(Collectors.toList());
 
         System.out.println("strings started with a number " + stringStartNumber);
     }
 
-    private static void mostRepeatedElement() {
-        int [] elements = {2,3,1,4,4,1,4,333,3,333,2,2,2,5,222};
+    @Test
+    public void mostRepeatedElement() {
+        int[] elements = {2, 3, 1, 4, 4, 1, 4, 333, 3, 333, 2, 2, 2, 5, 222};
 
         System.out.println("original Array" + Arrays.toString(elements));
         Function<Map<Integer, Long>, Integer> maxValuesKey = integerLongMap ->
                 integerLongMap.entrySet()
-                .stream()
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .orElse(Integer.MAX_VALUE);
+                        .stream()
+                        .max(Map.Entry.comparingByValue())
+                        .map(Map.Entry::getKey)
+                        .orElse(Integer.MAX_VALUE);
 
         Integer maxDuplicateValue = Arrays.stream(elements)
                 .boxed()
                 .collect(collectingAndThen(groupingBy(Function.identity(),
                         counting()), maxValuesKey));
 
-        System.out.println("max duplicate value in the array "+maxDuplicateValue);
+        System.out.println("max duplicate value in the array " + maxDuplicateValue);
     }
 
     private static void reversedArray() {
-        int [] numberArray ={1,2,3,4,5,6,7,8,9,10};
+        int[] numberArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         System.out.println("original array" + Arrays.toString(numberArray));
         int[] reversedArray = IntStream.rangeClosed(1, numberArray.length)
                 .map(number -> numberArray[numberArray.length - number])
@@ -411,8 +414,8 @@ public class Sample {
     private static void sortByLengthOfList() {
         List<String> names = Arrays.asList("rohit", "urmila", "rohit", "urmila", "ram", "sham", "sita", "gita");
         names.stream()
-              .sorted(Comparator.comparingInt(String::length))
-              .forEach(System.out::println);
+                .sorted(Comparator.comparingInt(String::length))
+                .forEach(System.out::println);
     }
 
     private static void secondLargestNumberFromList() {
@@ -454,9 +457,9 @@ public class Sample {
 
         Arrays.sort(splitIt);
         Arrays.sort(splitIt2);
-        if (Arrays.equals(splitIt,splitIt2)) {
+        if (Arrays.equals(splitIt, splitIt2)) {
             System.out.println("is Anagram");
-        }else{
+        } else {
             System.out.println("is not anagram");
         }
 
@@ -478,8 +481,8 @@ public class Sample {
     }
 
     private static void mergeUnsortedArrayIntoSortedWithoutDuplicate() {
-        int [] randomNumbers ={12, 32, 2, 4, 777, 5, 32, 890, 422, 44, 99, 43};
-        int [] randomNumber2 = {4, 32, 2, 5, 6, 78, 98, 53, 90};
+        int[] randomNumbers = {12, 32, 2, 4, 777, 5, 32, 890, 422, 44, 99, 43};
+        int[] randomNumber2 = {4, 32, 2, 5, 6, 78, 98, 53, 90};
 
         System.out.println(Arrays.toString(IntStream.concat(Arrays.stream(randomNumbers), Arrays.stream(randomNumber2))
                 .distinct()
@@ -487,8 +490,8 @@ public class Sample {
     }
 
     private static void mergeUnsortedArrayIntoSorted() {
-        int [] randomNumbers ={12, 32, 2, 4, 777, 5, 32, 890, 422, 44, 99, 43};
-        int [] randomNumber2 = {4, 3, 2, 5, 6, 78, 98, 53, 90};
+        int[] randomNumbers = {12, 32, 2, 4, 777, 5, 32, 890, 422, 44, 99, 43};
+        int[] randomNumber2 = {4, 3, 2, 5, 6, 78, 98, 53, 90};
 
         int[] sortedArrayByMergingTwoArray = IntStream.concat(Arrays.stream(randomNumbers),
                 Arrays.stream(randomNumber2)).sorted().toArray();

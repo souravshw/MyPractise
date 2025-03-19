@@ -12,7 +12,7 @@ class OverridenClass {
    * subclass exception or no exception but cannot declare parent exception.
    */
 
-  OverridenClass msg() throws Exception {
+  OverridenClass msg() {
     System.out.println("parent");
     return this;
   }
@@ -29,7 +29,7 @@ public class OverridingExample extends OverridenClass {
     }
   }
 
-  OverridingExample msg() throws IOException {
+  OverridingExample msg() throws NullPointerException {
     System.out.println("TestExceptionChild");
     return this;
   }

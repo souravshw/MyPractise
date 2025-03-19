@@ -5,13 +5,16 @@ import java.util.*;
 public class TestMapSorting {
     public static void main(String[] args) {
         HashMap<String, Integer> map = new HashMap<>();
+
         map.put("Abhishek", 95);
         map.put("Sourav", 12);
         map.put("Prateek", 50);
         map.put("Sanu", 58);
 
+        System.out.println("map clone " + map.clone());
         sortByValuesWithoutStream((Map<String, Integer>) map.clone());
 
+        System.out.println("map clone " + map.clone());
         sortByvaluesWithStream((Map<String, Integer>) map.clone());
 
         // 1 3 6 9

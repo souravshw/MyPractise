@@ -41,7 +41,6 @@ public class RotatingArray {
                 .map(index -> nums[nums.length - pivot - index - 1])
                 .forEach(System.out::println);
 
-
     }
 
 }

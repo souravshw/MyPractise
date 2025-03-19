@@ -27,7 +27,6 @@ public class DeadlockChecker {
         print("lock1 acquired, waiting to acquire lock2.");
         try {
             sleep(50);
-            //wait();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

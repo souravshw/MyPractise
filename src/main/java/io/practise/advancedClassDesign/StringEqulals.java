@@ -15,5 +15,4 @@ public class StringEqulals {
       System.out.println("s1.equals(s2)");
 
   }
-
 }

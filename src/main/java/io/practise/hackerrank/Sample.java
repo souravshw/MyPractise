@@ -27,6 +27,7 @@ public class Sample {
          */
 
         separationOfEvenOddNumberInMap();
+
         separationOfEvenOddNumberInList();
 
         /**
@@ -136,7 +137,7 @@ public class Sample {
          *
          * Write a Java 8 program to sort a given list of strings according to the increasing order of their length.
          */
-        sortByLengthOfList();
+        sample.sortByLengthOfList();
         /**
          * Find the sum and average of all elements in an integer array
          *
@@ -297,7 +298,7 @@ public class Sample {
 
     @Test
     public void firstNonRepeatingCharacter() {
-        String tempStr = "rohitrohi";
+        String tempStr = "raohitrohi";
         System.out.println(Arrays.stream(tempStr.split(""))
                 .filter(str -> tempStr.indexOf(str) == tempStr.lastIndexOf(str))
                 .findFirst()
@@ -361,6 +362,7 @@ public class Sample {
         int[] elements = {2, 3, 1, 4, 4, 1, 4, 333, 3, 333, 2, 2, 2, 5, 222};
 
         System.out.println("original Array" + Arrays.toString(elements));
+
         Function<Map<Integer, Long>, Integer> maxValuesKey = integerLongMap ->
                 integerLongMap.entrySet()
                         .stream()
@@ -394,8 +396,8 @@ public class Sample {
     }
 
     private static void commonElements() {
-        List<Integer> oneToTen = of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        List<Integer> twoToTen = of(2, 3, 4, 5, 6, 7, 8, 9, 10);
+        List<Integer> oneToTen = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        List<Integer> twoToTen = List.of(2, 3, 4, 5, 6, 7, 8, 9, 10);
         List<Integer> commonElements = oneToTen.stream()
                 .filter(twoToTen::contains).collect(Collectors.toList());
 
@@ -411,7 +413,8 @@ public class Sample {
         System.out.println(summaryStatistics.getAverage());
     }
 
-    private static void sortByLengthOfList() {
+    @Test
+    public void sortByLengthOfList() {
         List<String> names = Arrays.asList("rohit", "urmila", "rohit", "urmila", "ram", "sham", "sita", "gita");
         names.stream()
                 .sorted(Comparator.comparingInt(String::length))
@@ -577,7 +580,7 @@ public class Sample {
     }
 
     private static void removeDuplicateFromList() {
-        List<Integer> oneToTen = of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        List<Integer> oneToTen = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         List<Integer> removeDuplicate = oneToTen.stream()
                 .distinct()
                 .collect(toList());

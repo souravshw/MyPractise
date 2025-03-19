@@ -7,19 +7,23 @@ public class Example {
     public static void main(String[] args) {
         Map<Integer, TestEmployee> salaryEmployeeMap = new HashMap<>();
 
-        TestEmployee te1 = new TestEmployee(500, "Sourav1", 1);
-        TestEmployee te2 = new TestEmployee(800, "Sourav2", 2);
-        TestEmployee te3 = new TestEmployee(200, "Sourav3", 3);
-        TestEmployee te4 = new TestEmployee(900, "Sourav4", 4);
+        TestEmployee te1 = new TestEmployee(500, "S1", 1);
+        TestEmployee te2 = new TestEmployee(800, "S2", 2);
+        TestEmployee te3 = new TestEmployee(200, "S3", 3);
+        TestEmployee te4 = new TestEmployee(900, "S4", 4);
 
         salaryEmployeeMap.put(te1.getSalary(), te1);
         salaryEmployeeMap.put(te2.getSalary(), te2);
         salaryEmployeeMap.put(te3.getSalary(), te3);
         salaryEmployeeMap.put(te4.getSalary(), te4);
 
-        Map<String, Integer> output = sortBasedOnValues(salaryEmployeeMap);
+        salaryEmployeeMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue((o1, o2) -> Integer.compare(o2.getSalary(), o1.getSalary())))
+                .map(integerTestEmployeeEntry -> integerTestEmployeeEntry.getValue().getName()).forEach(System.out::println);
 
-        System.out.println(output);
+        //Map<String, Integer> output = sortBasedOnValues(salaryEmployeeMap);
+
+        //System.out.println(output);
     }
 
     private static Map<String, Integer> sortBasedOnValues(Map<Integer, TestEmployee> salaryEmployeeMap) {

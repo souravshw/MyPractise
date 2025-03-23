@@ -17,13 +17,13 @@ public class Example {
         salaryEmployeeMap.put(te3.getSalary(), te3);
         salaryEmployeeMap.put(te4.getSalary(), te4);
 
-        salaryEmployeeMap.entrySet().stream()
+        /*salaryEmployeeMap.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue((o1, o2) -> Integer.compare(o2.getSalary(), o1.getSalary())))
-                .map(integerTestEmployeeEntry -> integerTestEmployeeEntry.getValue().getName()).forEach(System.out::println);
+                .map(integerTestEmployeeEntry -> integerTestEmployeeEntry.getValue().getName()).forEach(System.out::println);*/
 
-        //Map<String, Integer> output = sortBasedOnValues(salaryEmployeeMap);
+        Map<String, Integer> output = sortBasedOnValues(salaryEmployeeMap);
 
-        //System.out.println(output);
+        System.out.println(output);
     }
 
     private static Map<String, Integer> sortBasedOnValues(Map<Integer, TestEmployee> salaryEmployeeMap) {

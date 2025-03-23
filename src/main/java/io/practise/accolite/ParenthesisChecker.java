@@ -6,7 +6,7 @@ public class ParenthesisChecker {
 
     public static void main(String[] args) {
 
-        String paranthesisPattern = "[()()]{}(){}{{((";
+        String paranthesisPattern = "[()()]{}(){}";
 
         Stack<Character> stack = new Stack<>();
 

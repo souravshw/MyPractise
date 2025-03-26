@@ -3,7 +3,7 @@ package io.practise.accolite;
 public class TestSecondProblem {
     public static void main(String[] args) {
 
-        int[] arr = {0, 1, 26, 8, 9, 2, 3, 27, 1, 0};
+        int[] arr = {0, 1, 26, 8, 9, 2, 3, 27, 1, 0, 4};
 
         int count = 0;
 

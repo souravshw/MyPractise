@@ -17,9 +17,6 @@ public class Example {
         salaryEmployeeMap.put(te3.getSalary(), te3);
         salaryEmployeeMap.put(te4.getSalary(), te4);
 
-        /*salaryEmployeeMap.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue((o1, o2) -> Integer.compare(o2.getSalary(), o1.getSalary())))
-                .map(integerTestEmployeeEntry -> integerTestEmployeeEntry.getValue().getName()).forEach(System.out::println);*/
 
         Map<String, Integer> output = sortBasedOnValues(salaryEmployeeMap);
 
@@ -30,9 +27,9 @@ public class Example {
 
         LinkedHashMap<String, Integer> output = new LinkedHashMap<>();
 
-        salaryEmployeeMap.entrySet().stream().sorted(Map.Entry.comparingByValue((o1, o2) -> {
-            return Integer.compare(o2.getSalary(), o1.getSalary());
-        })).forEach(eachEntry -> output.put(eachEntry.getValue().getName(), eachEntry.getValue().getSalary()));
+        salaryEmployeeMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue((o1, o2) -> Integer.compare(o2.getSalary(), o1.getSalary())))
+                .forEach(eachEntry -> output.put(eachEntry.getValue().getName(), eachEntry.getValue().getSalary()));
 
         return output;
     }

@@ -1,7 +1,9 @@
 package io.practise.accolite;
 
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Example {
     public static void main(String[] args) {

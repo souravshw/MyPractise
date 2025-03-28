@@ -30,7 +30,11 @@ public class EmployeeSecond {
     }
 
     public static void main(String[] args) {
-        List<EmployeeSecond> list = Arrays.asList(new EmployeeSecond("Sourav", 5), new EmployeeSecond("Test", 6), new EmployeeSecond("Sourav", 3), new EmployeeSecond("Test", 4));
+        List<EmployeeSecond> list = Arrays.asList(new EmployeeSecond("Sourav", 5),
+                new EmployeeSecond("Test", 6),
+                new EmployeeSecond("Sourav", 3),
+                new EmployeeSecond("Test", 4));
+
         list.stream().sorted(Comparator.comparing(EmployeeSecond::getName).thenComparing(EmployeeSecond::getId)).forEach(System.out::println);
     }
 }

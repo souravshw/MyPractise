@@ -16,7 +16,9 @@ public class ArrayListHack {
         ArrayList<ArrayList<Integer>> al = new ArrayList<>(n);
 
         while (limit < n) {
+
             int s = sc.nextInt();
+
             ArrayList<Integer> temp = new ArrayList<Integer>(s);
 
             while (s > 0) {

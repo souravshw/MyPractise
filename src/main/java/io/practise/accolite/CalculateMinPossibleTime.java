@@ -21,6 +21,7 @@ public class CalculateMinPossibleTime {
         LinkedHashMap<String, Integer> linkedHashMap = sortMap(personTimeMap);
 
 
+        System.out.println(linkedHashMap);
 
 
     }

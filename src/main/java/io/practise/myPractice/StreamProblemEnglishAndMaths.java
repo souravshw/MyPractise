@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Wissen Program
+ * <p>
  * Given the following data structure:
  * A Student class with the properties:
  * name (String)
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
  * For each subject (e.g., Math, English, etc.), identify and print the top 3 students based on their marks in that subject.
  * Do it using stream api.
  */
-public class WissenProgram {
+public class StreamProblemEnglishAndMaths {
 
     public static void main(String[] args) {
 
@@ -39,22 +41,21 @@ public class WissenProgram {
 
         List<Student1> studentList = Arrays.asList(student1, student2, student3, student4);
 
-        // System.out.println(studentList);
-
         //Top 3 based on English
         studentList.stream().sorted((o1, o2) -> -Integer.compare(
-                o1.getSubjects().stream().filter(subject1 -> subject1.getName().equals("english")).collect(Collectors.toList()).get(0).getMarks(),
-                o2.getSubjects().stream().filter(subject1 -> subject1.getName().equals("english")).collect(Collectors.toList()).get(0).getMarks()))
-                .limit(3).forEach(System.out::println);
+                        o1.getSubjects().stream().filter(subject1 -> subject1.getName().equals("english")).collect(Collectors.toList()).get(0).getMarks(),
+                        o2.getSubjects().stream().filter(subject1 -> subject1.getName().equals("english")).collect(Collectors.toList()).get(0).getMarks()))
+                .limit(3)
+                .forEach(eachStudent -> System.out.println(eachStudent.getName()));
+
+        System.out.println();
 
         //Top 3 based on Maths
         studentList.stream().sorted((o1, o2) -> -Integer.compare(
-                o1.getSubjects().stream().filter(subject1 -> subject1.getName().equals("maths")).collect(Collectors.toList()).get(0).getMarks(),
-                o2.getSubjects().stream().filter(subject1 -> subject1.getName().equals("maths")).collect(Collectors.toList()).get(0).getMarks()))
-                .limit(3).forEach(System.out::println);
-
-
-
+                        o1.getSubjects().stream().filter(subject1 -> subject1.getName().equals("maths")).collect(Collectors.toList()).get(0).getMarks(),
+                        o2.getSubjects().stream().filter(subject1 -> subject1.getName().equals("maths")).collect(Collectors.toList()).get(0).getMarks()))
+                .limit(3)
+                .forEach(eachStudent -> System.out.println(eachStudent.getName()));
 
     }
 }
@@ -75,11 +76,6 @@ class Student1 {
     public List<Subject1> getSubjects() {
         return subjects;
     }
-
-    @Override
-    public String toString() {
-        return "Student1{" + "name='" + name + '\'' + ", subjects=" + subjects + '}';
-    }
 }
 
 class Subject1 {
@@ -97,10 +93,5 @@ class Subject1 {
 
     public int getMarks() {
         return marks;
-    }
-
-    @Override
-    public String toString() {
-        return "Subject1{" + "name='" + name + '\'' + ", marks=" + marks + '}';
     }
 }

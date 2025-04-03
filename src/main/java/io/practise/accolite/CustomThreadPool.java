@@ -5,10 +5,15 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CustomThreadPool {
+
     private static final int CAPACITY = 10;
+
     private BlockingQueue<Runnable> allThreads;
+
     private final AtomicBoolean isShutDownInitiated;
+
     private static CustomThreadPool customThreadPoolInstance;
+
     private final Thread[] workers;
 
 

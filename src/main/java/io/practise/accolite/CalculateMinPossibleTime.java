@@ -1,11 +1,43 @@
 package io.practise.accolite;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CalculateMinPossibleTime {
+
+    public static int calculateMinTime(HashMap<String, Integer> personTimeMap) {
+
+        List<Map.Entry<String, Integer>> people = new ArrayList<>(personTimeMap.entrySet());
+
+        people.sort(Map.Entry.comparingByValue());
+
+        int n = people.size();
+
+        int totalTime = 0;
+
+        while (n > 3) {
+            int firstPersonTimer = people.get(0).getValue();
+
+            int secondPersonTimer = people.get(1).getValue();
+
+            int timeN = people.get(n - 1).getValue();
+
+            int timeNMinus1 = people.get(n - 2).getValue();
+
+            totalTime += Math.min(2 * secondPersonTimer + timeN + firstPersonTimer, 2 * firstPersonTimer + timeN + timeNMinus1);
+
+            n -= 2;
+        }
+
+        if (n == 3) {
+            totalTime += people.get(0).getValue() + people.get(1).getValue() + people.get(2).getValue();
+        } else if (n == 2) {
+            totalTime += people.get(1).getValue();
+        } else if (n == 1) {
+            totalTime += people.get(0).getValue();
+        }
+
+        return totalTime;
+    }
 
     public static void main(String[] args) {
         HashMap<String, Integer> personTimeMap = new HashMap<>();
@@ -18,21 +50,8 @@ public class CalculateMinPossibleTime {
         personTimeMap.put("C", 200);
         personTimeMap.put("D", 150);
 
-        LinkedHashMap<String, Integer> linkedHashMap = sortMap(personTimeMap);
+        int minTime = calculateMinTime(personTimeMap);
 
-
-        System.out.println(linkedHashMap);
-
-
-    }
-
-    private static LinkedHashMap<String, Integer>  sortMap(HashMap<String, Integer> personTimeMap) {
-        ArrayList<Map.Entry<String, Integer>> arrayList = new ArrayList<>(personTimeMap.entrySet());
-
-        LinkedHashMap<String, Integer> linkedHashMap = new LinkedHashMap<>();
-
-        arrayList.stream().sorted(Map.Entry.comparingByValue()).forEach(eachEntry -> linkedHashMap.put(eachEntry.getKey(), eachEntry.getValue()));
-
-        return linkedHashMap;
+        System.out.println("Minimum time to cross the bridge: " + minTime);
     }
 }

@@ -17,8 +17,6 @@ public class SortBasedOnOccurance {
 
         List<Integer> list = Arrays.asList(2, 3, 2, 2, 5, 5, 6, 5, 7, 5, 3, 1);
 
-        //System.out.println(list.stream().collect(Collectors.groupingBy(Function.identity(),Collectors.counting())));
-
         List<Integer> output = new ArrayList<>();
 
         list.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))

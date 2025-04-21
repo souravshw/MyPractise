@@ -36,11 +36,11 @@ public class RotatingArray {
                 .map(index -> nums[nums.length - pivot - index])
                 .forEach(System.out::println);
 
+
         IntStream.range(pivot + 1, nums.length)
                 .boxed()
                 .map(index -> nums[nums.length - pivot - index - 1])
                 .forEach(System.out::println);
-
     }
 
 }

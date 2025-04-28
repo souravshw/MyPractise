@@ -50,8 +50,6 @@ public class GenericBound {
     s = (Teacher) showfirstitem(at);
     System.out.println(s.name + " " + s.age + " ");
     System.out.println(s.name + " " + s.age + " ");
-    //showfirstitem(ad);  //will not work as dog does not extend person
-
   }
 
 }

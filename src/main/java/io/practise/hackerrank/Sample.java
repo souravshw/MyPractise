@@ -456,10 +456,13 @@ public class Sample {
 
     private static void isAnagram() {
         char[] splitIt = "listen".toCharArray();
+
         char[] splitIt2 = "silent".toCharArray();
 
         Arrays.sort(splitIt);
+
         Arrays.sort(splitIt2);
+
         if (Arrays.equals(splitIt, splitIt2)) {
             System.out.println("is Anagram");
         } else {
@@ -556,9 +559,24 @@ public class Sample {
 
     private static void wordFrequency() {
         List<String> names = Arrays.asList("rohit", "urmila", "rohit", "urmila", "ram", "sham", "sita", "gita");
+
         Map<String, Long> frequencyWords = names.stream()
                 .collect(groupingBy(Function.identity(), counting()));
+
         System.out.println(frequencyWords);
+    }
+
+    @Test
+    public void highestWordFrequency() {
+
+        List<String> names = Arrays.asList("rohit", "urmila", "rohit", "urmila", "ram", "sham", "sita", "gita");
+
+        List<Map.Entry<String, Long>> collect = names.stream()
+                .collect(groupingBy(Function.identity(), counting()))
+                .entrySet().stream().sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue())).collect(toList());
+
+        System.out.println(collect.get(0));
+
     }
 
     private static void characterFrequency() {

@@ -11,6 +11,7 @@ interface Boy {
   public default String getfly() {
     return "a";
   }
+
 }
 
 abstract class Concrete1 {

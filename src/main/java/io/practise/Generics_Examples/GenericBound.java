@@ -18,7 +18,7 @@ public class GenericBound {
     Person p1 = new Person("Montek Singh", 23, 45);
     Person p2 = new Person("Jassi", 23, 45);
     Person p3 = new Person("Jassi", 23, 45);
-    Student s1 = new Student("Sanu Show", 23, 45, 4);
+    Student s1 = new Student("Sanu Shaw", 23, 45, 4);
     Student s2 = new Student("Jassi", 23, 45, 9);
     Student s3 = new Student("Jassi", 23, 45, 6);
     Teacher t1 = new Teacher("AShwani shukla", 23, 45, "Maths");

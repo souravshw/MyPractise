@@ -31,11 +31,11 @@ public class CustomThreadPool {
         }
     }
 
-    public static CustomThreadPool getInstance(boolean flag) {
+    public static CustomThreadPool getInstance(boolean isShutdownInitiated) {
 
         if (customThreadPoolInstance == null) {
 
-            customThreadPoolInstance = new CustomThreadPool(flag);
+            customThreadPoolInstance = new CustomThreadPool(isShutdownInitiated);
 
         }
 

@@ -50,7 +50,8 @@ public class StringGrouping {
             return String.valueOf(arr);
         }).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet().stream().sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue()))
-                .findFirst().get();
+                .findFirst()
+                .get();
 
 
         System.out.println(stringLongEntry);

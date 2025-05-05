@@ -7,6 +7,7 @@ public class PermutationOfString {
 
     public static void main(String[] args) {
         String str = "Hello";
+
         List<String> allStrings = new ArrayList<>();
 
         permutationString(0, str, allStrings) ;

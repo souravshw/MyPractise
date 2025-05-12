@@ -432,6 +432,17 @@ public class Sample {
         System.out.println(secondLarge);
     }
 
+    @Test
+    public void findSecondHighestNumberWithoutSort() {
+        List<Integer> oneToTen = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        TreeSet<Integer> newCollection = new TreeSet<>((o1, o2) -> o2.compareTo(o1));
+
+        oneToTen.stream().forEach(newCollection::add);
+
+        newCollection.stream().skip(1).limit(1).forEach(System.out::println);
+    }
+
     private static void sumOf() {
         List<Integer> oneToTen = of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         System.out.println(oneToTen.stream()

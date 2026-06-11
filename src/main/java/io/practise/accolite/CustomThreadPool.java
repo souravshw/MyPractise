@@ -54,7 +54,7 @@ public class CustomThreadPool {
 
         CustomThreadPool customThreadPool = CustomThreadPool.getInstance(false);
 
-        for (int index = 0; index < CAPACITY; ++index) {
+        for (int index = 0; index < 100; ++index) {
             Task task = new Task("Task -- " + index);
 
             customThreadPool.submitTask(task);

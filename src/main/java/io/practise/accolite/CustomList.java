@@ -20,6 +20,7 @@ public class CustomList<T> {
     public int getSize() {
         return count;
     }
+
     public void add(T eachContent) {
         if (count < capacity) {
             content[count] = eachContent;

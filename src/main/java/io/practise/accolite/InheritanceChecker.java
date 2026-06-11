@@ -3,6 +3,9 @@ package io.practise.accolite;
 public class InheritanceChecker {
     public static void main(String[] args) {
 
+        A a = new B();
+        a.m1();
+
         B b = new B();
         b.m1();
     }

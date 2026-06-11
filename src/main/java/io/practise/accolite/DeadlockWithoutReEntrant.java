@@ -27,6 +27,7 @@ public class DeadlockWithoutReEntrant {
     public void test1() throws InterruptedException {
         synchronized (lock) {
             synchronized (lock2) {
+                System.out.println("test1");
                 Thread.sleep(5000);
             }
         }
@@ -35,6 +36,7 @@ public class DeadlockWithoutReEntrant {
     public void test2() throws InterruptedException {
         synchronized (lock2) {
             synchronized (lock) {
+                System.out.println("test2");
                 Thread.sleep(5000);
             }
         }

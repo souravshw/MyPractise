@@ -7,9 +7,9 @@ public class TestMapSorting {
         HashMap<String, Integer> map = new HashMap<>();
 
         map.put("Abhishek", 95);
-        map.put("Sourav", 12);
+        map.put("Rahul", 12);
         map.put("Prateek", 50);
-        map.put("Sanu", 58);
+        map.put("Anil", 58);
 
         System.out.println("map clone " + map.clone());
         sortByValuesWithoutStream((Map<String, Integer>) map.clone());

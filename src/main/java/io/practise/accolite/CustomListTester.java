@@ -8,7 +8,7 @@ public class CustomListTester {
     @Test
     public void checkIndexedContent() {
 
-        CustomList firstList = new CustomList(1);
+        CustomList<Integer> firstList = new CustomList<>(1);
 
         Assert.assertEquals(0, firstList.getSize());
         firstList.add(2);
@@ -27,7 +27,7 @@ public class CustomListTester {
     public void checkNullContent() {
 
         try {
-            CustomList<Integer> firstList = new CustomList();
+            CustomList<Integer> firstList = new CustomList<>();
 
             firstList.add(2);
 

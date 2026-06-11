@@ -205,7 +205,7 @@ public class Sample {
          * Write a Java 8 program to extract duplicate elements from an array.
          */
 
-        extractDuplicateElements();
+        sample.extractDuplicateElements();
 
         /**
          * Print duplicate characters in a string
@@ -218,7 +218,7 @@ public class Sample {
          * Find the first repeated character in a string
          * Write a Java 8 program to find the first repeated character in a string.
          */
-        firstRepeatedCharacter();
+        sample.firstRepeatedCharacter();
 
         /**
          * Find the first non-repeated character in a string
@@ -313,7 +313,8 @@ public class Sample {
                 .noneMatch(i -> temp.charAt(i) != temp.charAt(temp.length() - i - 1)));
     }
 
-    private static void firstRepeatedCharacter() {
+    @Test
+    public  void firstRepeatedCharacter() {
         String word = "rohttoh";
         System.out.println(Arrays.stream(word.split(""))
                 .filter(str -> word.indexOf(str) != word.lastIndexOf(str))
@@ -331,8 +332,9 @@ public class Sample {
                 .collect(toList()));
     }
 
-    private static void extractDuplicateElements() {
-        List<Integer> duplicateElements = of(1, 2, 2, 2, 3, 3, 4, 5, 1, 1, 56, 7, 8, 9, 10);
+    @Test
+    public  void extractDuplicateElements() {
+            List<Integer> duplicateElements = List.of(1, 2, 2, 2, 3, 3, 4, 5, 1, 1, 56, 7, 8, 9, 10);
 
         System.out.println("maxed Elements " + duplicateElements);
 
@@ -415,14 +417,14 @@ public class Sample {
 
     @Test
     public void sortByLengthOfList() {
-        List<String> names = Arrays.asList("rohit", "urmila", "rohit", "urmila", "ram", "sham", "sita", "gita");
+        List<String> names = Arrays.asList("rohit", "urmila", "rohit", "ram", "sham", "sita", "gita");
         names.stream()
-                .sorted(Comparator.comparingInt(String::length))
+                .sorted(Comparator.comparingInt(String::length).reversed())
                 .forEach(System.out::println);
     }
 
     private static void secondLargestNumberFromList() {
-        List<Integer> oneToTen = of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        List<Integer> oneToTen = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         Integer secondLarge = oneToTen.stream()
                 .sorted(reverseOrder())
                 .skip(1)
@@ -580,7 +582,7 @@ public class Sample {
     @Test
     public void highestWordFrequency() {
 
-        List<String> names = Arrays.asList("rohit", "urmila", "rohit", "urmila", "ram", "sham", "sita", "gita");
+        List<String> names = Arrays.asList("rohit", "urmila", "rohit", "ram", "sham", "sita", "gita");
 
         List<Map.Entry<String, Long>> collect = names.stream()
                 .collect(groupingBy(Function.identity(), counting()))

@@ -1,7 +1,6 @@
 package io.practise.map;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashSet;

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | DevNotes</title>
+  <meta name="description" content="Get in touch with DevNotes. Send us questions, feedback, or content suggestions.">
+  <meta name="keywords" content="contact devnotes, developer blog feedback">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Contact Us | DevNotes">
+  <meta property="og:description" content="Get in touch with DevNotes. Send us questions or suggestions.">
+  <meta property="og:type" content="website">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header">
+    <div class="nav-container">
+      <a href="index.html" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>DevNotes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" id="nav-home">Home</a></li>
+          <li><a href="about.html" id="nav-about">About Us</a></li>
+          <li><a href="contact.html" class="active" id="nav-contact">Contact Us</a></li>
+          <li><a href="posts/post-template.html" id="nav-template">Write Post</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container" style="max-width: 700px;">
+    
+    <header style="margin-bottom: 2rem; text-align: center;">
+      <h1 style="font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-primary);">Get In Touch</h1>
+      <p style="color: var(--text-secondary); font-size: 1.05rem;">Have questions, feedback, or a suggestion for our next layman walkthrough? Send us a message!</p>
+    </header>
+
+    <!-- Contact Form Card -->
+    <div class="form-card">
+      <form id="contact-form">
+        <div class="form-group">
+          <label for="contact-name">Name</label>
+          <input type="text" id="contact-name" class="form-control" placeholder="John Doe" required autocomplete="name">
+        </div>
+        
+        <div class="form-group">
+          <label for="contact-email">Email Address</label>
+          <input type="email" id="contact-email" class="form-control" placeholder="john@example.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label for="contact-message">Your Message</label>
+          <textarea id="contact-message" class="form-control" placeholder="What's on your mind?..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary" id="btn-submit-contact">
+          <span>Send Message</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+    </div>
+
+  </main>
+
+  <!-- Success Toast Notification -->
+  <div class="toast-notification" id="success-toast">
+    <div class="toast-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <span>Message sent successfully!</span>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 DevNotes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="index.html" id="foot-home">Home</a></li>
+        <li><a href="about.html" id="foot-about">About Us</a></li>
+        <li><a href="contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Simulation script for static submissions -->
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const toast = document.getElementById('success-toast');
+      
+      // Show success notification
+      toast.classList.add('show');
+      
+      // Clear inputs
+      document.getElementById('contact-name').value = '';
+      document.getElementById('contact-email').value = '';
+      document.getElementById('contact-message').value = '';
+      
+      // Hide notification after 4 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000);
+    });
+  </script>
+
+</body>
+</html>

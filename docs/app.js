@@ -110,4 +110,30 @@ if (categoryFilters) {
 // Initial Run
 document.addEventListener('DOMContentLoaded', () => {
   renderPosts();
+  
+  // Cookie Consent Banner Logic
+  const cookieBanner = document.getElementById('cookie-consent-banner');
+  const btnAccept = document.getElementById('btn-cookie-accept');
+  const btnDecline = document.getElementById('btn-cookie-decline');
+
+  if (cookieBanner) {
+    const consent = localStorage.getItem('cookieConsent');
+    
+    // If no consent has been registered, show the banner with a delay
+    if (!consent) {
+      setTimeout(() => {
+        cookieBanner.classList.add('show');
+      }, 1000);
+    }
+
+    btnAccept.addEventListener('click', () => {
+      localStorage.setItem('cookieConsent', 'accepted');
+      cookieBanner.classList.remove('show');
+    });
+
+    btnDecline.addEventListener('click', () => {
+      localStorage.setItem('cookieConsent', 'declined');
+      cookieBanner.classList.remove('show');
+    });
+  }
 });

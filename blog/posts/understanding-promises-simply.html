@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding JavaScript Promises Simply | DevNotes</title>
+  <meta name="description" content="A beginner-friendly layman's explanation of JavaScript Promises. Learn how promises, resolve, reject, and asynchronous code work using a pizza delivery analogy.">
+  <meta name="keywords" content="javascript promises, async javascript, promises layman terms, promise tutorial, learn javascript async, code explanation">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Understanding JavaScript Promises Simply | DevNotes">
+  <meta property="og:description" content="A beginner-friendly layman's explanation of JavaScript Promises using pizza delivery analogies.">
+  <meta property="og:type" content="article">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header">
+    <div class="nav-container">
+      <a href="../index.html" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>DevNotes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html" id="nav-home">Home</a></li>
+          <li><a href="../index.html#articles" id="nav-articles">Articles</a></li>
+          <li><a href="post-template.html" id="nav-template">Write Post</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">JavaScript</span>
+          <span class="post-date">June 18, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">5 min read</span>
+        </div>
+        <h1 class="article-title">Understanding Promises: A Layman's Walkthrough</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>If you've spent any time working with JavaScript, you've likely encountered asynchronous code. JavaScript is single-threaded, which means it can only do one thing at a time. To prevent the browser from freezing while waiting for a database call or an API request, we use asynchronous operations. Promises are the standard tool we use to handle these operations.</p>
+        
+        <p>But what actually is a Promise? For beginners, the official documentation can look like jargon. Let's break it down in plain, user-friendly language using a real-world scenario.</p>
+
+        <!-- Layman Explanation Box -->
+        <div class="layman-box">
+          <div class="layman-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            In Layman's Terms: The Pizza Analogy
+          </div>
+          <p>Imagine you walk into a pizzeria and order a custom pizza. The cashier takes your order and hands you a small digital buzzer (a pager). 
+          This buzzer is a <strong>Promise</strong>. The pizza isn't ready yet (it is <strong>Pending</strong>). 
+          You don't stand at the counter waiting; you sit down and look at your phone. When the pizza is cooked, the buzzer lights up (it is <strong>Resolved</strong>), and you collect your pizza. If they run out of ingredients, the buzzer blinks red (it is <strong>Rejected</strong>), and you get a refund.</p>
+        </div>
+
+        <h2>How Promises Look in Code</h2>
+        <p>In JavaScript, we create a Promise using the <code>new Promise()</code> syntax. It takes a callback function with two arguments: <code>resolve</code> (what to run if successful) and <code>reject</code> (what to run if something goes wrong).</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-javascript">// Creating the Promise
+const orderPizza = new Promise((resolve, reject) => {
+  let ingredientsAvailable = true;
+  
+  console.log("Preparing the pizza...");
+  
+  setTimeout(() => {
+    if (ingredientsAvailable) {
+      resolve("Hot Pizza is ready!"); // Success state
+    } else {
+      reject("Out of cheese!"); // Failure state
+    }
+  }, 2000); // Takes 2 seconds to cook
+});</code></pre>
+
+        <h2>Consuming the Promise: .then() and .catch()</h2>
+        <p>Once a Promise is created, you need to write instructions for what to do when it finishes. We use <code>.then()</code> for when it resolves successfully, and <code>.catch()</code> for handling failures or errors.</p>
+
+        <pre><code class="language-javascript">// Consuming the Promise
+orderPizza
+  .then((message) => {
+    console.log("Success: " + message); // Runs if resolved
+  })
+  .catch((error) => {
+    console.log("Error: " + error); // Runs if rejected
+  });</code></pre>
+
+        <!-- Another Layman Box -->
+        <div class="layman-box">
+          <div class="layman-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Why is this useful?
+          </div>
+          <p>Without Promises, your program would stop completely while waiting for the pizza. With Promises, JavaScript runs other tasks in the background and only executes your <code>.then()</code> code when the background task completes.</p>
+        </div>
+
+        <h2>Summary</h2>
+        <p>A Promise is simply an object representing the eventual completion (or failure) of an asynchronous task. It has three states:</p>
+        <ul>
+          <li><strong>Pending:</strong> The task is still running (pizza is cooking).</li>
+          <li><strong>Fulfilled/Resolved:</strong> The task completed successfully (pizza is ready).</li>
+          <li><strong>Rejected:</strong> The task failed (out of cheese).</li>
+        </ul>
+        <p>By using Promises, you can write cleaner, more understandable code that is easier to maintain and scale.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 DevNotes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="../index.html" id="foot-home">Home</a></li>
+        <li><a href="#" id="foot-privacy">Privacy Policy</a></li>
+        <li><a href="#" id="foot-terms">Terms of Service</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

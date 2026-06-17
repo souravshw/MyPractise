@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevNotes | Simple Programmatic Explanations</title>
+  <meta name="description" content="Layman explanations of complex programming topics, core logic design, and developer tips. Easy to read code walkthroughs.">
+  <meta name="keywords" content="coding blog, software engineering, coding simple language, javascript, python, web development tutorials">
+  
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:title" content="DevNotes | Simple Programmatic Explanations">
+  <meta property="og:description" content="Layman explanations of complex programming topics, core logic design, and developer tips.">
+  <meta property="og:type" content="website">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header">
+    <div class="nav-container">
+      <a href="index.html" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>DevNotes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="active" id="nav-home">Home</a></li>
+          <li><a href="#articles" id="nav-articles">Articles</a></li>
+          <li><a href="posts/post-template.html" id="nav-template">Write Post</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+    
+    <!-- Hero / Featured Section (Dynamic or static placeholder) -->
+    <section id="featured-post">
+      <!-- Will be injected by app.js -->
+      <div class="hero-card">
+        <div class="hero-img">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        </div>
+        <div class="hero-content">
+          <div class="post-meta">
+            <span class="post-category">Featured</span>
+            <span class="post-date">June 18, 2026</span>
+            <span>•</span>
+            <span class="post-read-time">5 min read</span>
+          </div>
+          <h1 class="hero-title"><a href="posts/understanding-promises-simply.html" id="hero-link">Understanding Promises: A Layman's Walkthrough</a></h1>
+          <p class="hero-excerpt">Asynchronous JavaScript can be tricky. In this guide, we break down JavaScript Promises using simple, real-world analogies (like ordering food at a restaurant) so you can finally understand how it works under the hood.</p>
+          <div>
+            <a href="posts/understanding-promises-simply.html" class="read-more-btn" id="hero-read-more">Read walkthrough →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters and Main Two-Column Content -->
+    <section id="articles">
+      
+      <!-- Category Filter Tabs -->
+      <div class="filters-container" id="category-filters">
+        <button class="filter-tab active" data-category="all" id="filter-all">All</button>
+        <button class="filter-tab" data-category="javascript" id="filter-javascript">JavaScript</button>
+        <button class="filter-tab" data-category="python" id="filter-python">Python</button>
+        <button class="filter-tab" data-category="webdev" id="filter-webdev">Web Development</button>
+        <button class="filter-tab" data-category="concepts" id="filter-concepts">Core Concepts</button>
+      </div>
+
+      <div class="main-layout">
+        
+        <!-- Left Column: Dynamic Post List -->
+        <div class="posts-grid" id="posts-list">
+          <!-- Post cards will be injected here by app.js -->
+        </div>
+
+        <!-- Right Column: Sidebar (Discover More) -->
+        <aside class="sidebar">
+          <h2 class="sidebar-title">
+            <span>Discover more</span>
+            <a href="#" class="sidebar-title-link">View all &gt;</a>
+          </h2>
+          
+          <div class="sidebar-list">
+            <!-- Sidebar Item 1 -->
+            <div class="sidebar-item">
+              <div class="sidebar-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z"/><path d="M6 21a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3v12a3 3 0 0 0 3 3z"/></svg>
+              </div>
+              <div class="sidebar-info">
+                <h3 class="sidebar-item-title"><a href="#">Git Branching Simply Explained</a></h3>
+                <span class="sidebar-item-subtitle">Developer tools</span>
+              </div>
+              <span class="sidebar-badge">Popular</span>
+            </div>
+
+            <!-- Sidebar Item 2 -->
+            <div class="sidebar-item">
+              <div class="sidebar-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              <div class="sidebar-info">
+                <h3 class="sidebar-item-title"><a href="#">CSS Flexbox Cheat Sheet</a></h3>
+                <span class="sidebar-item-subtitle">Frontend design</span>
+              </div>
+              <span class="sidebar-badge">Free</span>
+            </div>
+
+            <!-- Sidebar Item 3 -->
+            <div class="sidebar-item">
+              <div class="sidebar-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              </div>
+              <div class="sidebar-info">
+                <h3 class="sidebar-item-title"><a href="#">Stack vs Heap Memory</a></h3>
+                <span class="sidebar-item-subtitle">Computer Science</span>
+              </div>
+              <span class="sidebar-badge">Hot</span>
+            </div>
+            
+            <!-- Sidebar Item 4 -->
+            <div class="sidebar-item">
+              <div class="sidebar-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div class="sidebar-info">
+                <h3 class="sidebar-item-title"><a href="#">JSON Parsing in Python</a></h3>
+                <span class="sidebar-item-subtitle">Backend development</span>
+              </div>
+              <span class="sidebar-badge">Free</span>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 DevNotes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="index.html" id="foot-home">Home</a></li>
+        <li><a href="#" id="foot-privacy">Privacy Policy</a></li>
+        <li><a href="#" id="foot-terms">Terms of Service</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Script for Dynamic Rendering and Filters -->
+  <script src="app.js"></script>
+</body>
+</html>

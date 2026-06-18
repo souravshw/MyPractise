@@ -1,6 +1,24 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 7,
+    title: "Understanding Java's CompletableFuture: A Layman's Walkthrough",
+    excerpt: "Concurrency and asynchronous tasks don't have to be complicated. In this guide, we break down Java's CompletableFuture and thenCombine using a dinner prep analogy so you can write cleaner non-blocking programs.",
+    category: "concepts",
+    date: "June 18, 2026",
+    readTime: "4 min read",
+    url: "posts/understanding-completablefuture-simply.html"
+  },
+  {
+    id: 6,
+    title: "Demystifying Java's ForkJoinPool: A Layman's Guide",
+    excerpt: "Parallel processing doesn't have to be intimidating. In this guide, we break down Java's ForkJoinPool and RecursiveTask using a sandwich-making analogy so you can write high-performance multithreaded programs easily.",
+    category: "concepts",
+    date: "June 18, 2026",
+    readTime: "4 min read",
+    url: "posts/understanding-forkjoin-pool-simply.html"
+  },
+  {
     id: 1,
     title: "Understanding Promises: A Layman's Walkthrough",
     excerpt: "Asynchronous JavaScript can be tricky. In this guide, we break down JavaScript Promises using simple, real-world analogies (like ordering food at a restaurant) so you can finally understand how it works under the hood.",

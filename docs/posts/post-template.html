@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- SEO Tags: Update these for every post -->
   <title>Post Title | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/post-template.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Write Post",
+      "item": "https://enggnotes.com/posts/post-template.html"
+    }]
+  }
+  </script>
   <meta name="description" content="Add a compelling meta description here (approx. 150-160 characters) to optimize for search engines.">
   <meta name="keywords" content="keyword1, keyword2, keyword3">
 
@@ -42,6 +60,14 @@
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li aria-current="page">Write Post</li>
+        </ol>
+      </nav>
       
       <!-- Article Header Metadata -->
       <header class="article-header">

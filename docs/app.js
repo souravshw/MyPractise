@@ -4,7 +4,7 @@ const postsData = [
     id: 7,
     title: "Understanding Java's CompletableFuture: A Simple Walkthrough",
     excerpt: "Concurrency and asynchronous tasks don't have to be complicated. In this guide, we break down Java's CompletableFuture and thenCombine using a dinner prep analogy so you can write cleaner non-blocking programs.",
-    category: "concepts",
+    category: "Java Concurrency",
     date: "June 18, 2026",
     readTime: "4 min read",
     url: "posts/understanding-completablefuture-simply.html"
@@ -13,7 +13,7 @@ const postsData = [
     id: 6,
     title: "Demystifying Java's ForkJoinPool: A Simple Guide",
     excerpt: "Parallel processing doesn't have to be intimidating. In this guide, we break down Java's ForkJoinPool and RecursiveTask using a sandwich-making analogy so you can write high-performance multithreaded programs easily.",
-    category: "concepts",
+    category: "Java Parallelism",
     date: "June 18, 2026",
     readTime: "4 min read",
     url: "posts/understanding-forkjoin-pool-simply.html"
@@ -108,5 +108,16 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('cookieConsent', 'declined');
       cookieBanner.classList.remove('show');
     });
+  }
+
+  // Handle category query parameter for filtering
+  const urlParams = new URLSearchParams(window.location.search);
+  const categoryParam = urlParams.get('category');
+  if (categoryParam) {
+    const filterBtn = Array.from(document.querySelectorAll('.filter-tab'))
+      .find(btn => btn.dataset.category === categoryParam);
+    if (filterBtn) {
+      filterBtn.click();
+    }
   }
 });

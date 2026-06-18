@@ -4,6 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Engineering Notes | Simple Programmatic Explanations</title>
+  <link rel="canonical" href="https://enggnotes.com/index.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    }]
+  }
+  </script>
   <meta name="description" content="Simple explanations of complex programming topics, core logic design, and developer tips. Easy to read code walkthroughs.">
   <meta name="keywords" content="coding blog, software engineering, coding simple language, javascript, python, web development tutorials">
   
@@ -47,7 +60,7 @@
         </div>
         <div class="hero-content">
           <div class="post-meta">
-            <span class="post-category">Featured</span>
+            <span class="post-category">Java Concurrency</span>
             <span class="post-date">June 18, 2026</span>
             <span>•</span>
             <span class="post-read-time">4 min read</span>
@@ -67,10 +80,8 @@
       <!-- Category Filter Tabs -->
       <div class="filters-container" id="category-filters">
         <button class="filter-tab active" data-category="all" id="filter-all">All</button>
-        <button class="filter-tab" data-category="javascript" id="filter-javascript">JavaScript</button>
-        <button class="filter-tab" data-category="python" id="filter-python">Python</button>
-        <button class="filter-tab" data-category="webdev" id="filter-webdev">Web Development</button>
-        <button class="filter-tab" data-category="concepts" id="filter-concepts">Core Concepts</button>
+        <button class="filter-tab" data-category="Java Concurrency" id="filter-concurrency">Java Concurrency</button>
+        <button class="filter-tab" data-category="Java Parallelism" id="filter-parallelism">Java Parallelism</button>
       </div>
 
       <div class="main-layout">
@@ -84,56 +95,31 @@
         <aside class="sidebar">
           <h2 class="sidebar-title">
             <span>Discover more</span>
-            <a href="#" class="sidebar-title-link">View all &gt;</a>
           </h2>
           
           <div class="sidebar-list">
             <!-- Sidebar Item 1 -->
             <div class="sidebar-item">
               <div class="sidebar-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z"/><path d="M6 21a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3v12a3 3 0 0 0 3 3z"/></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
               </div>
               <div class="sidebar-info">
-                <h3 class="sidebar-item-title"><a href="#">Git Branching Simply Explained</a></h3>
-                <span class="sidebar-item-subtitle">Developer tools</span>
+                <h3 class="sidebar-item-title"><a href="posts/understanding-completablefuture-simply.html">Understanding Java's CompletableFuture</a></h3>
+                <span class="sidebar-item-subtitle">Java Concurrency</span>
               </div>
-              <span class="sidebar-badge">Popular</span>
+              <span class="sidebar-badge">Featured</span>
             </div>
 
             <!-- Sidebar Item 2 -->
             <div class="sidebar-item">
               <div class="sidebar-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="6.01" y2="15"/><line x1="10" y1="15" x2="14" y2="15"/></svg>
               </div>
               <div class="sidebar-info">
-                <h3 class="sidebar-item-title"><a href="#">CSS Flexbox Cheat Sheet</a></h3>
-                <span class="sidebar-item-subtitle">Frontend design</span>
-              </div>
-              <span class="sidebar-badge">Free</span>
-            </div>
-
-            <!-- Sidebar Item 3 -->
-            <div class="sidebar-item">
-              <div class="sidebar-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-              </div>
-              <div class="sidebar-info">
-                <h3 class="sidebar-item-title"><a href="#">Stack vs Heap Memory</a></h3>
-                <span class="sidebar-item-subtitle">Computer Science</span>
+                <h3 class="sidebar-item-title"><a href="posts/understanding-forkjoin-pool-simply.html">Demystifying Java's ForkJoinPool</a></h3>
+                <span class="sidebar-item-subtitle">Java Parallelism</span>
               </div>
               <span class="sidebar-badge">Hot</span>
-            </div>
-            
-            <!-- Sidebar Item 4 -->
-            <div class="sidebar-item">
-              <div class="sidebar-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-              </div>
-              <div class="sidebar-info">
-                <h3 class="sidebar-item-title"><a href="#">JSON Parsing in Python</a></h3>
-                <span class="sidebar-item-subtitle">Backend development</span>
-              </div>
-              <span class="sidebar-badge">Free</span>
             </div>
           </div>
         </aside>

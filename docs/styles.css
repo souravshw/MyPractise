@@ -491,6 +491,23 @@ a {
   color: var(--text-secondary);
 }
 
+.analogy-box ol,
+.analogy-box ul {
+  padding-left: 1.25rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.analogy-box li {
+  font-size: 0.975rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.analogy-box li:last-child {
+  margin-bottom: 0;
+}
+
 /* Code Syntax Custom Styles for static blogs */
 pre {
   background-color: #0f172a !important; /* Deep slate dark */
@@ -725,4 +742,52 @@ textarea.form-control {
   color: #10b981; /* Success Green */
   display: flex;
   align-items: center;
+}
+
+/* Breadcrumb Navigation styling */
+.breadcrumb {
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.breadcrumb ol {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb li a {
+  color: var(--accent-color);
+  font-weight: 500;
+  transition: var(--transition-smooth);
+}
+
+.breadcrumb li a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+.breadcrumb li:not(:last-child)::after {
+  content: "/";
+  margin-left: 0.5rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.breadcrumb li[aria-current="page"] {
+  color: var(--text-secondary);
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
 }

@@ -1,6 +1,15 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 8,
+    title: "Demystifying the Bridge and Torch Problem: A Simple Guide",
+    excerpt: "The Bridge and Torch problem is a classic optimization puzzle. In this guide, we break down the strategies for finding the minimum crossing time using simple analogies and Java code.",
+    category: "Algorithms",
+    date: "June 19, 2026",
+    readTime: "5 min read",
+    url: "posts/bridge-and-torch-problem-simply.html"
+  },
+  {
     id: 7,
     title: "Understanding Java's CompletableFuture: A Simple Walkthrough",
     excerpt: "Concurrency and asynchronous tasks don't have to be complicated. In this guide, we break down Java's CompletableFuture and thenCombine using a dinner prep analogy so you can write cleaner non-blocking programs.",

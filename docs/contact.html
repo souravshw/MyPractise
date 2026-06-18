@@ -36,22 +36,7 @@
 <body>
 
   <!-- Navigation Header -->
-  <header class="main-header">
-    <div class="nav-container">
-      <a href="index.html" class="logo" id="nav-logo">
-        <div class="logo-icon"></div>
-        <span>Engineering Notes</span>
-      </a>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="index.html" id="nav-home">Home</a></li>
-          <li><a href="about.html" id="nav-about">About Us</a></li>
-          <li><a href="contact.html" class="active" id="nav-contact">Contact Us</a></li>
-          <li><a href="posts/post-template.html" id="nav-template">Write Post</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <header class="main-header" id="main-header" data-path-prefix="" data-active-nav="contact"></header>
 
   <!-- Main Container -->
   <main class="container" style="max-width: 700px;">
@@ -105,19 +90,10 @@
   </div>
 
   <!-- Footer Section -->
-  <footer class="main-footer">
-    <div class="footer-container">
-      <div class="footer-copy">
-        &copy; 2026 Engineering Notes. All rights reserved.
-      </div>
-      <ul class="footer-links">
-        <li><a href="index.html" id="foot-home">Home</a></li>
-        <li><a href="about.html" id="foot-about">About Us</a></li>
-        <li><a href="contact.html" id="foot-contact">Contact Us</a></li>
-        <li><a href="privacy.html" id="foot-privacy">Privacy Policy</a></li>
-      </ul>
-    </div>
-  </footer>
+  <footer class="main-footer" id="main-footer" data-path-prefix=""></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="js/fragments.js"></script>
 
   <!-- Simulation script for static submissions -->
   <script>

@@ -464,8 +464,8 @@ a {
   color: var(--text-primary);
 }
 
-/* Layman Explanation Box Styling */
-.layman-box {
+/* Analogy Box Styling */
+.analogy-box {
   background-color: rgba(0, 102, 204, 0.04);
   border-left: 4px solid var(--accent-color);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
@@ -473,7 +473,7 @@ a {
   margin: 1.75rem 0;
 }
 
-.layman-box-title {
+.analogy-box-title {
   font-weight: 700;
   color: var(--accent-color);
   margin-bottom: 0.5rem;
@@ -485,7 +485,7 @@ a {
   gap: 0.5rem;
 }
 
-.layman-box p {
+.analogy-box p {
   margin-bottom: 0;
   font-size: 0.975rem;
   color: var(--text-secondary);

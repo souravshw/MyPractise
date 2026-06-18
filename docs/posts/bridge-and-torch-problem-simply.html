@@ -189,7 +189,70 @@ public class CalculateMinPossibleTime {
 
         return totalTime;
     }
+
+    public static void main(String[] args) {
+        HashMap&lt;String, Integer&gt; personTimeMap = new HashMap&lt;&gt;();
+
+        personTimeMap.put("A", 1);
+        personTimeMap.put("B", 3);
+        personTimeMap.put("G", 48);
+        personTimeMap.put("E", 50);
+        personTimeMap.put("F", 75);
+        personTimeMap.put("C", 200);
+        personTimeMap.put("D", 150);
+
+        int minTime = calculateMinTime(personTimeMap);
+        System.out.println("Minimum time to cross the bridge: " + minTime);
+    }
 }</code></pre>
+
+        <h2>Walkthrough of the Main Method Scenario</h2>
+        <p>Let's trace the algorithm step-by-step using the exact dataset from the <code>main</code> method:</p>
+        
+        <ul>
+          <li><strong>A:</strong> 1 min (fastest)</li>
+          <li><strong>B:</strong> 3 min (second fastest)</li>
+          <li><strong>G:</strong> 48 min</li>
+          <li><strong>E:</strong> 50 min</li>
+          <li><strong>F:</strong> 75 min</li>
+          <li><strong>D:</strong> 150 min</li>
+          <li><strong>C:</strong> 200 min (slowest)</li>
+        </ul>
+        
+        <p>Here is how the algorithm processes this group:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Round 1: Sending C (200) and D (150) across
+          </div>
+          <p>We compare the two strategies for sending the two slowest people across the bridge:</p>
+          <ul>
+            <li><strong>Strategy 1 (Two-Car Shuttle):</strong> A & B cross (3m) &rarr; A returns (1m) &rarr; C & D cross (200m) &rarr; B returns (3m). <br><em>Total time: 3 + 1 + 200 + 3 = <strong>207 mins</strong>.</em></li>
+            <li><strong>Strategy 2 (Solo Escort):</strong> A & C cross (200m) &rarr; A returns (1m) &rarr; A & D cross (150m) &rarr; A returns (1m). <br><em>Total time: 200 + 1 + 150 + 1 = <strong>352 mins</strong>.</em></li>
+          </ul>
+          <p>The algorithm picks Strategy 1 because it's much faster (207 mins). C and D are now safely across.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Round 2: Sending F (75) and E (50) across
+          </div>
+          <p>Now the two slowest remaining people are F and E:</p>
+          <ul>
+            <li><strong>Strategy 1 (Two-Car Shuttle):</strong> A & B cross (3m) &rarr; A returns (1m) &rarr; F & E cross (75m) &rarr; B returns (3m). <br><em>Total time: 3 + 1 + 75 + 3 = <strong>82 mins</strong>.</em></li>
+            <li><strong>Strategy 2 (Solo Escort):</strong> A & F cross (75m) &rarr; A returns (1m) &rarr; A & E cross (50m) &rarr; A returns (1m). <br><em>Total time: 75 + 1 + 50 + 1 = <strong>127 mins</strong>.</em></li>
+          </ul>
+          <p>The algorithm picks Strategy 1 again (82 mins). F and E are now safely across.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Round 3: The Base Case (A, B, and G remaining)
+          </div>
+          <p>With only three people left (A:1, B:3, G:48), we hit the base case: <br>A & B cross (3m) &rarr; A returns (1m) &rarr; A & G cross (48m). <br><em>Total time: 3 + 1 + 48 = <strong>52 mins</strong>.</em></p>
+        </div>
+
+        <p><strong>Final Combined Time:</strong> 207 + 82 + 52 = <strong>341 minutes</strong>. This matches the program output exactly!</p>
 
         <h2>Conclusion</h2>
         <p>The Bridge and Torch problem is a classic illustration of how dynamic decisions and mathematically checking multiple greedy strategies lead to an globally optimal solution. Rather than blindly applying one approach, comparing the costs of two different strategies on each iteration ensures we find the absolute minimum crossing time for any distribution of speeds!</p>

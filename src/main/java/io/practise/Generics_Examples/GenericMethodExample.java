@@ -17,7 +17,6 @@ public class GenericMethodExample {
   }
 
   public static void main(String[] args) {
-    // TODO Auto-generated method stub
 
     ArrayList<Integer> a1 = new ArrayList<Integer>();
     a1.add(4);

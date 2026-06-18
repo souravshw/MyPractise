@@ -1,9 +1,6 @@
 package io.practise.hackerrank;
 
-import java.util.Collections;
 import java.util.HashSet;
-
-import java.util.Map;
 import java.util.stream.IntStream;
 
 public class FindSumPair {

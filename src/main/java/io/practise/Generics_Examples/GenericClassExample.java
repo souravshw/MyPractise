@@ -4,7 +4,7 @@ public class GenericClassExample<T> {
   T obj;
 
   public static void main(String[] args) {
-    // TODO Auto-generated method stub
+
 
     GenericClassExample<String> d1 = new GenericClassExample<String>();
     String opt = d1.printDoubleLogic("Hello");

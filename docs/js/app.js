@@ -1,6 +1,15 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 9,
+    title: "Demystifying Java's Thread Pool: A Simple Guide",
+    excerpt: "Thread pools are crucial for optimizing performance in concurrent systems. In this guide, we explain custom thread pools and worker thread queues using a cozy coffee shop analogy.",
+    category: "Java Concurrency",
+    date: "June 19, 2026",
+    readTime: "5 min read",
+    url: "posts/understanding-thread-pool-simply.html"
+  },
+  {
     id: 8,
     title: "Demystifying the Bridge and Torch Problem: A Simple Guide",
     excerpt: "The Bridge and Torch problem is a classic optimization puzzle. In this guide, we break down the strategies for finding the minimum crossing time using simple analogies and Java code.",

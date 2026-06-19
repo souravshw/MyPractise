@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+
+    <!-- Glowing effect -->
+    <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10b981" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" />
+  <rect width="796" height="446" x="2" y="2" rx="14" fill="none" stroke="rgba(255, 255, 255, 0.05)" stroke-width="2" />
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Inter', system-ui, sans-serif" font-size="22" font-weight="bold" fill="#f8fafc" text-anchor="middle" letter-spacing="1">
+    CONSECUTIVE INCREASING CHAINS
+  </text>
+  <text x="400" y="70" font-family="'Inter', system-ui, sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">
+    Finding the longest run of numbers increasing by exactly 1
+  </text>
+
+  <!-- Array Grid -->
+  <g transform="translate(60, 120)">
+    <!-- 0 -->
+    <g transform="translate(0, 0)">
+      <rect width="45" height="45" rx="6" fill="#10b981" stroke="#34d399" stroke-width="2" filter="url(#glow-green)" />
+      <text x="22.5" y="28" font-family="'Inter', system-ui, sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">0</text>
+      <text x="22.5" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#34d399" text-anchor="middle">Idx 0</text>
+    </g>
+
+    <!-- 1 -->
+    <g transform="translate(60, 0)">
+      <rect width="45" height="45" rx="6" fill="#10b981" stroke="#34d399" stroke-width="2" filter="url(#glow-green)" />
+      <text x="22.5" y="28" font-family="'Inter', system-ui, sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">1</text>
+      <text x="22.5" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#34d399" text-anchor="middle">Idx 1</text>
+    </g>
+
+    <!-- 26 -->
+    <g transform="translate(120, 0)">
+      <rect width="45" height="45" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+      <text x="22.5" y="28" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#64748b" text-anchor="middle">26</text>
+      <text x="22.5" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#475569" text-anchor="middle">Idx 2</text>
+    </g>
+
+    <!-- 8 -->
+    <g transform="translate(180, 0)">
+      <rect width="45" height="45" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+      <text x="22.5" y="28" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#64748b" text-anchor="middle">8</text>
+      <text x="22.5" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#475569" text-anchor="middle">Idx 3</text>
+    </g>
+
+    <!-- 9 -->
+    <g transform="translate(240, 0)">
+      <rect width="45" height="45" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+      <text x="22.5" y="28" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#64748b" text-anchor="middle">9</text>
+      <text x="22.5" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#475569" text-anchor="middle">Idx 4</text>
+    </g>
+
+    <!-- 2 -->
+    <g transform="translate(300, 0)">
+      <rect width="45" height="45" rx="6" fill="#10b981" stroke="#34d399" stroke-width="2" filter="url(#glow-green)" />
+      <text x="22.5" y="28" font-family="'Inter', system-ui, sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">2</text>
+      <text x="22.5" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#34d399" text-anchor="middle">Idx 5</text>
+    </g>
+
+    <!-- 3 -->
+    <g transform="translate(360, 0)">
+      <rect width="45" height="45" rx="6" fill="#10b981" stroke="#34d399" stroke-width="2" filter="url(#glow-green)" />
+      <text x="22.5" y="28" font-family="'Inter', system-ui, sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">3</text>
+      <text x="22.5" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#34d399" text-anchor="middle">Idx 6</text>
+    </g>
+
+    <!-- 27 -->
+    <g transform="translate(420, 0)">
+      <rect width="45" height="45" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+      <text x="22.5" y="28" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#64748b" text-anchor="middle">27</text>
+      <text x="22.5" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#475569" text-anchor="middle">Idx 7</text>
+    </g>
+
+    <!-- 1 -->
+    <g transform="translate(480, 0)">
+      <rect width="45" height="45" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+      <text x="22.5" y="28" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#64748b" text-anchor="middle">1</text>
+      <text x="22.5" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#475569" text-anchor="middle">Idx 8</text>
+    </g>
+
+    <!-- 0 -->
+    <g transform="translate(540, 0)">
+      <rect width="45" height="45" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+      <text x="22.5" y="28" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#64748b" text-anchor="middle">0</text>
+      <text x="22.5" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#475569" text-anchor="middle">Idx 9</text>
+    </g>
+
+    <!-- 4 -->
+    <g transform="translate(600, 0)">
+      <rect width="45" height="45" rx="6" fill="#10b981" stroke="#34d399" stroke-width="2" filter="url(#glow-green)" />
+      <text x="22.5" y="28" font-family="'Inter', system-ui, sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">4</text>
+      <text x="22.5" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#34d399" text-anchor="middle">Idx 10</text>
+    </g>
+  </g>
+
+  <!-- Curved Connection Paths showing the chain links -->
+  <!-- 0 (idx 0) -> 1 (idx 1) -->
+  <path d="M 105 165 Q 135 195 165 165" fill="none" stroke="#10b981" stroke-width="3" marker-end="url(#arrow-green)" />
+  <!-- 1 (idx 1) -> 2 (idx 5) -->
+  <path d="M 165 145 Q 285 65 360 145" fill="none" stroke="#10b981" stroke-width="3" marker-end="url(#arrow-green)" />
+  <!-- 2 (idx 5) -> 3 (idx 6) -->
+  <path d="M 405 165 Q 435 195 465 165" fill="none" stroke="#10b981" stroke-width="3" marker-end="url(#arrow-green)" />
+  <!-- 3 (idx 6) -> 4 (idx 10) -->
+  <path d="M 465 145 Q 585 65 660 145" fill="none" stroke="#10b981" stroke-width="3" marker-end="url(#arrow-green)" />
+
+  <!-- Chain Summary Card -->
+  <rect x="150" y="320" width="500" height="90" rx="12" fill="rgba(30, 41, 59, 0.85)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+  <text x="400" y="348" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#e2e8f0" text-anchor="middle">
+    Longest Chain Found: <tspan fill="#34d399" font-size="16">0 → 1 → 2 → 3 → 4</tspan>
+  </text>
+  <text x="400" y="372" font-family="'Inter', system-ui, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">
+    Length: <tspan fill="#34d399" font-weight="bold">5 elements</tspan>. Skipping elements (like 26, 8, 9) that do not break the chain.
+  </text>
+  <text x="400" y="392" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle" font-style="italic">
+    The array order is preserved: we only search forward for next consecutive numbers.
+  </text>
+</svg>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maximizing Stock Profits with Greedy Algorithms: A Simple Guide | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/maximizing-stock-profits-simply.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Algorithms",
+      "item": "https://enggnotes.com/index.html?category=Algorithms"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Maximizing Stock Profits with Greedy Algorithms: A Simple Guide",
+      "item": "https://enggnotes.com/posts/maximizing-stock-profits-simply.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to find the maximum possible stock profit in Java simply, using a rollercoaster climbing analogy and line-by-line main method trace.">
+  <meta name="keywords" content="java stock buy and sell, max profit stock java stream, greedy algorithm stock trading java, array profit maximization tutorial">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Maximizing Stock Profits with Greedy Algorithms: A Simple Guide | Engineering Notes">
+  <meta property="og:description" content="Learn how to find the maximum possible stock profit in Java simply, using a rollercoaster climbing analogy.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Algorithms">Algorithms</a></li>
+          <li aria-current="page">Stock Profit Checker</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Algorithms</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Maximizing Stock Profits: A Simple Guide</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>Finding the maximum profit you can make by buying and selling stocks over a period of time is a classic coding interview problem. In this scenario, you are given an array of daily stock prices, and you want to write a program that calculates the highest profit you could accumulate by buying and selling as many times as you like.</p>
+        
+        <p>This is solved using an approach called a <strong>Greedy Algorithm</strong>. Let's look at how this works using a fun rollercoaster analogy.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/stock_profit_checker.svg" alt="Illustration of stock prices rollercoaster peaks and valleys" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Climbing Up the Rollercoaster
+          </div>
+          <p>Imagine you are riding a rollercoaster where the height of the track represents the price of a stock on different days. You want to collect "climbing points" (profit) on this ride.</p>
+          <p>Since you can buy and sell as many times as you want, your strategy is simple:</p>
+          <ul>
+            <li>Every time the rollercoaster is going **upward** (today's price is higher than yesterday's), you capture that gain!</li>
+            <li>Every time the rollercoaster goes **downward** (prices drop), you do nothing—you just sit back and wait for it to bottom out.</li>
+            <li>By adding up all the upward climbs, you automatically get the maximum possible points you could ever score on the ride.</li>
+          </ul>
+        </div>
+
+        <h2>Walkthrough of the Main Method Scenario</h2>
+        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 1: Setting up the price histories
+          </div>
+          <p>The program declares two array scenarios representing stock price movements:</p>
+          <pre><code class="language-java">int arr[] = {100, 180, 260, 310, 40, 535, 695};
+int arr1[] = {4, 2, 2, 2, 4};</code></pre>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 2: Tracing the first stock price array
+          </div>
+          <p>The program calls <code>getMaxProfit(arr)</code> and loops through the elements starting from index 1:</p>
+          <ul>
+            <li><strong>Day 1 ($180):</strong> $180 &gt; $100 (yesterday). Yes! We add the difference: <code>profit += 80</code>. Total: $80.</li>
+            <li><strong>Day 2 ($260):</strong> $260 &gt; $180. Yes! <code>profit += 80</code>. Total: $160.</li>
+            <li><strong>Day 3 ($310):</strong> $310 &gt; $260. Yes! <code>profit += 50</code>. Total: $210. (This matches buying at $100 and selling at $310!)</li>
+            <li><strong>Day 4 ($40):</strong> $40 &lt; $310. Downward slope. No profit added.</li>
+            <li><strong>Day 5 ($535):</strong> $535 &gt; $40. Yes! <code>profit += 495</code>. Total: $705.</li>
+            <li><strong>Day 6 ($695):</strong> $695 &gt; $535. Yes! <code>profit += 160</code>. Total: $865. (This matches buying at $40 and selling at $695!)</li>
+          </ul>
+          <p>The program returns the total accumulated profit: **$865**.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 3: Tracing the second stock price array
+          </div>
+          <p>The program calls <code>getMaxProfit(arr1)</code> for the prices <code>[4, 2, 2, 2, 4]</code>:</p>
+          <ul>
+            <li>Days 1, 2, and 3: Prices drop or remain flat (<code>4 → 2 → 2 → 2</code>). No profit is added.</li>
+            <li>Day 4 ($4): Price climbs: $4 &gt; $2. Yes! <code>profit += 2</code>. Total: $2.</li>
+          </ul>
+          <p>The program returns: **$2**.</p>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code showing the profit calculation checker:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.accolite;
+ 
+public class StockBuyAndSellMaxProfitChecker {
+    public static void main(String[] args) {
+        int arr[] = {100, 180, 260, 310, 40, 535, 695};
+        int arr1[] = {4, 2, 2, 2, 4};
+ 
+        System.out.println(getMaxProfit(arr1)); // Outputs: 2
+        System.out.println(getMaxProfit(arr));  // Outputs: 865
+    }
+ 
+    private static int getMaxProfit(int[] arr) {
+        int profit = 0;
+ 
+        for (int i = 1; i < arr.length; ++i) {
+            if (arr[i] > arr[i - 1]) {
+                profit += arr[i] - arr[i - 1];
+            }
+        }
+ 
+        return profit;
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>By using a greedy approach, we don't need to predict the future or look ahead multiple days. We simply compare today's price with yesterday's price. If it is higher, we buy yesterday and sell today, accumulating all positive upward moves to guarantee the maximum profit!</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

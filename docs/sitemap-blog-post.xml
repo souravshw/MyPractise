@@ -40,6 +40,60 @@
 
    <!-- Blog Posts -->
    <url>
+      <loc>https://enggnotes.com/posts/consecutive-increasing-chains-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/summing-up-to-ten-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/understanding-custom-arraylist-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/rotating-arrays-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/finding-top-k-elements-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/maximizing-stock-profits-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/detecting-linked-list-loops-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/reversing-linked-list-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/understanding-balanced-parentheses-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
       <loc>https://enggnotes.com/posts/flatmapping-min-max-interfaces-simply.html</loc>
       <lastmod>2026-06-19</lastmod>
       <changefreq>monthly</changefreq>

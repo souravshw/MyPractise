@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+
+    <!-- Node Glow -->
+    <filter id="glow-match" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" />
+  <rect width="796" height="446" x="2" y="2" rx="14" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" />
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Inter', system-ui, sans-serif" font-size="22" font-weight="bold" fill="#f8fafc" text-anchor="middle" letter-spacing="1">
+    PAIRED TARGET SUM SEARCH
+  </text>
+  <text x="400" y="70" font-family="'Inter', system-ui, sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">
+    Finding matching index elements that add up to exactly 10
+  </text>
+
+  <!-- First Array Row -->
+  <g transform="translate(100, 120)">
+    <text x="0" y="25" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">ARRAY 1:</text>
+    <g transform="translate(140, 0)">
+      <!-- Match 8 -->
+      <rect x="0" width="40" height="40" rx="6" fill="#10b981" stroke="#34d399" stroke-width="2" filter="url(#glow-match)" />
+      <text x="20" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">8</text>
+      <text x="20" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#34d399" text-anchor="middle" font-weight="bold">Idx 0</text>
+      
+      <!-- Match 2 -->
+      <rect x="50" width="40" height="40" rx="6" fill="#10b981" stroke="#34d399" stroke-width="2" filter="url(#glow-match)" />
+      <text x="70" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">2</text>
+      <text x="70" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#34d399" text-anchor="middle" font-weight="bold">Idx 1</text>
+
+      <!-- Others -->
+      <rect x="100" width="40" height="40" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+      <text x="120" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle">6</text>
+      <text x="120" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Idx 2</text>
+
+      <rect x="150" width="40" height="40" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+      <text x="170" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle">4</text>
+      <text x="170" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Idx 3</text>
+
+      <rect x="200" width="40" height="40" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+      <text x="220" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle">13</text>
+      <text x="220" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Idx 4</text>
+
+      <rect x="250" width="40" height="40" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+      <text x="270" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle">10</text>
+      <text x="270" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Idx 5</text>
+      
+      <!-- Out of bounds filler -->
+      <rect x="300" width="120" height="40" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3,3" />
+      <text x="360" y="25" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#475569" text-anchor="middle">OUT OF BOUNDS (0)</text>
+    </g>
+  </g>
+
+  <!-- Second Array Row -->
+  <g transform="translate(100, 240)">
+    <text x="0" y="25" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">ARRAY 2:</text>
+    <g transform="translate(140, 0)">
+      <!-- Match 2 -->
+      <rect x="0" width="40" height="40" rx="6" fill="#10b981" stroke="#34d399" stroke-width="2" filter="url(#glow-match)" />
+      <text x="20" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">2</text>
+      
+      <!-- Match 8 -->
+      <rect x="50" width="40" height="40" rx="6" fill="#10b981" stroke="#34d399" stroke-width="2" filter="url(#glow-match)" />
+      <text x="70" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">8</text>
+
+      <rect x="100" width="40" height="40" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+      <text x="120" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle">13</text>
+
+      <rect x="150" width="40" height="40" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+      <text x="170" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle">5</text>
+
+      <rect x="200" width="40" height="40" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+      <text x="220" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle">9</text>
+
+      <rect x="250" width="40" height="40" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+      <text x="270" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle">4</text>
+      
+      <!-- Rest of second array -->
+      <rect x="300" width="40" height="40" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+      <text x="320" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle">9</text>
+      <text x="320" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Idx 6</text>
+
+      <rect x="350" width="40" height="40" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+      <text x="370" y="25" font-family="'Inter', system-ui, sans-serif" font-size="16" fill="#94a3b8" text-anchor="middle">9</text>
+      <text x="370" y="-10" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Idx 7</text>
+    </g>
+  </g>
+
+  <!-- Connectors -->
+  <!-- Match 1 -->
+  <line x1="260" y1="170" x2="260" y2="230" stroke="#10b981" stroke-width="2" />
+  <text x="260" y="210" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">8 + 2 = 10 ✓</text>
+
+  <!-- Match 2 -->
+  <line x1="310" y1="170" x2="310" y2="230" stroke="#10b981" stroke-width="2" />
+  <text x="310" y="210" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">2 + 8 = 10 ✓</text>
+
+  <!-- Summary Card -->
+  <rect x="150" y="340" width="500" height="80" rx="10" fill="rgba(30, 41, 59, 0.85)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+  <text x="400" y="368" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#e2e8f0" text-anchor="middle">
+    Total Matches: <tspan fill="#34d399" font-size="16">2 Pairs Sum to 10</tspan>
+  </text>
+  <text x="400" y="392" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">
+    Mismatched array bounds are caught safely: out-of-bounds indices evaluate to 0.
+  </text>
+</svg>

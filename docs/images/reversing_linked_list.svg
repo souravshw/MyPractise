@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <!-- Definitions for Gradients and Filters -->
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+
+    <!-- Node Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Node Gradients -->
+    <linearGradient id="node-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+
+    <linearGradient id="reversed-node-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#6b21a8" />
+    </linearGradient>
+
+    <linearGradient id="highlight-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+
+    <!-- Arrow Markers -->
+    <marker id="arrow-forward" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#60a5fa" />
+    </marker>
+    
+    <marker id="arrow-backward" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" />
+  <rect width="796" height="446" x="2" y="2" rx="14" fill="none" stroke="rgba(255, 255, 255, 0.1)" stroke-width="2" />
+
+  <!-- Title -->
+  <text x="400" y="50" font-family="'Inter', system-ui, sans-serif" font-size="24" font-weight="bold" fill="#f8fafc" text-anchor="middle" letter-spacing="1">
+    REVERSING A LINKED LIST
+  </text>
+  <text x="400" y="75" font-family="'Inter', system-ui, sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">
+    Swapping connection pointers one-by-one to reverse the chain
+  </text>
+
+  <!-- Node 1 (Head / Previous) -->
+  <g transform="translate(100, 160)">
+    <rect width="100" height="60" rx="10" fill="url(#reversed-node-grad)" filter="url(#glow)" />
+    <rect width="100" height="60" rx="10" fill="none" stroke="#d8b4fe" stroke-width="1.5" />
+    <text x="50" y="36" font-family="'Inter', system-ui, sans-serif" font-size="18" font-weight="bold" fill="#f8fafc" text-anchor="middle">Node 1</text>
+    <text x="50" y="80" font-family="'Inter', system-ui, sans-serif" font-size="12" fill="#c084fc" text-anchor="middle" font-weight="600">PREVIOUS</text>
+  </g>
+
+  <!-- Connection: Node 2 &lt;- Node 1 (Reversed Link) -->
+  <path d="M 270 210 Q 215 230 160 220" fill="none" stroke="#c084fc" stroke-width="3" stroke-dasharray="4,4" marker-end="url(#arrow-backward)" />
+  <text x="215" y="245" font-family="'Inter', system-ui, sans-serif" font-size="12" fill="#c084fc" text-anchor="middle" font-style="italic">Reversed! (current.next = prev)</text>
+
+  <!-- Node 2 (Current) -->
+  <g transform="translate(290, 160)">
+    <rect width="100" height="60" rx="10" fill="url(#highlight-grad)" filter="url(#glow)" />
+    <rect width="100" height="60" rx="10" fill="none" stroke="#6ee7b7" stroke-width="1.5" />
+    <text x="50" y="36" font-family="'Inter', system-ui, sans-serif" font-size="18" font-weight="bold" fill="#f8fafc" text-anchor="middle">Node 2</text>
+    <text x="50" y="80" font-family="'Inter', system-ui, sans-serif" font-size="12" fill="#34d399" text-anchor="middle" font-weight="600">CURRENT</text>
+  </g>
+
+  <!-- Connection: Node 2 -&gt; Node 3 (Temporarily severed link, pointer redirection) -->
+  <path d="M 390 190 L 470 190" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="5,5" />
+  <!-- Severed indicator X -->
+  <line x1="425" y1="180" x2="435" y2="200" stroke="#ef4444" stroke-width="3" />
+  <line x1="435" y1="180" x2="425" y2="200" stroke="#ef4444" stroke-width="3" />
+
+  <!-- Node 3 (Next / Temp) -->
+  <g transform="translate(480, 160)">
+    <rect width="100" height="60" rx="10" fill="url(#node-grad)" />
+    <rect width="100" height="60" rx="10" fill="none" stroke="#93c5fd" stroke-width="1.5" />
+    <text x="50" y="36" font-family="'Inter', system-ui, sans-serif" font-size="18" font-weight="bold" fill="#f8fafc" text-anchor="middle">Node 3</text>
+    <text x="50" y="80" font-family="'Inter', system-ui, sans-serif" font-size="12" fill="#60a5fa" text-anchor="middle" font-weight="600">NEXT (TEMP)</text>
+  </g>
+
+  <!-- Connection: Node 3 -&gt; Node 4 -->
+  <path d="M 580 190 L 660 190" fill="none" stroke="#60a5fa" stroke-width="3" marker-end="url(#arrow-forward)" />
+
+  <!-- Node 4 -->
+  <g transform="translate(670, 160)">
+    <rect width="100" height="60" rx="10" fill="#1e293b" />
+    <rect width="100" height="60" rx="10" fill="none" stroke="#475569" stroke-width="1.5" />
+    <text x="50" y="36" font-family="'Inter', system-ui, sans-serif" font-size="18" fill="#94a3b8" text-anchor="middle">Node 4</text>
+  </g>
+
+  <!-- Loop Walkthrough/Instruction Label -->
+  <rect x="150" y="290" width="500" height="110" rx="12" fill="rgba(30, 41, 59, 0.7)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+  
+  <text x="170" y="318" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#60a5fa">ALGORITHM STEP TRACE (INSIDE LOOP):</text>
+  
+  <text x="170" y="342" font-family="'Inter', system-ui, sans-serif" font-size="13" fill="#cbd5e1">1. Keep track of the rest: <tspan fill="#93c5fd" font-weight="600">temp = current.next</tspan> (Node 3)</text>
+  <text x="170" y="364" font-family="'Inter', system-ui, sans-serif" font-size="13" fill="#cbd5e1">2. Flip current's pointer: <tspan fill="#34d399" font-weight="600">current.next = previous</tspan> (Node 2 points to Node 1)</text>
+  <text x="170" y="386" font-family="'Inter', system-ui, sans-serif" font-size="13" fill="#cbd5e1">3. Move labels forward: <tspan fill="#c084fc" font-weight="600">previous = current</tspan> &amp; <tspan fill="#cbd5e1" font-weight="600">current = temp</tspan></text>
+</svg>

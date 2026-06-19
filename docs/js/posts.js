@@ -1,6 +1,96 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 33,
+    title: "Finding the Longest Consecutive Increasing Chain in Java: A Simple Guide",
+    excerpt: "Searching for ordered sequences inside arrays is a classic algorithmic puzzle. Learn how to scan and calculate the longest incrementing card run in Java.",
+    category: "Algorithms",
+    date: "June 19, 2026",
+    readTime: "3 min read",
+    url: "posts/consecutive-increasing-chains-simply.html",
+    image: "images/consecutive_increasing_chain.svg"
+  },
+  {
+    id: 32,
+    title: "Summing Up to a Target Sum in Java: A Simple Guide",
+    excerpt: "Comparing elements across arrays of different sizes requires bounds checking. Learn how to safely search for index pairs summing to 10 in Java.",
+    category: "Algorithms",
+    date: "June 19, 2026",
+    readTime: "3 min read",
+    url: "posts/summing-up-to-ten-simply.html",
+    image: "images/summing_up_to_n.svg"
+  },
+  {
+    id: 31,
+    title: "How ArrayList Works Under the Hood: A Simple Guide",
+    excerpt: "Arrays are fixed-size in computer memory, but ArrayList expands dynamically. Learn how Java grows capacity behind the scenes using an expanding toy box analogy.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/understanding-custom-arraylist-simply.html",
+    image: "images/custom_list.svg"
+  },
+  {
+    id: 30,
+    title: "Rotating Arrays in Java: A Simple Guide",
+    excerpt: "Shifting elements inside memory arrays is common in computational math. Learn how to perform array rotations in place using the Triple-Reverse trick.",
+    category: "Algorithms",
+    date: "June 19, 2026",
+    readTime: "3 min read",
+    url: "posts/rotating-arrays-simply.html",
+    image: "images/rotating_array_k_times.svg"
+  },
+  {
+    id: 29,
+    title: "Finding the Top K Elements: A Simple Guide",
+    excerpt: "Filtering and displaying high scores requires sorting datasets dynamically. Learn how to maintain a top K leaderboard using a custom TreeSet in Java.",
+    category: "Algorithms",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/finding-top-k-elements-simply.html",
+    image: "images/top_k_elements.svg"
+  },
+  {
+    id: 28,
+    title: "Maximizing Stock Profits: A Simple Guide",
+    excerpt: "Learn how to find the maximum possible stock profit in Java simply, using a rollercoaster climbing analogy and a line-by-line main method trace.",
+    category: "Algorithms",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/maximizing-stock-profits-simply.html",
+    image: "images/stock_profit_checker.svg"
+  },
+  {
+    id: 27,
+    title: "Detecting Loops in a Linked List: A Simple Guide",
+    excerpt: "Infinite loops can freeze programs. Learn how to detect cycles in singly linked lists using a simple visited flag check and a sticky note analogy.",
+    category: "Algorithms",
+    date: "June 19, 2026",
+    readTime: "3 min read",
+    url: "posts/detecting-linked-list-loops-simply.html",
+    image: "images/linked_list_loop_detector.svg"
+  },
+  {
+    id: 26,
+    title: "Reversing a Linked List: A Simple Guide",
+    excerpt: "Manipulating memory pointers in place is a crucial coding skill. Learn how to flip linked list nodes one-by-one using a shoulder-holding line analogy.",
+    category: "Algorithms",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/reversing-linked-list-simply.html",
+    image: "images/reversing_linked_list.svg"
+  },
+  {
+    id: 25,
+    title: "Understanding Balanced Parentheses: A Simple Guide",
+    excerpt: "Checking if brackets open and close in correct nesting order is a fundamental algorithmic challenge. Learn how Java solves it using a Stack and a Russian nesting dolls analogy.",
+    category: "Algorithms",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/understanding-balanced-parentheses-simply.html",
+    image: "images/parenthesis_checker.png"
+  },
+  {
     id: 24,
     title: "Flatmapping Min/Max & Diamond Inheritance: A Simple Guide",
     excerpt: "Learn how array flatmapping structures data in Streams and how Java resolves interface default method conflicts (the Diamond Problem).",

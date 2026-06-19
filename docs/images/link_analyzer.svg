@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Node Glow -->
+    <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" />
+  <rect width="796" height="446" x="2" y="2" rx="14" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" />
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Inter', system-ui, sans-serif" font-size="22" font-weight="bold" fill="#f8fafc" text-anchor="middle" letter-spacing="1">
+    AUTOMATED WEB LINK INSPECTOR
+  </text>
+  <text x="400" y="70" font-family="'Inter', system-ui, sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">
+    Crawling pages to analyze contents and filter spam links
+  </text>
+
+  <!-- CSV Input Box -->
+  <g transform="translate(100, 160)">
+    <rect width="130" height="80" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
+    <text x="65" y="30" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#38bdf8" text-anchor="middle">INPUT CSV</text>
+    <text x="65" y="55" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Merged_Links.csv</text>
+  </g>
+
+  <!-- Inspection station -->
+  <g transform="translate(300, 150)">
+    <rect width="180" height="100" rx="10" fill="#1d4ed8" stroke="#3b82f6" stroke-width="2" />
+    <text x="90" y="35" font-family="'Inter', system-ui, sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">INSPECTION</text>
+    <text x="90" y="58" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#93c5fd" text-anchor="middle">Contains 'Negative'?</text>
+    <!-- Rule divider -->
+    <line x1="20" y1="70" x2="160" y2="70" stroke="rgba(255,255,255,0.2)" stroke-width="1" />
+    <text x="90" y="86" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="bold" fill="#fbcfe8" text-anchor="middle">HTTP GET Crawl</text>
+  </g>
+
+  <!-- Connectors -->
+  <!-- CSV -> Station -->
+  <path d="M 230 200 L 290 200" fill="none" stroke="#38bdf8" stroke-width="2.5" />
+
+  <!-- Station -> Positive -->
+  <path d="M 480 180 Q 560 140 590 140" fill="none" stroke="#10b981" stroke-width="2" />
+  <text x="535" y="150" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="bold" fill="#34d399">NO</text>
+
+  <!-- Station -> Spam -->
+  <path d="M 480 220 Q 560 260 590 260" fill="none" stroke="#ef4444" stroke-width="2" />
+  <text x="535" y="250" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="bold" fill="#f87171">YES / ERROR</text>
+
+  <!-- Output 1: Positive Box -->
+  <g transform="translate(600, 100)">
+    <rect width="120" height="60" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="2" filter="url(#glow-green)" />
+    <text x="60" y="35" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#34d399" text-anchor="middle">POSITIVE</text>
+  </g>
+
+  <!-- Output 2: Spam Box -->
+  <g transform="translate(600, 240)">
+    <rect width="120" height="60" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="2" filter="url(#glow-red)" />
+    <text x="60" y="30" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#f87171" text-anchor="middle">SPAM FILE</text>
+    <text x="60" y="48" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">spam_links.txt</text>
+  </g>
+
+  <!-- Loop Walkthrough/Instruction Label -->
+  <rect x="150" y="340" width="500" height="80" rx="10" fill="rgba(30, 41, 59, 0.85)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+  
+  <text x="170" y="365" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">INSPECTION LOGIC:</text>
+  <text x="170" y="388" font-family="'Inter', system-ui, sans-serif" font-size="13" fill="#cbd5e1">1. Read list of URLs from the CSV file.</text>
+  <text x="170" y="408" font-family="'Inter', system-ui, sans-serif" font-size="13" fill="#cbd5e1">2. Download raw HTML. If it contains "Negative" -> flag as SPAM!</text>
+</svg>

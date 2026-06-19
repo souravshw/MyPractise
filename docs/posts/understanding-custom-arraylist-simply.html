@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How ArrayList Works Under the Hood: A Simple Guide | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-custom-arraylist-simply.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How ArrayList Works Under the Hood: A Simple Guide",
+      "item": "https://enggnotes.com/posts/understanding-custom-arraylist-simply.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how Java's ArrayList expands dynamically under the hood simply, using a toy box analogy and step-by-step trace of a JUnit test.">
+  <meta name="keywords" content="java custom arraylist, how arraylist grows java, dynamic array resizing java, java collection list implementation tutorial">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="How ArrayList Works Under the Hood: A Simple Guide | Engineering Notes">
+  <meta property="og:description" content="Learn how Java's ArrayList expands dynamically under the hood simply, using a toy box analogy.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Custom ArrayList</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">How ArrayList Works Under the Hood: A Simple Guide</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Java, a standard array has a **fixed size**—once you create it, you cannot shrink or grow it. However, we often use <code>ArrayList</code>, which seems to grow automatically whenever we add elements. How does it do this?</p>
+        
+        <p>ArrayList doesn't actually stretch. Instead, it swaps out smaller arrays for larger ones behind the scenes. Let's see how this works using a simple toy box analogy.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/custom_list.svg" alt="Illustration of dynamic array resizing and element copying" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Expanding Toy Box
+          </div>
+          <p>Imagine you have a small toy box (Array) that has room for exactly **10 toys** (Capacity = 10).</p>
+          <p>You keep cleaning your room and putting toys in the box one by one. Eventually, you submit your 10th toy. The box is now full. When you pick up the 11th toy, it doesn't fit!</p>
+          <p>To solve this, you follow a simple strategy:</p>
+          <ul>
+            <li>You buy a **new, larger toy box** that has room for 20 toys (Capacity = 20).</li>
+            <li>You move all 10 toys from the old box into the new box.</li>
+            <li>You throw the old, full toy box in the recycling bin.</li>
+            <li>You place your 11th toy into the new box!</li>
+          </ul>
+        </div>
+
+        <h2>Walkthrough of the Test Scenario</h2>
+        <p>Let's trace how the program executes step-by-step from the entry point of the test case:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 1: Instantiation with tiny capacity
+          </div>
+          <p>The test initializes a CustomList with an initial capacity of exactly 1:</p>
+          <pre><code class="language-java">CustomList&lt;Integer&gt; firstList = new CustomList&lt;&gt;(1);</code></pre>
+          <p>This creates a backing object array of size 1. Size count starts at <code>0</code>.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 2: Adding the first element
+          </div>
+          <p>The program adds the number 2 to the list:</p>
+          <pre><code class="language-java">firstList.add(2);</code></pre>
+          <p>Since <code>count &lt; capacity</code> (0 &lt; 1), the number 2 is placed at index 0. The count increments to 1. The list size is now 1, and the array capacity is full.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 3: Triggering capacity expansion
+          </div>
+          <p>The program adds the number 3 to the list:</p>
+          <pre><code class="language-java">firstList.add(3);</code></pre>
+          <ul>
+            <li>Since <code>count == capacity</code> (1 == 1), the array is full!</li>
+            <li>The capacity increments by 10 (new capacity = 11).</li>
+            <li><code>restructureArray()</code> is called: it creates a new array of size 11 and copies the number 2 into it.</li>
+            <li>The number 3 is added at index 1. Count increments to 2.</li>
+          </ul>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 4: Adding and Asserting
+          </div>
+          <p>The program adds another 2 (fits easily since 2 &lt; 11 capacity). Size count becomes 3. The test successfully asserts that size is 3, and value at index 0 is 2:</p>
+          <pre><code class="language-java">Assert.assertEquals(3, firstList.getSize());
+Assert.assertEquals(2, firstList.getIndexedData(0));</code></pre>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code demonstrating custom ArrayList resizing logic:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.accolite;
+ 
+public class CustomList<T> {
+    private int capacity = 10;
+    private Object content[] =  new Object[capacity];
+    private int count;
+ 
+    public CustomList(int capacity) {
+        this.capacity = capacity;
+        this.content = new Object[capacity];
+    }
+ 
+    public CustomList() {
+    }
+ 
+    public int getSize() {
+        return count;
+    }
+ 
+    public void add(T eachContent) {
+        if (count < capacity) {
+            content[count] = eachContent;
+        } else if (count == capacity) {
+            capacity += 10;
+            restructureArray();
+            content[count] = eachContent;
+        }
+        ++count;
+    }
+ 
+    private void restructureArray() {
+        Object[] tempArray = content;
+        this.content = new Object[capacity];
+        copyArray(tempArray, this.content);
+    }
+ 
+    public Object[] getContent() {
+        return content;
+    }
+ 
+    public Object getIndexedData(int index) {
+        if (index < count) {
+            return content[index];
+        } else {
+            throw new ArrayIndexOutOfBoundsException("You are trying to reach null value.");
+        }
+    }
+ 
+    private void copyArray(Object[] tempArray, Object[] content) {
+        for (int index = 0; index < tempArray.length; ++index) {
+            content[index] = tempArray[index];
+        }
+    }
+ 
+    public void delete(int index) {
+        if (index < count) {
+            content[index] = null;
+        }
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>A dynamic array like ArrayList acts like it has endless size, but underneath, it works by allocating a larger array and copying elements over when the limit is reached. Understanding this helps write performant code by initializing lists with a proper starting capacity when size is known beforehand!</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

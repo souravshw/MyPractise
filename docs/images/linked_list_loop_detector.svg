@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Node Glow -->
+    <filter id="glow-node" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8" />
+    </marker>
+    
+    <marker id="loop-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f43f5e" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" />
+  <rect width="796" height="446" x="2" y="2" rx="14" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" />
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Inter', system-ui, sans-serif" font-size="22" font-weight="bold" fill="#f8fafc" text-anchor="middle" letter-spacing="1">
+    LINKED LIST LOOP DETECTOR
+  </text>
+  <text x="400" y="70" font-family="'Inter', system-ui, sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">
+    Using "visited" flags (sticky notes) to detect cycles
+  </text>
+
+  <!-- Node A -->
+  <g transform="translate(120, 160)">
+    <rect width="100" height="60" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2" filter="url(#glow-node)" />
+    <text x="50" y="35" font-family="'Inter', system-ui, sans-serif" font-size="16" font-weight="bold" fill="#f8fafc" text-anchor="middle">Node A</text>
+    <!-- Visited Sticky Note -->
+    <rect x="70" y="-10" width="35" height="20" rx="4" fill="#10b981" />
+    <text x="87" y="4" font-family="'Inter', system-ui, sans-serif" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle">VISITED</text>
+  </g>
+
+  <!-- Link A -> B -->
+  <path d="M 220 190 L 300 190" fill="none" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)" />
+
+  <!-- Node B -->
+  <g transform="translate(310, 160)">
+    <rect width="100" height="60" rx="10" fill="#1d4ed8" stroke="#3b82f6" stroke-width="2" filter="url(#glow-node)" />
+    <text x="50" y="35" font-family="'Inter', system-ui, sans-serif" font-size="16" font-weight="bold" fill="#f8fafc" text-anchor="middle">Node B</text>
+    <!-- Visited Sticky Note -->
+    <rect x="70" y="-10" width="35" height="20" rx="4" fill="#10b981" />
+    <text x="87" y="4" font-family="'Inter', system-ui, sans-serif" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle">VISITED</text>
+  </g>
+
+  <!-- Link B -> C -->
+  <path d="M 410 190 L 490 190" fill="none" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)" />
+
+  <!-- Node C -->
+  <g transform="translate(500, 160)">
+    <rect width="100" height="60" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2" filter="url(#glow-node)" />
+    <text x="50" y="35" font-family="'Inter', system-ui, sans-serif" font-size="16" font-weight="bold" fill="#f8fafc" text-anchor="middle">Node C</text>
+    <!-- Visited Sticky Note -->
+    <rect x="70" y="-10" width="35" height="20" rx="4" fill="#10b981" />
+    <text x="87" y="4" font-family="'Inter', system-ui, sans-serif" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle">VISITED</text>
+  </g>
+
+  <!-- Link C -> D -->
+  <path d="M 550 220 Q 550 280 440 280 Q 330 280 330 220" fill="none" stroke="#f43f5e" stroke-width="3" stroke-dasharray="4,4" marker-end="url(#loop-arrow)" />
+
+  <!-- Collision / Loop Flag Label -->
+  <g transform="translate(380, 290)">
+    <rect x="-80" y="-15" width="160" height="30" rx="6" fill="#f43f5e" />
+    <text x="0" y="5" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">LOOP DETECTED!</text>
+  </g>
+
+  <!-- Loop Walkthrough/Instruction Label -->
+  <rect x="150" y="330" width="500" height="90" rx="12" fill="rgba(30, 41, 59, 0.7)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+  
+  <text x="170" y="355" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#f43f5e">LOOP DETECTION LOGIC:</text>
+  <text x="170" y="378" font-family="'Inter', system-ui, sans-serif" font-size="13" fill="#cbd5e1">1. Move through nodes: set <tspan fill="#34d399" font-weight="600">isTraversed = true</tspan> (leaving a sticky note).</text>
+  <text x="170" y="398" font-family="'Inter', system-ui, sans-serif" font-size="13" fill="#cbd5e1">2. If next node has <tspan fill="#f43f5e" font-weight="600">isTraversed == true</tspan>, we are in a loop! (Node B)</text>
+</svg>

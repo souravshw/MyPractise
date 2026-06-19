@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Generic Classes and Methods in Java | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-java-generic-classes-methods-simply.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Understanding Generic Classes and Methods in Java",
+      "item": "https://enggnotes.com/posts/understanding-java-generic-classes-methods-simply.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn the basics of Java Generics by declaring generic classes and generic methods. Explained simply with type parameters and code examples.">
+  <meta name="keywords" content="java generics basics, generic class example java, generic method java, type parameter t java">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Understanding Generic Classes and Methods in Java | Engineering Notes">
+  <meta property="og:description" content="Learn the basics of Java Generics by declaring generic classes and generic methods simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Generics Basics</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Understanding Generic Classes and Methods in Java</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>Before Generics were introduced in Java 5, collections stored everything as plain <code>Object</code> references. This meant developers had to manually cast objects when extracting them, leading to runtime <code>ClassCastException</code> crashes. Generics solve this by introducing type safety at compile time.</p>
+        
+        <p>In this guide, we will look at how to design classes and methods that accept variable type parameters (like <code>&lt;T&gt;</code>).</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/custom_list.svg" alt="Illustration of dynamic generic types and data list containers" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); background: #1e1e1e; padding: 20px;">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Shipping Crates with Label Inserts
+          </div>
+          <p>Imagine buying storage crates:</p>
+          <ul>
+            <li><strong>Without Generics:</strong> You have a single generic wooden box. You can put anything in it—books, apples, or glass bottles. When you open it, you have to verify what's inside before handling it. If you grab a glass bottle thinking it's an apple, you might cut yourself.</li>
+            <li><strong>With Generics:</strong> You buy a crate that has a sliding label insert on the front: **Crate of &lt;T&gt;**. When you purchase it, you slide in the card labeled **"Apples"**. The container is now locked to only accept apples, guaranteeing you will never pull out a glass bottle by mistake.</li>
+          </ul>
+        </div>
+
+        <h2>1. Creating a Generic Class</h2>
+        <p>To define a generic class, you place a type parameter (typically <code>T</code>, <code>E</code>, or <code>K, V</code>) in angle brackets right after the class name:</p>
+
+        <pre><code class="language-java">public class GenericClassExample&lt;T&gt; {
+    T obj; // Holds reference of type T
+
+    T printDoubleLogic(T t1) {
+        if (t1 instanceof Integer) {
+            int tempint = ((Integer) t1).intValue();
+            tempint = tempint * 2;
+            obj = (T) new Integer(tempint); // Safe cast
+            return obj;
+        }
+
+        String t2 = t1 + " " + t1;
+        obj = (T) new String(t2);
+        return obj;
+    }
+
+    public static void main(String[] args) {
+        // Instantiate for String type
+        GenericClassExample&lt;String&gt; d1 = new GenericClassExample&lt;&gt;();
+        String resultString = d1.printDoubleLogic("Hello");
+        System.out.println(resultString); // Prints: Hello Hello
+
+        // Instantiate for Integer type
+        GenericClassExample&lt;Integer&gt; d2 = new GenericClassExample&lt;&gt;();
+        int resultInt = d2.printDoubleLogic(5);
+        System.out.println(resultInt); // Prints: 10
+    }
+}</code></pre>
+
+        <h2>2. Creating a Generic Method</h2>
+        <p>Sometimes you don't need the entire class to be generic—just a single static or instance method. To do this, place the generic type declaration <code>&lt;T&gt;</code> before the method's return type:</p>
+
+        <pre><code class="language-java">import java.util.ArrayList;
+
+public class GenericMethodExample {
+    static int sum = 0;
+
+    // Generic method declaration
+    static &lt;T&gt; T docon(ArrayList&lt;T&gt; ob) {
+        for (T a : ob) {
+            sum += ((Integer) a).intValue(); // Expects Integer type elements
+        }
+        return (T) new Integer(sum);
+    }
+
+    public static void main(String[] args) {
+        ArrayList&lt;Integer&gt; a1 = new ArrayList&lt;&gt;();
+        a1.add(4);
+        a1.add(5);
+        
+        int result = docon(a1); // Compiler infers type parameter as Integer
+        System.out.println("Sum is " + result); // Sum is 9
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Generic classes and methods allow you to design reusable logic that adapts to different data types. By shifting type checks to compile time, Java prevents class casting crashes before your code is ever deployed.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

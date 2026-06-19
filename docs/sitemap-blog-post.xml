@@ -40,6 +40,72 @@
 
    <!-- Blog Posts -->
    <url>
+      <loc>https://enggnotes.com/posts/understanding-java-exception-propagation-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/java-throw-throws-custom-exceptions-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/java-multiple-catch-finally-execution-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/java-exception-rules-method-overriding-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/java-classic-io-read-write-files-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/java-custom-bufferedReader-decorator-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/java-nio-file-manipulation-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/java8-streams-common-tasks-recipes-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/java8-method-references-guide-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/understanding-java-generic-classes-methods-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/java-generics-wildcards-bounded-types-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
       <loc>https://enggnotes.com/posts/understanding-java-builtin-annotations-simply.html</loc>
       <lastmod>2026-06-19</lastmod>
       <changefreq>monthly</changefreq>

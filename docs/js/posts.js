@@ -1,6 +1,116 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 51,
+    title: "Understanding Java Exception Propagation: A Simple Guide",
+    excerpt: "Learn how checked and unchecked exceptions propagate up the call stack in Java, explained simply with a corporate escalation analogy.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/understanding-java-exception-propagation-simply.html",
+    image: "images/java_exception_propagation.png"
+  },
+  {
+    id: 50,
+    title: "How to Use throw, throws, and Custom Exceptions in Java: A Simple Guide",
+    excerpt: "Learn the difference between throw and throws in Java and how to create custom exception classes simply with real-world analogies.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/java-throw-throws-custom-exceptions-simply.html",
+    image: "images/java_throw_throws_custom.png"
+  },
+  {
+    id: 49,
+    title: "Java Multiple Catch Blocks and the Finally Execution Trap: A Simple Guide",
+    excerpt: "Learn how multiple catch blocks work in Java, their ordered execution, and the finally execution trap when calling System.exit(). Explained simply.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/java-multiple-catch-finally-execution-simply.html",
+    image: "images/java_catch_finally_execution.png"
+  },
+  {
+    id: 48,
+    title: "Java Exception Rules in Method Overriding: A Simple Guide",
+    excerpt: "Learn Java's compilation rules for overridden methods declaring checked vs unchecked exceptions simply with comparison guidelines and parent-child examples.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/java-exception-rules-method-overriding-simply.html",
+    image: "images/java_exception_overriding.png"
+  },
+  {
+    id: 47,
+    title: "Reading and Writing Files in Java: The Classic IO Way: A Simple Guide",
+    excerpt: "Learn how to read and write files in Java using classic classes like FileReader, BufferedReader, and PrintWriter. Explained simply with clear examples.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/java-classic-io-read-write-files-simply.html",
+    image: "images/java_classic_io_read_write.png"
+  },
+  {
+    id: 46,
+    title: "Building a Custom Filter Reader: The Decorator Pattern in Java IO: A Simple Guide",
+    excerpt: "Learn how to extend BufferedReader to create a custom filter class that capitalizes text as it reads, demonstrating the Decorator Pattern simply.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/java-custom-bufferedReader-decorator-simply.html",
+    image: "images/java_custom_reader_decorator.png"
+  },
+  {
+    id: 45,
+    title: "Modern File Manipulation in Java: Introduction to NIO.2: A Simple Guide",
+    excerpt: "Learn how to perform file manipulation in Java using NIO.2 (Files and Path). Create, delete, and move files simply with clear examples.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "3 min read",
+    url: "posts/java-nio-file-manipulation-simply.html",
+    image: "images/java_nio_file_manipulation.png"
+  },
+  {
+    id: 44,
+    title: "Java 8 Streams Recipes for Common Programming Tasks: A Simple Guide",
+    excerpt: "Learn Java 8 Streams recipes for partitioning odd/even, finding string frequency, sorting, merging arrays, and reversing lists simply with code blocks.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "5 min read",
+    url: "posts/java8-streams-common-tasks-recipes-simply.html",
+    image: "images/java8_streams_recipes.png"
+  },
+  {
+    id: 43,
+    title: "Deep Dive into Java 8 Method References: A Simple Guide",
+    excerpt: "Learn Java 8 method reference syntax (static, instance, constructor) bound to Consumer, Supplier, and BiPredicate functional interfaces simply.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/java8-method-references-guide-simply.html",
+    image: "images/java8_method_references.png"
+  },
+  {
+    id: 42,
+    title: "Understanding Generic Classes and Methods in Java: A Simple Guide",
+    excerpt: "Learn the basics of Java Generics by declaring generic classes and generic methods. Explained simply with type parameters and code examples.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/understanding-java-generic-classes-methods-simply.html",
+    image: "images/custom_list.svg"
+  },
+  {
+    id: 41,
+    title: "Demystifying Java Generics Wildcards and Bounded Types: A Simple Guide",
+    excerpt: "Learn Java Generics wildcards, upper bounds (? extends T), and lower bounds (? super T) simply with hierarchies of Person, Student, and Teacher.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "5 min read",
+    url: "posts/java-generics-wildcards-bounded-types-simply.html",
+    image: "images/comparator_chaining.png"
+  },
+  {
     id: 40,
     title: "Understanding Built-In Annotations in Java: A Simple Guide",
     excerpt: "Learn Java's built-in annotations (@Override, @Deprecated, and @SuppressWarnings) simply with practical code examples and clear layman analogies.",

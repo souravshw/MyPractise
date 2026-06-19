@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Java Exception Propagation: Checked vs Unchecked | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-java-exception-propagation-simply.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Understanding Java Exception Propagation: Checked vs Unchecked",
+      "item": "https://enggnotes.com/posts/understanding-java-exception-propagation-simply.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how checked and unchecked exceptions propagate up the call stack in Java, explained simply with a package relay analogy and code walk-throughs.">
+  <meta name="keywords" content="java exception propagation, checked vs unchecked exception propagation, java call stack exception, try catch stack trace">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Understanding Java Exception Propagation: Checked vs Unchecked | Engineering Notes">
+  <meta property="og:description" content="Learn how checked and unchecked exceptions propagate up the call stack in Java simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Exception Propagation</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Understanding Java Exception Propagation</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Java, when an exception occurs inside a method, it doesn't just stop there. If it is not caught, it drops back down to the method that called it, and then to the method that called that one, and so on. This journey is called <strong>exception propagation</strong>.</p>
+        
+        <p>However, checked exceptions and unchecked exceptions behave very differently during this propagation journey. Let's explore why using Java propagation examples.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/java_exception_propagation.png" alt="Illustration of exceptions bubbling up a call stack" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Corporate Escalation
+          </div>
+          <p>Imagine a factory assembly line:</p>
+          <ul>
+            <li><strong>Unchecked Exceptions (Runtime):</strong> An entry-level worker encounters a minor glitch. They don't know how to fix it, so they pass the problem to their supervisor, who passes it to the manager. The problem escalates automatically up the hierarchy until someone handles it or the factory shuts down.</li>
+            <li><strong>Checked Exceptions (Compile-time):</strong> A major hazardous event occurs. The worker is legally forbidden from passing it up the chain unless they explicitly warn their supervisor beforehand, or solve it on the spot with a safety net. The compiler enforces this safety check at build time.</li>
+          </ul>
+        </div>
+
+        <h2>1. Unchecked (Runtime) Exception Propagation</h2>
+        <p>By default, unchecked exceptions (subclasses of <code>RuntimeException</code>) propagate automatically down the call stack if they are not caught:</p>
+
+        <pre><code class="language-java">class RunTimeExceptionPropagation {
+    void m() {
+        int data = 50 / 0; // Throws ArithmeticException (Unchecked)
+    }
+
+    void n() {
+        m(); // Call bubbles up
+    }
+
+    void p() {
+        try {
+            n();
+        } catch (Exception e) {
+            System.out.println("Exception handled in p()");
+        }
+    }
+
+    public static void main(String args[]) {
+        new RunTimeExceptionPropagation().p(); // Outputs: Exception handled in p()
+    }
+}</code></pre>
+        <p>Because <code>ArithmeticException</code> is unchecked, the methods <code>m()</code> and <code>n()</code> don't need to declare anything. The exception naturally bubbles up until it finds the catch block in <code>p()</code>.</p>
+
+        <h2>2. Checked (Compile-Time) Exception Propagation</h2>
+        <p>Checked exceptions do <strong>not</strong> propagate automatically. If a method throws a checked exception, it must either handle it or declare it in its signature using <code>throws</code>. Otherwise, the code will fail to compile:</p>
+
+        <pre><code class="language-java">import java.io.IOException;
+
+class CompileTimeExceptionPropagation {
+    void m() throws IOException {
+        throw new IOException("Device error"); // Checked exception
+    }
+
+    void n() throws IOException {
+        m(); // Must declare 'throws IOException' to propagate it
+    }
+
+    void p() {
+        try {
+            n();
+        } catch (IOException e) {
+            System.out.println("Handled checked exception: " + e.getMessage());
+        }
+    }
+
+    public static void main(String args[]) {
+        new CompileTimeExceptionPropagation().p();
+    }
+}</code></pre>
+        <p>Here, the compiler forces both <code>m()</code> and <code>n()</code> to declare <code>throws IOException</code>. If you remove the throws declaration, the compilation fails, forcing you to think about error handling beforehand.</p>
+
+        <h2>Conclusion</h2>
+        <p>In Java:
+          <ul>
+            <li>Unchecked exceptions propagate automatically down the call stack.</li>
+            <li>Checked exceptions require explicit handling or declaration at every step of the call stack.</li>
+          </ul>
+        </p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

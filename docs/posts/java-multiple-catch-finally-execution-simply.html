@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Multiple Catch Blocks and the Finally Execution Trap | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/java-multiple-catch-finally-execution-simply.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Java Multiple Catch Blocks and the Finally Execution Trap",
+      "item": "https://enggnotes.com/posts/java-multiple-catch-finally-execution-simply.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how multiple catch blocks work in Java, their ordered execution, and the finally execution trap when calling System.exit(). Explained simply.">
+  <meta name="keywords" content="java multiple catch blocks, finally block order, catch hierarchy java, system exit finally block">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Java Multiple Catch Blocks and the Finally Execution Trap | Engineering Notes">
+  <meta property="og:description" content="Learn how multiple catch blocks work in Java and the finally execution trap when calling System.exit() simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Multiple Catches & Finally</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Java Multiple Catch Blocks and the Finally Execution Trap</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>Exception handling is all about planning for failures. In Java, a single block of code can potentially throw multiple types of exceptions. To handle this, we chain multiple catch blocks. Furthermore, Java guarantees that a <code>finally</code> block executes no matter what—except under one critical trap.</p>
+        
+        <p>In this guide, we will trace how multiple catches execute, and examine when the "always executed" finally block is bypassed.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/java_catch_finally_execution.png" alt="Illustration of cascading catch nets and a finally gate with a stop sign representing exit execution" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Sorting Funnels and the Janitor
+          </div>
+          <p>Imagine dropping balls down a series of funnels:</p>
+          <ul>
+            <li><strong>Multiple Catch Blocks:</strong> The top funnel filters out specific red balls (ArithmeticException). The middle funnel catches blue balls (ArrayIndexOutOfBoundsException). The bottom wide funnel catches all remaining balls (generic Exception). If you place the wide funnel at the top, it swallows everything, rendering the specific ones useless.</li>
+            <li><strong>The finally Block:</strong> At the end of the day, no matter what balls fell down the funnels, the janitor sweeps the floor (cleanup operations). The only way they don't clean is if someone pulls the building's fire alarm and forces everyone to evacuate immediately (`System.exit()`).</li>
+          </ul>
+        </div>
+
+        <h2>1. Chaining Multiple Catch Blocks</h2>
+        <p>When write multiple catch blocks, Java checks them sequentially from top to bottom. You must always place specific exceptions above parent exceptions:</p>
+        <pre><code class="language-java">public class MulCatch {
+    public static void main(String args[]) {
+        try {
+            int a[] = new int[5];
+            a[1] = 30 / 0; // Triggers ArithmeticException first
+        } catch (ArithmeticException e) {
+            System.out.println("task1 is completed : " + e);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("task 2 completed : " + e);
+        } catch (Exception e) { // Must go last!
+            System.out.println("common task completed");
+        }
+    }
+}</code></pre>
+        <p>If you put the generic <code>catch (Exception e)</code> at the top, the compiler throws a "Variable already defined / Unreachable catch block" error because all exceptions extend <code>Exception</code>, making lower blocks unreachable.</p>
+
+        <h2>2. The finally Block and the System.exit() Trap</h2>
+        <p>Developers are taught that the code inside the <code>finally</code> block executes regardless of whether an exception occurs or is caught. However, look at this exception handler:</p>
+        <pre><code class="language-java">public class FinalExample {
+    public static void main(String args[]) {
+        try {
+            int data = 25 / 0;
+            System.out.println(data);
+        } catch (ArithmeticException e) {
+            System.out.println("Exception caught: " + e);
+            System.exit(0); // TRAP: Immediately halts the JVM!
+        } finally {
+            System.out.println("finally block is always executed"); // DOES NOT RUN!
+        }
+    }
+}</code></pre>
+
+        <p>Normally, the finally block runs right after the catch block finishes. But because we called <code>System.exit(0)</code>, the JVM is terminated immediately. The system halts, and the console never prints the finally statement!</p>
+
+        <h2>Conclusion</h2>
+        <p>When design try-catch blocks:
+          <ul>
+            <li>Order catch blocks from most specific subclasses to most generic parent classes.</li>
+            <li>Use <code>finally</code> for releasing file handles, closing sockets, or db connections.</li>
+            <li>Remember: <code>System.exit(0)</code>, system crashes, or power outages will bypass the finally execution.</li>
+          </ul>
+        </p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

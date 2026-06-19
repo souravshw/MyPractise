@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building a Custom Filter Reader: The Decorator Pattern in Java IO | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/java-custom-bufferedReader-decorator-simply.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Building a Custom Filter Reader: The Decorator Pattern in Java IO",
+      "item": "https://enggnotes.com/posts/java-custom-bufferedReader-decorator-simply.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to extend BufferedReader to create a custom filter class that capitalizes text as it reads, demonstrating the Decorator Pattern simply.">
+  <meta name="keywords" content="java decorator pattern io, custom bufferedreader java, extend bufferedreader readLine uppercase, custom filter reader java">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Building a Custom Filter Reader: The Decorator Pattern in Java IO | Engineering Notes">
+  <meta property="og:description" content="Learn how to extend BufferedReader to create a custom filter class that capitalizes text as it reads simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Custom Reader Decorator</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Building a Custom Filter Reader: The Decorator Pattern in Java IO</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>The <code>java.io</code> package is one of the classic examples of the **Decorator Design Pattern** in software engineering. By wrapping classes inside other classes, you can dynamically attach new behaviors to input streams without modifying the underlying class structures.</p>
+        
+        <p>In this guide, we will extend <code>BufferedReader</code> to build a custom decorator—called <code>CapReader</code>—that automatically transforms all text lines to uppercase as they are read.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/java_custom_reader_decorator.png" alt="Illustration of a filter shell converting lowercase words to UPPERCASE words" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Water Filter
+          </div>
+          <p>Imagine your sink faucet has a basic water pipe (BufferedReader):</p>
+          <ul>
+            <li>You buy an attachment filter (CapReader) and screw it onto the faucet.</li>
+            <li>As the water flows out of the main pipe, it passes through the filter, which purifies it or adds flavor before it reaches your glass.</li>
+            <li>The faucet doesn't know the filter exists; it just pushes water. The filter decorates the water stream on the fly.</li>
+          </ul>
+        </div>
+
+        <h2>1. Creating the Decorator Class</h2>
+        <p>To build our custom filter, we extend <code>BufferedReader</code> and override its <code>readLine()</code> method. Inside the override, we call <code>super.readLine()</code> to get the raw text, then apply our capitalization logic:</p>
+
+        <pre><code class="language-java">import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+
+class CapReader extends BufferedReader {
+    public CapReader(Reader arg0) {
+        super(arg0); // Pass reader to super constructor
+    }
+
+    @Override
+    public String readLine() throws IOException {
+        String line = super.readLine(); // Fetch raw line
+        if (line != null) {
+            return line.toUpperCase(); // Decorate line by converting to uppercase
+        }
+        return null;
+    }
+}</code></pre>
+
+        <h2>2. Applying the Custom Filter</h2>
+        <p>Now, we chain our custom <code>CapReader</code> into the reader pipeline, just like we would with standard Java streams:</p>
+
+        <pre><code class="language-java">import java.io.FileReader;
+import java.io.IOException;
+
+public class CapitalizeRead {
+    public static void main(String[] args) {
+        String content = textFromFile();
+        System.out.println("Uppercase file content:\n" + content);
+    }
+
+    private static String textFromFile() {
+        FileReader f = null;
+        try {
+            f = new FileReader("wordcheck.txt");
+            BufferedReader b = new BufferedReader(f);
+            CapReader c = new CapReader(b); // Wrap inside our custom CapReader
+            
+            String alltext = "";
+            String line = "";
+            while ((line = c.readLine()) != null) {
+                alltext += line + "\n";
+            }
+            return alltext;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (f != null) {
+                try {
+                    f.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>By extending reader classes, you can design reusable streams that clean inputs, decrypt data on the fly, or format logs automatically. This clean separation of concerns is the essence of the Decorator pattern.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

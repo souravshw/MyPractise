@@ -1,57 +1,55 @@
-// Blog Posts Data Source
-const postsData = [
-  {
-    id: 9,
-    title: "Demystifying Java's Thread Pool: A Simple Guide",
-    excerpt: "Thread pools are crucial for optimizing performance in concurrent systems. In this guide, we explain custom thread pools and worker thread queues using a cozy coffee shop analogy.",
-    category: "Java Concurrency",
-    date: "June 19, 2026",
-    readTime: "5 min read",
-    url: "posts/understanding-thread-pool-simply.html"
-  },
-  {
-    id: 8,
-    title: "Demystifying the Bridge and Torch Problem: A Simple Guide",
-    excerpt: "The Bridge and Torch problem is a classic optimization puzzle. In this guide, we break down the strategies for finding the minimum crossing time using simple analogies and Java code.",
-    category: "Algorithms",
-    date: "June 19, 2026",
-    readTime: "5 min read",
-    url: "posts/bridge-and-torch-problem-simply.html"
-  },
-  {
-    id: 7,
-    title: "Understanding Java's CompletableFuture: A Simple Walkthrough",
-    excerpt: "Concurrency and asynchronous tasks don't have to be complicated. In this guide, we break down Java's CompletableFuture and thenCombine using a dinner prep analogy so you can write cleaner non-blocking programs.",
-    category: "Java Concurrency",
-    date: "June 18, 2026",
-    readTime: "4 min read",
-    url: "posts/understanding-completablefuture-simply.html"
-  },
-  {
-    id: 6,
-    title: "Demystifying Java's ForkJoinPool: A Simple Guide",
-    excerpt: "Parallel processing doesn't have to be intimidating. In this guide, we break down Java's ForkJoinPool and RecursiveTask using a sandwich-making analogy so you can write high-performance multithreaded programs easily.",
-    category: "Java Parallelism",
-    date: "June 18, 2026",
-    readTime: "4 min read",
-    url: "posts/understanding-forkjoin-pool-simply.html"
-  }
-];
+// Note: postsData is loaded from js/posts.js
+
 
 // DOM Elements
 const postsList = document.getElementById('posts-list');
 const categoryFilters = document.getElementById('category-filters');
+const featuredPost = document.getElementById('featured-post');
 
 // Initial State
 let activeCategory = 'all';
 
+// Render Featured Post (Hero Card)
+function renderFeaturedPost() {
+  if (!featuredPost || postsData.length === 0) return;
+  const latestPost = postsData[0];
+  const imgContent = latestPost.image 
+    ? `<img src="${latestPost.image}" alt="${latestPost.title}">` 
+    : `<svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>`;
+
+  featuredPost.innerHTML = `
+    <div class="hero-card">
+      <div class="hero-img">
+        ${imgContent}
+      </div>
+      <div class="hero-content">
+        <div class="post-meta">
+          <span class="post-category">${latestPost.category}</span>
+          <span class="post-date">${latestPost.date}</span>
+          <span>•</span>
+          <span class="post-read-time">${latestPost.readTime}</span>
+        </div>
+        <h1 class="hero-title"><a href="${latestPost.url}" id="hero-link">${latestPost.title}</a></h1>
+        <p class="hero-excerpt">${latestPost.excerpt}</p>
+        <div>
+          <a href="${latestPost.url}" class="read-more-btn" id="hero-read-more">Read walkthrough →</a>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 // Render Posts Grid
-function renderPosts(category = 'all') {
+function renderPosts(category = 'all', limit = 10) {
   postsList.innerHTML = '';
   
-  const filteredPosts = category === 'all' 
+  let filteredPosts = category === 'all' 
     ? postsData 
     : postsData.filter(post => post.category === category);
+    
+  if (limit) {
+    filteredPosts = filteredPosts.slice(0, limit);
+  }
     
   if (filteredPosts.length === 0) {
     postsList.innerHTML = `<div class="post-card" style="text-align: center; color: var(--text-secondary);">No articles found in this category yet.</div>`;
@@ -100,6 +98,7 @@ if (categoryFilters) {
 
 // Initial Run
 document.addEventListener('DOMContentLoaded', () => {
+  renderFeaturedPost();
   renderPosts();
   
   // Cookie Consent Banner Logic

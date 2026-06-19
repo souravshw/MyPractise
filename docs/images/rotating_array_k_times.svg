@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+
+    <!-- Swapping Arrows Marker -->
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3b82f6" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10b981" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" />
+  <rect width="796" height="446" x="2" y="2" rx="14" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" />
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Inter', system-ui, sans-serif" font-size="22" font-weight="bold" fill="#f8fafc" text-anchor="middle" letter-spacing="1">
+    ROTATING AN ARRAY BY K PLACES
+  </text>
+  <text x="400" y="70" font-family="'Inter', system-ui, sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">
+    The elegant Triple-Reverse Rotation trick (K = 3)
+  </text>
+
+  <!-- Step 1: Original Array -->
+  <g transform="translate(80, 110)">
+    <text x="0" y="25" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">1. ORIGINAL ARRAY:</text>
+    
+    <!-- Cells -->
+    <g transform="translate(180, 0)">
+      <!-- Blue Cells (N-K elements) -->
+      <rect x="0" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="20" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">1</text>
+      
+      <rect x="45" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="65" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">2</text>
+      
+      <rect x="90" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="110" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">3</text>
+      
+      <rect x="135" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="155" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">4</text>
+
+      <!-- Green Cells (K elements to shift to front) -->
+      <rect x="180" width="40" height="35" rx="5" fill="#064e3b" stroke="#10b981" stroke-width="1.5" />
+      <text x="200" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">5</text>
+      
+      <rect x="225" width="40" height="35" rx="5" fill="#064e3b" stroke="#10b981" stroke-width="1.5" />
+      <text x="245" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">6</text>
+      
+      <rect x="270" width="40" height="35" rx="5" fill="#064e3b" stroke="#10b981" stroke-width="1.5" />
+      <text x="290" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">7</text>
+    </g>
+  </g>
+
+  <!-- Step 2: Reverse Entire Array -->
+  <g transform="translate(80, 180)">
+    <text x="0" y="25" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#fb7185">2. REVERSE ALL:</text>
+    <g transform="translate(180, 0)">
+      <rect x="0" width="40" height="35" rx="5" fill="#064e3b" stroke="#10b981" stroke-width="1.5" />
+      <text x="20" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">7</text>
+      
+      <rect x="45" width="40" height="35" rx="5" fill="#064e3b" stroke="#10b981" stroke-width="1.5" />
+      <text x="65" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">6</text>
+      
+      <rect x="90" width="40" height="35" rx="5" fill="#064e3b" stroke="#10b981" stroke-width="1.5" />
+      <text x="110" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">5</text>
+      
+      <rect x="135" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="155" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">4</text>
+      
+      <rect x="180" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="200" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">3</text>
+      
+      <rect x="225" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="245" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">2</text>
+      
+      <rect x="270" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="290" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">1</text>
+    </g>
+  </g>
+
+  <!-- Step 3: Reverse first K (0 to K-1) -->
+  <g transform="translate(80, 250)">
+    <text x="0" y="25" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#34d399">3. REVERSE FIRST K (3):</text>
+    <g transform="translate(180, 0)">
+      <rect x="0" width="40" height="35" rx="5" fill="#064e3b" stroke="#10b981" stroke-dasharray="2,2" stroke-width="2" />
+      <text x="20" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">5</text>
+      
+      <rect x="45" width="40" height="35" rx="5" fill="#064e3b" stroke="#10b981" stroke-dasharray="2,2" stroke-width="2" />
+      <text x="65" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">6</text>
+      
+      <rect x="90" width="40" height="35" rx="5" fill="#064e3b" stroke="#10b981" stroke-dasharray="2,2" stroke-width="2" />
+      <text x="110" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">7</text>
+      
+      <rect x="135" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="155" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">4</text>
+      
+      <rect x="180" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="200" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">3</text>
+      
+      <rect x="225" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="245" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">2</text>
+      
+      <rect x="270" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="290" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">1</text>
+    </g>
+  </g>
+
+  <!-- Step 4: Reverse Remaining (K to N-1) -->
+  <g transform="translate(80, 320)">
+    <text x="0" y="25" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#60a5fa">4. REVERSE REST (4-7):</text>
+    <g transform="translate(180, 0)">
+      <rect x="0" width="40" height="35" rx="5" fill="#064e3b" stroke="#10b981" stroke-width="1.5" />
+      <text x="20" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">5</text>
+      
+      <rect x="45" width="40" height="35" rx="5" fill="#064e3b" stroke="#10b981" stroke-width="1.5" />
+      <text x="65" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">6</text>
+      
+      <rect x="90" width="40" height="35" rx="5" fill="#064e3b" stroke="#10b981" stroke-width="1.5" />
+      <text x="110" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">7</text>
+      
+      <rect x="135" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-dasharray="2,2" stroke-width="2" />
+      <text x="155" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">1</text>
+      
+      <rect x="180" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-dasharray="2,2" stroke-width="2" />
+      <text x="200" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">2</text>
+      
+      <rect x="225" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-dasharray="2,2" stroke-width="2" />
+      <text x="245" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">3</text>
+      
+      <rect x="270" width="40" height="35" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-dasharray="2,2" stroke-width="2" />
+      <text x="290" y="22" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">4</text>
+    </g>
+  </g>
+
+  <!-- Explanation footer card -->
+  <rect x="150" y="380" width="500" height="48" rx="8" fill="rgba(30, 41, 59, 0.85)" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+  <text x="400" y="409" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#cbd5e1" text-anchor="middle">
+    Result: <tspan fill="#34d399">[5, 6, 7, 1, 2, 3, 4]</tspan> — Array is rotated by K = 3 places!
+  </text>
+</svg>

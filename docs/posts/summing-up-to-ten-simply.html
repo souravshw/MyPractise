@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Summing Up to a Target Sum in Java: A Simple Guide | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/summing-up-to-ten-simply.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Algorithms",
+      "item": "https://enggnotes.com/index.html?category=Algorithms"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Summing Up to a Target Sum in Java: A Simple Guide",
+      "item": "https://enggnotes.com/posts/summing-up-to-ten-simply.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to find array elements at identical indices that sum to ten simply, using a card flipping analogy and a step-by-step trace of out-of-bounds safety.">
+  <meta name="keywords" content="java array target sum, sum elements identical indices java, java index bounds sum check, java streams array summing tutorial">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Summing Up to a Target Sum in Java: A Simple Guide | Engineering Notes">
+  <meta property="og:description" content="Learn how to find array elements at identical indices that sum to ten simply, using a card flipping analogy.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Algorithms">Algorithms</a></li>
+          <li aria-current="page">Summing to N</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Algorithms</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">3 min read</span>
+        </div>
+        <h1 class="article-title">Summing Up to N: A Simple Guide</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>A common algorithmic puzzle is to compare values across two arrays to see which index positions have elements that sum to a specific **target number** (e.g. 10). What makes this puzzle interesting is that the two arrays can have **different lengths**, so we must handle index out-of-bounds conditions safely to prevent our code from crashing.</p>
+        
+        <p>Let's look at how we solve this using a simple card flipping game analogy.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/summing_up_to_n.svg" alt="Illustration of matching pairs summing to 10 across arrays" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Card Flipping Game
+          </div>
+          <p>Imagine you have two piles of cards lying side-by-side. Pile 1 has **6 cards** and Pile 2 has **10 cards**.</p>
+          <p>You play a game to count how many index pairs sum to exactly 10:</p>
+          <ul>
+            <li>You flip the top card from both piles at the same time (index = 0). If their values sum to 10, you record a score!</li>
+            <li>You repeat this index-by-index down the decks.</li>
+            <li>When Pile 1 runs out of cards after the 6th flip, you don't stop the game. Instead, you pretend the empty slots are **0-value cards** and keep comparing them with the remaining cards in Pile 2 until both decks are exhausted.</li>
+          </ul>
+        </div>
+
+        <h2>Walkthrough of the Main Method Scenario</h2>
+        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 1: Setting up arrays and targets
+          </div>
+          <p>The program declares two arrays and sets the target sum to 10:</p>
+          <pre><code class="language-java">int[] firstArr = {8, 2, 6, 4, 13, 10};
+int[] secondArr = {2, 8, 13, 5, 9, 4, 9, 9, 9, 5};
+int target = 10;
+int count = 0;</code></pre>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 2: Determining iteration length
+          </div>
+          <p>Since we want to compare all elements, we run the loop up to the length of the larger array (10 elements):</p>
+          <pre><code class="language-java">int length = Integer.max(firstArr.length, secondArr.length); // length = 10</code></pre>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 3: Comparing and Handling Out-of-Bounds
+          </div>
+          <p>The program runs the loop from index 0 to 9:</p>
+          <ul>
+            <li><strong>Index 0:</strong> `getNumber(firstArr, 0) + getNumber(secondArr, 0)` -> `8 + 2 = 10`. Matches! Count becomes 1.</li>
+            <li><strong>Index 1:</strong> `2 + 8 = 10`. Matches! Count becomes 2.</li>
+            <li><strong>Index 2:</strong> `6 + 13 = 19` (no).</li>
+            <li><strong>Index 3:</strong> `4 + 5 = 9` (no).</li>
+            <li><strong>Index 4:</strong> `13 + 9 = 22` (no).</li>
+            <li><strong>Index 5:</strong> `10 + 4 = 14` (no).</li>
+            <li><strong>Index 6:</strong> `firstArr[6]` throws an out-of-bounds error and is caught inside our `getNumber` helper, returning `0`. Result: `0 + 9 = 9` (no).</li>
+            <li><strong>Index 7 to 9:</strong> Out of bounds. Returns `0`. Sums are not matching target.</li>
+          </ul>
+          <p>At the end, the program prints the total matches found: **2**.</p>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code demonstrating safe index checking across arrays of differing sizes:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.accolite;
+ 
+public class SummingUpToN {
+    public static void main(String[] args) {
+        int[] firstArr = {8, 2, 6, 4, 13, 10};
+        int[] secondArr = {2, 8, 13, 5, 9, 4, 9, 9, 9, 5};
+        int target = 10;
+        int count = 0;
+ 
+        int length = Integer.max(firstArr.length, secondArr.length);
+ 
+        for (int index = 0; index < length; ++index) {
+            if (getNumber(firstArr, index) + getNumber(secondArr, index) == target) {
+                ++count;
+            }
+        }
+ 
+        System.out.println(count); // Outputs: 2
+    }
+ 
+    static int getNumber(int[] arr, int index) {
+        try {
+            return arr[index];
+        } catch (Exception e) {
+            return 0; // Safe fallback if index is out of bounds
+        }
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>By using a helper function with a try-catch block, we can safely access array elements without worrying about IndexOutOfBoundsException. If an array runs out of elements, we return a fallback value of 0, allowing the game loop to continue running smoothly to check the rest of the cards!</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

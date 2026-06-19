@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+
+    <!-- Neon Glow Filters -->
+    <filter id="glow-gold" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" />
+  <rect width="796" height="446" x="2" y="2" rx="14" fill="none" stroke="rgba(255, 255, 255, 0.05)" stroke-width="2" />
+
+  <!-- Scoreboard Border -->
+  <rect x="80" y="80" width="640" height="310" rx="12" fill="#1e293b" stroke="#38bdf8" stroke-width="2" opacity="0.9" />
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Inter', system-ui, sans-serif" font-size="22" font-weight="bold" fill="#f8fafc" text-anchor="middle" letter-spacing="1">
+    TOP K ELEMENTS LEADERBOARD
+  </text>
+  <text x="400" y="70" font-family="'Inter', system-ui, sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">
+    Filtering data to keep only the highest values using TreeSet
+  </text>
+
+  <!-- Arcade Board Header -->
+  <text x="400" y="120" font-family="'Inter', system-ui, sans-serif" font-size="18" font-weight="bold" fill="#38bdf8" text-anchor="middle" filter="url(#glow-cyan)" letter-spacing="2">
+    HIGH SCORE LEADERS (K = 3)
+  </text>
+
+  <!-- Leaderboard Rows -->
+  
+  <!-- Rank 1 -->
+  <g transform="translate(140, 150)">
+    <!-- Row background -->
+    <rect width="520" height="50" rx="8" fill="#0f172a" stroke="#eab308" stroke-width="1.5" filter="url(#glow-gold)" />
+    <!-- Rank -->
+    <text x="30" y="32" font-family="'Inter', system-ui, sans-serif" font-size="20" font-weight="900" fill="#eab308">1ST</text>
+    <!-- Value -->
+    <text x="260" y="32" font-family="'Inter', system-ui, sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">Score: 75</text>
+    <!-- Tag -->
+    <text x="470" y="31" font-family="'Inter', system-ui, sans-serif" font-size="12" font-weight="bold" fill="#eab308" text-anchor="middle">MAX ELEMENT</text>
+  </g>
+
+  <!-- Rank 2 -->
+  <g transform="translate(140, 215)">
+    <rect width="520" height="50" rx="8" fill="#0f172a" stroke="#94a3b8" stroke-width="1" />
+    <text x="30" y="32" font-family="'Inter', system-ui, sans-serif" font-size="18" font-weight="bold" fill="#94a3b8">2ND</text>
+    <text x="260" y="32" font-family="'Inter', system-ui, sans-serif" font-size="20" font-weight="bold" fill="#e2e8f0" text-anchor="middle">Score: 66</text>
+    <text x="470" y="31" font-family="'Inter', system-ui, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">DUPLICATE OK</text>
+  </g>
+
+  <!-- Rank 3 -->
+  <g transform="translate(140, 280)">
+    <rect width="520" height="50" rx="8" fill="#0f172a" stroke="#cd7f32" stroke-width="1" />
+    <text x="30" y="32" font-family="'Inter', system-ui, sans-serif" font-size="18" font-weight="bold" fill="#cd7f32">3RD</text>
+    <text x="260" y="32" font-family="'Inter', system-ui, sans-serif" font-size="20" font-weight="bold" fill="#e2e8f0" text-anchor="middle">Score: 66</text>
+    <text x="470" y="31" font-family="'Inter', system-ui, sans-serif" font-size="12" fill="#cd7f32" text-anchor="middle">CUT-OFF LIMIT</text>
+  </g>
+
+  <!-- Lower Elements waiting in list -->
+  <g transform="translate(140, 350)">
+    <text x="0" y="20" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#64748b">OUT OF TOP 3:</text>
+    <text x="130" y="20" font-family="'Inter', system-ui, sans-serif" font-size="13" fill="#475569" letter-spacing="4">[ 11, 9, 7, 5, 5, 3, 3, 2, 2, 1 ]</text>
+  </g>
+</svg>

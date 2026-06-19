@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finding the Longest Consecutive Increasing Chain in Java | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/consecutive-increasing-chains.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Algorithms",
+      "item": "https://enggnotes.com/index.html?category=Algorithms"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Finding the Longest Consecutive Increasing Chain in Java",
+      "item": "https://enggnotes.com/posts/consecutive-increasing-chains.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to find the longest increasing chain of numbers in an array simply, using a card-run table analogy and step-by-step trace of nested loops.">
+  <meta name="keywords" content="java longest increasing chain, consecutive numbers subsequence java, java array search increasing order, subsequence difference one java tutorial">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Finding the Longest Consecutive Increasing Chain in Java | Engineering Notes">
+  <meta property="og:description" content="Learn how to find the longest increasing chain of numbers in an array simply, using a card-run table analogy.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Algorithms">Algorithms</a></li>
+          <li aria-current="page">Increasing Chain</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Algorithms</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">3 min read</span>
+        </div>
+        <h1 class="article-title">Finding the Longest Consecutive Increasing Chain</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>An interesting coding problem is to find the **longest chain of numbers** in an array where each number in the chain is exactly 1 larger than the one before it, and we must preserve the array order (we can only search forward, skipping elements that don't fit).</p>
+        
+        <p>Let's understand how we search for these runs using a simple card-stacking game analogy.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/consecutive_increasing_chain.svg" alt="Illustration of matching card links forming a consecutive chain" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Left-To-Right Card Run
+          </div>
+          <p>Imagine you have cards spread out in a row on a table. You want to construct the longest possible sequence of cards that increase by exactly 1 (like <code>0 → 1 → 2 → 3 → 4</code>).</p>
+          <p>However, you must follow a strict rule: **you can only pick cards from left to right** (no backtracking!).</p>
+          <ul>
+            <li>You start with the first card (e.g. <code>0</code>).</li>
+            <li>You scan the table to the right looking for a card that is exactly <code>1</code>.</li>
+            <li>Once you find <code>1</code>, you continue scanning to the right from that spot looking for a <code>2</code>.</li>
+            <li>You skip unrelated cards (like <code>26</code> or <code>8</code>) that lie in between because they don't help build the run.</li>
+            <li>After trying every card as a starting point, the longest card run wins!</li>
+          </ul>
+        </div>
+
+        <h2>Walkthrough of the Main Method Scenario</h2>
+        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 1: Setting up the cards
+          </div>
+          <p>The program declares our unsorted numeric array:</p>
+          <pre><code class="language-java">int[] arr = {0, 1, 26, 8, 9, 2, 3, 27, 1, 0, 4};
+int count = 0;
+int maxCount = 0;</code></pre>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 2: Tracing the first loop run (starting at index 0)
+          </div>
+          <p>The loop starts at <code>i = 0</code> (value <code>0</code>). We look forward in the array for <code>previous + 1</code>:</p>
+          <ul>
+            <li><strong>Index 1:</strong> Value is <code>1</code>. <code>1 - 0 = 1</code>. Matches! Count increases to 1, previous becomes 1.</li>
+            <li><strong>Indices 2, 3, 4:</strong> Values are 26, 8, 9. Difference is not 1. Skipped.</li>
+            <li><strong>Index 5:</strong> Value is <code>2</code>. <code>2 - 1 = 1</code>. Matches! Count increases to 2, previous becomes 2.</li>
+            <li><strong>Index 6:</strong> Value is <code>3</code>. <code>3 - 2 = 1</code>. Matches! Count increases to 3, previous becomes 3.</li>
+            <li><strong>Indices 7, 8, 9:</strong> Skipped.</li>
+            <li><strong>Index 10:</strong> Value is <code>4</code>. <code>4 - 3 = 1</code>. Matches! Count increases to 4, previous becomes 4.</li>
+          </ul>
+          <p>At the end of the scan, the program updates the scoreboard: <code>maxCount = max(0, 4 + 1) = 5</code>.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 3: Checking subsequent starting points
+          </div>
+          <p>The outer loop moves to index 1 (starting at value <code>1</code>), index 2 (starting at <code>26</code>), and so on. None of these runs can reach a length of 5. The program prints the winning run length: **5**.</p>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code demonstrating nested scans for increasing sequences:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.accolite;
+ 
+public class TestSecondProblem {
+    public static void main(String[] args) {
+ 
+        int[] arr = {0, 1, 26, 8, 9, 2, 3, 27, 1, 0, 4};
+ 
+        int count = 0;
+        int maxCount = 0;
+ 
+        for (int i = 0; i < arr.length; ++i) {
+            int previous = arr[i];
+ 
+            for (int j = i + 1; j < arr.length; ++j) {
+                int diff = arr[j] - previous;
+ 
+                if (diff == 1) {
+                    ++count;
+                    previous = arr[j];
+                }
+            }
+ 
+            maxCount = Integer.max(maxCount, ++count);
+            count = 0;
+        }
+ 
+        System.out.println(maxCount); // Outputs: 5
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>By using nested loops, we can track the progress of runs starting at every index position in our array. Keeping a <code>maxCount</code> variable allows us to record and update the longest run found, ensuring we get the correct output without losing our cards!</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

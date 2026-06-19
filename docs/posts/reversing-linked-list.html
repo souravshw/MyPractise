@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reversing a Linked List | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/reversing-linked-list.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Algorithms",
+      "item": "https://enggnotes.com/index.html?category=Algorithms"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Reversing a Linked List",
+      "item": "https://enggnotes.com/posts/reversing-linked-list.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to reverse a Linked List in Java simply using a hand-holding train analogy and step-by-step code trace.">
+  <meta name="keywords" content="java reverse linked list, reverse singly linked list java, linked list pointers tutorial, java linked list interview questions">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Reversing a Linked List | Engineering Notes">
+  <meta property="og:description" content="Learn how to reverse a Linked List in Java simply using a hand-holding train analogy.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Algorithms">Algorithms</a></li>
+          <li aria-current="page">Linked List Reversal</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Algorithms</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Reversing a Linked List</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>A <strong>Linked List</strong> is like a chain of elements where each item (called a <strong>Node</strong>) has a value and a pointer pointing to the next node. Reversing this list is one of the most classic coding interview questions designed to test how well you manipulate memory references.</p>
+        
+        <p>Let's understand how pointer shifting works using a simple playground game analogy.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/reversing_linked_list.svg" alt="Illustration of linked list pointers reversing direction" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Hand-Holding Shoulder Line
+          </div>
+          <p>Imagine a line of five children playing a game. Each child places their hands on the shoulders of the child **in front of them** (pointing to the next node):</p>
+          <p style="text-align: center;"><code>Child 1 → Child 2 → Child 3 → Child 4 → Child 5</code></p>
+          <p>To reverse the direction of this line, we cannot simply ask them to let go all at once, or they will lose track of who is where. Instead, we do it child-by-child using a 3-step shuffle:</p>
+          <ul>
+            <li><strong>Step 1 (Look behind):</strong> Before Child 2 lets go of Child 3, they make sure they know who is behind them (we store <code>Child 3</code> in a temporary variable).</li>
+            <li><strong>Step 2 (Redirect hand):</strong> Child 2 turns around and places their hands on the shoulders of the child **behind them** (Child 1).</li>
+            <li><strong>Step 3 (Shift):</strong> We move our focus to the next child (Child 3) and repeat the process!</li>
+          </ul>
+        </div>
+
+        <h2>Walkthrough of the Main Method Scenario</h2>
+        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 1: Setting up the list
+          </div>
+          <p>The program creates five nodes linked together in order:</p>
+          <pre><code class="language-java">Node last = new Node(5);
+Node lastFirst = new Node(4, last);
+Node lastSecond = new Node(3, lastFirst);
+Node lastThird = new Node(2, lastSecond);
+Node head = new Node(1, lastThird);</code></pre>
+          <p>This constructs the chain: <code>1 → 2 → 3 → 4 → 5</code>.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 2: Traversing and printing
+          </div>
+          <p>The program prints the original list:</p>
+          <pre><code class="language-java">traverseLinkedList(head); // Outputs: 1, 2, 3, 4, 5</code></pre>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 3: Reversing the Pointers
+          </div>
+          <p>The program enters <code>reverseLinkedList(head)</code> and loops through the nodes:</p>
+          <ul>
+            <li><strong>Initial:</strong> <code>previous = null</code>, <code>current = Node 1</code>.</li>
+            <li><strong>Loop 1 (Node 1):</strong>
+              <ul>
+                <li>Keep track of next: <code>temp = Node 2</code>.</li>
+                <li>Flip link: <code>Node 1</code> now points to <code>null</code> (since it is the new tail).</li>
+                <li>Move labels: <code>previous = Node 1</code>, <code>current = Node 2</code>.</li>
+              </ul>
+            </li>
+            <li><strong>Loop 2 (Node 2):</strong>
+              <ul>
+                <li>Keep track of next: <code>temp = Node 3</code>.</li>
+                <li>Flip link: <code>Node 2</code> points to <code>Node 1</code>.</li>
+                <li>Move labels: <code>previous = Node 2</code>, <code>current = Node 3</code>.</li>
+              </ul>
+            </li>
+            <li><strong>Loop 3 to 5:</strong> Repeat the flipping. At the end, <code>previous</code> points to <code>Node 5</code>, and <code>current</code> is <code>null</code>. The list is fully reversed: <code>5 → 4 → 3 → 2 → 1</code>.</li>
+          </ul>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 4: Printing the reversed list
+          </div>
+          <p>The program traverses from the new head (which is Node 5):</p>
+          <pre><code class="language-java">traverseLinkedList(last); // Outputs: 5, 4, 3, 2, 1</code></pre>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code demonstrating Node traversal and in-place list reversal:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.accolite;
+ 
+public class ReversingALinkedList {
+ 
+    public static void main(String[] args) {
+ 
+        Node last = new Node(5);
+        Node lastFirst = new Node(4, last);
+        Node lastSecond = new Node(3, lastFirst);
+        Node lastThird = new Node(2, lastSecond);
+        Node head = new Node(1, lastThird);
+ 
+        traverseLinkedList(head);
+ 
+        reverseLinkedList(head);
+ 
+        traverseLinkedList(last);
+    }
+ 
+    private static void reverseLinkedList(Node head) {
+        Node previous = null;
+        Node current = head;
+ 
+        while (current != null) {
+            Node temp = current.next;
+ 
+            current.next = previous;
+ 
+            previous = current;
+ 
+            current = temp;
+        }
+    }
+ 
+    static void traverseLinkedList(Node head) {
+        while (head.getNext() != null) {
+            System.out.println(head.getVal());
+            head = head.getNext();
+        }
+        if (head != null) {
+            System.out.println(head.getVal());
+        }
+    }
+}
+ 
+class Node {
+    int val;
+    Node next;
+ 
+    Node(int val) {
+        this.val = val;
+    }
+ 
+    Node(int val, Node nextNode) {
+        this.val = val;
+        this.next = nextNode;
+    }
+ 
+    public int getVal() {
+        return val;
+    }
+ 
+    public Node getNext() {
+        return next;
+    }
+ 
+    public void setNext(Node next) {
+        this.next = next;
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Reversing a singly linked list in-place requires only O(1) auxiliary space because we do not copy or duplicate the nodes—we simply rearrange their forward links to point backwards, one node at a time!</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

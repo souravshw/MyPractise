@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demystifying the equals() and hashCode() Contract in Java | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-equals-hashcode-contract.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Demystifying the equals() and hashCode() Contract in Java",
+      "item": "https://enggnotes.com/posts/understanding-equals-hashcode-contract.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn the equals and hashCode contract in Java using Book and Employee entities, and discover common pitfalls like misspelled overrides and unsafe casts.">
+  <meta name="keywords" content="java equals and hashcode contract, equals hashCode book employee, java programming, java override hashcode pitfall">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Demystifying the equals() and hashCode() Contract in Java | Engineering Notes">
+  <meta property="og:description" content="Learn the equals and hashCode contract in Java using Book and Employee entities simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Equals & HashCode</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">5 min read</span>
+        </div>
+        <h1 class="article-title">Demystifying the equals() and hashCode() Contract in Java</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Java, the contract between <code>equals()</code> and <code>hashCode()</code> is fundamental for any developer. If you override one, you must override the other. Breaking this rule leads to bugs where objects are "lost" inside collections like <code>HashMap</code> or <code>HashSet</code>.</p>
+        
+        <p>In this guide, we will look at a correct implementation using a <code>Book</code> class, examine a broken implementation in an <code>Employee</code> class, and review key class design pitfalls.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/book_employee_equals.png" alt="Illustration of a bookshelf and ID badges with matching barcodes representing the equals and hashCode contract" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Library Sorting Boxes
+          </div>
+          <p>Imagine a library sorting room where books are sorted into physical boxes labeled by their ISBN:</p>
+          <ul>
+            <li><strong>The Shelf Box (<code>hashCode()</code>):</strong> When a book arrives, you look up its ISBN to know which shelf box to put it in. This is the **hashCode**.</li>
+            <li><strong>Checking the Book (<code>equals()</code>):</strong> If you want to check if the book is already in that box, you do a detailed page comparison. This is the **equals** check.</li>
+          </ul>
+          <p>If two books have the exact same ISBN (i.e. they are equal), they MUST go into the same box (return the same hash code). If they go into different boxes because their hash codes don't match, you will never find them!</p>
+        </div>
+
+        <h2>1. The Correct Implementation: Book.java</h2>
+        <p>Let's look at the <code>Book</code> class, which demonstrates a correct, clean contract. A book is uniquely identified by its ISBN:</p>
+
+        <pre><code class="language-java">public class Book {
+    private int ISBN;
+    private String author, title;
+    private int pageCount;
+
+    @Override
+    public int hashCode() {
+        return ISBN; // Matches the equals comparison field
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Book)) {
+            return false;
+        }
+        Book other = (Book) obj;
+        return this.ISBN == other.ISBN;
+    }
+}</code></pre>
+        <p>Since <code>equals()</code> compares <code>ISBN</code> and <code>hashCode()</code> returns <code>ISBN</code>, equal books will always produce identical hash codes. This is a perfect implementation.</p>
+
+        <h2>2. Pitfalls in the Broken Implementation: Employee.java</h2>
+        <p>Now let's examine the <code>Employee</code> class from our codebase. It contains three major bugs:</p>
+
+        <pre><code class="language-java">public class Employee {
+    private int empId;
+    private String fName, lName;
+    private int yearStarted;
+
+    public int hashcode() { // Pitfall 1: Lowercase 'c'
+        return this.yearStarted + empId;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.yearStarted == ((Employee) obj).yearStarted; // Pitfall 2 & 3
+    }
+}</code></pre>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Pitfall 1: Method Overloading instead of Overriding (hashcode vs hashCode)
+          </div>
+          <p>Notice the method is named <code>hashcode()</code> with a lowercase <code>c</code>. Because of this typo, Java does not override the standard <code>Object.hashCode()</code>. It treats it as a brand new method. HashMap will still call the default memory address-based hash code, causing equal employees to be lost in different buckets.</p>
+          <p><strong>Solution:</strong> Always use the <code>@Override</code> annotation. The compiler will trigger an error if the method name is misspelled.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Pitfall 2: Unsafe Casting without Type Checks
+          </div>
+          <p>The <code>equals()</code> method immediately casts <code>obj</code> to <code>Employee</code>. If you call <code>employee.equals("John")</code>, the program will crash with a <code>ClassCastException</code>. Always verify with <code>instanceof</code> first.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Pitfall 3: Weak Equality Logic
+          </div>
+          <p>The <code>equals()</code> method only checks <code>yearStarted</code>. This means any two employees who started working in the same year are considered identical! An employee should be compared using their unique ID (like <code>empId</code>).</p>
+        </div>
+
+        <h2>Conclusion</h2>
+        <p>When designing your objects:
+          <ul>
+            <li>Always override <code>hashCode()</code> whenever you override <code>equals()</code>.</li>
+            <li>Double-check capitalization: it's <code>hashCode()</code> with a capital <code>C</code>.</li>
+            <li>Guard your casts in `equals()` using `instanceof` checks.</li>
+          </ul>
+        </p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

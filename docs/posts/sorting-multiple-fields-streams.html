@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorting by Multiple Fields | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/sorting-multiple-fields-streams.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Sorting by Multiple Fields",
+      "item": "https://enggnotes.com/posts/sorting-multiple-fields-streams.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to sort collections by multiple fields in Java using Comparator chaining and Streams, explained simply with a school lining-up analogy.">
+  <meta name="keywords" content="java sort multiple fields, comparator comparing thencomparing, java stream sort comparator, custom sorting objects java, java comparator chain tutorial">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Sorting by Multiple Fields | Engineering Notes">
+  <meta property="og:description" content="Learn how to sort collections by multiple fields in Java using Comparator chaining and Streams, explained simply with a school lining-up analogy.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Multiple Fields Sorting</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Sorting by Multiple Fields</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In standard programming, sorting a list of items by a single field (like name or ID) is basic. However, real-world sorting often requires tie-breakers—for example, sorting employees alphabetically by name, and if two employees share the same name, sorting them next by their ID. Java's Stream API solves this cleanly through <strong>Comparator Chaining</strong>.</p>
+        
+        <p>In this guide, we will break down multi-field sorting using a school roll-call analogy and trace the execution path in Java.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/comparator_chaining.png" alt="Illustration of employee data cards being sorted by name priority and then by ID" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The School Roll-Call
+          </div>
+          <p>Imagine a teacher trying to line up a group of school children. The teacher wants them arranged in a strict line:</p>
+          <ol>
+            <li><strong>Rule 1 (Primary):</strong> First, the teacher tells the children to line up alphabetically by their <strong>Name</strong>. Everyone begins sorting themselves.</li>
+            <li><strong>Rule 2 (Tie-Breaker):</strong> Two children, both named "Sourav", find themselves standing next to each other. They don't know who should go first! The teacher gives them a tie-breaker rule: *"If your names are exactly the same, look at your <strong>ID badges</strong>. The one with the smaller ID number goes first."*</li>
+          </ol>
+          <p>By chaining these rules, the kids arrange themselves perfectly: "Sourav (ID 3)" stands before "Sourav (ID 5)", and both stand before "Test (ID 4)" and "Test (ID 6)".</p>
+        </div>
+
+        <h2>Walkthrough of the Main Method Scenario</h2>
+        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 1: Setting up the Input Collection
+          </div>
+          <p>The program declares a list of unsorted employees containing identical names but different ID numbers:</p>
+          <pre><code class="language-java">List&lt;EmployeeSecond&gt; list = Arrays.asList(
+    new EmployeeSecond("Sourav", 5),
+    new EmployeeSecond("Test", 6),
+    new EmployeeSecond("Sourav", 3),
+    new EmployeeSecond("Test", 4)
+);</code></pre>
+          <p>This list contains two "Sourav"s and two "Test"s, making it a perfect test case for tie-breakers.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 2: Stream Chaining execution
+          </div>
+          <p>Next, the program initiates a Java Stream, sorts it, and prints the result:</p>
+          <pre><code class="language-java">list.stream()
+    .sorted(Comparator.comparing(EmployeeSecond::getName)
+                      .thenComparing(EmployeeSecond::getId))
+    .forEach(System.out::println);</code></pre>
+          <ul>
+            <li><code>Comparator.comparing(EmployeeSecond::getName)</code> acts as the primary sort. It compares name strings alphabetically. For example, "Sourav" is smaller than "Test", so the Souravs are sorted to the front.</li>
+            <li><code>thenComparing(EmployeeSecond::getId)</code> acts as the secondary tie-breaker. When comparing "Sourav" (ID 5) and "Sourav" (ID 3), the names are equal. The comparator chains down to compare their IDs: 3 is smaller than 5, so "Sourav (ID 3)" is placed first.</li>
+          </ul>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 3: Printing the Sorted List
+          </div>
+          <p>The sorted items are passed to the terminal print statement:</p>
+          <pre><code class="language-output">{name='Sourav', id=3}
+{name='Sourav', id=5}
+{name='Test', id=4}
+{name='Test', id=6}</code></pre>
+          <p>The output is sorted perfectly, both by name alphabetically and by ID numerically where names match.</p>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code demonstrating multi-field sorting using Comparator chaining and Streams:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.accolite;
+ 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+ 
+public class EmployeeSecond {
+    private String name;
+    private Integer id;
+ 
+    public EmployeeSecond(String name, Integer id) {
+        this.name = name;
+        this.id = id;
+    }
+ 
+    public Integer getId() {
+        return id;
+    }
+ 
+    public String getName() {
+        return name;
+    }
+ 
+    @Override
+    public String toString() {
+        return "{" + "name='" + name + '\'' + ", id=" + id + '}';
+    }
+ 
+    public static void main(String[] args) {
+        List&lt;EmployeeSecond&gt; list = Arrays.asList(
+                new EmployeeSecond("Sourav", 5),
+                new EmployeeSecond("Test", 6),
+                new EmployeeSecond("Sourav", 3),
+                new EmployeeSecond("Test", 4)
+        );
+ 
+        list.stream()
+            .sorted(Comparator.comparing(EmployeeSecond::getName)
+                              .thenComparing(EmployeeSecond::getId))
+            .forEach(System.out::println);
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>In Java, <code>Comparator.comparing()</code> combined with <code>thenComparing()</code> allows you to chain multiple sorting criteria cleanly. This pattern replaces complex nested conditional logic with declarative, readable code that integrates seamlessly with Java Streams.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Inner Classes: Member, Local, and Anonymous | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/java-inner-classes-member-local-anonymous.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Java Inner Classes: Member, Local, and Anonymous",
+      "item": "https://enggnotes.com/posts/java-inner-classes-member-local-anonymous.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn the differences between Member, Local, and Anonymous inner classes in Java, explained simply with real-world analogies and code examples.">
+  <meta name="keywords" content="java inner classes, member inner class, local inner class, anonymous inner class java">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Java Inner Classes: Member, Local, and Anonymous | Engineering Notes">
+  <meta property="og:description" content="Learn the differences between Member, Local, and Anonymous inner classes in Java simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java%20Core%20%26%20OOP">Java Core & OOP</a></li>
+          <li aria-current="page">Inner Classes</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java Core & OOP</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Java Inner Classes: Member, Local, and Anonymous</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Java, you can define a class inside another class. These are called **inner classes**. By nesting classes, you can visually group helpers that only serve the outer class, enhancing encapsulation and keeping your package namespaces clean.</p>
+        
+        <p>In this guide, we will look at three types of nested classes: <strong>Member Inner Classes</strong>, <strong>Local Inner Classes</strong>, and <strong>Anonymous Inner Classes</strong>.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/coffee_shop_kitchen.png" alt="Illustration representing inner class nesting inside outer boundaries" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Rooms and Nested Devices
+          </div>
+          <p>Imagine a house (Outer Class):</p>
+          <ul>
+            <li><strong>Member Inner Class:</strong> A light switch on the kitchen wall. It has access to all the house's power lines and cannot exist without the house.</li>
+            <li><strong>Local Inner Class:</strong> A temporary space heater you set up inside the kitchen during winter. It only exists while you are in the kitchen cooking.</li>
+            <li><strong>Anonymous Inner Class:</strong> A hired repairman who arrives, fixes a faucet once without introducing themselves, and leaves. They have no name and perform a one-time job.</li>
+          </ul>
+        </div>
+
+        <h2>1. Member Inner Classes</h2>
+        <p>A member inner class is declared directly inside the body of the outer class. It has access to all private variables of the outer class:</p>
+        <pre><code class="language-java">class MemberInnerClass {
+    private int data = 30;
+
+    class Inner {
+        void msg() {
+            // Can access private field 'data' directly
+            System.out.println("data is " + data);
+        }
+    }
+
+    public static void main(String args[]) {
+        MemberInnerClass obj = new MemberInnerClass();
+        // Syntactic requirement to construct an inner class instance
+        MemberInnerClass.Inner in = obj.new Inner();
+        in.msg(); // Prints: data is 30
+    }
+}</code></pre>
+
+        <h2>2. Local Inner Classes</h2>
+        <p>A local inner class is declared inside a specific method body. It is only scope-visible inside that method:</p>
+        <pre><code class="language-java">class LocalInner {
+    private int data = 30;
+
+    void display() {
+        // Local class declared inside method
+        class Local {
+            void msg() {
+                System.out.println(data);
+            }
+        }
+        Local l = new Local();
+        l.msg();
+    }
+
+    public static void main(String args[]) {
+        LocalInner obj = new LocalInner();
+        obj.display(); // Prints: 30
+    }
+}</code></pre>
+
+        <h2>3. Anonymous Inner Classes</h2>
+        <p>An anonymous inner class has no name. You declare and instantiate it simultaneously, typically to override interface methods or abstract classes on the fly:</p>
+        <pre><code class="language-java">abstract class Person {
+    abstract void eat();
+}
+
+class AnonymousInner {
+    public static void main(String args[]) {
+        // Declares and instantiates anonymous Person subclass
+        Person p = new Person() {
+            void eat() {
+                System.out.println("nice fruits");
+            }
+        };
+        p.eat(); // Prints: nice fruits
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Use inner classes to restrict helper access. Member inner classes represent permanent components, local classes restrict scope to methods, and anonymous classes are ideal for quick, one-off callbacks.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

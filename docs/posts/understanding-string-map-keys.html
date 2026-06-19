@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Strings as HashMap Keys | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-string-map-keys.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Understanding Strings as HashMap Keys",
+      "item": "https://enggnotes.com/posts/understanding-string-map-keys.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how HashMap handles String literals vs new String() keys in Java, explained simply with a treasure key-rack analogy and trace.">
+  <meta name="keywords" content="string map keys java, string constant pool java, hashmap string key, new string vs literal java, java collections tutorial">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Understanding Strings as HashMap Keys | Engineering Notes">
+  <meta property="og:description" content="Learn how HashMap handles String literals vs new String() keys in Java, explained simply with a treasure key-rack analogy.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Strings as Keys</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Understanding Strings as HashMap Keys</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Java, <code>String</code> is the most widely used key type in a <code>HashMap</code>. But how does Java treat a string defined as a raw literal (e.g., <code>"A"</code>) compared to a string allocated dynamically in memory using the <code>new</code> keyword (e.g., <code>new String("A")</code>)? Do they act as the same key or separate keys?</p>
+        
+        <p>In this guide, we will answer these questions using a key-maker analogy and walk through a step-by-step trace of Java's String pool lookup behavior.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/string_identity_map.png" alt="Illustration of a String literal and a new String pointing to the same map bucket" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Shared Key and the Copy-Machine
+          </div>
+          <p>Imagine a bank vault with a **treasure box** inside. To open the box, you must present a key with the letter <strong>"A"</strong> engraved on it.</p>
+          <p>Two customers arrive wanting to open the treasure box using two different key sources:</p>
+          <ul>
+            <li><strong>Customer 1 (String Literal):</strong> Takes a key engraved with "A" from the hotel's common key-rack (the **String Pool**). This rack stores unique keys so we don't have to waste time carving new ones. This key is labeled <code>str</code>.</li>
+            <li><strong>Customer 2 (New String):</strong> Decides to ignore the common key-rack. They buy a fresh block of metal and carve their own key engraved with "A" using a copy-machine (the **heap memory**). This key is labeled <code>str1</code>.</li>
+          </ul>
+          <p>When the bank guard compares the keys, they do not care about where the keys were manufactured (whether they point to the key-rack or the heap). They only look at the **engraving** on the key (using <code>equals()</code>). Since both keys are engraved with "A", they are deemed identical, and both open the exact same treasure box!</p>
+        </div>
+
+        <h2>Walkthrough of the Main Method Scenario</h2>
+        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 1: Referencing the Key Locations
+          </div>
+          <p>The program declares two string variables in different memory areas:</p>
+          <pre><code class="language-java">String str = "A";
+String str1 = new String("A");</code></pre>
+          <ul>
+            <li><code>str</code> points directly to the string literal <code>"A"</code> cached inside Java's String Constant Pool.</li>
+            <li><code>str1</code> points to a new String instance allocated inside the Heap memory, which internally wraps the character array <code>{'A'}</code>.</li>
+            <li>If you compared them using reference equality (<code>str == str1</code>), it would evaluate to <code>false</code> because they point to different memory addresses.</li>
+          </ul>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 2: Putting the pool key in the Map
+          </div>
+          <p>The program creates a HashMap and registers the first key:</p>
+          <pre><code class="language-java">Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+map.put(str, 10);</code></pre>
+          <p>The map evaluates `str.hashCode()`, determines the bucket location, and inserts the pair: <code>{"A" -> 10}</code>. The map size is now 1.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 3: Putting the heap key in the Map
+          </div>
+          <p>Now, the program attempts to register the heap-allocated key:</p>
+          <pre><code class="language-java">map.put(str1, 20);</code></pre>
+          <p>HashMap does its checks:</p>
+          <ol>
+            <li>It evaluates `str1.hashCode()`. Since `hashCode()` in the String class is computed strictly based on the character values, it returns the exact same integer hash code as `str`.</li>
+            <li>The map goes to the same bucket and finds the entry for `str` ("A").</li>
+            <li>It calls <code>str1.equals(str)</code>. The String class overrides the `equals` method to compare the character sequences. Since both represent <code>"A"</code>, the comparison returns <code>true</code>.</li>
+            <li>The map concludes the key already exists and **overwrites** the value with 20.</li>
+          </ol>
+          <p>When the program executes <code>System.out.println(map.size())</code>, it prints <strong>1</strong>. The heap-allocated key did not create a new map entry.</p>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code demonstrating how different String instances representing the same text collapse to a single key in a HashMap:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.accolite;
+ 
+import java.util.HashMap;
+import java.util.Map;
+ 
+public class StringInMap {
+    public static void main(String[] args) {
+        String str = "A";
+        String str1 = new String("A");
+ 
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+ 
+        map.put(str, 10);
+        map.put(str1, 20);
+ 
+        System.out.println(map.size());
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Java's <code>HashMap</code> uses content equality (<code>equals()</code>) rather than reference equality (<code>==</code>) to resolve keys. Because the <code>String</code> class implements content equality, any two string objects with the same sequence of letters will resolve to the same key, regardless of whether they reside in the String Constant Pool or as separate objects on the Heap.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

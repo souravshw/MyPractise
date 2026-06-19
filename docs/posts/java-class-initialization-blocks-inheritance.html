@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Initialization Sequences in Java Inheritance | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/java-class-initialization-blocks-inheritance.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Class Initialization Sequences in Java Inheritance",
+      "item": "https://enggnotes.com/posts/java-class-initialization-blocks-inheritance.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn the initialization sequence rules of static blocks and instance blocks in a Java subclass-superclass inheritance layout simply.">
+  <meta name="keywords" content="java initialization order inheritance, parent child static block order, java instance initialization block inheritance">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Class Initialization Sequences in Java Inheritance | Engineering Notes">
+  <meta property="og:description" content="Learn the initialization sequence rules of static blocks and instance blocks in a Java subclass-superclass inheritance layout simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java%20Core%20%26%20OOP">Java Core & OOP</a></li>
+          <li aria-current="page">Inheritance Initialization</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java Core & OOP</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">3 min read</span>
+        </div>
+        <h1 class="article-title">Class Initialization Sequences in Java Inheritance</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Java, when you instantiate a child class object (e.g. <code>new Child()</code>), a cascade of static blocks, instance blocks, and constructor calls executes across the parent-child inheritance layout. This sequence is a classic interview favorite and represents how Java guarantees parent state is safe before loading child state.</p>
+        
+        <p>In this guide, we will trace the exact console output order of an inheritance hierarchy containing static and instance initialization blocks.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/java_initialization_blocks.png" alt="Timeline of static blocks and instance blocks running during inheritance instantiation" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Building a Nested Sports Center
+          </div>
+          <p>Imagine building a massive Sports Complex (Parent) containing a swimming pool center (Child):</p>
+          <ul>
+            <li><strong>Static Blocks (Foundation):</strong> First, the construction crew pours the foundation of the main complex. Then, they lay the pipes for the pool. This only happens **once** when the center is built.</li>
+            <li><strong>Instance Blocks (Guest Arrivals):</strong> When a guest walks into the swimming pool:
+              1. First, they must go through the main complex ticket lobby (Parent instance block).
+              2. Then, they go into the swimming pool locker room (Child instance block).
+              This happens for **every visitor** (new instance creation).</li>
+          </ul>
+        </div>
+
+        <h2>1. The Inheritance Code Structure</h2>
+        <p>Let's look at a class layout with static and instance blocks on both <code>Parent</code> and <code>Child</code> classes:</p>
+
+        <pre><code class="language-java">class Parent {
+    static {
+        System.out.println("Parent static block");
+    }
+
+    {
+        System.out.println("Parent instance block");
+    }
+}
+
+class Child extends Parent {
+    static {
+        System.out.println("Child static block");
+    }
+
+    {
+        System.out.println("Child instance block");
+    }
+}
+
+public class MockInterview {
+    public static void main(String[] args) {
+        new Child(); // Instantiate Child
+    }
+}</code></pre>
+
+        <h2>2. Tracing the Console Output</h2>
+        <p>When the program executes `new Child()`, here is the exact order of logs printed to the console:</p>
+        <ol>
+          <li><code>Parent static block</code> — Runs when the Parent class is loaded. Static blocks always run first, starting from the top of the inheritance chain.</li>
+          <li><code>Child static block</code> — Runs when the Child class is loaded.</li>
+          <li><code>Parent instance block</code> — Runs because Parent constructor initialization begins. Instance blocks execute right before the constructor body.</li>
+          <li><code>Child instance block</code> — Runs because Child constructor initialization begins, after the Parent setup finishes.</li>
+        </ol>
+
+        <h2>Conclusion</h2>
+        <p>Java guarantees that:
+          <ul>
+            <li>All static loads occur first (Parent then Child) once.</li>
+            <li>All instance initialization loads occur for every new object (Parent block, then Child block).</li>
+          </ul>
+        </p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

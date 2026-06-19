@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Map Sorting Works with and without Java Streams | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/java-map-sorting-values-stream.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How Map Sorting Works with and without Java Streams",
+      "item": "https://enggnotes.com/posts/java-map-sorting-values-stream.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to sort a HashMap by values in Java, using both classic Collections.sort() and Java 8 Streams. Explained simply with step-by-step code.">
+  <meta name="keywords" content="sort hashmap by value java, java stream sort map values, map entry comparingbyvalue java, Collections.sort map entry list">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="How Map Sorting Works with and without Java Streams | Engineering Notes">
+  <meta property="og:description" content="Learn how to sort a HashMap by values in Java, using both classic Collections.sort() and Java 8 Streams simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java%20Collections">Java Collections</a></li>
+          <li aria-current="page">Map Sorting by Value</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java Collections</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">How Map Sorting Works with and without Java Streams</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Java, standard <code>HashMap</code> collections are unordered. If you want to sort a map by its keys, you can easily wrap it in a <code>TreeMap</code>. However, sorting a map by its **values** requires more work. You must extract the entry set, sort it, and stream or insert it back into an ordered map representation.</p>
+        
+        <p>In this guide, we will look at how to sort a HashMap by values using the classic collections sorting approach and the modern Java 8 Stream API.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/comparator_chaining.png" alt="Illustration representing sorting entry lists in Java collections" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <h2>1. Classic Way: Collections.sort() on Entry Lists</h2>
+        <p>Before Java 8, the standard recipe to sort a map by value was to copy the entries to a list, sort the list using a custom Comparator, and insert them sequentially into a <code>LinkedHashMap</code> (which preserves insertion order):</p>
+
+        <pre><code class="language-java">private static void sortByValuesWithoutStream(Map&lt;String, Integer&gt; map) {
+    // 1. Copy entries to a list
+    ArrayList&lt;Map.Entry&lt;String, Integer&gt;&gt; entries = new ArrayList&lt;&gt;(map.entrySet());
+
+    // 2. Sort the entry list
+    Collections.sort(entries, (o1, o2) -> {
+        return o2.getValue().compareTo(o1.getValue()); // Descending order
+    });
+
+    // 3. Put elements back into an insertion-ordered LinkedHashMap
+    LinkedHashMap&lt;String, Integer&gt; sortedMap = new LinkedHashMap&lt;&gt;();
+    entries.forEach(entry -&gt; sortedMap.put(entry.getKey(), entry.getValue()));
+
+    System.out.println(sortedMap); // Prints sorted map representation
+}</code></pre>
+
+        <h2>2. Modern Way: Java 8 Streams</h2>
+        <p>With Java 8, you can stream the entry set directly, apply sorting operations using <code>Map.Entry.comparingByValue()</code>, and process or collect the values:</p>
+
+        <pre><code class="language-java">private static void sortByvaluesWithStream(Map&lt;String, Integer&gt; map) {
+    map.entrySet().stream()
+            // Sort entries using custom value comparator
+            .sorted(Map.Entry.comparingByValue((o1, o2) -&gt; o2.compareTo(o1))) 
+            .forEach(entry -&gt; System.out.print(entry.getKey() + "=" + entry.getValue() + " "));
+}</code></pre>
+
+        <h2>Full Implementation</h2>
+        <p>Below is the complete Java program comparing both sorting layouts:</p>
+        <pre><code class="language-java">package io.practise.map;
+
+import java.util.*;
+
+public class TestMapSorting {
+    public static void main(String[] args) {
+        HashMap&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Abhishek", 95);
+        map.put("Rahul", 12);
+        map.put("Prateek", 50);
+        map.put("Anil", 58);
+
+        System.out.println("Classic Sorting Result:");
+        sortByValuesWithoutStream(map);
+
+        System.out.println("Stream Sorting Result:");
+        sortByvaluesWithStream(map);
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Sorting a map by value is a common operations task. The classic approach using <code>LinkedHashMap</code> is perfect if you need to return a sorted map object, while the Stream API is ideal for quick logging, filtering, or processing elements on the fly.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

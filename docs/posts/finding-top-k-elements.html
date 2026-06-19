@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finding the Top K Elements in Java | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/finding-top-k-elements.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Algorithms",
+      "item": "https://enggnotes.com/index.html?category=Algorithms"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Finding the Top K Elements in Java",
+      "item": "https://enggnotes.com/posts/finding-top-k-elements.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to find the top K highest elements in an array using a self-sorting TreeSet in Java, with an arcade leaderboard analogy and code trace.">
+  <meta name="keywords" content="java top k elements, treeset duplicate elements java, priority queue top k elements, java custom comparator tutorial">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Finding the Top K Elements in Java | Engineering Notes">
+  <meta property="og:description" content="Learn how to find the top K highest elements in an array using a self-sorting TreeSet in Java.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Algorithms">Algorithms</a></li>
+          <li aria-current="page">Top K Elements</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Algorithms</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Finding the Top K Elements</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>Finding the top <strong>K</strong> largest or smallest elements in a stream of numbers is a common challenge in data engineering. For example, you might want to display the top 3 highest scores on a gaming site, or the top 10 most popular products on a shopping app.</p>
+        
+        <p>To do this dynamically and efficiently in Java, we use a self-sorting data collection called a <strong>TreeSet</strong>. Let's see how this works using a simple arcade game analogy.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/top_k_elements.svg" alt="Illustration of an arcade leaderboard showing the top 3 elements" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Arcade Leaderboard
+          </div>
+          <p>Imagine you run a classic arcade machine. The screen has a **High Score Leaderboard** with only three slots (K = 3).</p>
+          <p>As kids play games, they get scores. To maintain the board:</p>
+          <ul>
+            <li>Every time a score is submitted, the machine slots it into its sorted ranking list automatically.</li>
+            <li>By default, a Java <code>TreeSet</code> ignores duplicates (if two players score exactly 66, it will only keep one). To prevent this, we write a custom rule: **"Even if two scores are equal, keep them both as separate entries on the board!"**</li>
+            <li>Once all players submit their scores, the board displays the top 3 rows, letting you know who takes home the trophies!</li>
+          </ul>
+        </div>
+
+        <h2>Walkthrough of the Main Method Scenario</h2>
+        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 1: Setting up scores and K limit
+          </div>
+          <p>The program declares an array of raw unsorted scores and sets our leaderboard limit to 3:</p>
+          <pre><code class="language-java">int[] arr = {1, 3, 66, 5, 7, 2, 3, 5, 9, 2, 11, 66, 75};
+int k = 3;</code></pre>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 2: Defining the Self-Sorting TreeSet
+          </div>
+          <p>We create a TreeSet with a custom comparator rule:</p>
+          <pre><code class="language-java">TreeSet&lt;Integer&gt; treeSet = new TreeSet&lt;&gt;((o1, o2) -> {
+    if (o2 > o1 || o2 == o1) {
+        return 1; // puts o2 before o1 (descending)
+    } else if (o2 &lt; o1) {
+        return -1;
+    }
+    return 1;
+});</code></pre>
+          <p>Typically, a comparator returns <code>0</code> if two values are equal, telling TreeSet to discard the duplicate. By returning <code>1</code> for equality instead of <code>0</code>, we bypass this mechanism and successfully allow duplicate scores (like having multiple 66s) on our board!</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 3: Populating and reading the Leaderboard
+          </div>
+          <p>The program loops and adds all elements to the TreeSet:</p>
+          <pre><code class="language-java">for (int a : arr) {
+    treeSet.add(a);
+}</code></pre>
+          <p>The collection automatically keeps elements sorted in descending order: <code>[75, 66, 66, 11, 9, 7, 5, 5, 3, 3, 2, 2, 1]</code>.</p>
+          <p>Next, the program opens an iterator and prints the first <code>k</code> elements:</p>
+          <pre><code class="language-java">while (iterator.hasNext() && k > 0) {
+    System.out.println(iterator.next());
+    --k;
+}</code></pre>
+          <p>This yields the top 3 highest scores: **75**, **66**, and **66**.</p>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code demonstrating leaderboard sorting with a custom comparator:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.accolite;
+ 
+import java.util.Iterator;
+import java.util.TreeSet;
+ 
+public class TopKElements {
+ 
+    public static void main(String[] args) {
+        int[] arr = {1, 3, 66, 5, 7, 2, 3, 5, 9, 2, 11, 66, 75};
+        int k = 3;
+ 
+        // Self-sorting collection sorted in descending order
+        TreeSet<Integer> treeSet = new TreeSet<>((o1, o2) -> {
+            if (o2 > o1 || o2 == o1) {
+                return 1; // puts higher or equal elements first
+            } else if (o2 < o1) {
+                return -1;
+            }
+ 
+            return 1;
+        });
+ 
+        for (int a : arr) {
+            treeSet.add(a);
+        }
+ 
+        Iterator<Integer> iterator = treeSet.iterator();
+ 
+        // Retrieve the first K elements
+        while (iterator.hasNext() && k > 0) {
+            Integer temp = iterator.next();
+            System.out.println(temp);
+            --k;
+        }
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Using a self-sorting structure like TreeSet with a custom comparator makes finding the top K elements easy. It maintains order automatically on insertion, allowing you to fetch the highest values instantly without needing to sort the raw array multiple times!</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

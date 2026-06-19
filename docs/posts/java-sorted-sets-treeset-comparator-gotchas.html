@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorted Sets (TreeSet) and Custom Comparator Gotchas in Java | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/java-sorted-sets-treeset-comparator-gotchas.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Sorted Sets (TreeSet) and Custom Comparator Gotchas in Java",
+      "item": "https://enggnotes.com/posts/java-sorted-sets-treeset-comparator-gotchas.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how TreeSet uses compareTo to enforce uniqueness in Java, and discover the trap of returning 0 from custom Comparables. Explained simply.">
+  <meta name="keywords" content="java treeset compareTo trap, treeset size 1 duplicate gotcha, comparable compareTo returns 0 treeset, java collections sorted set">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Sorted Sets (TreeSet) and Custom Comparator Gotchas in Java | Engineering Notes">
+  <meta property="og:description" content="Learn how TreeSet uses compareTo to enforce uniqueness in Java, and discover the trap of returning 0 from custom Comparables simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java%20Collections">Java Collections</a></li>
+          <li aria-current="page">TreeSet Gotchas</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java Collections</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Sorted Sets (TreeSet) and Custom Comparator Gotchas</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Java, standard sets (like <code>HashSet</code>) enforce uniqueness using the <code>equals()</code> and <code>hashCode()</code> methods. However, sorted sets (like <code>TreeSet</code>) ignore those methods entirely! Instead, they enforce uniqueness and ordering using <code>compareTo()</code>. If your comparison logic is incorrect, you can easily break the Set's uniqueness guarantees.</p>
+        
+        <p>In this guide, we will trace a common bug where a custom class implements <code>Comparable</code> but returns <code>0</code> from <code>compareTo()</code>, causing different objects to overwrite each other inside a TreeSet.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/custom_list.svg" alt="Illustration representing unique set constraints and comparison structures" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); background: #1e1e1e; padding: 20px;">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Lazy Registrar
+          </div>
+          <p>Imagine registering students for a class in alphabetical order:</p>
+          <ul>
+            <li>The registrar has a rule: "If two names compare as identical, they are the same student, and we refuse duplicate registration."</li>
+            <li>A student named **Coffee** registers first. The registrar writes their name down.</li>
+            <li>A student named **Tea** arrives. The registrar, being lazy, evaluates their alphabetical comparison as: "They are the same priority level" (returns 0).</li>
+            <li>The registrar says: "Tea, we already have Coffee registered, and since you are the same, we won't write you down." Tea is rejected because the sorting comparison said they are equal.</li>
+          </ul>
+        </div>
+
+        <h2>1. The Broken Comparable Class</h2>
+        <p>Consider this class definition representing a drink. It implements <code>Comparable</code>, but its implementation always claims objects are equal:</p>
+
+        <pre><code class="language-java">class Drink implements Comparable {
+    public String name;
+
+    // TRAP: Always returns 0 (indicating elements are equal)
+    public int compareTo(Object o) {
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Drink{name='" + name + "'}";
+    }
+}</code></pre>
+
+        <h2>2. Tracing the TreeSet Execution</h2>
+        <p>Now let's trace what happens when we attempt to add multiple distinct drinks to a <code>TreeSet</code>:</p>
+
+        <pre><code class="language-java">public static void main(String[] args) {
+    Drink one = new Drink();
+    Drink two = new Drink();
+    one.name = "Coffee";
+    two.name = "Tea";
+
+    TreeSet set = new TreeSet();
+    set.add(one); // Added successfully. Set size becomes 1.
+    set.add(two); // TreeSet calls two.compareTo(one), which returns 0!
+
+    System.out.println("Set size: " + set.size()); // PRINTS: Set size: 1
+    set.stream().forEach(System.out::println);      // PRINTS: Drink{name='Coffee'}
+}</code></pre>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Why was Tea rejected?
+          </div>
+          <p>
+            When <code>set.add(two)</code> was called, the TreeSet traversed its binary tree to find where to place <code>two</code>. It called <code>two.compareTo(one)</code>.
+            Because our method returned <code>0</code>, the TreeSet concluded that <code>two</code> is a duplicate key and ignored the insertion.
+            As a result, "Tea" is never added, and the set's size remains 1.
+          </p>
+        </div>
+
+        <h2>Conclusion</h2>
+        <p>When design custom types for sorted collections:
+          <ul>
+            <li>Remember that <code>TreeSet</code> and <code>TreeMap</code> use <code>compareTo()</code> or a <code>Comparator</code> to enforce uniqueness, **not** <code>equals()</code>.</li>
+            <li>Ensure that if two objects are not equal, your <code>compareTo()</code> method never returns <code>0</code>. Use field-by-field string or integer comparisons to break ties.</li>
+          </ul>
+        </p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

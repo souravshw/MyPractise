@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solving HackerRank's Min-Max Sum Challenge in Java | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/hackerrank-min-max-sum-challenge.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Solving HackerRank's Min-Max Sum Challenge in Java",
+      "item": "https://enggnotes.com/posts/hackerrank-min-max-sum-challenge.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to solve the HackerRank Min-Max Sum challenge in Java, finding the minimum and maximum sums of exactly 4 out of 5 integers. Explained simply.">
+  <meta name="keywords" content="hackerrank min max sum java, min max sum algorithm, prevent integer overflow hackerrank, java 8 stream reduce sum">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Solving HackerRank's Min-Max Sum Challenge in Java | Engineering Notes">
+  <meta property="og:description" content="Learn how to solve the HackerRank Min-Max Sum challenge in Java, finding the minimum and maximum sums of exactly 4 out of 5 integers simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Algorithms">Algorithms</a></li>
+          <li aria-current="page">Min-Max Sum</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Algorithms</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Solving HackerRank's Min-Max Sum Challenge</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In competitive programming, the **Min-Max Sum** challenge asks you to take five positive integers and find the minimum and maximum values that can be calculated by summing exactly four of those five integers. While it sounds simple, the primary trap in this challenge is **integer overflow**.</p>
+        
+        <p>In this guide, we will solve the problem efficiently using Java 8 Streams and review how to avoid numerical overflow bounds.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/rotating_array_k_times.svg" alt="Illustration representing array processing and numeric calculations" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); background: #1e1e1e; padding: 20px;">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Excluding the Extremes
+          </div>
+          <p>Imagine you have 5 weights: 1g, 2g, 3g, 4g, and 5g. You want to pick exactly 4 weights:</p>
+          <ul>
+            <li><strong>Minimum Sum:</strong> To get the lightest sum, you leave behind the heaviest weight (5g). The sum is: <code>1 + 2 + 3 + 4 = 10</code>.</li>
+            <li><strong>Maximum Sum:</strong> To get the heaviest sum, you leave behind the lightest weight (1g). The sum is: <code>2 + 3 + 4 + 5 = 14</code>.</li>
+          </ul>
+          <p>Mathematically, you don't need to try every combination. You simply calculate the **total sum** of all 5 weights, and then:
+            <ul>
+              <li><code>Min Sum = Total Sum - Max Value</code></li>
+              <li><code>Max Sum = Total Sum - Min Value</code></li>
+            </ul>
+          </p>
+        </div>
+
+        <h2>1. The Stream Reduce Solution</h2>
+        <p>Using Java 8 Streams, we can scan the array to find the minimum value, maximum value, and total sum using <code>reduce()</code>:</p>
+        <pre><code class="language-java">public static void miniMaxSum(List&lt;Integer&gt; arr) {
+    // 1. Find the minimum value
+    int minValue = arr.stream().reduce(arr.get(0), (min, element) -> {
+        return min > element ? element : min;
+    });
+
+    // 2. Find the maximum value
+    int maxValue = arr.stream().reduce(arr.get(0), (max, element) -> {
+        return max < element ? element : max;
+    });
+
+    // 3. Find the total sum
+    int totalSum = arr.stream().reduce(0, (sum, element) -> {
+        return sum + element;
+    });
+
+    // 4. Print sums excluding extremes
+    System.out.println((totalSum - maxValue) + " " + (totalSum - minValue));
+}</code></pre>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Warning: The Integer Overflow Trap!
+          </div>
+          <p>
+            If the five input values are large (e.g. <code>1,000,000,000</code>), their total sum will be <code>5,000,000,000</code>.
+            Because a standard 32-bit Java <code>int</code> only supports values up to <code>2,147,483,647</code>, summing them will overflow, returning incorrect negative results!
+            <strong>Solution:</strong> Always store the total sum using a 64-bit <code>long</code> type.
+          </p>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete solution including IO reading:</p>
+        <pre><code class="language-java">package io.practise.hackerrank;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
+import java.util.stream.Stream;
+import static java.util.stream.Collectors.toList;
+
+public class MinMaxSum {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+        List&lt;Integer&gt; arr = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                .map(Integer::parseInt)
+                .collect(toList());
+
+        miniMaxSum(arr);
+        bufferedReader.close();
+    }
+
+    public static void miniMaxSum(List&lt;Integer&gt; arr) {
+        long minValue = arr.get(0);
+        long maxValue = arr.get(0);
+        long totalSum = 0;
+
+        for (int val : arr) {
+            totalSum += val; // Prevents overflow via long arithmetic
+            if (val < minValue) minValue = val;
+            if (val > maxValue) maxValue = val;
+        }
+
+        System.out.println((totalSum - maxValue) + " " + (totalSum - minValue));
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>The Min-Max Sum challenge is a great study in optimization. By calculating the total sum once, we avoid nesting loops, and by using <code>long</code> data structures, we protect the program against data truncation errors.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

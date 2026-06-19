@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solving HackerRank's Plus-Minus Ratio Challenge in Java | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/hackerrank-plus-minus-ratio-challenge.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Solving HackerRank's Plus-Minus Ratio Challenge in Java",
+      "item": "https://enggnotes.com/posts/hackerrank-plus-minus-ratio-challenge.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to solve the HackerRank Plus-Minus ratio challenge in Java using Stream filtering to calculate numeric ratios. Explained simply.">
+  <meta name="keywords" content="hackerrank plus minus ratio java, stream filter ratios, count positive negative zero java, format double decimal java">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Solving HackerRank's Plus-Minus Ratio Challenge in Java | Engineering Notes">
+  <meta property="og:description" content="Learn how to solve the HackerRank Plus-Minus ratio challenge in Java using Stream filtering to calculate numeric ratios simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Algorithms">Algorithms</a></li>
+          <li aria-current="page">Plus-Minus Ratio</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Algorithms</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">3 min read</span>
+        </div>
+        <h1 class="article-title">Solving HackerRank's Plus-Minus Ratio Challenge</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>The **Plus-Minus** challenge is a standard data classification problem on HackerRank. Given an array of integers, you must calculate the ratios of its elements that are positive, negative, and zero. Print the decimal value of each fraction on a new line with six places after the decimal.</p>
+        
+        <p>In this guide, we will implement this classification using Java 8 Stream filtering and display formatting.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/stock_profit_checker.svg" alt="Illustration representing math ratios and double values" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); background: #1e1e1e; padding: 20px;">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Sorting Candy
+          </div>
+          <p>Imagine having a bag containing 6 candies: 3 Red (Positive), 2 Blue (Negative), and 1 Green (Zero):</p>
+          <ul>
+            <li>To find the ratio of Red candy, you count the Reds and divide by the total: <code>3 / 6 = 0.500000</code>.</li>
+            <li>To find the ratio of Blue candy: <code>2 / 6 = 0.333333</code>.</li>
+            <li>To find the ratio of Green candy: <code>1 / 6 = 0.166667</code>.</li>
+          </ul>
+        </div>
+
+        <h2>1. Filtering with Streams</h2>
+        <p>Using Java 8 Streams, we can apply <code>filter()</code> on the list to separate positive, negative, and zero elements, and call <code>count()</code> to count them:</p>
+        <pre><code class="language-java">double countNegative = arr.stream().filter(element -&gt; element &lt; 0).count();
+double countPositive = arr.stream().filter(element -&gt; element &gt; 0).count();
+double countZero     = arr.stream().filter(element -&gt; element == 0).count();</code></pre>
+        <p>By declaring these variables as <code>double</code>, we avoid integer division issues (where <code>3/6</code> would evaluate to <code>0</code> instead of <code>0.5</code>).</p>
+
+        <h2>2. Formatting Decimals</h2>
+        <p>To print the output rounded to exactly six decimal places, use <code>String.format()</code> with the format specifier <code>%.6f</code>:</p>
+        <pre><code class="language-java">System.out.println(String.format("%.6f", (countPositive / arr.size())));
+System.out.println(String.format("%.6f", (countNegative / arr.size())));
+System.out.println(String.format("%.6f", (countZero / arr.size())));</code></pre>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code solving the challenge:</p>
+        <pre><code class="language-java">package io.practise.hackerrank;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
+import java.util.stream.Stream;
+import static java.util.stream.Collectors.toList;
+
+public class PlusMinusRatio {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+        int n = Integer.parseInt(bufferedReader.readLine().trim());
+        List&lt;Integer&gt; arr = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                .map(Integer::parseInt)
+                .collect(toList());
+
+        plusMinus(arr);
+        bufferedReader.close();
+    }
+
+    private static void plusMinus(List&lt;Integer&gt; arr) {
+        double total = arr.size();
+        double countNegative = arr.stream().filter(element -&gt; element &lt; 0).count();
+        double countPositive = arr.stream().filter(element -&gt; element &gt; 0).count();
+        double countZero     = arr.stream().filter(element -&gt; element == 0).count();
+
+        System.out.println(String.format("%.6f", countPositive / total));
+        System.out.println(String.format("%.6f", countNegative / total));
+        System.out.println(String.format("%.6f", countZero / total));
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Classifying elements inside arrays is simple using Java Streams. By combining <code>filter()</code> with double casting, you create clean, declarative logic that is easy to read and formats numbers correctly for competitive submissions.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

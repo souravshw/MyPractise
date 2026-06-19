@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java 8 Streams Recipes for Common Programming Tasks | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/java8-streams-common-tasks-recipes.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Java 8 Streams Recipes for Common Programming Tasks",
+      "item": "https://enggnotes.com/posts/java8-streams-common-tasks-recipes.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn Java 8 Streams recipes for partitioning odd/even, finding string frequency, sorting, merging arrays, and reversing lists simply with code blocks.">
+  <meta name="keywords" content="java 8 streams recipes, stream partitioning grouping java, java 8 stream collectors list map, merge arrays java stream">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Java 8 Streams Recipes for Common Programming Tasks | Engineering Notes">
+  <meta property="og:description" content="Learn Java 8 Streams recipes for partitioning odd/even, finding string frequency, sorting, and merging arrays simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Streams Recipes</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">5 min read</span>
+        </div>
+        <h1 class="article-title">Java 8 Streams Recipes for Common Programming Tasks</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>With Java 8, streams revolutionized how we process data. Instead of writing verbose loops, we can write declarations that express <em>what</em> we want to achieve rather than <em>how</em> to do it. This collection lists standard cookbook recipes for common programming tasks.</p>
+        
+        <p>In this guide, we will walk through partition grouping, frequency counting, merging arrays, and reversing lists using streams.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/java8_streams_recipes.png" alt="Illustration of elements flowing through pipeline filters and sorting collections" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <h2>Recipe 1: Splitting Numbers into Odd and Even Lists</h2>
+        <p>You can use <code>Collectors.partitioningBy()</code> to split an array or list into a Map with <code>true</code> and <code>false</code> boolean keys:</p>
+        <pre><code class="language-java">Integer[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+Map&lt;Boolean, List&lt;Integer&gt;&gt; partitioned = Stream.of(numbers)
+        .collect(Collectors.partitioningBy(num -&gt; num % 2 == 0));
+
+System.out.println("Evens: " + partitioned.get(true));  // [2, 4, 6, 8, 10]
+System.out.println("Odds: " + partitioned.get(false));   // [1, 3, 5, 7, 9]</code></pre>
+
+        <h2>Recipe 2: Finding Word and Character Frequency</h2>
+        <p>To count how many times words or characters appear in a dataset, use <code>Collectors.groupingBy()</code> combined with <code>Collectors.counting()</code>:</p>
+        <pre><code class="language-java">// Word Frequency
+List&lt;String&gt; names = Arrays.asList("rohit", "urmila", "rohit", "ram", "sita");
+Map&lt;String, Long&gt; counts = names.stream()
+        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+System.out.println(counts); // {rohit=2, sita=1, urmila=1, ram=1}</code></pre>
+
+        <h2>Recipe 3: Merging Two Arrays to a Sorted List without Duplicates</h2>
+        <p>You can concatenate two streams using <code>IntStream.concat()</code>, box them, and apply sorting operations:</p>
+        <pre><code class="language-java">int[] firstArr = {11, 12, 1, 2, 3};
+int[] secondArr = {10, 20, 1, 12};
+
+List&lt;Integer&gt; merged = IntStream.concat(Arrays.stream(firstArr), Arrays.stream(secondArr))
+        .boxed()
+        .sorted()
+        .distinct()
+        .collect(Collectors.toList());
+
+System.out.println(merged); // [1, 2, 3, 10, 11, 12, 20]</code></pre>
+
+        <h2>Recipe 4: Finding the Second Largest Element</h2>
+        <p>You can quickly skip and limit elements on a sorted stream to find leaders or runner-up entries:</p>
+        <pre><code class="language-java">List&lt;Integer&gt; list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+list.stream()
+        .sorted(Comparator.reverseOrder()) // Sort largest first
+        .limit(2)                          // Take top 2
+        .skip(1)                           // Skip the first largest
+        .forEach(System.out::println);     // Prints: 9</code></pre>
+
+        <h2>Recipe 5: Generating the Fibonacci Series</h2>
+        <p>Using <code>Stream.iterate()</code>, you can generate math sequences on the fly using seeds:</p>
+        <pre><code class="language-java">Stream.iterate(new int[]{0, 1}, t -&gt; new int[]{t[1], t[0] + t[1]})
+        .limit(10)
+        .map(t -&gt; t[0])
+        .forEach(System.out::println); // Prints first 10 Fibonacci numbers</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Java 8 Streams abstract away mechanical iteration. Chaining operations like <code>filter</code>, <code>map</code>, <code>distinct</code>, and collector mapping turns complex data sorting problems into clean, readable code.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

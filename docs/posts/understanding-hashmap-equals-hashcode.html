@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demystifying Java's equals() and hashCode() Contract | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-hashmap-equals-hashcode.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Demystifying Java's equals() and hashCode() Contract",
+      "item": "https://enggnotes.com/posts/understanding-hashmap-equals-hashcode.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how HashMap uses hashCode and equals in Java, explained simply with a broken mailbox analogy and a step-by-step trace of a broken contract.">
+  <meta name="keywords" content="java equals and hashcode contract, hashcode and equals simply, hashmap internals java, hash collision equals java, java coding tutorials">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Demystifying Java's equals() and hashCode() Contract | Engineering Notes">
+  <meta property="og:description" content="Learn how HashMap uses hashCode and equals in Java, explained simply with a broken mailbox analogy.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Equals & HashCode</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Demystifying Java's equals() and hashCode() Contract</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Java, <code>HashMap</code> is a highly efficient structure for looking up data. Under the hood, it uses two core methods inherited from the `Object` class: <strong>hashCode()</strong> and <strong>equals()</strong>. If you modify one without adhering to the correct contract, you can break the HashMap, causing duplicate entries, memory leaks, and lookup failures.</p>
+        
+        <p>In this guide, we will explain this essential Java contract using a broken mailbox analogy and walk through its execution logic step by step.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/hash_contract_broken.png" alt="Illustration of a HashMap with colliding keys in bucket due to broken equals contract" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Broken Mailbox Labeling
+          </div>
+          <p>Imagine a school sorting room with numbered **mailboxes**. When a mail sorter gets a letter, they use two steps to deliver and retrieve letters:</p>
+          <ul>
+            <li><strong>Step 1: The Box Number (`hashCode()`):</strong> The sorter looks at the name and converts it to a number. For example, any name starting with "A" gets sorted into Mailbox 1. This is the **hashCode**.</li>
+            <li><strong>Step 2: Checking the ID (`equals()`):</strong> If Mailbox 1 already has letters, the sorter must check the name on the envelope to find the correct letter. This is the **equals** check.</li>
+          </ul>
+          <p>Now imagine we break the rules. We write a contract where:</p>
+          <ol>
+            <li>Every envelope we send gets placed in <strong>Mailbox 1</strong> (<code>hashCode()</code> always returns 1).</li>
+            <li>The ID check always returns **false** (<code>equals()</code> always says: "No, this is a different envelope").</li>
+          </ol>
+          <p>When you send two letters addressed to "A", the sorter places the first letter in Mailbox 1. For the second letter, they go to Mailbox 1, check the name against the first letter, but because the equals check is broken, they think they are different and put the second letter in Mailbox 1 too. Mailbox 1 is now cluttered with duplicate letters, and you can never retrieve any letter because the sorter's identity check always says "Access Denied"!</p>
+        </div>
+
+        <h2>Walkthrough of the Main Method Scenario</h2>
+        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 1: Constructing the Objects
+          </div>
+          <p>The program creates two distinct instances of the class <code>TestTest</code>, both having the internal name <code>"A"</code>:</p>
+          <pre><code class="language-java">TestTest ob1 = new TestTest("A");
+TestTest ob2 = new TestTest("A");</code></pre>
+          <p>Even though they contain the same string value, they occupy different locations in memory.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 2: Putting items in the Map
+          </div>
+          <p>Next, the program instantiates a HashMap and attempts to put both objects inside:</p>
+          <pre><code class="language-java">HashMap&lt;TestTest, String&gt; map = new HashMap&lt;&gt;();
+map.put(ob1, ob1.getName());
+map.put(ob2, ob2.getName());</code></pre>
+          <ul>
+            <li><strong>First Put:</strong> The map evaluates <code>ob1.hashCode()</code>. The overridden method returns <code>1</code>, so the entry is stored in bucket 1.</li>
+            <li><strong>Second Put:</strong> The map evaluates <code>ob2.hashCode()</code>. It also returns <code>1</code>. The map goes to bucket 1 and finds `ob1` already exists. It then calls <code>ob2.equals(ob1)</code>. Because `equals()` is overridden to always return <code>false</code>, the map concludes they are different keys and adds `ob2` to bucket 1 as a new node, creating a **duplicate key**!</li>
+          </ul>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 3: Printing the duplicates
+          </div>
+          <p>Finally, we print the Map representation:</p>
+          <pre><code class="language-java">System.out.println(map);</code></pre>
+          <p>It prints: <code>{TestTest{name='A'}='A', TestTest{name='A'}='A'}</code>. The map has a size of 2, proving we have violated the unique-key guarantee of the Map interface.</p>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code demonstrating a broken contract leading to duplicated keys in a HashMap:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.accolite;
+ 
+import java.util.HashMap;
+ 
+public class Main {
+    public static void main(String[] args) {
+        TestTest ob1 = new TestTest("A");
+        TestTest ob2 = new TestTest("A");
+ 
+        HashMap&lt;TestTest, String&gt; map = new HashMap&lt;&gt;();
+ 
+        map.put(ob1, ob1.getName());
+        map.put(ob2, ob2.getName());
+ 
+        System.out.println(map);
+    }
+}
+ 
+class TestTest {
+    private String name;
+ 
+    TestTest(String name) {
+        this.name = name;
+    }
+ 
+    public String getName() {
+        return name;
+    }
+ 
+    @Override
+    public boolean equals(Object o) {
+        // Warning: Violates reflexive/symmetric rules by always returning false
+        return false;
+    }
+ 
+    @Override
+    public int hashCode() {
+        // Warning: All objects will collide inside bucket index 1
+        return 1;
+    }
+ 
+    @Override
+    public String toString() {
+        return "TestTest{" + "name='" + name + '\'' + '}';
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>The contract of <code>hashCode()</code> and <code>equals()</code> states that if two objects are equal according to the <code>equals(Object)</code> method, they must produce the same integer result from <code>hashCode()</code>. Furthermore, equals must be consistent and reflexive. Breaking this rule compromises the internal hashing buckets, causing maps and sets to behave unpredictably.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

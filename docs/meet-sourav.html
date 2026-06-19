@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meet Sourav | Engineering Notes</title>
+  <meta name="description" content="Get to know Sourav Sanu Shaw, Associate Principal Software Engineer and the author behind Engineering Notes. Explore his skills, work history, and publications.">
+  <link rel="canonical" href="https://enggnotes.com/meet-sourav.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Meet Sourav",
+      "item": "https://enggnotes.com/meet-sourav.html"
+    }]
+  }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <style>
+    .profile-card {
+      text-align: center;
+      padding: 3rem 2.5rem;
+    }
+    .profile-avatar-container {
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      position: relative;
+    }
+    .profile-avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 4px solid var(--accent-color);
+      box-shadow: var(--shadow-md);
+      object-fit: cover;
+      transition: var(--transition-smooth);
+    }
+    .profile-avatar-container:hover .profile-avatar {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-hover);
+    }
+    .profile-links-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 1.5rem auto 2.5rem auto;
+      max-width: 600px;
+    }
+    .profile-link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background-color: var(--card-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-smooth);
+    }
+    .profile-link-btn:hover {
+      background-color: var(--accent-color);
+      color: var(--card-bg);
+      border-color: var(--accent-color);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+    .profile-section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      text-align: left;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.5rem;
+      position: relative;
+    }
+    .profile-section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background-color: var(--accent-color);
+    }
+    
+    /* Skills Tags Styling */
+    .skills-category {
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+    .skills-category-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+    .skills-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .skill-chip {
+      background-color: rgba(0, 102, 204, 0.05);
+      color: var(--accent-color);
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: 1px solid rgba(0, 102, 204, 0.08);
+    }
+    
+    /* Timeline / Work Experience Styling */
+    .timeline {
+      position: relative;
+      max-width: 100%;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      background-color: var(--border-color);
+      top: 0;
+      bottom: 0;
+      left: 20px;
+      margin-left: -1px;
+    }
+    .timeline-item {
+      padding: 0 0 2rem 40px;
+      position: relative;
+      background-color: inherit;
+    }
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      left: 14px;
+      background-color: var(--card-bg);
+      border: 3px solid var(--accent-color);
+      top: 5px;
+      border-radius: 50%;
+      z-index: 1;
+      transition: var(--transition-smooth);
+    }
+    .timeline-item:hover::after {
+      background-color: var(--accent-color);
+    }
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+      gap: 0.25rem;
+    }
+    .timeline-role {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .timeline-company {
+      font-size: 1rem;
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+    .timeline-date {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .timeline-content {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+    .timeline-content ul {
+      padding-left: 1.2rem;
+      margin-top: 0.4rem;
+    }
+    .timeline-content li {
+      margin-bottom: 0.35rem;
+    }
+    
+    /* Academic / Certificate Item Styling */
+    .info-list {
+      text-align: left;
+    }
+    .info-item {
+      margin-bottom: 1.25rem;
+    }
+    .info-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .info-subtitle {
+      font-size: 0.95rem;
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+    .info-date {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="meet-sourav"></header>
+
+  <!-- Main Container -->
+  <main class="container">
+    <div class="article-container" style="max-width: 850px; padding: 3rem;">
+      
+      <!-- Profile Intro Summary -->
+      <div class="profile-card">
+        <div class="profile-avatar-container">
+          <img src="images/sourav_profile.png" alt="Sourav Sanu Shaw" class="profile-avatar">
+        </div>
+        <h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-primary);">SOURAV SANU SHAW</h1>
+        <p style="color: var(--accent-color); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1.5px;">Associate Principal Software Engineer</p>
+        
+        <div class="article-body" style="text-align: left; max-width: 680px; margin: 0 auto; line-height: 1.8; color: var(--text-secondary);">
+          <p>Hello! I am Sourav. Welcome to my engineering space. I am a dedicated software engineer with over <strong>10.6 years of professional experience</strong> in crafting cutting-edge backend applications, optimizing parallel processing tasks, and refining concurrent systems.</p>
+          <p>Here, I share intuitive guides on Java multithreading, concurrency models, and software design patterns. I believe complex code gets easier once translated into real-world analogies.</p>
+        </div>
+
+        <!-- Social Buttons (LinkedIn, GitHub, ResearchGate) -->
+        <div class="profile-links-grid">
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/in/souravsanushaw/" class="profile-link-btn" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn Profile
+          </a>
+          <!-- GitHub -->
+          <a href="https://github.com/souravshw" class="profile-link-btn" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            GitHub Profile
+          </a>
+          <!-- ResearchGate -->
+          <a href="https://www.researchgate.net/profile/Sourav-Shaw" class="profile-link-btn" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+            ResearchGate
+          </a>
+        </div>
+      </div>
+
+      <!-- Experience Section -->
+      <h2 class="profile-section-title">Professional Experience</h2>
+      <div class="timeline">
+        <!-- Item 1 -->
+        <div class="timeline-item">
+          <div class="timeline-header">
+            <div>
+              <span class="timeline-role">Associate Principal</span> &mdash; 
+              <span class="timeline-company">Atyeti IT Services Pvt Ltd.</span>
+            </div>
+            <span class="timeline-date">05/2025 - Present</span>
+          </div>
+          <div class="timeline-content">
+            <ul>
+              <li>Designed and developed the <strong>Feed Monitoring Dashboard</strong> within the Reconciliation (Reclite) application, providing real-time visibility into feed execution results.</li>
+              <li>Used AI-assisted workflows (e.g., Copilot) for evaluating architectural trade-offs across microservices, scalability, and performance optimization.</li>
+              <li>Reduced API response times by <strong>50%</strong> by diagnosing Hibernate N+1 select bottlenecks and optimizing fetching strategies on complex multi-table joins.</li>
+              <li>Implemented file partitioning solutions to split large input files into smaller, type-specific chunks.</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Item 2 -->
+        <div class="timeline-item">
+          <div class="timeline-header">
+            <div>
+              <span class="timeline-role">Associate Technical Delivery Manager</span> &mdash; 
+              <span class="timeline-company">Accolite Digital India Pvt. Ltd.</span>
+            </div>
+            <span class="timeline-date">01/2025 - 05/2025</span>
+          </div>
+          <div class="timeline-content">
+            <ul>
+              <li>Designed and implemented adapter plugins using Proxy, Adapter, and Abstract Factory patterns to process XML and configuration definitions.</li>
+              <li>Engineered components as clean, maintainable JAR files for integration in Informatica MDM Hub Console.</li>
+              <li>Developed and integrated a multithreaded rate limiter to optimize HTTPS API execution.</li>
+              <li>Secured runtime credentials using a Java Keystore (JKS) management system leveraging native Java security capabilities.</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Item 3 -->
+        <div class="timeline-item">
+          <div class="timeline-header">
+            <div>
+              <span class="timeline-role">Senior Associate Technology L1</span> &mdash; 
+              <span class="timeline-company">Publicis Sapient</span>
+            </div>
+            <span class="timeline-date">05/2021 - 12/2024</span>
+          </div>
+          <div class="timeline-content">
+            <ul>
+              <li>Built core features from scratch using Spring Boot, JPA, and Apache ActiveMQ.</li>
+              <li>Designed microservices architecture utilizing API Gateways and Circuit Breakers deployed to AWS cloud.</li>
+              <li>Optimized software schemas for compatibility with Oracle databases using JPA and native SQL queries.</li>
+              <li>Authored server installation and setup bash scripts for Amazon Linux environments.</li>
+              <li>Implemented cloud CI/CD pipelines deploying builds with AWS, Jenkins, and CloudFormation.</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Item 4 -->
+        <div class="timeline-item">
+          <div class="timeline-header">
+            <div>
+              <span class="timeline-role">Senior Software Engineer</span> &mdash; 
+              <span class="timeline-company">Globalsoft Frameworx</span>
+            </div>
+            <span class="timeline-date">01/2016 - 05/2021</span>
+          </div>
+          <div class="timeline-content">
+            <ul>
+              <li>Implemented backend features using core Java collections, multithreading, exception handling, and serialization.</li>
+              <li>Built backend scheduling and security features using Spring Batch and Spring Security.</li>
+              <li>Developed proxy gateway solutions to monitor, transform, and encrypt transit data.</li>
+              <li>Supported software migrations upgrading framework libraries and underlying operating systems.</li>
+              <li>Set up automated code analysis using SonarQube quality gates to maintain standards.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills Section -->
+      <h2 class="profile-section-title">Technical Expertise</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; text-align: left;">
+        <div>
+          <div class="skills-category">
+            <div class="skills-category-title">Languages & Core</div>
+            <div class="skills-chips">
+              <span class="skill-chip">Java</span>
+              <span class="skill-chip">Java 8/11</span>
+              <span class="skill-chip">Multithreading</span>
+              <span class="skill-chip">Shell Scripting</span>
+            </div>
+          </div>
+          <div class="skills-category">
+            <div class="skills-category-title">Frameworks & ORM</div>
+            <div class="skills-chips">
+              <span class="skill-chip">Spring Boot</span>
+              <span class="skill-chip">Spring Security</span>
+              <span class="skill-chip">Spring Batch</span>
+              <span class="skill-chip">JPA / Hibernate</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="skills-category">
+            <div class="skills-category-title">Architecture & Middleware</div>
+            <div class="skills-chips">
+              <span class="skill-chip">Microservices</span>
+              <span class="skill-chip">System Design</span>
+              <span class="skill-chip">Kafka</span>
+              <span class="skill-chip">ActiveMQ</span>
+            </div>
+          </div>
+          <div class="skills-category">
+            <div class="skills-category-title">Cloud & DevOps</div>
+            <div class="skills-chips">
+              <span class="skill-chip">AWS</span>
+              <span class="skill-chip">CloudFormation</span>
+              <span class="skill-chip">Jenkins CI/CD</span>
+              <span class="skill-chip">SonarQube</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Research & Publications Section -->
+      <h2 class="profile-section-title">Research & Publications</h2>
+      <div class="info-list">
+        <div class="info-item">
+          <div class="info-title">CTMR: Collaborative Timestamp-Based Multicast Routing</div>
+          <div class="info-subtitle">Delay Tolerant Networks in Post Disaster Scenario (2018)</div>
+          <div style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.4rem;">
+            Designed a time-stamp-based multicast routing protocol for challenged, intermittently connected network environments. The protocol restricts recently communicated nodes from engaging in redundant forwards, preserving node energy and improving message delivery rates. Implemented and simulated using The ONE Simulator.
+          </div>
+        </div>
+      </div>
+
+      <!-- Education & Certifications Section -->
+      <h2 class="profile-section-title">Education & Certifications</h2>
+      <div class="info-list" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem;">
+        <div>
+          <div class="info-item">
+            <div class="info-title">Master's in Computer Application (MCA)</div>
+            <div class="info-subtitle">Kalyani Government Engineering College</div>
+            <span class="info-date">2012 - 2015 &bull; Kalyani, West Bengal</span>
+          </div>
+        </div>
+        <div>
+          <div class="info-item" style="margin-bottom: 0.75rem;">
+            <div style="font-weight: 700; color: var(--text-primary); font-size: 0.95rem;">Oracle Certified Professional (OCP)</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Java SE Programmer Certification</div>
+          </div>
+          <div class="info-item">
+            <div style="font-weight: 700; color: var(--text-primary); font-size: 0.95rem;">Data Structures & Algorithms Training</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">NPTEL (IIT Madras Coursework)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Scripts -->
+  <script src="js/fragments.js"></script>
+</body>
+</html>

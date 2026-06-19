@@ -1,6 +1,76 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 40,
+    title: "Understanding Built-In Annotations in Java: A Simple Guide",
+    excerpt: "Learn Java's built-in annotations (@Override, @Deprecated, and @SuppressWarnings) simply with practical code examples and clear layman analogies.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/understanding-java-builtin-annotations-simply.html",
+    image: "images/java_builtin_annotations.png"
+  },
+  {
+    id: 39,
+    title: "How to Create and Read Custom Annotations in Java: A Simple Guide",
+    excerpt: "Learn how to declare custom annotations in Java using @interface and read their parameters at runtime using Reflection. Explained simply.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/creating-custom-annotations-java-simply.html",
+    image: "images/custom_annotations_java.png"
+  },
+  {
+    id: 38,
+    title: "Understanding the Basics of Java Enums: A Simple Guide",
+    excerpt: "Learn the basics of Java Enums, including declaring enums inside or outside classes and using them inside switch statements simply.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "3 min read",
+    url: "posts/understanding-java-enums-basics-simply.html",
+    image: "images/java_enums_basics.png"
+  },
+  {
+    id: 37,
+    title: "Mastering Advanced Java Enums: Fields and Constructors: A Simple Guide",
+    excerpt: "Learn advanced Java Enums features, including adding instance fields, custom private constructors, and iterating values simply.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/understanding-advanced-java-enums-simply.html",
+    image: "images/advanced_java_enums.png"
+  },
+  {
+    id: 36,
+    title: "Understanding String Equality in Java: A Simple Guide",
+    excerpt: "Learn the difference between == and .equals() for String comparison in Java, explained simply with a smartphone analogy and a step-by-step code trace.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "3 min read",
+    url: "posts/understanding-string-equality-simply.html",
+    image: "images/string_equality_java.png"
+  },
+  {
+    id: 35,
+    title: "Demystifying the equals() and hashCode() Contract in Java: A Simple Guide",
+    excerpt: "Learn the equals and hashCode contract in Java using Book and Employee entities, and discover common pitfalls like misspelled overrides and unsafe casts.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "5 min read",
+    url: "posts/understanding-equals-hashcode-contract-simply.html",
+    image: "images/book_employee_equals.png"
+  },
+  {
+    id: 34,
+    title: "Understanding Java Class Initialization Order and Blocks: A Simple Guide",
+    excerpt: "Learn Java initialization blocks (static and instance blocks) and constructor execution order using BaseballTeam, explained simply.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/understanding-class-initialization-blocks-simply.html",
+    image: "images/java_initialization_blocks.png"
+  },
+  {
     id: 33,
     title: "Finding the Longest Consecutive Increasing Chain in Java: A Simple Guide",
     excerpt: "Searching for ordered sequences inside arrays is a classic algorithmic puzzle. Learn how to scan and calculate the longest incrementing card run in Java.",

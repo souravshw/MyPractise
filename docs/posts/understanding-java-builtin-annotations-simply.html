@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Built-In Annotations in Java: @Override, @Deprecated, and @SuppressWarnings | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-java-builtin-annotations-simply.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Understanding Built-In Annotations in Java: @Override, @Deprecated, and @SuppressWarnings",
+      "item": "https://enggnotes.com/posts/understanding-java-builtin-annotations-simply.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn Java's built-in annotations (@Override, @Deprecated, and @SuppressWarnings) simply with practical code examples and clear layman analogies.">
+  <meta name="keywords" content="java annotations, built-in annotations java, override deprecated suppresswarnings, java compiler metadata">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Understanding Built-In Annotations in Java: @Override, @Deprecated, and @SuppressWarnings | Engineering Notes">
+  <meta property="og:description" content="Learn Java's built-in annotations (@Override, @Deprecated, and @SuppressWarnings) simply with practical code examples.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Built-in Annotations</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Understanding Built-In Annotations in Java: @Override, @Deprecated, and @SuppressWarnings</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Java, annotations are a type of metadata—extra notes or tags you attach to classes, interfaces, methods, or variables. These tags do not change the core logic of your program directly, but they instruct the compiler or JVM to perform checks or handle classes differently.</p>
+        
+        <p>In this guide, we will cover the three most common built-in annotations in Java: <code>@Override</code>, <code>@Deprecated</code>, and <code>@SuppressWarnings</code> using clear code examples.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/java_builtin_annotations.png" alt="Illustration of badges labeled Override, Deprecated, and Warning stamped on lines of code" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Sticky Notes for a Editor
+          </div>
+          <p>Imagine writing a manuscript and leaving sticky notes for your editor:</p>
+          <ul>
+            <li><strong><code>@Override</code>:</strong> A note saying: "This replaces chapter 2." If chapter 2 doesn't exist, the editor stops you and says: "Wait, there's nothing to replace!"</li>
+            <li><strong><code>@Deprecated</code>:</strong> A label on a paragraph saying: "This section is outdated. Use the newer edition instead." It still reads fine, but warns the editor not to copy it over next time.</li>
+            <li><strong><code>@SuppressWarnings</code>:</strong> A label saying: "Ignore the formatting warnings in this section, I did it intentionally."</li>
+          </ul>
+        </div>
+
+        <h2>1. Guaranteeing Subclass Overrides with <code>@Override</code></h2>
+        <p>The <code>@Override</code> annotation ensures that a subclass method successfully overrides a parent class method. It is your safety net against spelling typos.</p>
+        <pre><code class="language-java">class Animal {
+    void eatSomething() {
+        System.out.println("eating something");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void eatSomething() { // Ensures exact match with parent class method
+        System.out.println("eating foods");
+    }
+}</code></pre>
+        <p>If you accidentally type <code>eatSomthing()</code> (misspelled), the compiler catches it immediately because of the <code>@Override</code> tag and prevents build success until it's fixed.</p>
+
+        <h2>2. Marking Obsolete Code with <code>@Deprecated</code></h2>
+        <p>When an API becomes old or unsafe, you shouldn't delete it instantly because other modules might depend on it. Instead, mark it as deprecated to warn future developers.</p>
+        <pre><code class="language-java">class A {
+    void m() {
+        System.out.println("hello m");
+    }
+
+    @Deprecated
+    void n() { // Outdated method
+        System.out.println("hello n");
+    }
+}
+
+public class Deprecated_Example {
+    public static void main(String args[]) {
+        A a = new A();
+        a.n(); // The compiler outputs a deprecation warning here!
+    }
+}</code></pre>
+
+        <h2>3. Silencing Compiler Warnings with <code>@SuppressWarnings</code></h2>
+        <p>Sometimes you write legacy code or perform operations that trigger compiler warnings (e.g. unchecked generic types). If you are confident your code is safe, use <code>@SuppressWarnings</code> to silence warnings.</p>
+        <pre><code class="language-java">public class Suppress_Warnings {
+    @SuppressWarnings("unchecked")
+    public static void main(String args[]) {
+        ArrayList list = new ArrayList(); // Legacy non-generic list
+        list.add("sonoo");
+        list.add("vimal");
+
+        for (Object obj : list)
+            System.out.println(obj);
+    }
+}</code></pre>
+        <p>Without the <code>@SuppressWarnings("unchecked")</code> annotation, the compiler would output a warning indicating list additions are unsafe because types aren't declared. The annotation silences this warning.</p>
+
+        <h2>Conclusion</h2>
+        <p>Built-in annotations are tools that help Java developers communicate metadata to the compiler and team members. They serve to protect against spelling errors, flag outdated methods, and clean up build log output.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

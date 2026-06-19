@@ -76,6 +76,30 @@ function renderPosts(category = 'all', limit = 10) {
   });
 }
 
+// Render Category Filter Tabs dynamically on homepage based on visible posts (top 10)
+function renderCategoryFilters() {
+  if (!categoryFilters || typeof postsData === 'undefined' || postsData.length === 0) return;
+  
+  // Get categories from the first 10 posts
+  const visiblePosts = postsData.slice(0, 10);
+  const categories = new Set();
+  visiblePosts.forEach(post => {
+    if (post.category) {
+      categories.add(post.category);
+    }
+  });
+
+  // Re-build category filter HTML
+  let html = `<button class="filter-tab active" data-category="all" id="filter-all">All</button>`;
+  
+  categories.forEach(cat => {
+    const cleanId = cat.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    html += `<button class="filter-tab" data-category="${cat}" id="filter-${cleanId}">${cat}</button>`;
+  });
+  
+  categoryFilters.innerHTML = html;
+}
+
 // Set up Tab Filtering
 if (categoryFilters) {
   categoryFilters.addEventListener('click', (e) => {
@@ -98,6 +122,7 @@ if (categoryFilters) {
 
 // Initial Run
 document.addEventListener('DOMContentLoaded', () => {
+  renderCategoryFilters();
   renderFeaturedPost();
   renderPosts();
   

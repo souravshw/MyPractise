@@ -1,6 +1,36 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 13,
+    title: "Demystifying String Permutations: A Simple Guide",
+    excerpt: "Finding all rearrangements of a string is a classic backtracking problem. Learn how to solve this using simple swapping cards analogies.",
+    category: "Algorithms",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/understanding-string-permutations-simply.html",
+    image: ""
+  },
+  {
+    id: 12,
+    title: "Reversing Strings While Preserving Space Positions",
+    excerpt: "Flipping a string while keeping space formatting intact is a common puzzle. Learn how to solve this using a bookmark-and-restore algorithm.",
+    category: "Algorithms",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/reversing-words-preserving-spaces-simply.html",
+    image: "images/reversing_words.png"
+  },
+  {
+    id: 11,
+    title: "Understanding Java's Wait and Notify: A Simple Guide",
+    excerpt: "Coordinating threads without a BlockingQueue requires low-level synchronization. Learn how wait and notifyAll coordinate threads using a locked bakery shelf analogy.",
+    category: "Java Concurrency",
+    date: "June 19, 2026",
+    readTime: "5 min read",
+    url: "posts/understanding-producer-consumer-wait-notify-simply.html",
+    image: "images/bakery_wait_notify.png"
+  },
+  {
     id: 10,
     title: "Understanding Java's Producer-Consumer Pattern: A Simple Guide",
     excerpt: "Coordinating threads doesn't have to be complex. Learn how to implement the Producer-Consumer pattern using Java's BlockingQueue with a simple bakery shelf analogy.",

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demystifying String Permutations: A Simple Guide | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/understanding-string-permutations-simply.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Algorithms",
+      "item": "https://enggnotes.com/index.html?category=Algorithms"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Demystifying String Permutations: A Simple Guide",
+      "item": "https://enggnotes.com/posts/understanding-string-permutations-simply.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to find all permutations of a string in Java using a simple letter card swap analogy and backtracking, explained like you are 10 years old.">
+  <meta name="keywords" content="string permutations java, backtracking algorithm java, permutations recursion tutorial, swap algorithm java, coding puzzles simply">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Demystifying String Permutations: A Simple Guide | Engineering Notes">
+  <meta property="og:description" content="Learn how to find all permutations of a string in Java using a simple letter card swap analogy and backtracking.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Algorithms">Algorithms</a></li>
+          <li aria-current="page">String Permutations</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Algorithms</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Demystifying String Permutations: A Simple Guide</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>Finding all the possible rearrangements of a set of letters (known as **permutations**) is a classic computer science puzzle. It is solved using an algorithmic strategy called **backtracking**, where the computer builds options one step at a time and "rewinds" to try other possibilities.</p>
+        
+        <p>In this guide, we will translate this complex concept into simple, 10-year-old friendly terms and trace how the program executes step by step.</p>
+
+        <!-- Dynamic Inline SVG Illustration -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <svg width="400" height="200" viewBox="0 0 400 200" fill="none" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); background: linear-gradient(135deg, #1e293b, #0f172a);">
+            <!-- Card A -->
+            <rect x="60" y="50" width="80" height="100" rx="8" fill="#0066cc" />
+            <text x="100" y="110" font-family="Inter, sans-serif" font-size="36" font-weight="bold" fill="#ffffff" text-anchor="middle">A</text>
+            
+            <!-- Swap Arrow 1 -->
+            <path d="M 150 85 Q 200 60 250 85" stroke="#cbd5e1" stroke-width="3" stroke-dasharray="6,6" fill="none" />
+            <path d="M 250 85 L 240 80 M 250 85 L 243 95" stroke="#cbd5e1" stroke-width="3" />
+            
+            <!-- Card B -->
+            <rect x="260" y="50" width="80" height="100" rx="8" fill="#e11d48" />
+            <text x="300" y="110" font-family="Inter, sans-serif" font-size="36" font-weight="bold" fill="#ffffff" text-anchor="middle">B</text>
+            
+            <!-- Swap Arrow 2 -->
+            <path d="M 250 115 Q 200 140 150 115" stroke="#cbd5e1" stroke-width="3" stroke-dasharray="6,6" fill="none" />
+            <path d="M 150 115 L 160 120 M 150 115 L 157 105" stroke="#cbd5e1" stroke-width="3" />
+          </svg>
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Rearranging Letter Cards on a Table
+          </div>
+          <p>Imagine you have three letter cards: <strong>[A]</strong>, <strong>[B]</strong>, and <strong>[C]</strong>. You want to write down every possible combination of these cards.</p>
+          <p>To do this systematically without forgetting any, you follow a simple strategy:</p>
+          <ul>
+            <li><strong>Fix the first card:</strong> Keep <strong>[A]</strong> at the front, and write down the two choices for the remaining slots: <code>A-B-C</code> and <code>A-C-B</code>.</li>
+            <li><strong>Swap the first card:</strong> Swap <strong>[A]</strong> with <strong>[B]</strong> so <strong>[B]</strong> is at the front. Write down the layouts: <code>B-A-C</code> and <code>B-C-A</code>.</li>
+            <li><strong>Reset (Backtrack):</strong> Before you try another card for the front, swap <strong>[B]</strong> and <strong>[A]</strong> back to their starting positions (<code>A-B-C</code>) so you don't lose track of your cards!</li>
+            <li><strong>Swap the first card again:</strong> Swap <strong>[A]</strong> with <strong>[C]</strong> so <strong>[C]</strong> is at the front. Write down the layouts: <code>C-B-A</code> and <code>C-A-B</code>. Reset back to starting positions.</li>
+          </ul>
+        </div>
+
+        <h2>Walkthrough of the Main Method Scenario</h2>
+        <p>Let's trace how the program executes step by step from the entry point:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 1: Starting the Permutations
+          </div>
+          <p>The program enters the main method and calls the entry function with the input string <code>"ABC"</code>:</p>
+          <pre><code class="language-java">printPermutations("ABC");</code></pre>
+          <p>It converts the string into a character array `['A', 'B', 'C']` and calls the recursive helper starting at index <code>0</code>.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 2: Recursive Swapping and Backtracking
+          </div>
+          <p>The helper method `permute(chars, currentIndex)` begins its work:</p>
+          <ul>
+            <li><strong>Level 0 (currentIndex = 0):</strong> The loop starts. It swaps <code>chars[0]</code> with itself (keeping 'A' at front) and calls `permute(chars, 1)`.</li>
+            <li><strong>Level 1 (currentIndex = 1):</strong> The loop starts at index 1. It swaps <code>chars[1]</code> with itself (keeping 'B' second) and calls `permute(chars, 2)`.</li>
+            <li><strong>Level 2 (Base Case, currentIndex = 2):</strong> Since `currentIndex` equals `chars.length - 1`, we print the current arrangement: <code>ABC</code>, and return (rewind).</li>
+            <li><strong>Level 1 Swaps:</strong> It swaps <code>chars[1]</code> and <code>chars[2]</code> ('B' and 'C'), calls `permute(chars, 2)`, prints <code>ACB</code>, and returns. It then backtracks by swapping 'B' and 'C' back.</li>
+            <li><strong>Level 0 Swaps:</strong> We return to Level 0. It swaps <code>chars[0]</code> and <code>chars[1]</code> ('A' and 'B'), calls `permute` to discover <code>BAC</code> and <code>BCA</code>, and backtracks. Finally, it swaps <code>chars[0]</code> and <code>chars[2]</code> ('A' and 'C') to find <code>CBA</code> and <code>CAB</code>.</li>
+          </ul>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code showing the recursive swap and backtrack structure to generate permutations:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.accolite;
+
+public class PermutationOfString {
+
+    public static void printPermutations(String str) {
+        if (str == null || str.isEmpty()) {
+            return;
+        }
+        permute(str.toCharArray(), 0);
+    }
+
+    private static void permute(char[] chars, int currentIndex) {
+        // Base case: If we've reached the end of the string, we have a complete permutation.
+        if (currentIndex == chars.length - 1) {
+            System.out.println(new String(chars));
+            return;
+        }
+
+        // Recursive step:
+        for (int i = currentIndex; i &lt; chars.length; i++) {
+            // 1. Swap the character at the current index with the character at index 'i'.
+            swap(chars, currentIndex, i);
+
+            // 2. Recurse for the rest of the string (from the next index).
+            permute(chars, currentIndex + 1);
+
+            // 3. Backtrack: Swap the characters back to their original positions.
+            swap(chars, currentIndex, i);
+        }
+    }
+
+    private static void swap(char[] chars, int i, int j) {
+        char temp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = temp;
+    }
+
+    public static void main(String[] args) {
+        String input = "ABC";
+        System.out.println("Permutations for \"" + input + "\":");
+        printPermutations(input);
+
+        System.out.println("\nPermutations for \"GOD\":");
+        printPermutations("GOD");
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Backtracking is a powerful algorithm pattern for exploring search spaces. By systematically swapping characters to explore combinations and immediately resetting (backtracking) them back, we generate all permutations cleanly and efficiently without needing extra memory grids.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

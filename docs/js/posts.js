@@ -1,6 +1,16 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 14,
+    title: "Demystifying Java's Builder Design Pattern: A Simple Guide",
+    excerpt: "Constructing complex objects with many optional parameters doesn't have to be a headache. Learn how the Builder pattern solves this using a step-by-step robot helper analogy.",
+    category: "Design Patterns",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/understanding-builder-design-pattern-simply.html",
+    image: "images/builder_pattern.png"
+  },
+  {
     id: 13,
     title: "Demystifying String Permutations: A Simple Guide",
     excerpt: "Finding all rearrangements of a string is a classic backtracking problem. Learn how to solve this using simple swapping cards analogies.",
@@ -8,7 +18,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-string-permutations-simply.html",
-    image: ""
+    image: "images/string_permutations.png"
   },
   {
     id: 12,

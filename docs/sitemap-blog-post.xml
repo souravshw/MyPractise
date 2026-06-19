@@ -40,6 +40,66 @@
 
    <!-- Blog Posts -->
    <url>
+      <loc>https://enggnotes.com/posts/flatmapping-min-max-interfaces-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/flattening-two-dimensional-arrays-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/sorting-multiple-fields-streams-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/understanding-anagram-grouping-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/understanding-string-map-keys-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/understanding-hashmap-equals-hashcode-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/understanding-synchronized-keyword-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/printing-odd-even-threads-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/understanding-deadlock-synchronized-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/understanding-deadlock-checker-simply.html</loc>
+      <lastmod>2026-06-19</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
       <loc>https://enggnotes.com/posts/understanding-builder-design-pattern-simply.html</loc>
       <lastmod>2026-06-19</lastmod>
       <changefreq>monthly</changefreq>

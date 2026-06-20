@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why Kafka is Moving to KRaft (Raft Metadata Mode) from ZooKeeper | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-kraft-mode-vs-zookeeper.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Why Kafka is Moving to KRaft",
+      "item": "https://enggnotes.com/posts/kafka-kraft-mode-vs-zookeeper.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Why is Apache ZooKeeper being replaced by KRaft mode? Learn about operational complexity, partition scaling bottlenecks, and metadata quorums.">
+  <meta name="keywords" content="kraft mode, zookeeper removal, raft quorum, controller leadership, cluster metadata">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Why Kafka is Moving to KRaft (Raft Metadata Mode) from ZooKeeper | Engineering Notes">
+  <meta property="og:description" content="Discover how KRaft simplifies cluster architecture and achieves sub-second failovers.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">KRaft Mode</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Why Kafka is Moving to KRaft (Raft Metadata Mode) from ZooKeeper</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>For over a decade, running an Apache Kafka cluster meant running two separate systems: the **Kafka Brokers** themselves and a separate **ZooKeeper Cluster** to manage metadata, broker registrations, and leader elections.</p>
+        
+        <p>While ZooKeeper served Kafka well, it introduced significant operational complexity and scalability bottlenecks. In modern Kafka versions (3.x and 4.x), ZooKeeper has been completely replaced by **KRaft** (Kafka Raft Metadata Mode). Let's review the architectural reasons behind this massive shift.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka-kraft.svg" alt="Architecture Comparison of ZooKeeper vs. KRaft Mode" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Hiring a Manager vs. Running the Shop
+          </div>
+          <p>Imagine running a chain store:</p>
+          <ul>
+            <li><strong>ZooKeeper Mode:</strong> You hire a third-party consulting agency (ZooKeeper) to sit in a separate office across the street. Every time you open a new register (partition), hire an employee (broker), or select a supervisor (leader), you must walk across the street and log it in the consultant's ledger. It is slow and expensive.</li>
+            <li><strong>KRaft Mode:</strong> You appoint a team of senior staff (Controller Brokers) inside your own shop to manage these tasks. They sit in the main office, talk directly to the cashiers, and manage the ledger themselves. Everything stays in one building, simplifying operations.</li>
+          </ul>
+        </div>
+
+        <h2>Three Major Limits of ZooKeeper</h2>
+        
+        <h3>1. Operational Complexity</h3>
+        <p>Managing ZooKeeper meant managing a separate software stack with its own configuration files, security model, firewall rules, and monitoring dashboard systems. Cluster administrators had to double their maintenance workloads.</p>
+
+        <h3>2. Scalability Bottleneck</h3>
+        <p>Every time a Kafka broker elected a partition leader, it had to sync that metadata change to ZooKeeper. When clusters grew to hundreds of thousands of partitions, ZooKeeper became a bottleneck, limiting the maximum partition scale of a single cluster.</p>
+
+        <h3>3. Long Failover Times</h3>
+        <p>If the Kafka cluster controller broker crashed, the remaining brokers had to talk to ZooKeeper to elect a new controller and download the entire metadata state of the cluster. In large systems, this failover process could take 30 to 45 seconds, during which writes were blocked. </p>
+
+        <h2>How KRaft Mode Solves These Issues</h2>
+        <p>KRaft integrates metadata management directly inside Kafka using a Raft-based consensus protocol:</p>
+        <ul>
+          <li><strong>Unified Cluster:</strong> You configure certain Kafka brokers to act as controllers. They manage metadata directly, removing ZooKeeper entirely.</li>
+          <li><strong>Sub-Second Failover:</strong> Because metadata is stored directly inside the controller quorum, if an active controller crashes, a backup controller is elected in <strong>milliseconds</strong>, preventing system hangs.</li>
+          <li><strong>Vastly Improved Scale:</strong> KRaft allows a single cluster to scale to **millions of partitions** because it bypasses external serialization bottlenecks.</li>
+          <li><strong>Unified Security:</strong> A single security policy controls client traffic and metadata sync operations.</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>KRaft mode is the future of Apache Kafka. By removing ZooKeeper, Kafka has transitioned from a dual-dependency system into a self-contained, high-performance distributed streaming engine. KRaft makes cluster operations simpler, safer, and ready to scale.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

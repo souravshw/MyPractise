@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Common Kafka Architecture and Design Patterns | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-architecture-design-patterns.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Common Kafka Architecture and Design Patterns",
+      "item": "https://enggnotes.com/posts/kafka-architecture-design-patterns.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Explore common Kafka architectural design patterns. Learn how Event Sourcing, CQRS, Transactional Outbox, and Dead Letter Queues (DLQ) work simply.">
+  <meta name="keywords" content="kafka design patterns, event sourcing, cqrs architectural pattern, outbox pattern, dead letter queue, saga pattern">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Common Kafka Architecture and Design Patterns | Engineering Notes">
+  <meta property="og:description" content="Design scalable, resilient event-driven systems using proven Kafka architectural patterns.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Design Patterns</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">5 min read</span>
+        </div>
+        <h1 class="article-title">Common Kafka Architecture and Design Patterns</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>Building event-driven microservices involves solving common architectural challenges. How do you share data between services safely? How do you update a database and notify Kafka in a single transaction? How do you isolate invalid payloads without stopping your system?</p>
+        
+        <p>Over time, software engineers have developed proven design patterns to solve these problems. Let's explore four of the most popular **Kafka Architectural Patterns** explained in simple, layperson terms.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka-design-patterns.svg" alt="Kafka Architecture Design Patterns Diagrams (CQRS and Outbox)" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Blueprint Specifications
+          </div>
+          <p>Imagine building a model town:</p>
+          <p>Instead of guessing how to lay out streets, water mains, and fire hydrants, you consult a book of standard city blueprints (Design Patterns) that have been tested and proven to prevent congestion and utility failures.</p>
+        </div>
+
+        <h2>Four Common Kafka Patterns</h2>
+
+        <h3>1. CQRS (Command Query Responsibility Segregation)</h3>
+        <p>In high-traffic systems, handling read and write actions on the same database creates bottlenecks. **CQRS** solves this by separating the two paths:</p>
+        <ul>
+          <li><strong>Writes (Commands):</strong> Handled by writing events sequentially to a Kafka topic (the write ledger).</li>
+          <li><strong>Reads (Queries):</strong> Handled by a consumer that reads events from Kafka, structures them into a fast, read-optimized database (like Elasticsearch), and serves user queries from there.</li>
+        </ul>
+
+        <h3>2. Transactional Outbox Pattern</h3>
+        <p>In microservices, you often need to save data to a database <em>and</em> notify Kafka. Performing these as separate steps can fail if the database succeeds but the network drops before writing to Kafka (creating inconsistency).</p>
+        <p><strong>The Outbox solution:</strong> You write your data to the database table and a temporary <code>Outbox</code> table in the **same database transaction**. A Kafka Connect agent (like Debezium) monitors the Outbox table and publishes events to Kafka automatically, ensuring that database commits and Kafka updates succeed together.</p>
+
+        <h3>3. Dead Letter Queue (DLQ)</h3>
+        <p>If a consumer receives a message that fails validation or causes a database exception, stopping the consumer thread halts the entire data pipeline. </p>
+        <p><strong>The DLQ solution:</strong> The consumer catches the processing exception, publishes the problematic message to a separate topic named <code>orders-dlq</code> along with error headers, commits the original offset, and continues processing the next message. Administrators can inspect the DLQ topic later to debug the issue without stopping active traffic.</p>
+
+        <h3>4. Event Sourcing</h3>
+        <p>Instead of storing only the current state of a record, you store the entire chronological list of state changes (events) inside a Kafka topic. To calculate a user's current account balance, your application replays the list of transactions from offset 0, providing a complete, audit-safe ledger.</p>
+
+        <h2>Conclusion</h2>
+        <p>Using patterns like **CQRS** for read-write isolation, the **Transactional Outbox** to avoid dual-write failures, and **Dead Letter Queues** to handle errors gracefully allows you to build stable, scalable distributed microservices architectures.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

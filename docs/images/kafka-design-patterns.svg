@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0822" />
+      <stop offset="100%" stop-color="#04020A" />
+    </linearGradient>
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#1F153C" stroke-width="2"/>
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">
+    Kafka Architecture &amp; Design Patterns
+  </text>
+  <text x="400" y="70" font-family="'Segoe UI', sans-serif" font-size="13" fill="#887DA5" text-anchor="middle">
+    Common architectural patterns for building event-driven systems
+  </text>
+
+  <!-- Pattern 1: CQRS Pattern -->
+  <g transform="translate(60, 110)">
+    <rect width="320" height="280" rx="10" fill="#120D23" stroke="#3A86FF" stroke-width="1.5" filter="url(#glowBlue)"/>
+    <text x="160" y="30" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#7AB1FF" text-anchor="middle">CQRS Pattern</text>
+    
+    <!-- User/Command -->
+    <rect x="20" y="60" width="90" height="40" rx="4" fill="#1C1835" stroke="#5C42A5" stroke-width="1"/>
+    <text x="65" y="85" font-family="'Segoe UI', sans-serif" font-size="11" fill="#E2D6FF" text-anchor="middle">Command Write</text>
+
+    <!-- Arrow right to Kafka -->
+    <path d="M110 80 L200 80" stroke="#3A86FF" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+
+    <!-- Kafka topic -->
+    <rect x="210" y="60" width="90" height="80" rx="4" fill="#1C1835" stroke="#5C42A5" stroke-width="1"/>
+    <text x="255" y="90" font-family="'Segoe UI', sans-serif" font-size="12" fill="#E2D6FF" text-anchor="middle">Kafka Topic</text>
+    <text x="255" y="110" font-family="monospace" font-size="9" fill="#887DA5" text-anchor="middle">(Journal Log)</text>
+
+    <!-- Arrow down to Materialized View -->
+    <path d="M255 140 L255 190" stroke="#3A86FF" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+
+    <!-- Query View -->
+    <rect x="180" y="200" width="120" height="50" rx="4" fill="#152C22" stroke="#00FF87" stroke-width="1"/>
+    <text x="240" y="222" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#00FF87" text-anchor="middle">Materialized View</text>
+    <text x="240" y="238" font-family="monospace" font-size="9" fill="#887DA5" text-anchor="middle">(Fast Read DB/KTable)</text>
+  </g>
+
+  <!-- Pattern 2: Outbox Pattern -->
+  <g transform="translate(420, 110)">
+    <rect width="320" height="280" rx="10" fill="#120D23" stroke="#3A2075" stroke-width="1.5"/>
+    <text x="160" y="30" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#D2C8E3" text-anchor="middle">Transactional Outbox</text>
+
+    <!-- Service DB -->
+    <rect x="25" y="60" width="100" height="110" rx="6" fill="#1C1835" stroke="#5C42A5" stroke-width="1"/>
+    <text x="75" y="85" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#E2D6FF" text-anchor="middle">Service DB</text>
+    <rect x="35" y="105" width="80" height="20" rx="2" fill="#110722" stroke="#3A2075" stroke-width="1"/>
+    <text x="75" y="118" font-family="monospace" font-size="9" fill="#887DA5" text-anchor="middle">App Table</text>
+    <rect x="35" y="135" width="80" height="25" rx="2" fill="#2E1C1A" stroke="#FF7A00" stroke-width="1"/>
+    <text x="75" y="150" font-family="monospace" font-size="9" font-weight="bold" fill="#FF7A00" text-anchor="middle">Outbox Table</text>
+
+    <!-- Arrow from DB to Connector -->
+    <path d="M125 147 L190 147" stroke="#FF7A00" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+
+    <!-- CDC Connector -->
+    <rect x="200" y="120" width="100" height="50" rx="4" fill="#152C22" stroke="#00FF87" stroke-width="1"/>
+    <text x="250" y="142" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#00FF87" text-anchor="middle">CDC Connector</text>
+    <text x="250" y="157" font-family="monospace" font-size="8" fill="#887DA5" text-anchor="middle">(Debezium / JDBC)</text>
+
+    <!-- Arrow up to Kafka -->
+    <path d="M250 120 L250 80 L180 80" stroke="#00FF87" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+
+    <!-- Kafka Destination -->
+    <rect x="75" y="200" width="170" height="50" rx="4" fill="#151A33" stroke="#3A86FF" stroke-width="1"/>
+    <text x="160" y="222" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#7AB1FF" text-anchor="middle">Kafka Cluster Topic</text>
+    <text x="160" y="238" font-family="monospace" font-size="9" fill="#887BA2" text-anchor="middle">(Relays updates to microservices)</text>
+  </g>
+</svg>

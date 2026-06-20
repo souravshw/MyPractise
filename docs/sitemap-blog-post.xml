@@ -40,6 +40,66 @@
 
    <!-- Blog Posts -->
    <url>
+      <loc>https://enggnotes.com/posts/kafka-architecture-design-patterns.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/kafka-monitoring-critical-metrics.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/kafka-security-mechanisms.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/kafka-schema-evolution-registry.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/kafka-delivery-semantics-guarantees.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/kafka-kraft-mode-vs-zookeeper.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/kafka-log-compaction.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/kafka-connect-source-sink.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/kafka-streams-state-store.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/kafka-kstream-vs-ktable.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
       <loc>https://enggnotes.com/posts/kafka-streams-vs-consumer.html</loc>
       <lastmod>2026-06-20</lastmod>
       <changefreq>monthly</changefreq>

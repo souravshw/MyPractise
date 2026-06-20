@@ -1,6 +1,106 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 92,
+    title: "Common Kafka Architecture and Design Patterns",
+    excerpt: "Explore common Kafka architectural design patterns. Learn how Event Sourcing, CQRS, Transactional Outbox, and Dead Letter Queues (DLQ) work simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "5 min read",
+    url: "posts/kafka-architecture-design-patterns.html",
+    image: "images/kafka-design-patterns.svg"
+  },
+  {
+    id: 91,
+    title: "Important Kafka Metrics to Monitor in Production",
+    excerpt: "A production guide to Kafka monitoring. Learn the critical metrics including under-replicated partitions, consumer lag, and ISR shrink rates.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-monitoring-critical-metrics.html",
+    image: "images/kafka-monitoring.svg"
+  },
+  {
+    id: 90,
+    title: "Introduction to Apache Kafka Security: Authentication & Authorization",
+    excerpt: "A simple guide to Apache Kafka security. Learn about TLS encryption, SASL/SCRAM authentication, and ACLs authorization simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-security-mechanisms.html",
+    image: "images/kafka-security.svg"
+  },
+  {
+    id: 89,
+    title: "Handling Schema Evolution in Kafka with Schema Registry",
+    excerpt: "How do you handle schema evolution in Kafka? Learn how Confluent Schema Registry works, Avro serialization compatibility rules, and best practices simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-schema-evolution-registry.html",
+    image: "images/kafka-schema-registry.svg"
+  },
+  {
+    id: 88,
+    title: "Kafka Delivery Semantics: At-Most-Once, At-Least-Once, Exactly-Once",
+    excerpt: "A guide to Kafka delivery semantics. Learn how to configure At-Most-Once, At-Least-Once, and Exactly-Once (EOS) processing pipelines simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-delivery-semantics-guarantees.html",
+    image: "images/kafka-delivery-guarantees.svg"
+  },
+  {
+    id: 87,
+    title: "Why Kafka is Moving to KRaft (Raft Metadata Mode) from ZooKeeper",
+    excerpt: "Why is Apache ZooKeeper being replaced by KRaft mode? Learn about operational complexity, partition scaling bottlenecks, and metadata quorums.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-kraft-mode-vs-zookeeper.html",
+    image: "images/kafka-kraft.svg"
+  },
+  {
+    id: 86,
+    title: "Understanding Log Compaction in Apache Kafka",
+    excerpt: "What is Kafka Log Compaction? Learn how the clean vs. dirty log sections work, how disk space is reclaimed, and how tombstone records delete keys.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-log-compaction.html",
+    image: "images/kafka-log-compaction.svg"
+  },
+  {
+    id: 85,
+    title: "What is Kafka Connect? Source vs. Sink Connectors",
+    excerpt: "What is Kafka Connect? Learn how Source and Sink connectors simplify data ingestion from databases and exports to search engines without writing code.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-connect-source-sink.html",
+    image: "images/kafka-connect.svg"
+  },
+  {
+    id: 84,
+    title: "What is a State Store in Kafka Streams?",
+    excerpt: "What is a State Store in Kafka Streams? Learn how RocksDB is used for local state, and how changelog topics provide fault-tolerant recovery.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-streams-state-store.html",
+    image: "images/kafka-state-store.svg"
+  },
+  {
+    id: 83,
+    title: "Kafka Streams: KStream vs. KTable Explained Simply",
+    excerpt: "What is the difference between KStream and KTable in Kafka Streams? Learn their append vs. upsert semantics and windowing behavior simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-kstream-vs-ktable.html",
+    image: "images/kafka-kstream-ktable.svg"
+  },
+  {
     id: 82,
     title: "Kafka Streams vs. Kafka Consumer: Which Should You Use?",
     excerpt: "Compare Kafka Streams library with classic Kafka Consumers. Learn when to use stateful processing, KStreams, KTables, and RocksDB state stores simply.",

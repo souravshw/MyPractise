@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0822" />
+      <stop offset="100%" stop-color="#04020A" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#1F153C" stroke-width="2"/>
+  <text x="400" y="50" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">Custom Iterator &amp; Iterable</text>
+  <text x="400" y="75" font-family="'Segoe UI', sans-serif" font-size="13" fill="#887DA5" text-anchor="middle">How Java loops over a custom data collection step-by-step</text>
+
+  <!-- Custom Collection Container -->
+  <g transform="translate(100, 150)">
+    <rect width="200" height="220" rx="6" fill="#140F27" stroke="#3A2075" stroke-width="1.5"/>
+    <text x="100" y="30" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#D2C8E3" text-anchor="middle">Custom List (Iterable)</text>
+    
+    <rect x="20" y="60" width="160" height="35" rx="4" fill="#1A152E" stroke="#5C42A5" stroke-width="1"/>
+    <text x="100" y="82" font-family="monospace" font-size="14" fill="#E2D6FF" text-anchor="middle">Element A</text>
+    
+    <rect x="20" y="110" width="160" height="35" rx="4" fill="#1A152E" stroke="#5C42A5" stroke-width="1"/>
+    <text x="100" y="132" font-family="monospace" font-size="14" fill="#E2D6FF" text-anchor="middle">Element B</text>
+
+    <rect x="20" y="160" width="160" height="35" rx="4" fill="#1A152E" stroke="#5C42A5" stroke-width="1"/>
+    <text x="100" y="182" font-family="monospace" font-size="14" fill="#E2D6FF" text-anchor="middle">Element C</text>
+  </g>
+
+  <!-- Iterator Piston -->
+  <g transform="translate(480, 150)">
+    <rect width="220" height="220" rx="10" fill="#1A182E" stroke="#5C42A5" stroke-width="1.5"/>
+    <text x="110" y="35" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#E2D6FF" text-anchor="middle">Custom Iterator</text>
+    
+    <!-- methods -->
+    <rect x="20" y="60" width="180" height="50" rx="6" fill="#140F27" stroke="#00FF87" stroke-width="1"/>
+    <text x="110" y="82" font-family="monospace" font-size="13" fill="#00FF87" text-anchor="middle">hasNext()</text>
+    <text x="110" y="100" font-family="'Segoe UI', sans-serif" font-size="10" fill="#887DA5" text-anchor="middle">Is there another item? (true/false)</text>
+
+    <rect x="20" y="130" width="180" height="50" rx="6" fill="#140F27" stroke="#00FF87" stroke-width="1"/>
+    <text x="110" y="152" font-family="monospace" font-size="13" fill="#00FF87" text-anchor="middle">next()</text>
+    <text x="110" y="170" font-family="'Segoe UI', sans-serif" font-size="10" fill="#887DA5" text-anchor="middle">Returns current, shifts cursor</text>
+
+    <!-- Cursor Pointer -->
+    <text x="110" y="205" font-family="monospace" font-size="12" fill="#FFA5A5" text-anchor="middle">index = 0</text>
+  </g>
+</svg>

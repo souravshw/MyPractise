@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finding the Most Frequent IP Address in Log Files | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/frequent-ip-address-counter.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Algorithms",
+      "item": "https://enggnotes.com/index.html?category=Algorithms"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Frequent IP Address",
+      "item": "https://enggnotes.com/posts/frequent-ip-address-counter.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to find the most frequent IP address in a log file using Java HashMap, explained simply with a vote-counting analogy.">
+  <meta name="keywords" content="finding most, most frequent, finding java, most java, frequent java, ip java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Finding the Most Frequent IP Address in Log Files | Engineering Notes">
+  <meta property="og:description" content="Learn how to find the most frequent IP address in a log file using Java HashMap, explained simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <main class="container">
+    <article class="article-container">
+      
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Algorithms">Algorithms</a></li>
+          <li aria-current="page">Frequent IP</li>
+        </ol>
+      </nav>
+      
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Algorithms</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Finding the Most Frequent IP Address in Log Files</h1>
+      </header>
+
+      <div class="article-body">
+        <p>In web servers and load balancers, logs contain records of every incoming network connection. A common task is finding which IP address sent the most requests, which is crucial for identifying denial-of-service (DDoS) attacks.</p>
+
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/frequent-ip.svg" alt="Visualizing IP frequency counter" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Counting Votes on a Blackboard
+          </div>
+          <p>Imagine you are the class president in a school election. Students walk past and drop **paper ballots (IP addresses)** with names on them into a box.</p>
+          <p>To count the votes, you stand in front of a **blackboard (the HashMap ledger)**. For each ballot you pull:
+            <ul>
+              <li>If the name is not on the board yet, you write it down and write a tally mark <code>1</code> next to it.</li>
+              <li>If the name is already there, you erase the old number, add 1, and write the new count.</li>
+            </ul>
+          </p>
+          <p>At the end, you look at the board and find the name with the **highest tally count** to declare the winner!</p>
+        </div>
+
+        <h2>Step-by-Step Logic Trace</h2>
+        <ol>
+          <li>Read the list of IP addresses from the file or string input.</li>
+          <li>Set up a `HashMap<String, Integer>` where the key is the IP address and the value is the occurrence count.</li>
+          <li>For each IP, fetch its current count using <code>map.getOrDefault(ip, 0)</code>, increment by 1, and save it back using <code>map.put(ip, newCount)</code>.</li>
+          <li>Keep a running tracker of the `maxCount` and the corresponding `frequentIp` string. If the newCount exceeds maxCount, update your tracker.</li>
+        </ol>
+
+        <h2>Java Implementation</h2>
+        <pre><code class="language-java">package io.practise.myPractice;
+ 
+import java.util.HashMap;
+import java.util.Map;
+ 
+public class FrequentIPAddress {
+    public static void main(String[] args) {
+        String[] logs = {
+            "192.168.1.1", "10.0.0.5", "192.168.1.1",
+            "172.16.254.1", "10.0.0.5", "192.168.1.1"
+        };
+ 
+        Map<String, Integer> ipCounts = new HashMap<>();
+        String frequentIp = "";
+        int maxCount = 0;
+ 
+        for (String ip : logs) {
+            int count = ipCounts.getOrDefault(ip, 0) + 1;
+            ipCounts.put(ip, count);
+ 
+            if (count > maxCount) {
+                maxCount = count;
+                frequentIp = ip;
+            }
+        }
+ 
+        System.out.println("Most frequent IP: " + frequentIp + " (" + maxCount + " requests)");
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>By executing counting and max checks concurrently inside a single loop, we achieve O(N) linear time complexity and find the target IP in one pass.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <script src="../js/fragments.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0822" />
+      <stop offset="100%" stop-color="#04020A" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#1F153C" stroke-width="2"/>
+  <text x="400" y="50" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">Blank Final Variables Initialization</text>
+  <text x="400" y="75" font-family="'Segoe UI', sans-serif" font-size="13" fill="#887DA5" text-anchor="middle">Setting final properties inside constructors before they freeze</text>
+
+  <!-- Variable Box -->
+  <g transform="translate(100, 150)">
+    <rect width="200" height="200" rx="6" fill="#140F27" stroke="#FF5E5E" stroke-width="1.5"/>
+    <text x="100" y="35" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#FF5E5E" text-anchor="middle">final int MAX_SIZE</text>
+    <rect x="20" y="60" width="160" height="110" rx="4" fill="#1A152E" stroke="#5C42A5" stroke-width="1"/>
+    <text x="100" y="100" font-family="'Segoe UI', sans-serif" font-size="13" fill="#887DA5" text-anchor="middle">Starts empty</text>
+    <text x="100" y="125" font-family="'Segoe UI', sans-serif" font-size="11" fill="#FFA5A5" text-anchor="middle">(Blank Final)</text>
+  </g>
+
+  <!-- Constructor Stamp -->
+  <g transform="translate(480, 150)">
+    <rect width="220" height="200" rx="10" fill="#0C2518" stroke="#00FF87" stroke-width="2"/>
+    <text x="110" y="35" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#00FF87" text-anchor="middle">Constructor Zone</text>
+    
+    <rect x="20" y="60" width="180" height="60" rx="4" fill="#140F27" stroke="#253D2F" stroke-width="1"/>
+    <text x="110" y="85" font-family="monospace" font-size="12" fill="#8EFFA5" text-anchor="middle">MAX_SIZE = 10;</text>
+    <text x="110" y="105" font-family="'Segoe UI', sans-serif" font-size="10" fill="#8EFFA5" text-anchor="middle">(Initialization Allowed)</text>
+
+    <!-- Frozen post-construct -->
+    <text x="110" y="155" font-family="'Segoe UI', sans-serif" font-size="11" fill="#887DA5" text-anchor="middle">After constructor exits:</text>
+    <text x="110" y="180" font-family="'Segoe UI', sans-serif" font-size="12" fill="#FF5E5E" font-weight="bold" text-anchor="middle">FROZEN &amp; IMMUTABLE</text>
+  </g>
+
+  <!-- Arrow -->
+  <path d="M310 250 L470 250" stroke="#00FF87" stroke-width="2" fill="none"/>
+</svg>

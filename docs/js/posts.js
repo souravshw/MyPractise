@@ -1,6 +1,156 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 112,
+    title: "Shuffling Lists in Java using Collections.shuffle()",
+    excerpt: "How do you randomize elements in a List in Java? Learn how to use Collections.shuffle() with a playlist recommendation analogy simply.",
+    category: "Java Concurrency",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/java-collections-shuffling.html",
+    image: "images/collections-shuffle.svg"
+  },
+  {
+    id: 111,
+    title: "Understanding Blank Final Variables in Java",
+    excerpt: "What are blank final variables in Java? Learn how to declare immutable fields and initialize them inside class constructors simply.",
+    category: "Java Concurrency",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/java-blank-final-variables.html",
+    image: "images/blank-final.svg"
+  },
+  {
+    id: 110,
+    title: "Serialization and Class Inheritance in Java",
+    excerpt: "How does Java serialization behave across subclasses and inheritance hierarchies? Learn the rules of superclass serialization simply.",
+    category: "Java Concurrency",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/java-serialization-inheritance.html",
+    image: "images/serialization-inheritance.svg"
+  },
+  {
+    id: 109,
+    title: "Understanding Java Serialization & the Transient Keyword",
+    excerpt: "A simple guide to Java object serialization. Learn how transient excludes sensitive fields from flat byte streams simply.",
+    category: "Java Concurrency",
+    date: "June 20, 2026",
+    readTime: "5 min read",
+    url: "posts/java-serialization-transient.html",
+    image: "images/serialization-basic.svg"
+  },
+  {
+    id: 108,
+    title: "Advanced Java Enums: Constant-Specific Class Bodies & Overrides",
+    excerpt: "How do you write custom methods for specific enum constants in Java? Learn how to implement constant-specific bodies simply.",
+    category: "Java Concurrency",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/java-advanced-enum-class-bodies.html",
+    image: "images/advanced-enums.svg"
+  },
+  {
+    id: 107,
+    title: "How to Create Threads in Java: Extending Thread vs. Implementing Runnable",
+    excerpt: "Compare the two standard thread creation approaches in Java. Understand subclassing Thread versus task encapsulation in Runnable simply.",
+    category: "Java Concurrency",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/java-thread-creation-mechanisms.html",
+    image: "images/thread-creation.svg"
+  },
+  {
+    id: 106,
+    title: "Understanding Java Semaphores: Rate Limiting & Concurrency Control",
+    excerpt: "Learn how Java Semaphores use virtual permits to control concurrent thread access and rate limit resources simply.",
+    category: "Java Concurrency",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/java-semaphores-rate-limiting.html",
+    image: "images/java-semaphores.svg"
+  },
+  {
+    id: 105,
+    title: "Alternating Odd & Even Numbers using ExecutorService in Java",
+    excerpt: "How do you coordinate alternating tasks using thread pools? Learn how to print odd/even numbers using ExecutorService simply.",
+    category: "Java Concurrency",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/printing-odd-even-executor-service.html",
+    image: "images/executor-service-odd-even.svg"
+  },
+  {
+    id: 104,
+    title: "Constructing the Minimum Possible Number using Counting Sort",
+    excerpt: "How do you build the smallest possible number from digits in Java? Learn how to use counting sort for linear speed simply.",
+    category: "Algorithms",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/minimum-possible-number.html",
+    image: "images/minimum-number.svg"
+  },
+  {
+    id: 103,
+    title: "Understanding JDBC Database Connectivity in Java",
+    excerpt: "Learn how Java applications connect and execute SQL queries on databases using the core JDBC API simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "5 min read",
+    url: "posts/java-jdbc-database-connectivity.html",
+    image: "images/java-jdbc.svg"
+  },
+  {
+    id: 102,
+    title: "Implementing Custom Iterator and Iterable in Java",
+    excerpt: "How do you make a custom class loopable with enhanced for-each loops in Java? Learn how to implement Iterator and Iterable simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/java-custom-iterator-iterable.html",
+    image: "images/custom-iterable.svg"
+  },
+  {
+    id: 101,
+    title: "BigDecimal vs. Double for Financial Calculations in Java",
+    excerpt: "Why should you never use double or float for money calculations? Learn how BigDecimal solves decimal rounding errors simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/java-bigdecimal-vs-double.html",
+    image: "images/bigdecimal-vs-double.svg"
+  },
+  {
+    id: 100,
+    title: "Finding the Most Frequent IP Address in Log Files",
+    excerpt: "Learn how to parse connection logs and locate the most frequent IP address using a Java HashMap simply.",
+    category: "Algorithms",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/frequent-ip-address-counter.html",
+    image: "images/frequent-ip.svg"
+  },
+  {
+    id: 99,
+    title: "Tape Equilibrium Split Sum Minimization in Java",
+    excerpt: "How do you split an array to minimize the sum difference between both partitions? Learn the linear O(N) solution simply.",
+    category: "Algorithms",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/tape-equilibrium-algorithm.html",
+    image: "images/tape-equilibrium.svg"
+  },
+  {
+    id: 98,
+    title: "Finding the Longest Binary Gap in Java",
+    excerpt: "How do you calculate the maximum sequence of zeros between ones in binary? Learn the Codility solution in Java simply.",
+    category: "Algorithms",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/binary-gap-algorithm.html",
+    image: "images/binary-gap.svg"
+  },
+  {
     id: 97,
     title: "How to Ensure Zero Data Loss in Apache Kafka",
     excerpt: "Configure Apache Kafka for zero data loss. Learn the key broker, producer, and consumer settings for maximum data durability simply.",

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0822" />
+      <stop offset="100%" stop-color="#04020A" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#1F153C" stroke-width="2"/>
+  <text x="400" y="50" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">Java Database Connectivity (JDBC) Pipeline</text>
+  <text x="400" y="75" font-family="'Segoe UI', sans-serif" font-size="13" fill="#887DA5" text-anchor="middle">How Java applications talk to databases using Drivers</text>
+
+  <!-- Java Application box -->
+  <g transform="translate(60, 150)">
+    <rect width="180" height="180" rx="6" fill="#140F27" stroke="#3A2075" stroke-width="1.5"/>
+    <text x="90" y="35" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#D2C8E3" text-anchor="middle">Java Application</text>
+    
+    <rect x="15" y="60" width="150" height="40" rx="4" fill="#1A152E" stroke="#5C42A5" stroke-width="1"/>
+    <text x="90" y="85" font-family="monospace" font-size="11" fill="#E2D6FF" text-anchor="middle">DriverManager</text>
+    
+    <rect x="15" y="115" width="150" height="40" rx="4" fill="#1A152E" stroke="#5C42A5" stroke-width="1"/>
+    <text x="90" y="140" font-family="monospace" font-size="11" fill="#E2D6FF" text-anchor="middle">Connection / Statement</text>
+  </g>
+
+  <!-- JDBC Driver Bridge -->
+  <g transform="translate(310, 180)">
+    <rect width="180" height="120" rx="6" fill="#1A182E" stroke="#5C42A5" stroke-width="1.5"/>
+    <text x="90" y="35" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#E2D6FF" text-anchor="middle">JDBC Driver</text>
+    <text x="90" y="65" font-family="'Segoe UI', sans-serif" font-size="11" fill="#887DA5" text-anchor="middle">(Translates Java calls</text>
+    <text x="90" y="85" font-family="'Segoe UI', sans-serif" font-size="11" fill="#887DA5" text-anchor="middle">to database queries)</text>
+    
+    <!-- Connection lines -->
+    <path d="M-70 30 L0 30" stroke="#00FF87" stroke-width="2" fill="none"/>
+    <path d="M180 30 L250 30" stroke="#00FF87" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Database Server -->
+  <g transform="translate(560, 150)">
+    <!-- Cylinder Database shape -->
+    <path d="M10 30 C 10 10, 170 10, 170 30 L 170 150 C 170 170, 10 170, 10 150 Z" fill="#120D23" stroke="#00FF87" stroke-width="2"/>
+    <ellipse cx="90" cy="30" rx="80" ry="20" fill="#1F153C" stroke="#00FF87" stroke-width="1.5"/>
+    
+    <text x="90" y="85" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#F0EBF8" text-anchor="middle">Database</text>
+    <text x="90" y="115" font-family="'Segoe UI', sans-serif" font-size="12" fill="#887DA5" text-anchor="middle">(MySQL / PostgreSQL)</text>
+  </g>
+</svg>

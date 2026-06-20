@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0822" />
+      <stop offset="100%" stop-color="#04020A" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#1F153C" stroke-width="2"/>
+  <text x="400" y="50" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">Advanced Java Enums with Custom Bodies</text>
+  <text x="400" y="75" font-family="'Segoe UI', sans-serif" font-size="13" fill="#887DA5" text-anchor="middle">How specific enum constants can override abstract behavior</text>
+
+  <!-- Enum Declaration block -->
+  <g transform="translate(100, 140)">
+    <rect width="220" height="230" rx="6" fill="#140F27" stroke="#3A2075" stroke-width="1.5"/>
+    <text x="110" y="35" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#D2C8E3" text-anchor="middle">enum characters</text>
+    
+    <!-- Constants list -->
+    <rect x="20" y="60" width="180" height="40" rx="4" fill="#1A152E" stroke="#5C42A5" stroke-width="1"/>
+    <text x="35" y="85" font-family="monospace" font-size="13" fill="#E2D6FF">A ("a")</text>
+
+    <rect x="20" y="110" width="180" height="40" rx="4" fill="#1A152E" stroke="#5C42A5" stroke-width="1"/>
+    <text x="35" y="135" font-family="monospace" font-size="13" fill="#E2D6FF">B ("b")</text>
+
+    <rect x="20" y="160" width="180" height="50" rx="4" fill="#1A182E" stroke="#00FF87" stroke-width="1.5"/>
+    <text x="35" y="182" font-family="monospace" font-size="13" fill="#00FF87" font-weight="bold">C ("c")</text>
+    <text x="35" y="200" font-family="monospace" font-size="10" fill="#887DA5">{ printSmallCase() }</text>
+  </g>
+
+  <!-- Custom Behavior card -->
+  <g transform="translate(420, 150)">
+    <rect width="280" height="190" rx="8" fill="#1A182E" stroke="#5C42A5" stroke-width="1.5"/>
+    <text x="140" y="35" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#E2D6FF" text-anchor="middle">Constant-Specific Class Body</text>
+    
+    <text x="30" y="75" font-family="'Segoe UI', sans-serif" font-size="12" fill="#887DA5">Constant **C** provides a custom body that overrides</text>
+    <text x="30" y="95" font-family="'Segoe UI', sans-serif" font-size="12" fill="#887DA5">or implements <code>printSmallCase()</code> directly.</text>
+    
+    <rect x="20" y="120" width="240" height="50" rx="4" fill="#140F27" stroke="#3A2075" stroke-width="1"/>
+    <text x="30" y="150" font-family="monospace" font-size="11" fill="#00FF87">System.out.print(this.getCase())</text>
+  </g>
+</svg>

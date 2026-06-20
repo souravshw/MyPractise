@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0822" />
+      <stop offset="100%" stop-color="#04020A" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#1F153C" stroke-width="2"/>
+  <text x="400" y="50" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">Odd/Even Using Executor Service</text>
+  <text x="400" y="75" font-family="'Segoe UI', sans-serif" font-size="13" fill="#887DA5" text-anchor="middle">Managing alternating tasks using a Thread Pool manager</text>
+
+  <!-- Coordinator ExecutorService -->
+  <g transform="translate(100, 140)">
+    <rect width="200" height="220" rx="6" fill="#140F27" stroke="#3A2075" stroke-width="1.5"/>
+    <text x="100" y="30" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#D2C8E3" text-anchor="middle">Executor Service Manager</text>
+    
+    <rect x="20" y="60" width="160" height="130" rx="4" fill="#1A152E" stroke="#5C42A5" stroke-width="1"/>
+    <text x="100" y="90" font-family="'Segoe UI', sans-serif" font-size="12" fill="#E2D6FF" text-anchor="middle">Task Queue</text>
+    <rect x="35" y="110" width="130" height="25" rx="2" fill="#140F27" stroke="#00FF87" stroke-width="1"/>
+    <text x="100" y="127" font-family="monospace" font-size="11" fill="#00FF87" text-anchor="middle">PrintTask(1)</text>
+    
+    <rect x="35" y="145" width="130" height="25" rx="2" fill="#140F27" stroke="#00FF87" stroke-width="1"/>
+    <text x="100" y="162" font-family="monospace" font-size="11" fill="#00FF87" text-anchor="middle">PrintTask(2)</text>
+  </g>
+
+  <!-- Thread Pool Workers -->
+  <g transform="translate(480, 140)">
+    <rect width="220" height="220" rx="10" fill="#1A182E" stroke="#5C42A5" stroke-width="1.5"/>
+    <text x="110" y="35" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#E2D6FF" text-anchor="middle">Thread Pool</text>
+    
+    <!-- Thread 1 -->
+    <rect x="20" y="60" width="180" height="60" rx="6" fill="#140F27" stroke="#00FF87" stroke-width="1"/>
+    <text x="110" y="85" font-family="'Segoe UI', sans-serif" font-size="12" fill="#D2C8E3" text-anchor="middle">Worker Thread 1 (Odd)</text>
+    <text x="110" y="105" font-family="monospace" font-size="13" fill="#00FF87" text-anchor="middle">Executing...</text>
+    
+    <!-- Thread 2 -->
+    <rect x="20" y="140" width="180" height="60" rx="6" fill="#140F27" stroke="#00FF87" stroke-width="1"/>
+    <text x="110" y="165" font-family="'Segoe UI', sans-serif" font-size="12" fill="#D2C8E3" text-anchor="middle">Worker Thread 2 (Even)</text>
+    <text x="110" y="185" font-family="monospace" font-size="13" fill="#00FF87" text-anchor="middle">Executing...</text>
+  </g>
+</svg>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Apache Kafka Replication and Leader Election Work | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-replication-mechanics.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How Apache Kafka Replication Works",
+      "item": "https://enggnotes.com/posts/kafka-replication-mechanics.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Understand Kafka partition replication. Learn what Leader, Followers, In-Sync Replicas (ISR), and unclean leader elections do simply.">
+  <meta name="keywords" content="kafka replication, leader election, follower replica, in sync replicas, isr, replication factor">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="How Apache Kafka Replication and Leader Election Work | Engineering Notes">
+  <meta property="og:description" content="Discover how Kafka replicates topic partitions to provide high availability and protect against server crashes.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Replication</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">How Apache Kafka Replication and Leader Election Work</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In a large production cluster, hardware failures are inevitable. Hard drives fail, network switches disconnect, and servers crash. To ensure your streaming data remains available despite these issues, Kafka implements a robust partition-level **Replication Model**.</p>
+        
+        <p>Replication ensures that multiple copies of your data exist across different brokers. If a server hosting your data crashes, Kafka instantly switches to another copy with zero downtime. Let's look at how this works.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka_replication.png" alt="Kafka Partition Replication and ISR Architecture" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Lead Singer and Backups
+          </div>
+          <p>Imagine a live musical performance:</p>
+          <ul>
+            <li><strong>The Leader is the Lead Singer.</strong> They stand at the front microphone, handle all interactions with the audience (Producers and Consumers), and lead the song.</li>
+            <li><strong>The Followers are the Backup Singers.</strong> They stand behind the leader, listen to what the leader sings, and copy it in real-time. If the lead singer suddenly loses their voice (broker failure), the stage manager instantly promotes one of the backup singers who is in sync to the lead microphone (Leader Election). The concert continues without interruption.</li>
+          </ul>
+        </div>
+
+        <h2>Replication Roles: Leader vs. Follower</h2>
+        <p>For every partition in your Kafka topics, brokers are assigned specific roles:</p>
+        <ul>
+          <li><strong>The Leader:</strong> Each partition has exactly one broker designated as the leader. The leader is responsible for handling all incoming writes from producers and reads from consumers.</li>
+          <li><strong>The Followers:</strong> The remaining brokers configured by the replication factor act as followers. They do not serve client requests; instead, they periodically poll the leader to copy new log records to their local disks.</li>
+        </ul>
+
+        <h2>What are In-Sync Replicas (ISR)?</h2>
+        <p>An **In-Sync Replica (ISR)** is any follower broker that is successfully keeping up with the leader. If a follower crashes or experiences network lag, it falls behind. If it doesn't catch up within 30 seconds (configured by <code>replica.lag.time.max.ms</code>), Kafka removes it from the ISR pool.</p>
+        <p>This is crucial: **Kafka will only elect a new leader from the active ISR pool** to guarantee that the new leader has all previously confirmed messages.</p>
+
+        <h2>Topic Creation with Replication Factor</h2>
+        <p>When you create a topic, you define the <strong>Replication Factor</strong>. For production systems, a factor of **3** is the standard recommendation:</p>
+        <pre><code class="language-java">// Create a topic "payments" with 6 partitions and a replication factor of 3
+NewTopic paymentsTopic = new NewTopic("payments", 6, (short) 3);
+adminClient.createTopics(Collections.singletonList(paymentsTopic)).all().get();</code></pre>
+
+        <h2>Unclean Leader Elections</h2>
+        <p>What happens if all brokers in the ISR pool crash, and only an out-of-sync broker remains online? You must make a choice via <code>unclean.leader.election.enable</code>:</p>
+        <ul>
+          <li><strong>Set to false (Default since 0.11):</strong> The partition remains offline and unavailable until the original leader recovers. This prevents data corruption/loss but sacrifices availability.</li>
+          <li><strong>Set to true:</strong> Kafka allows the out-of-sync broker to become the leader. The partition goes online instantly, but you lose any messages that were not synced, causing log truncation.</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>Kafka replication balances availability and durability. By splitting broker tasks into leaders and followers, maintaining a strict ISR registry, and automating leader election, Kafka recovers from server outages in milliseconds with zero data loss.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

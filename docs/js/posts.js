@@ -1,6 +1,106 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 82,
+    title: "Kafka Streams vs. Kafka Consumer: Which Should You Use?",
+    excerpt: "Compare Kafka Streams library with classic Kafka Consumers. Learn when to use stateful processing, KStreams, KTables, and RocksDB state stores simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "5 min read",
+    url: "posts/kafka-streams-vs-consumer.html",
+    image: "images/kafka-streams-intro.svg"
+  },
+  {
+    id: 81,
+    title: "How Kafka Achieves High Throughput (Zero-Copy & Sequential I/O)",
+    excerpt: "Why is Apache Kafka so fast? Learn the internal design patterns including sequential disk IO, OS page cache utilization, batching, and zero-copy transfer.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-why-is-kafka-so-fast.html",
+    image: "images/kafka-zero-copy.svg"
+  },
+  {
+    id: 80,
+    title: "Key Consumer Configurations for High Throughput in Kafka",
+    excerpt: "Optimize your Kafka Consumer for high throughput. Learn how to configure fetch.min.bytes, max.poll.records, and fetch.max.wait.ms for speed.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-consumer-high-throughput.html",
+    image: "images/kafka-consumer-throughput.svg"
+  },
+  {
+    id: 79,
+    title: "Key Producer Configurations for High Throughput in Kafka",
+    excerpt: "Optimize your Kafka Producer for maximum throughput. Learn how tuning batch.size, linger.ms, compression.type, and buffer.memory improves speed.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-producer-high-throughput.html",
+    image: "images/kafka_producer_throughput.png"
+  },
+  {
+    id: 78,
+    title: "What Happens When a Kafka Broker Goes Down?",
+    excerpt: "What happens when a Kafka broker crashes? Learn how heartbeats detect failures, how partition leaders failover, and how clients automatically reconnect.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-broker-failure-scenario.html",
+    image: "images/kafka_broker_down.png"
+  },
+  {
+    id: 77,
+    title: "Why min.insync.replicas is Crucial for Kafka Durability",
+    excerpt: "Discover how min.insync.replicas protects Kafka data when combined with acks=all. Learn the failure scenarios and production recommendations.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-min-insync-replicas.html",
+    image: "images/kafka_min_isr.png"
+  },
+  {
+    id: 76,
+    title: "How Apache Kafka Replication and Leader Election Work",
+    excerpt: "Understand Kafka partition replication. Learn what Leader, Followers, In-Sync Replicas (ISR), and unclean leader elections do simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-replication-mechanics.html",
+    image: "images/kafka_replication.png"
+  },
+  {
+    id: 75,
+    title: "Kafka Consumer Commits: commitSync vs. commitAsync",
+    excerpt: "Compare commitSync and commitAsync methods in Kafka Consumer client. Learn which one to use in your loop vs. shutdown hooks for optimal latency.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-commitsync-vs-commitasync.html",
+    image: "images/kafka_commit_sync_async.png"
+  },
+  {
+    id: 74,
+    title: "Kafka auto.offset.reset: Earliest vs. Latest Explained Simply",
+    excerpt: "What is the difference between auto.offset.reset=earliest and latest in Apache Kafka? Learn how offset positioning works for new consumer groups simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "3 min read",
+    url: "posts/kafka-auto-offset-reset.html",
+    image: "images/kafka_offset_reset.png"
+  },
+  {
+    id: 73,
+    title: "Understanding Kafka Consumer Rebalancing and How to Minimize It",
+    excerpt: "Learn what consumer rebalancing is in Apache Kafka, what triggers it, why it causes stop-the-world pauses, and how to configure static membership to reduce it.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-consumer-rebalancing.html",
+    image: "images/kafka_rebalancing.png"
+  },
+  {
     id: 72,
     title: "What is Apache Kafka and Why is it Used?",
     excerpt: "Learn what Apache Kafka is, how it works, and why companies use it for high-throughput, real-time event streaming simply.",

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Happens When a Kafka Broker Goes Down? | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-broker-failure-scenario.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "What Happens When a Kafka Broker Goes Down",
+      "item": "https://enggnotes.com/posts/kafka-broker-failure-scenario.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="What happens when a Kafka broker crashes? Learn how heartbeats detect failures, how partition leaders failover, and how clients automatically reconnect.">
+  <meta name="keywords" content="broker down, broker failure, leader election, kraft controller metadata, kafka failover, isr shrinks">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="What Happens When a Kafka Broker Goes Down? | Engineering Notes">
+  <meta property="og:description" content="Trace the failover process step-by-step when a broker crashes in an active Kafka cluster.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Broker Failover</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">What Happens When a Kafka Broker Goes Down?</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In a distributed system, hardware crashes are not a matter of "if" but "when." Apache Kafka is designed from the ground up to handle broker failures gracefully. When a broker crashes, the cluster automatically repairs itself in real time with minimal disruption.</p>
+        
+        <p>But what actually happens behind the scenes when a broker goes offline? Let's trace the step-by-step failover process of how Kafka detects the crash, elects new leaders, and redirects network traffic.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka_broker_down.png" alt="Kafka Broker Failover Sequence Diagram" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: A Supervisor Stepping Away
+          </div>
+          <p>Imagine a factory assembly line with multiple stations, each managed by a team lead. Suddenly, the Lead of Station A slips and has to leave for the hospital.</p>
+          <p>The factory coordinator immediately notices their absence, checks their list of qualified backups, and appoints a new Lead for Station A from the crew. The workers and delivery drivers are notified of the change and start asking the new Lead for instructions. The assembly line keeps moving with barely a pause.</p>
+        </div>
+
+        <h2>Step-by-Step Failover Sequence</h2>
+        
+        <h3>Step 1: Failure Detection</h3>
+        <p>Brokers continuously send heartbeat pings to the active cluster coordinator (managed by ZooKeeper or the KRaft quorum). If a broker crashes or fails to send a heartbeat within the timeout window, the coordinator marks that broker as offline.</p>
+
+        <h3>Step 2: In-Sync Replica (ISR) Update</h3>
+        <p>For any partitions where the crashed broker was a **follower**, no leader election is necessary. The leader simply shrinks its **In-Sync Replicas (ISR)** pool by removing the failed broker. Replicas drop, and the cluster administrator is alerted of under-replicated partitions.</p>
+
+        <h3>Step 3: Leader Election</h3>
+        <p>For any partitions where the crashed broker was the active **leader**, the cluster controller elects a new leader. The controller scans the partition's active ISR list and selects a new leader (typically the next follower listed in the metadata configuration).</p>
+
+        <h3>Step 4: Client Redirection</h3>
+        <p>Producers and consumers sending data to the crashed leader will experience brief timeouts. However, the Kafka client libraries automatically handle this: they request updated cluster metadata from any remaining online broker, learn who the new partition leader is, and seamlessly redirect all future reads and writes to the new node.</p>
+
+        <h3>Step 5: Recovery and Catch-up</h3>
+        <p>When the crashed broker eventually boots back up and rejoins the cluster, it does not immediately become leader. It joins as a follower. It compares its local log files with the active leader, truncates any uncommitted data, and copies missing records. Once it catches up completely, it rejoins the ISR registry.</p>
+
+        <h2>Conclusion</h2>
+        <p>Kafka's resilient architecture turns server crashes into minor, self-healing events. By delegating metadata monitoring to a coordinator, decoupling client connections, and executing fast leader elections, Kafka ensures high availability for your production streaming applications.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

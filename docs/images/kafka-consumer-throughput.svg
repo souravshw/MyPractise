@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F0C20" />
+      <stop offset="100%" stop-color="#06020E" />
+    </linearGradient>
+    <!-- Glow Filters -->
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowOrange" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowPurple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#201535" stroke-width="2"/>
+
+  <!-- Title -->
+  <text x="400" y="50" font-family="'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">
+    Kafka Consumer High-Throughput Tuning
+  </text>
+  
+  <text x="400" y="75" font-family="'Segoe UI', Roboto, sans-serif" font-size="14" fill="#A293BE" text-anchor="middle">
+    Optimizing fetch size and poll record intervals
+  </text>
+
+  <!-- Left Card: fetch.min.bytes -->
+  <g transform="translate(80, 120)">
+    <rect width="180" height="220" rx="10" fill="#140F27" stroke="#3A2075" stroke-width="1.5" />
+    <circle cx="90" cy="50" r="28" fill="#1B2D26" stroke="#00FF87" stroke-width="1.5" filter="url(#glowGreen)" />
+    <!-- Down Arrow Icon -->
+    <path d="M90 38 L90 62 M80 52 L90 62 L100 52" stroke="#00FF87" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+    
+    <text x="90" y="115" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#00FF87" text-anchor="middle">fetch.min.bytes</text>
+    <text x="90" y="145" font-family="'Segoe UI', sans-serif" font-size="12" fill="#E0D7ED" text-anchor="middle">Default: 1 Byte</text>
+    <text x="90" y="170" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#F3A953" text-anchor="middle">Tune: 1024+ Bytes</text>
+    <text x="90" y="195" font-family="'Segoe UI', sans-serif" font-size="11" fill="#887BA2" text-anchor="middle">Reduces fetch requests</text>
+  </g>
+
+  <!-- Middle Card: fetch.max.wait.ms -->
+  <g transform="translate(310, 120)">
+    <rect width="180" height="220" rx="10" fill="#140F27" stroke="#3A2075" stroke-width="1.5" />
+    <circle cx="90" cy="50" r="28" fill="#2E1B3E" stroke="#FF00A0" stroke-width="1.5" filter="url(#glowPurple)" />
+    <!-- Clock Icon -->
+    <circle cx="90" cy="50" r="14" stroke="#FF00A0" stroke-width="2" fill="none"/>
+    <path d="M90 42 L90 50 L96 54" stroke="#FF00A0" stroke-width="2" stroke-linecap="round" fill="none"/>
+    
+    <text x="90" y="115" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#FF00A0" text-anchor="middle">fetch.max.wait.ms</text>
+    <text x="90" y="145" font-family="'Segoe UI', sans-serif" font-size="12" fill="#E0D7ED" text-anchor="middle">Default: 500ms</text>
+    <text x="90" y="170" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#F3A953" text-anchor="middle">Tune: 100 - 500ms</text>
+    <text x="90" y="195" font-family="'Segoe UI', sans-serif" font-size="11" fill="#887BA2" text-anchor="middle">Max wait duration limit</text>
+  </g>
+
+  <!-- Right Card: max.poll.records -->
+  <g transform="translate(540, 120)">
+    <rect width="180" height="220" rx="10" fill="#140F27" stroke="#3A2075" stroke-width="1.5" />
+    <circle cx="90" cy="50" r="28" fill="#2D211A" stroke="#FF7A00" stroke-width="1.5" filter="url(#glowOrange)" />
+    <!-- Stack of documents Icon -->
+    <path d="M80 43 H100 V57 H80 Z M83 48 H97 M83 52 H97" stroke="#FF7A00" stroke-width="2" fill="none" />
+    <path d="M76 47 H78 V61 H94 V63 H76 Z" stroke="#FF7A00" stroke-width="2" fill="none" />
+    
+    <text x="90" y="115" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#FF7A00" text-anchor="middle">max.poll.records</text>
+    <text x="90" y="145" font-family="'Segoe UI', sans-serif" font-size="12" fill="#E0D7ED" text-anchor="middle">Default: 500 records</text>
+    <text x="90" y="170" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#F3A953" text-anchor="middle">Tune: 1000 - 2000</text>
+    <text x="90" y="195" font-family="'Segoe UI', sans-serif" font-size="11" fill="#887BA2" text-anchor="middle">Increases batch scale</text>
+  </g>
+
+  <!-- Bottom Tip -->
+  <rect x="150" y="380" width="500" height="40" rx="6" fill="#110722" stroke="#251642" stroke-width="1"/>
+  <text x="400" y="405" font-family="'Segoe UI', sans-serif" font-size="13" fill="#D2C8E3" text-anchor="middle">
+    💡 <tspan fill="#FF7A00" font-weight="bold">Pro Tip:</tspan> Align max.poll.records with your processor thread count for optimal scaling.
+  </text>
+</svg>

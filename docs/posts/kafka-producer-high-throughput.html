@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Key Producer Configurations for High Throughput in Kafka | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-producer-high-throughput.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Key Producer Configurations for High Throughput",
+      "item": "https://enggnotes.com/posts/kafka-producer-high-throughput.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Optimize your Kafka Producer for maximum throughput. Learn how tuning batch.size, linger.ms, compression.type, and buffer.memory improves speed.">
+  <meta name="keywords" content="high throughput producer, batch size, linger ms, compression type, buffer memory, producer tuning">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Key Producer Configurations for High Throughput in Kafka | Engineering Notes">
+  <meta property="og:description" content="A guide to tuning your Kafka Producer to publish millions of records per second efficiently.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Producer Tuning</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Key Producer Configurations for High Throughput in Kafka</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>Out of the box, the Kafka Producer is configured for low latency. It sends messages over the network almost immediately. However, if your application generates millions of events a second, sending each message individually creates massive network overhead, slowing down your system.</p>
+        
+        <p>To publish large volumes of data efficiently, you must configure the producer for **high throughput**. Let's review the four most important variables to tune on your producer client to boost processing capacity.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka_producer_throughput.png" alt="Kafka Producer Tuning for High Throughput" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Shipping Bulk Orders
+          </div>
+          <p>Imagine running a mail shipping department:</p>
+          <ul>
+            <li><strong>Low Latency (Default):</strong> Every time an envelope is written, a delivery driver jumps in a truck and drives to the post office. It is fast for that single letter, but incredibly inefficient.</li>
+            <li><strong>High Throughput:</strong> You tell the team lead to pack letters into larger boxes (<code>batch.size</code>) and wait up to 20 minutes (<code>linger.ms</code>) to fill the box before loading it onto a truck. You also compress/vacuum-pack the boxes (<code>compression.type</code>) to fit twice as many letters in the truck.</li>
+          </ul>
+        </div>
+
+        <h2>The Four Key Tuning Parameters</h2>
+        
+        <h3>1. batch.size (Default: 16KB)</h3>
+        <p>The producer groups records in memory before sending them. <code>batch.size</code> sets the maximum byte size of a single batch. Increasing this limit to <strong>64KB or 128KB</strong> allows the producer to pack more records into a single network packet, reducing routing overhead.</p>
+
+        <h3>2. linger.ms (Default: 0ms)</h3>
+        <p>By default, the producer sends a batch immediately (0ms wait) even if it only has 1 record. By setting <code>linger.ms</code> to <strong>5ms to 50ms</strong>, you instruct the producer to wait a few milliseconds for more records to arrive, giving the batch time to fill up. This dramatically boosts throughput at the cost of a tiny, negligible latency penalty.</p>
+
+        <h3>3. compression.type (Default: none)</h3>
+        <p>Compressing message batches reduces network utilization and disk storage. Choose <strong>lz4</strong> or <strong>snappy</strong> for high-throughput pipelines. LZ4 is extremely fast and has very low CPU overhead, while providing significant size reduction.</p>
+
+        <h3>4. buffer.memory (Default: 32MB)</h3>
+        <p>If your application generates records faster than the sender thread can transmit them, the producer buffers them in memory. Under heavy loads, increase <code>buffer.memory</code> to <strong>64MB or 128MB</strong> to prevent your application threads from blocking due to buffer exhaustion.</p>
+
+        <h2>High Throughput Java Configuration Example</h2>
+        <p>Here is how to set up your Kafka Producer properties in Java for maximum throughput:</p>
+        <pre><code class="language-java">Properties props = new Properties();
+props.put("bootstrap.servers", "localhost:9092");
+props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+
+// High Throughput Tuning:
+props.put("batch.size", "65536");         // 64 KB batches
+props.put("linger.ms", "20");             // Wait up to 20ms for batches to fill
+props.put("compression.type", "lz4");     // Compress using ultra-fast LZ4
+props.put("buffer.memory", "67108864");   // 64 MB buffer memory pool
+
+KafkaProducer&lt;String, String&gt; producer = new KafkaProducer&lt;&gt;(props);</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>By combining larger batches (<code>batch.size</code>), brief buffer wait times (<code>linger.ms</code>), fast compression algorithms (<code>lz4</code>), and healthy memory pools, you allow your Kafka Producer to group events efficiently, unlocking the capability to publish millions of events per second.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

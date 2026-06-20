@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090515" />
+      <stop offset="100%" stop-color="#020106" />
+    </linearGradient>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowOrange" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#170F28" stroke-width="2"/>
+
+  <!-- Title -->
+  <text x="400" y="50" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">
+    Kafka Streams Processing Pipeline
+  </text>
+  <text x="400" y="75" font-family="'Segoe UI', sans-serif" font-size="14" fill="#887BA2" text-anchor="middle">
+    Stateful and stateless operations on event streams
+  </text>
+
+  <!-- Source Topic -->
+  <g transform="translate(60, 160)">
+    <rect width="160" height="120" rx="8" fill="#140F27" stroke="#3A2075" stroke-width="1.5" />
+    <text x="80" y="30" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#D2C8E3" text-anchor="middle">Source Topic</text>
+    
+    <!-- Partition queues representation -->
+    <rect x="20" y="55" width="120" height="12" rx="2" fill="#1F173C" stroke="#5C42A5" stroke-width="1"/>
+    <rect x="20" y="73" width="120" height="12" rx="2" fill="#1F173C" stroke="#5C42A5" stroke-width="1"/>
+    <rect x="20" y="91" width="120" height="12" rx="2" fill="#1F173C" stroke="#5C42A5" stroke-width="1"/>
+    <!-- Dots inside partitions -->
+    <circle cx="40" cy="61" r="3" fill="#FF00A0"/>
+    <circle cx="70" cy="61" r="3" fill="#FF00A0"/>
+    <circle cx="100" cy="61" r="3" fill="#FF00A0"/>
+    
+    <circle cx="50" cy="79" r="3" fill="#00FF87"/>
+    <circle cx="90" cy="79" r="3" fill="#00FF87"/>
+    
+    <circle cx="60" cy="97" r="3" fill="#FF7A00"/>
+    <circle cx="110" cy="97" r="3" fill="#FF7A00"/>
+  </g>
+
+  <!-- Process Arrow -->
+  <path d="M230 220 L300 220" stroke="#00FF87" stroke-width="3" fill="none" marker-end="url(#arrow)" filter="url(#glowGreen)"/>
+  <text x="265" y="210" font-family="'Segoe UI', sans-serif" font-size="11" fill="#00FF87" text-anchor="middle" font-weight="bold">Stream</text>
+
+  <!-- Kafka Streams Processor Engine -->
+  <g transform="translate(320, 130)">
+    <rect width="180" height="180" rx="12" fill="#151A33" stroke="#2D72D6" stroke-width="2" filter="url(#glowBlue)"/>
+    <text x="90" y="30" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#7AB1FF" text-anchor="middle">Kafka Streams</text>
+    
+    <!-- Code block icon/Operations -->
+    <rect x="20" y="55" width="140" height="28" rx="4" fill="#0E1225" stroke="#3A538C" stroke-width="1"/>
+    <text x="90" y="73" font-family="monospace" font-size="11" fill="#E2D6FF" text-anchor="middle">mapValues() / filter()</text>
+
+    <!-- State Store Connection -->
+    <path d="M90 83 L90 115" stroke="#7AB1FF" stroke-width="1.5" stroke-dasharray="3,3" fill="none" />
+
+    <!-- RocksDB Card -->
+    <rect x="20" y="115" width="140" height="45" rx="6" fill="#1C1425" stroke="#FF7A00" stroke-width="1" />
+    <text x="90" y="132" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#FF7A00" text-anchor="middle">State Store (RocksDB)</text>
+    <text x="90" y="148" font-family="monospace" font-size="9" fill="#887BA2" text-anchor="middle">count() / aggregate()</text>
+  </g>
+
+  <!-- Sink Arrow -->
+  <path d="M510 220 L570 220" stroke="#FF7A00" stroke-width="3" fill="none" filter="url(#glowOrange)"/>
+  <text x="540" y="210" font-family="'Segoe UI', sans-serif" font-size="11" fill="#FF7A00" text-anchor="middle" font-weight="bold">Output</text>
+
+  <!-- Sink Topic -->
+  <g transform="translate(590, 160)">
+    <rect width="160" height="120" rx="8" fill="#140F27" stroke="#3A2075" stroke-width="1.5" />
+    <text x="80" y="30" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#D2C8E3" text-anchor="middle">Sink Topic</text>
+    
+    <rect x="20" y="65" width="120" height="16" rx="2" fill="#1F173C" stroke="#5C42A5" stroke-width="1"/>
+    <!-- Count result icons -->
+    <circle cx="40" cy="73" r="4" fill="#00FF87"/>
+    <circle cx="65" cy="73" r="4" fill="#00FF87"/>
+    <circle cx="90" cy="73" r="4" fill="#00FF87"/>
+    <circle cx="115" cy="73" r="4" fill="#00FF87"/>
+  </g>
+</svg>

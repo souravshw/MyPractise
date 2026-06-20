@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Choose the Right Number of Partitions in Kafka | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-choosing-partition-count.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How to Choose the Right Number of Partitions in Kafka",
+      "item": "https://enggnotes.com/posts/kafka-choosing-partition-count.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Struggling to decide how many partitions to assign to a Kafka Topic? Learn the formulas, sizing trade-offs, and scaling rules simply.">
+  <meta name="keywords" content="kafka partition count, parallel processing kafka, partition scaling, throughput, kafka scaling, how many partitions">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="How to Choose the Right Number of Partitions in Kafka | Engineering Notes">
+  <meta property="og:description" content="Calculate your target partition count using simple throughput requirements and scalability guidelines.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Partition Sizing</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">How to Choose the Right Number of Partitions in Kafka</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>When creating a new topic in Apache Kafka, one of the first questions you must answer is: <em>"How many partitions do we need?"</em> Because partitions determine your topic's maximum parallel processing power, making a mistake here can limit your application's speed or overload your cluster.</p>
+        
+        <p>Let's look at the trade-offs, sizing formulas, and best practices for selecting the ideal partition count for your Kafka topics.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka_partition_scaling.png" alt="Kafka Partition Scaling Infographic" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Toll Booth Lanes on a Highway
+          </div>
+          <p>Imagine building a toll plaza on a highway:</p>
+          <p>If you build <strong>too few toll lanes</strong> (too few partitions), cars will back up for miles (consumer lag) because the cashiers can't process them fast enough. </p>
+          <p>If you build <strong>100 toll lanes</strong> (too many partitions) but only have 3 cashier employees working (consumers), 97 lanes will sit empty. Furthermore, building and maintaining 100 lanes requires massive construction and management costs (metadata overhead on brokers).</p>
+        </div>
+
+        <h2>The Sizing Formula</h2>
+        <p>To choose the correct number of partitions, you should estimate your throughput targets using a simple formula:</p>
+        <p style="font-size: 1.1rem; text-align: center; margin: 1.5rem 0; font-family: monospace; font-weight: bold; background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px;">
+          Number of Partitions = max(T / P, T / C)
+        </p>
+        <p>Where:</p>
+        <ul>
+          <li><strong>T</strong> = Target throughput (e.g., messages/sec or MB/sec).</li>
+          <li><strong>P</strong> = Throughput capacity of a single producer writing to a partition.</li>
+          <li><strong>C</strong> = Throughput capacity of a single consumer thread reading from a partition.</li>
+        </ul>
+        <p><strong>Example:</strong> If your target throughput is <strong>10,000 messages/sec</strong>, a single producer can write 5,000 messages/sec, and a single consumer thread can process 1,000 messages/sec. Your partition count calculation is:</p>
+        <ul>
+          <li>Producer limit: 10,000 / 5,000 = 2 partitions</li>
+          <li>Consumer limit: 10,000 / 1,000 = 10 partitions</li>
+          <li>Target partitions = max(2, 10) = <strong>10 partitions</strong></li>
+        </ul>
+
+        <h2>The Cost of Too Many Partitions</h2>
+        <p>If partitions boost speed, why not just set 100 partitions for every topic?</p>
+        <ul>
+          <li><strong>File Handles:</strong> Each partition maps to folders and index/data files on disk. More partitions mean more active file descriptors.</li>
+          <li><strong>Memory Overhead:</strong> Kafka brokers allocate memory tables to track active partitions.</li>
+          <li><strong>Controller Work:</strong> If a broker fails, the cluster controller must elect new leaders for all partitions on that broker. Having hundreds of thousands of partitions can slow recovery time down from milliseconds to minutes.</li>
+        </ul>
+
+        <h2>General Rules of Thumb</h2>
+        <ul>
+          <li>For small/medium applications, <strong>3 to 6 partitions</strong> are usually sufficient and allow room to scale.</li>
+          <li>For high-throughput systems, choose a multiple of your consumer count (e.g., 12, 24, 48).</li>
+          <li>Never set fewer partitions than your maximum planned active consumer instances in a consumer group, or some consumers will remain idle.</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>Picking partition counts requires planning. Balance your immediate scaling requirements against the metadata load on your Kafka cluster. When in doubt, start with a reasonable scale (like 6 partitions) and monitor consumer performance metrics to decide if you need to scale up later.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

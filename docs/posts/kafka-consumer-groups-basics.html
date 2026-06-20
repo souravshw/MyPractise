@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Kafka Consumers and Consumer Groups Work | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-consumer-groups-basics.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How Kafka Consumers and Consumer Groups Work",
+      "item": "https://enggnotes.com/posts/kafka-consumer-groups-basics.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="A beginner-friendly guide to Kafka Consumers and Consumer Groups. Learn how Kafka balances partitions among consumers and scale reading throughput.">
+  <meta name="keywords" content="kafka consumer group, consumer load balancing, partition assignment, group.id, consumer offset, message distribution">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="How Kafka Consumers and Consumer Groups Work | Engineering Notes">
+  <meta property="og:description" content="Learn how consumer groups divide partition workloads to scale reading capacity.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Consumer Groups</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">How Kafka Consumers and Consumer Groups Work</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In high-volume applications, a single consumer process can easily get overwhelmed by the sheer volume of incoming events. To prevent consumer lag from building up, you need a way to distribute the work across multiple instances of your application.</p>
+        
+        <p>In Apache Kafka, this scalability is handled natively by <strong>Consumer Groups</strong>. Let's look at how Kafka manages and load-balances messages across consumer groups.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka_consumer_groups.png" alt="How a Consumer Group Coordinates Reading Partitions" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Cleaning Hotel Rooms
+          </div>
+          <p>Imagine a hotel with 4 dirty rooms (partitions 0, 1, 2, and 3):</p>
+          <ul>
+            <li>If you have **1 housekeeper** (a single consumer instance), they must clean all 4 rooms one after another. It takes a long time.</li>
+            <li>If you hire a team of **2 housekeepers** (a consumer group), they split the load. Housekeeper A cleans rooms 0 & 1, while Housekeeper B cleans rooms 2 & 3. They clean the hotel twice as fast!</li>
+            <li>If you bring in **4 housekeepers**, each takes exactly 1 room.</li>
+            <li>If you bring in **5 housekeepers**, 4 will take a room, and 1 will sit in the lobby drinking coffee (idle) because you can't split a single room (partition) between two workers without them stepping on each other's toes.</li>
+          </ul>
+        </div>
+
+        <h2>How Partition Assignment Works</h2>
+        <p>When you start a consumer client, you assign it a <code>group.id</code>. All consumer instances with the same <code>group.id</code> form a single group. Kafka coordinates them using these core rules:</p>
+        <ul>
+          <li>Each partition inside a topic is assigned to **exactly one consumer** in the group.</li>
+          <li>If the number of consumers in a group is **greater** than the number of partitions, the extra consumers will sit idle.</li>
+          <li>If the number of consumers is **less** than the number of partitions, some consumers will read from multiple partitions.</li>
+        </ul>
+
+        <h2>Basic Java Consumer Example</h2>
+        <p>Here is how to create a basic Kafka consumer that joins a group named <code>order-processors</code> and polls for data:</p>
+        <pre><code class="language-java">import org.apache.kafka.clients.consumer.*;
+import java.time.Duration;
+import java.util.*;
+
+Properties props = new Properties();
+props.put("bootstrap.servers", "localhost:9092");
+
+// Join the consumer group
+props.put("group.id", "order-processors");
+
+props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+props.put("auto.offset.reset", "earliest");
+
+KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+
+// Subscribe to the topic
+consumer.subscribe(Arrays.asList("orders"));
+
+// Poll loop
+try {
+    while (true) {
+        ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+        for (ConsumerRecord<String, String> record : records) {
+            System.out.printf("Partition: %d, Offset: %d, Key: %s, Value: %s%n",
+                record.partition(), record.offset(), record.key(), record.value());
+        }
+    }
+} finally {
+    consumer.close();
+}</code></pre>
+
+        <h2>Broadcast (Fan-Out) Patterns</h2>
+        <p>If you want two different microservices (e.g., an Inventory Service and an Analytics Service) to read the <em>exact same messages</em> from a topic, you simply assign them **different consumer group IDs** (e.g., <code>group.id = inventory-service</code> and <code>group.id = analytics-service</code>). Kafka will send copy streams to both groups independently.</p>
+
+        <h2>Conclusion</h2>
+        <p>Consumer Groups are what make Kafka highly scalable. By linking partition count to consumer counts, you can increase your processing capacity on the fly by simply adding new consumer instances. Just make sure to size your topic partitions with enough buffer to support your future consumer scale.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

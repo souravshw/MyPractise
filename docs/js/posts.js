@@ -1,6 +1,106 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 72,
+    title: "What is Apache Kafka and Why is it Used?",
+    excerpt: "Learn what Apache Kafka is, how it works, and why companies use it for high-throughput, real-time event streaming simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-what-is-kafka.html",
+    image: "images/kafka_intro.png"
+  },
+  {
+    id: 71,
+    title: "The Core Components of Apache Kafka Explained",
+    excerpt: "A simple guide to the key components of Apache Kafka. Learn what Brokers, Topics, Partitions, Offsets, Producers, Consumers, and KRaft do.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-core-components.html",
+    image: "images/kafka_components.png"
+  },
+  {
+    id: 70,
+    title: "Apache Kafka vs. RabbitMQ: Understanding the Differences",
+    excerpt: "A simple, layman-friendly comparison of Apache Kafka vs. RabbitMQ. Learn when to use a distributed commit log vs. a traditional message queue.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-vs-rabbitmq-message-queues.html",
+    image: "images/kafka_vs_mq.png"
+  },
+  {
+    id: 69,
+    title: "Understanding Kafka Topics and Partitioning Mechanics",
+    excerpt: "Learn how Apache Kafka organizes messages using Topics and Partitions. Discover how message key routing and ordering work inside partitions simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-topics-partitions-explained.html",
+    image: "images/kafka_partitions.png"
+  },
+  {
+    id: 68,
+    title: "What is an Offset in Kafka and How is it Managed?",
+    excerpt: "Learn what Kafka offsets are and how to manage them. Discover auto-commit vs. manual commitSync and commitAsync methods simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-offsets-management.html",
+    image: "images/kafka_offsets.png"
+  },
+  {
+    id: 67,
+    title: "How to Choose the Right Number of Partitions in Kafka",
+    excerpt: "Struggling to decide how many partitions to assign to a Kafka Topic? Learn the formulas, sizing trade-offs, and scaling rules simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-choosing-partition-count.html",
+    image: "images/kafka_partition_scaling.png"
+  },
+  {
+    id: 66,
+    title: "Inside the Kafka Producer: Architecture and Internal Flow",
+    excerpt: "Explore the internal workings of the Kafka Producer. Learn how serialization, partitioning, batching, and record accumulators function simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "5 min read",
+    url: "posts/kafka-producer-internal-architecture.html",
+    image: "images/kafka_producer_flow.png"
+  },
+  {
+    id: 65,
+    title: "Understanding Kafka Producer ACKs Settings and Trade-offs",
+    excerpt: "A guide to Kafka acks configuration (0, 1, all). Learn the trade-offs between durability and throughput, and how to avoid data loss.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-producer-acks-settings.html",
+    image: "images/kafka_acks.png"
+  },
+  {
+    id: 64,
+    title: "What is an Idempotent Producer in Kafka?",
+    excerpt: "Learn how the Kafka Idempotent Producer prevents message duplication during retries. Discover how to configure Exactly-Once Semantics (EOS).",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-idempotent-producer-exactly-once.html",
+    image: "images/kafka_exactly_once.png"
+  },
+  {
+    id: 63,
+    title: "How Kafka Consumers and Consumer Groups Work",
+    excerpt: "A beginner-friendly guide to Kafka Consumers and Consumer Groups. Learn how Kafka balances partitions among consumers and scale reading throughput.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-consumer-groups-basics.html",
+    image: "images/kafka_consumer_groups.png"
+  },
+  {
     id: 62,
     title: "Understanding Java Inner Classes: Member, Local, and Anonymous",
     excerpt: "Learn the differences between Member, Local, and Anonymous inner classes in Java, explained simply with real-world analogies and code examples.",

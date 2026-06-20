@@ -40,6 +40,36 @@
 
    <!-- Blog Posts -->
    <url>
+      <loc>https://enggnotes.com/posts/kafka-zero-data-loss-configuration.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/kafka-message-ordering-partitions.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/kafka-order-processing-system-design.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/kafka-dead-letter-queue-pattern.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://enggnotes.com/posts/kafka-common-pitfalls.html</loc>
+      <lastmod>2026-06-20</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
       <loc>https://enggnotes.com/posts/kafka-architecture-design-patterns.html</loc>
       <lastmod>2026-06-20</lastmod>
       <changefreq>monthly</changefreq>

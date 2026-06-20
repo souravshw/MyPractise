@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Implement a Dead Letter Queue (DLQ) in Kafka | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-dead-letter-queue-pattern.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Kafka Dead Letter Queue (DLQ)",
+      "item": "https://enggnotes.com/posts/kafka-dead-letter-queue-pattern.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to implement the Dead Letter Queue (DLQ) pattern in Apache Kafka. Handle processing errors, preserve message order, and keep your consumers running.">
+  <meta name="keywords" content="dead letter queue, kafka dlq, error handling kafka, failed messages partition, retry topic">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="How to Implement a Dead Letter Queue (DLQ) in Kafka | Engineering Notes">
+  <meta property="og:description" content="Isolate malformed or broken messages in Kafka without stalling your main consumer groups using the Dead Letter Queue pattern.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Dead Letter Queue</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">How to Implement a Dead Letter Queue (DLQ) in Kafka</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In a distributed event streaming application, you will eventually face poisoned pills: messages that are formatted incorrectly, have missing fields, or trigger unexpected errors in your consumer logic. If a single bad message crashes your consumer or hangs the system, your entire pipeline stalls.</p>
+        
+        <p>The **Dead Letter Queue (DLQ)** pattern is the standard industry design to isolate failed messages without disrupting your main processing pipeline.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka-dlq.svg" alt="Visualizing the Dead Letter Queue (DLQ) Pattern in Kafka" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Factory Reject Bin
+          </div>
+          <p>Imagine a high-speed conveyor belt in a soda bottling factory. Thousands of bottles fly past every minute.</p>
+          <p>Suddenly, a bottle with a **cracked lid (poison pill)** approaches the capping machine. If the machine tries to cap the broken bottle, it might jam, halting the entire conveyor line. </p>
+          <p>Instead, a smart sensor detects the defect, and a **robotic arm sweeps the broken bottle into a reject bin (DLQ)** on the side. The main conveyor belt never stops, and workers inspect the reject bin later to understand what went wrong.</p>
+        </div>
+
+        <h2>Why do we need a DLQ?</h2>
+        <p>Without a DLQ, consumer error handling typically falls into two bad extremes:</p>
+        <ol>
+          <li><strong>Crash and Stall:</strong> The consumer retries the same message forever, blocking all subsequent valid messages from being processed.</li>
+          <li><strong>Silently Ignore:</strong> The consumer logs the error and moves on. The data is lost forever, making it extremely hard to debug or re-run the failed transactions.</li>
+        </ol>
+        <p>A DLQ offers a middle ground: it **saves the bad message** in a separate Kafka topic so you can examine, fix, and reprocess it later, while letting the consumer group continue processing valid data immediately.</p>
+
+        <h2>Implementing DLQ in Java</h2>
+        <p>To implement this pattern, wrap your record-processing logic in a <code>try-catch</code> block. When processing fails, serialize the record, attach metadata headers (like the error message, original topic, and offset), and publish it to the DLQ topic.</p>
+
+        <pre><code class="language-java">while (true) {
+    ConsumerRecords&lt;String, String&gt; records = consumer.poll(Duration.ofMillis(100));
+    for (ConsumerRecord&lt;String, String&gt; record : records) {
+        try {
+            // Your primary business logic
+            processRecord(record);
+        } catch (Exception e) {
+            // Route failed message to the Dead Letter Queue (DLQ)
+            ProducerRecord&lt;String, String&gt; dlqRecord = new ProducerRecord&gt;&lt;(
+                "orders-dlq", record.key(), record.value()
+            );
+            
+            // Add metadata headers to help developers troubleshoot
+            dlqRecord.headers().add("error-message", e.getMessage().getBytes());
+            dlqRecord.headers().add("original-topic", record.topic().getBytes());
+            dlqRecord.headers().add("original-offset", Long.toString(record.offset()).getBytes());
+            dlqRecord.headers().add("original-partition", Integer.toString(record.partition()).getBytes());
+            
+            producer.send(dlqRecord);
+        }
+    }
+    // Commit offsets only after either processing succeeds or the record is safely in the DLQ
+    consumer.commitSync();
+}</code></pre>
+
+        <h2>Best Practices for Kafka DLQs</h2>
+        <ul>
+          <li><strong>Use descriptive headers:</strong> Always include context about *why* the message failed. Add details like exception class names, timestamps, and stack trace snippets.</li>
+          <li><strong>Separate retry topics from DLQs:</strong> If the error is transient (e.g., database temporarily down), route the message to a retry topic first. Reserve the DLQ for non-retryable errors (e.g., bad JSON format, schema violation).</li>
+          <li><strong>Monitor your DLQ size:</strong> Configure alerts on your DLQ topic's ingestion rate. A spike in DLQ messages indicates a bug in a new release or a breaking change in an upstream producer.</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>A Dead Letter Queue is an essential pattern for building resilient, production-ready distributed architectures. By isolating bad records, you protect your system from outages, preserve data integrity, and simplify debugging.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

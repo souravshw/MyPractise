@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0822" />
+      <stop offset="100%" stop-color="#04020A" />
+    </linearGradient>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowRed" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#1F153C" stroke-width="2"/>
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">
+    Dead Letter Queue (DLQ) Pattern
+  </text>
+  <text x="400" y="70" font-family="'Segoe UI', sans-serif" font-size="13" fill="#887DA5" text-anchor="middle">
+    Isolating parsing failures while keeping the main processing loop active
+  </text>
+
+  <!-- Main Topic -->
+  <g transform="translate(60, 120)">
+    <rect width="180" height="110" rx="6" fill="#140F27" stroke="#3A2075" stroke-width="1.5" />
+    <text x="90" y="30" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#D2C8E3" text-anchor="middle">Main Topic</text>
+    
+    <!-- Partition line and message queue -->
+    <rect x="20" y="55" width="140" height="20" rx="2" fill="#1A152E" stroke="#5C42A5" stroke-width="1"/>
+    <!-- Defective message at end, good messages in front -->
+    <circle cx="40" cy="65" r="5" fill="#00FF87"/>
+    <circle cx="70" cy="65" r="5" fill="#00FF87"/>
+    <circle cx="100" cy="65" r="5" fill="#00FF87"/>
+    <circle cx="130" cy="65" r="5" fill="#FF5E5E" filter="url(#glowRed)"/>
+    <text x="130" y="88" font-family="monospace" font-size="9" fill="#FF5E5E" text-anchor="middle">Broken Record</text>
+  </g>
+
+  <!-- Consumer -->
+  <g transform="translate(320, 120)">
+    <rect width="180" height="150" rx="10" fill="#1A182E" stroke="#5C42A5" stroke-width="1.5" />
+    <text x="90" y="30" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#E2D6FF" text-anchor="middle">Active Consumer</text>
+    
+    <!-- Try-Catch Block Visual -->
+    <rect x="20" y="55" width="140" height="70" rx="4" fill="#2E1C22" stroke="#FF5E5E" stroke-width="1" />
+    <text x="90" y="78" font-family="monospace" font-size="11" fill="#FFA5A5" text-anchor="middle">try { process() }</text>
+    <text x="90" y="105" font-family="monospace" font-size="11" fill="#FFA5A5" text-anchor="middle">catch (Exception e)</text>
+
+    <!-- Arrow from Main topic to Consumer -->
+    <path d="M-80 40 L-10 40" stroke="#00FF87" stroke-width="2" marker-end="url(#arrow)" fill="none" filter="url(#glowGreen)"/>
+  </g>
+
+  <!-- Arrow down from Consumer to DLQ -->
+  <path d="M410 270 L410 320" stroke="#FF5E5E" stroke-width="2" marker-end="url(#arrow)" fill="none" filter="url(#glowRed)"/>
+  <text x="430" y="300" font-family="'Segoe UI', sans-serif" font-size="11" fill="#FF5E5E" font-weight="bold">Send with headers</text>
+
+  <!-- DLQ Topic -->
+  <g transform="translate(320, 320)">
+    <rect width="180" height="90" rx="6" fill="#120D23" stroke="#A83232" stroke-width="1.5" filter="url(#glowRed)"/>
+    <text x="90" y="30" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#FFA5A5" text-anchor="middle">DLQ Topic (orders-dlq)</text>
+    <rect x="20" y="50" width="140" height="20" rx="2" fill="#2E1C22" stroke="#A83232" stroke-width="1"/>
+    <circle cx="140" cy="60" r="5" fill="#FF5E5E" filter="url(#glowRed)"/>
+    <text x="75" y="63" font-family="'Segoe UI', sans-serif" font-size="9" fill="#887DA5" text-anchor="middle">Isolates errors</text>
+  </g>
+</svg>

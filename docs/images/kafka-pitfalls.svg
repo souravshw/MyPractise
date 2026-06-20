@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0822" />
+      <stop offset="100%" stop-color="#04020A" />
+    </linearGradient>
+    <filter id="glowRed" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#1F153C" stroke-width="2"/>
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">
+    Common Kafka Pitfalls
+  </text>
+  <text x="400" y="70" font-family="'Segoe UI', sans-serif" font-size="13" fill="#887DA5" text-anchor="middle">
+    Visualizing hot partitions and rebalance loops
+  </text>
+
+  <!-- Left Pitfall: Hot Partition -->
+  <g transform="translate(60, 100)">
+    <rect width="310" height="290" rx="10" fill="#120D23" stroke="#A83232" stroke-width="1.5" filter="url(#glowRed)"/>
+    <text x="155" y="30" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#FF5E5E" text-anchor="middle">1. Hot Partition (Skewed load)</text>
+
+    <!-- Key Hash Issue -->
+    <text x="155" y="60" font-family="'Segoe UI', sans-serif" font-size="11" fill="#887DA5" text-anchor="middle">Same key used for all messages</text>
+
+    <!-- Partitions list -->
+    <g transform="translate(30, 80)">
+      <!-- Partition 0 (Hot) -->
+      <rect x="0" y="0" width="250" height="35" rx="4" fill="#2E1C22" stroke="#FF5E5E" stroke-width="1.5" filter="url(#glowRed)"/>
+      <text x="70" y="22" font-family="monospace" font-size="11" fill="#FF8D8D">Partition 0 (Hot)</text>
+      <!-- Message dots piled up -->
+      <circle cx="170" cy="17" r="5" fill="#FF5E5E"/>
+      <circle cx="185" cy="17" r="5" fill="#FF5E5E"/>
+      <circle cx="200" cy="17" r="5" fill="#FF5E5E"/>
+      <circle cx="215" cy="17" r="5" fill="#FF5E5E"/>
+      <circle cx="230" cy="17" r="5" fill="#FF5E5E"/>
+
+      <!-- Partition 1 (Cold/Empty) -->
+      <rect x="0" y="50" width="250" height="35" rx="4" fill="#151221" stroke="#3A2075" stroke-width="1"/>
+      <text x="70" y="72" font-family="monospace" font-size="11" fill="#887DA5">Partition 1 (Empty)</text>
+
+      <!-- Partition 2 (Cold/Empty) -->
+      <rect x="0" y="100" width="250" height="35" rx="4" fill="#151221" stroke="#3A2075" stroke-width="1"/>
+      <text x="70" y="122" font-family="monospace" font-size="11" fill="#887DA5">Partition 2 (Empty)</text>
+    </g>
+
+    <text x="155" y="260" font-family="'Segoe UI', sans-serif" font-size="11" fill="#FFA5A5" text-anchor="middle">Fix: Use high-cardinality keys</text>
+  </g>
+
+  <!-- Right Pitfall: Uncontrolled Rebalancing -->
+  <g transform="translate(430, 100)">
+    <rect width="310" height="290" rx="10" fill="#120D23" stroke="#A83232" stroke-width="1.5" filter="url(#glowRed)"/>
+    <text x="155" y="30" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#FF5E5E" text-anchor="middle">2. Rebalance Storms</text>
+    <text x="155" y="60" font-family="'Segoe UI', sans-serif" font-size="11" fill="#887DA5" text-anchor="middle">Slow polls trigger group coordinator ejects</text>
+
+    <!-- Cycle visual representing rebalance loop -->
+    <path d="M155,90 A45,45 0 1,0 155,180 A45,45 0 1,0 155,90" fill="none" stroke="#FF5E5E" stroke-width="3" stroke-dasharray="6,3" filter="url(#glowRed)"/>
+    
+    <text x="155" y="125" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#FF8D8D" text-anchor="middle">Stop processing</text>
+    <text x="155" y="150" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#FF8D8D" text-anchor="middle">↺ Rebalance ↺</text>
+
+    <!-- Config descriptions -->
+    <g transform="translate(20, 200)">
+      <rect width="270" height="40" rx="4" fill="#1A1525" stroke="#3A2075" stroke-width="1"/>
+      <text x="135" y="24" font-family="monospace" font-size="10" fill="#FFA5A5" text-anchor="middle">Tuning max.poll.interval.ms is critical</text>
+    </g>
+
+    <text x="155" y="260" font-family="'Segoe UI', sans-serif" font-size="11" fill="#FFA5A5" text-anchor="middle">Fix: Increase max poll duration configs</text>
+  </g>
+</svg>

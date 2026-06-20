@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0822" />
+      <stop offset="100%" stop-color="#04020A" />
+    </linearGradient>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#1F153C" stroke-width="2"/>
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">
+    Kafka-Based Order Processing Architecture
+  </text>
+  <text x="400" y="70" font-family="'Segoe UI', sans-serif" font-size="13" fill="#887DA5" text-anchor="middle">
+    Decoupled multi-stage validation and fulfillment pipeline
+  </text>
+
+  <!-- Stage 1: Order Service -->
+  <g transform="translate(40, 150)">
+    <rect width="130" height="110" rx="8" fill="#120D23" stroke="#00FF87" stroke-width="1.5" filter="url(#glowGreen)"/>
+    <text x="65" y="30" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="bold" fill="#00FF87" text-anchor="middle">Order Service</text>
+    <text x="65" y="55" font-family="monospace" font-size="10" fill="#887DA5" text-anchor="middle">Produces raw</text>
+    <text x="65" y="70" font-family="monospace" font-size="10" fill="#887DA5" text-anchor="middle">orders with key</text>
+  </g>
+
+  <!-- Arrow to topic -->
+  <path d="M170 205 L210 205" stroke="#00FF87" stroke-width="2" marker-end="url(#arrow)" fill="none" filter="url(#glowGreen)"/>
+
+  <!-- Topic 1: orders (raw) -->
+  <g transform="translate(220, 130)">
+    <rect width="110" height="150" rx="8" fill="#151A33" stroke="#3A86FF" stroke-width="1.5" filter="url(#glowBlue)"/>
+    <text x="55" y="25" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#7AB1FF" text-anchor="middle">Topic: orders</text>
+    
+    <rect x="15" y="50" width="80" height="15" rx="2" fill="#0E1225" stroke="#2D72D6" stroke-width="1"/>
+    <rect x="15" y="75" width="80" height="15" rx="2" fill="#0E1225" stroke="#2D72D6" stroke-width="1"/>
+    <rect x="15" y="100" width="80" height="15" rx="2" fill="#0E1225" stroke="#2D72D6" stroke-width="1"/>
+  </g>
+
+  <!-- Arrow to validator -->
+  <path d="M330 205 L370 205" stroke="#3A86FF" stroke-width="2" marker-end="url(#arrow)" fill="none" filter="url(#glowBlue)"/>
+
+  <!-- Stage 2: Validation Consumer -->
+  <g transform="translate(380, 150)">
+    <rect width="130" height="110" rx="8" fill="#120D23" stroke="#00FF87" stroke-width="1.5" filter="url(#glowGreen)"/>
+    <text x="65" y="30" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#00FF87" text-anchor="middle">Validator Service</text>
+    <text x="65" y="55" font-family="monospace" font-size="9" fill="#887DA5" text-anchor="middle">Validates orders</text>
+    <text x="65" y="70" font-family="monospace" font-size="9" fill="#887DA5" text-anchor="middle">filters bad data</text>
+  </g>
+
+  <!-- Arrow to topic 2 -->
+  <path d="M510 205 L550 205" stroke="#00FF87" stroke-width="2" marker-end="url(#arrow)" fill="none" filter="url(#glowGreen)"/>
+
+  <!-- Topic 2: orders-validated -->
+  <g transform="translate(560, 130)">
+    <rect width="110" height="150" rx="8" fill="#151A33" stroke="#3A86FF" stroke-width="1.5" filter="url(#glowBlue)"/>
+    <text x="55" y="25" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#7AB1FF" text-anchor="middle">Topic: validated</text>
+    
+    <rect x="15" y="50" width="80" height="15" rx="2" fill="#0E1225" stroke="#2D72D6" stroke-width="1"/>
+    <rect x="15" y="75" width="80" height="15" rx="2" fill="#0E1225" stroke="#2D72D6" stroke-width="1"/>
+    <rect x="15" y="100" width="80" height="15" rx="2" fill="#0E1225" stroke="#2D72D6" stroke-width="1"/>
+  </g>
+
+  <!-- Arrow to fulfillment -->
+  <path d="M670 205 L710 205" stroke="#3A86FF" stroke-width="2" fill="none"/>
+
+  <!-- Stage 3: Fulfillment -->
+  <g transform="translate(680, 290)">
+    <rect width="100" height="80" rx="8" fill="#120D23" stroke="#3A2075" stroke-width="1.5"/>
+    <text x="50" y="30" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#D2C8E3" text-anchor="middle">Fulfillment</text>
+    <text x="50" y="55" font-family="monospace" font-size="9" fill="#887DA5" text-anchor="middle">Processes orders</text>
+  </g>
+
+  <!-- Arrow down from validated to fulfillment -->
+  <path d="M615 280 L615 330 L680 330" stroke="#3A86FF" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+
+  <!-- DLQ representation -->
+  <g transform="translate(380, 310)">
+    <rect width="130" height="70" rx="6" fill="#2E1C22" stroke="#FF5E5E" stroke-width="1"/>
+    <text x="65" y="25" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#FFA5A5" text-anchor="middle">DLQ (orders-dlq)</text>
+    <text x="65" y="50" font-family="monospace" font-size="9" fill="#887DA5" text-anchor="middle">Holds invalid orders</text>
+  </g>
+  <path d="M445 260 L445 310" stroke="#FF5E5E" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrow)" fill="none"/>
+</svg>

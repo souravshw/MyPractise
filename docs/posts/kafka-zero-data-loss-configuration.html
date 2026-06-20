@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Ensure Zero Data Loss in Apache Kafka | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-zero-data-loss-configuration.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Zero Data Loss Kafka",
+      "item": "https://enggnotes.com/posts/kafka-zero-data-loss-configuration.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="A complete guide to configuring Apache Kafka for zero data loss. Detailed producer, broker, and consumer properties for absolute durability.">
+  <meta name="keywords" content="zero data loss, broker configuration kafka, idempotent producer, replication factor, consumer offset commits">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="How to Ensure Zero Data Loss in Apache Kafka | Engineering Notes">
+  <meta property="og:description" content="Learn the production-proven configs for acks, replication factors, and manual offset commits to guarantee zero data loss in Kafka.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Zero Data Loss</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">5 min read</span>
+        </div>
+        <h1 class="article-title">How to Ensure Zero Data Loss in Apache Kafka</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In financial services, healthcare records, and audit log processing, losing even a single message is unacceptable. By default, Apache Kafka is optimized for a balance of speed and reliability. However, with the right configurations across producers, brokers, and consumers, you can configure Kafka for **zero data loss** (absolute durability).</p>
+        
+        <p>In this guide, we provide a concrete checklist of properties you must set to guarantee that messages are never lost in transit.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka-zero-loss.svg" alt="Zero data loss configuration flow diagram in Kafka" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: High-Security Bank Transport
+          </div>
+          <p>Imagine a bank transferring physical cash between vault facilities:</p>
+          <p>Instead of sending one truck, the bank uses **three armored trucks carrying duplicate boxes (Replication Factor = 3)**. The bank dispatcher demands that at least **two trucks must arrive safely and co-sign the receipt (min.insync.replicas = 2)** before marking the transfer as successful (acks = all).</p>
+          <p>If a truck gets a flat tire, they do not elect a random bicycle driver to lead the remaining trucks (unclean.leader.election = false). Finally, the receiving vault clerk only logs the deposit in the main ledger after the money is physically counted and stored in the safe (manual offset commits).</p>
+        </div>
+
+        <h2>Zero Data Loss Configuration Checklist</h2>
+        <p>To guarantee messages are never lost at any stage of their journey, you must coordinate settings across all three parts of the pipeline:</p>
+
+        <h3>1. Producer Configuration</h3>
+        <p>Producers must wait for full acknowledgment and retry indefinitely in case of transient network errors:</p>
+        <ul>
+          <li><strong><code>acks=all</code>:</strong> The producer waits for the leader broker and all current in-sync followers to write the message before receiving success.</li>
+          <li><strong><code>enable.idempotence=true</code>:</strong> Ensures retried messages do not write duplicates. This sets <code>retries=MAX_INT</code> and <code>max.in.flight.requests.per.connection=5</code> automatically.</li>
+        </ul>
+        <pre><code class="language-properties"># Producer properties for data durability
+acks=all
+enable.idempotence=true</code></pre>
+
+        <h3>2. Broker / Topic Configuration</h3>
+        <p>The cluster must have sufficient redundancy to survive server crashes:</p>
+        <ul>
+          <li><strong><code>replication.factor=3</code>:</strong> Ensures there are three independent copies of the partition log across three brokers.</li>
+          <li><strong><code>min.insync.replicas=2</code>:</strong> Enforces that at least two replicas (the leader and one follower) must confirm the write. If only the leader is online, the broker rejects the write, preventing data loss if that leader crashes.</li>
+          <li><strong><code>unclean.leader.election.enable=false</code>:</strong> Prevents out-of-sync replicas from ever being elected as partition leaders, avoiding silent data loss at the cost of partition availability.</li>
+        </ul>
+
+        <h3>3. Consumer Configuration</h3>
+        <p>Consumers must only commit offsets after records have been processed successfully:</p>
+        <ul>
+          <li><strong><code>enable.auto.commit=false</code>:</strong> Disable automatic time-based offset commits.</li>
+          <li><strong>Process-then-Commit pattern:</strong> Write your code to process the record (e.g., store in database, invoke third-party service) *first*, and then call <code>commitSync()</code> or <code>commitAsync()</code>.</li>
+        </ul>
+        <pre><code class="language-java">// Zero-loss manual offset commit loop
+while (true) {
+    ConsumerRecords&lt;String, String&gt; records = consumer.poll(Duration.ofMillis(100));
+    for (ConsumerRecord&lt;String, String&gt; record : records) {
+        processBusinessLogic(record); // Process first
+    }
+    consumer.commitSync(); // Commit offset only after successful processing
+}</code></pre>
+
+        <h2>Summary Table of Delivery Guarantees</h2>
+        <table class="config-table" style="width: 100%; border-collapse: collapse; margin-top: 1rem; margin-bottom: 2rem;">
+          <thead>
+            <tr style="background-color: #1F153C; border-bottom: 2px solid #5C42A5;">
+              <th style="padding: 10px; text-align: left; color: #E2D6FF;">Setting</th>
+              <th style="padding: 10px; text-align: left; color: #E2D6FF;">Value</th>
+              <th style="padding: 10px; text-align: left; color: #E2D6FF;">Durability Benefit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+              <td style="padding: 10px; font-weight: bold; color: #F0EBF8;">acks</td>
+              <td style="padding: 10px; font-family: monospace; color: #FFA5A5;">all</td>
+              <td style="padding: 10px; color: #D2C8E3;">Confirms data is safely on multiple brokers.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+              <td style="padding: 10px; font-weight: bold; color: #F0EBF8;">min.insync.replicas</td>
+              <td style="padding: 10px; font-family: monospace; color: #FFA5A5;">2</td>
+              <td style="padding: 10px; color: #D2C8E3;">Prevents write if too few replicas are alive.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+              <td style="padding: 10px; font-weight: bold; color: #F0EBF8;">unclean.leader.election</td>
+              <td style="padding: 10px; font-family: monospace; color: #FFA5A5;">false</td>
+              <td style="padding: 10px; color: #D2C8E3;">Never elects out-of-sync followers.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+              <td style="padding: 10px; font-weight: bold; color: #F0EBF8;">enable.auto.commit</td>
+              <td style="padding: 10px; font-family: monospace; color: #FFA5A5;">false</td>
+              <td style="padding: 10px; color: #D2C8E3;">Consumer manually controls the offset commit point.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Conclusion</h2>
+        <p>Achieving zero data loss is not about a single magic configuration, but a coordinated design. By matching <code>acks=all</code> and <code>min.insync.replicas=2</code> with replication factors of at least 3, and manually committing offsets post-processing, you build a resilient messaging architecture suitable for mission-critical enterprise systems.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

@@ -1,6 +1,56 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 97,
+    title: "How to Ensure Zero Data Loss in Apache Kafka",
+    excerpt: "Configure Apache Kafka for zero data loss. Learn the key broker, producer, and consumer settings for maximum data durability simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "5 min read",
+    url: "posts/kafka-zero-data-loss-configuration.html",
+    image: "images/kafka-zero-loss.svg"
+  },
+  {
+    id: 96,
+    title: "Handling Message Ordering in Kafka Across Partitions",
+    excerpt: "How does message ordering work in Kafka? Learn how to guarantee message order using key-based partition routing and idempotence settings simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-message-ordering-partitions.html",
+    image: "images/kafka-ordering.svg"
+  },
+  {
+    id: 95,
+    title: "Designing a Kafka-Based Order Processing System",
+    excerpt: "Learn how to design a scalable order processing system with Kafka. Understand how to design topics, partitioning, and transactional validation microservices simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "5 min read",
+    url: "posts/kafka-order-processing-system-design.html",
+    image: "images/kafka-order-system.svg"
+  },
+  {
+    id: 94,
+    title: "How to Implement a Dead Letter Queue (DLQ) in Kafka",
+    excerpt: "A step-by-step guide to the Dead Letter Queue (DLQ) pattern in Kafka. Route processing failures to a retry or error topic while keeping consumers running.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-dead-letter-queue-pattern.html",
+    image: "images/kafka-dlq.svg"
+  },
+  {
+    id: 93,
+    title: "Common Apache Kafka Pitfalls and How to Avoid Them",
+    excerpt: "Avoid common Kafka developer mistakes. Learn how to prevent hot partitions, rebalance storms, and duplicate processing simply.",
+    category: "Kafka & Distributed Systems",
+    date: "June 20, 2026",
+    readTime: "4 min read",
+    url: "posts/kafka-common-pitfalls.html",
+    image: "images/kafka-pitfalls.svg"
+  },
+  {
     id: 92,
     title: "Common Kafka Architecture and Design Patterns",
     excerpt: "Explore common Kafka architectural design patterns. Learn how Event Sourcing, CQRS, Transactional Outbox, and Dead Letter Queues (DLQ) work simply.",

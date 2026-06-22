@@ -1,6 +1,36 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 36,
+    title: "Sorting Maps by Value in Java Streams: A Simple Guide",
+    excerpt: "Sorting entries in a Map by their values rather than keys is a common challenge. Learn how to sort Map values using Java Streams and a simple leaderboard analogy.",
+    category: "Java",
+    date: "June 22, 2026",
+    readTime: "4 min read",
+    url: "posts/sorting-maps-streams-simply.html",
+    image: "images/stream_map_sorting.svg"
+  },
+  {
+    id: 35,
+    title: "Understanding Polymorphism and Method Overriding: A Simple Guide",
+    excerpt: "Polymorphism lets objects behave in their own unique way. Learn how JVM resolves method overriding in class hierarchies using a simple theater actor analogy.",
+    category: "Java",
+    date: "June 22, 2026",
+    readTime: "4 min read",
+    url: "posts/understanding-polymorphism-inheritance-simply.html",
+    image: "images/inheritance_checker.svg"
+  },
+  {
+    id: 34,
+    title: "Building a Web Link Spam Analyzer in Java: A Simple Guide",
+    excerpt: "Learn how to crawl web pages in Java and filter spam links using a simple postal inspector analogy and line-by-line main method trace.",
+    category: "Java",
+    date: "June 19, 2026",
+    readTime: "4 min read",
+    url: "posts/spam-link-analyzer-simply.html",
+    image: "images/link_analyzer.svg"
+  },
+  {
     id: 33,
     title: "Finding the Longest Consecutive Increasing Chain in Java: A Simple Guide",
     excerpt: "Searching for ordered sequences inside arrays is a classic algorithmic puzzle. Learn how to scan and calculate the longest incrementing card run in Java.",

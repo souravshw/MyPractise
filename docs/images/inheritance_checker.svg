@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+
+    <!-- Card Glow / Filters -->
+    <filter id="glow-blue" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glow-purple" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Arrow Markers -->
+    <marker id="arrow-inherit" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f43f5e" />
+    </marker>
+    <marker id="arrow-lookup" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#38bdf8" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" />
+  <rect width="796" height="446" x="2" y="2" rx="14" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" />
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Inter', system-ui, sans-serif" font-size="22" font-weight="bold" fill="#f8fafc" text-anchor="middle" letter-spacing="1">
+    POLYMORPHIC METHOD RESOLUTION
+  </text>
+  <text x="400" y="70" font-family="'Inter', system-ui, sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">
+    How the JVM resolves method calls dynamically at runtime
+  </text>
+
+  <!-- Class A (Parent) Card -->
+  <g transform="translate(80, 110)">
+    <rect width="240" height="130" rx="10" fill="#1e293b" stroke="#f43f5e" stroke-width="2" />
+    <!-- Header -->
+    <rect width="240" height="35" rx="10" fill="#881337" opacity="0.4" />
+    <text x="120" y="23" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#fecdd3" text-anchor="middle">class A (Parent)</text>
+    <!-- Variables/Methods -->
+    <text x="20" y="60" font-family="'Courier New', monospace" font-size="13" fill="#94a3b8">protected int x = 10;</text>
+    <text x="20" y="85" font-family="'Courier New', monospace" font-size="13" fill="#38bdf8" font-weight="bold">void m1() { "A m1()" }</text>
+    <text x="20" y="110" font-family="'Courier New', monospace" font-size="13" fill="#cbd5e1">void m2() { "A m2()" }</text>
+  </g>
+
+  <!-- Inheritance Arrow -->
+  <path d="M 200 305 L 200 252" fill="none" stroke="#f43f5e" stroke-width="2" marker-end="url(#arrow-inherit)" />
+  <text x="210" y="280" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#f43f5e" font-weight="bold">extends</text>
+
+  <!-- Class B (Child) Card -->
+  <g transform="translate(80, 310)">
+    <rect width="240" height="90" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <!-- Header -->
+    <rect width="240" height="35" rx="10" fill="#064e3b" opacity="0.4" />
+    <text x="120" y="23" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="bold" fill="#a7f3d0" text-anchor="middle">class B extends A (Child)</text>
+    <!-- Methods -->
+    <text x="20" y="65" font-family="'Courier New', monospace" font-size="13" fill="#34d399" font-weight="bold">void m1() { "B m1()" }</text>
+    <text x="180" y="65" font-family="'Inter', system-ui, sans-serif" font-size="10" font-weight="bold" fill="#a7f3d0">OVERRIDE</text>
+  </g>
+
+  <!-- Execution Sandbox Card -->
+  <g transform="translate(420, 110)">
+    <rect width="300" height="290" rx="12" fill="rgba(30, 41, 59, 0.7)" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1.5" />
+    <rect width="300" height="35" rx="12" fill="rgba(255, 255, 255, 0.05)" />
+    <text x="150" y="23" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#e2e8f0" text-anchor="middle">JVM Execution Sandbox</text>
+
+    <!-- Reference setup -->
+    <text x="20" y="70" font-family="'Courier New', monospace" font-size="14" font-weight="bold" fill="#f8fafc">A a = new B();</text>
+    
+    <!-- Explanation of reference type vs actual type -->
+    <rect x="20" y="85" width="260" height="40" rx="4" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+    <text x="30" y="102" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#94a3b8">Reference: Type A (Compiler check)</text>
+    <text x="30" y="118" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#34d399">Actual Object: Type B (Runtime execution)</text>
+
+    <!-- Method Call 1 -->
+    <text x="20" y="165" font-family="'Courier New', monospace" font-size="14" font-weight="bold" fill="#38bdf8">a.m1();</text>
+    <path d="M 80 162 C 140 162, 170 190, 170 200" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrow-lookup)" />
+    
+    <!-- Box 1 result -->
+    <rect x="110" y="195" width="170" height="32" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1" filter="url(#glow-purple)" />
+    <text x="120" y="215" font-family="'Courier New', monospace" font-size="12" fill="#fff" font-weight="bold">Prints: "B m1()"</text>
+
+    <!-- Method Call 2 -->
+    <text x="20" y="245" font-family="'Courier New', monospace" font-size="14" font-weight="bold" fill="#cbd5e1">a.m2();</text>
+    <!-- Lookup arrows to A since B doesn't have m2 -->
+    <path d="M 80 242 C 120 242, 150 260, 150 280" fill="none" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrow-lookup)" />
+    
+    <!-- Box 2 result -->
+    <rect x="110" y="275" width="170" height="32" rx="4" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1" filter="url(#glow-blue)" />
+    <text x="120" y="295" font-family="'Courier New', monospace" font-size="12" fill="#fff" font-weight="bold">Prints: "A m2()"</text>
+  </g>
+
+  <!-- Explanation card footer -->
+  <rect x="80" y="415" width="640" height="22" rx="4" fill="rgba(30, 41, 59, 0.9)" />
+  <text x="400" y="430" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#cbd5e1" text-anchor="middle">
+    Dynamic Method Lookup: JVM checks actual object type (B) first. If not overridden, it delegates up to class A.
+  </text>
+</svg>

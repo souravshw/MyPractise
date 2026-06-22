@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Polymorphism and Method Overriding: A Simple Guide | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-polymorphism-inheritance-simply.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Understanding Polymorphism and Method Overriding: A Simple Guide",
+      "item": "https://enggnotes.com/posts/understanding-polymorphism-inheritance-simply.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how JVM resolves polymorphic method overriding dynamically in class hierarchies simply, using a theater actor analogy and a line-by-line main method trace.">
+  <meta name="keywords" content="java polymorphism, method overriding java tutorial, dynamic method dispatch jvm, parent child class inheritance java">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Understanding Polymorphism and Method Overriding: A Simple Guide | Engineering Notes">
+  <meta property="og:description" content="Learn how JVM resolves polymorphic method overriding dynamically in class hierarchies simply, using a theater actor analogy.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+         <ol>
+           <li><a href="../index.html">Home</a></li>
+           <li><a href="../index.html?category=Java">Java</a></li>
+           <li aria-current="page">Polymorphism</li>
+         </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 22, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Understanding Polymorphism and Method Overriding: A Simple Guide</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>**Polymorphism** (from the Greek words for "many shapes") is one of the pillars of Object-Oriented Programming (OOP). It allows us to treat objects of different child classes as if they were objects of their shared parent class, while still letting each object behave in its own unique way at runtime.</p>
+        
+        <p>Let's look at how Java handles polymorphic method dispatch using a simple theater actor analogy.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/inheritance_checker.svg" alt="Illustration of dynamic method lookup for parent A and child B classes" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Theater Actor
+          </div>
+          <p>Imagine a director writing a theater script. The script has a role called **"Actor"** (the Parent Class A) with directions like **"give speech"** (method <code>m1()</code>) and **"take a bow"** (method <code>m2()</code>).</p>
+          <p>When the play begins, the director hires a specific actor named **"Bob"** (the Child Class B) to play the role. The play unfolds like this:</p>
+          <ul>
+            <li>The script says: <code>Actor a = new Bob();</code> (The director refers to Bob simply as "the actor" on stage).</li>
+            <li>The script commands the actor to: <code>a.m1();</code> ("give speech"). Even though the script is written for a generic Actor, Bob delivers his own custom lines that he rehearsed (B's overridden method <code>m1()</code> executes).</li>
+            <li>The script commands the actor to: <code>a.m2();</code> ("take a bow"). Since Bob didn't prepare a custom bow, he performs the standard bow that all actors are trained to do (A's inherited method <code>m2()</code> executes).</li>
+          </ul>
+        </div>
+
+        <h2>Walkthrough of the Main Method Scenario</h2>
+        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 1: Declaration with Reference Type vs. Object Type
+          </div>
+          <p>The program declares a reference variable <code>a</code> of type <code>A</code>, but points it to an instance of class <code>B</code> on the heap:</p>
+          <pre><code class="language-java">A a = new B();</code></pre>
+          <p>At compile time, the compiler only checks if class <code>A</code> has the method we want to call. Since class <code>A</code> has <code>m1()</code>, the code compiles successfully.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 2: Dynamic Method Lookup for a.m1()
+          </div>
+          <p>Next, the program calls <code>a.m1()</code>:</p>
+          <ul>
+            <li>At runtime, the JVM looks at the **actual object** on the heap, which is of type <code>B</code>.</li>
+            <li>It checks if class <code>B</code> overrides <code>m1()</code>. It does!</li>
+            <li>Thus, it invokes <code>B</code>'s version of the method, printing: **<code>B m1()</code>**.</li>
+          </ul>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 3: Direct Reference Execution for b.m1()
+          </div>
+          <p>Then, the program declares a reference and object both of child type <code>B</code>:</p>
+          <pre><code class="language-java">B b = new B();
+b.m1();</code></pre>
+          <p>Since both the reference and the object are of type <code>B</code>, the JVM directly calls <code>B</code>'s <code>m1()</code> method, printing: **<code>B m1()</code>**.</p>
+        </div>
+
+        <div class="analogy-box">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Important Concept: Variables are NOT Polymorphic!
+          </div>
+          <p>Notice that Parent Class <code>A</code> declares <code>protected int x = 10;</code>. If Child Class <code>B</code> were to declare its own <code>int x = 20;</code>, variables do not override each other (this is called **variable hiding**). If we access <code>a.x</code>, it would print <code>10</code> because field access is resolved at compile time based on the **reference type** (A), not the actual object type!</p>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code demonstrating polymorphism and class method inheritance:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.accolite;
+ 
+public class InheritanceChecker {
+    public static void main(String[] args) {
+ 
+        A a = new B();
+        a.m1(); // Prints: B m1()
+ 
+        B b = new B();
+        b.m1(); // Prints: B m1()
+    }
+}
+ 
+class A {
+    protected int x = 10;
+ 
+    public void m1() {
+        System.out.println("A m1()");
+    }
+ 
+    public void m2() {
+        System.out.println("A m2()");
+    }
+}
+ 
+class B extends A {
+    @Override
+    public void m1() {
+        System.out.println("B m1()");
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Polymorphism allows our code to be flexible and extensible. By writing code that references the parent class, we can easily swap in new child classes in the future without changing our main logic. The JVM will automatically look up the correct overridden method implementation at runtime!</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kafka Delivery Semantics: At-Most-Once, At-Least-Once, Exactly-Once | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-delivery-semantics-guarantees.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Kafka Delivery Semantics",
+      "item": "https://enggnotes.com/posts/kafka-delivery-semantics-guarantees.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="A guide to Kafka delivery semantics. Learn how to configure At-Most-Once, At-Least-Once, and Exactly-Once (EOS) processing pipelines simply.">
+  <meta name="keywords" content="delivery semantics, exactly once semantics, at most once, at least once, message guarantees, kafka delivery, kafka java, delivery java, semantics java, atmostonce java, apache kafka, event streaming, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Kafka Delivery Semantics: At-Most-Once, At-Least-Once, Exactly-Once | Engineering Notes">
+  <meta property="og:description" content="Discover how to configure producers, brokers, and consumers to guarantee exact message delivery counts.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Delivery Guarantees</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Kafka Delivery Semantics: At-Most-Once, At-Least-Once, Exactly-Once</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>When sending data over a network, things go wrong. Servers crash, sockets drop, and routers drop packets. In a distributed message system, you must configure how your applications handle these glitches. This is defined by **Delivery Semantics**.</p>
+        
+        <p>Kafka supports three delivery options, each suited for different business needs. Let's compare their behaviors, configurations, and risks.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka-delivery-guarantees.svg" alt="Delivery Semantics comparison diagram" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Courier Delivery Methods
+          </div>
+          <p>Imagine mailing a document to a business partner:</p>
+          <ul>
+            <li><strong>At-Most-Once:</strong> You drop the document in a standard mailbox. If it gets lost, it's gone. You don't try again. The partner gets it either 0 or 1 times.</li>
+            <li><strong>At-Least-Once:</strong> You mail the document. If you don't hear back within a week, you mail another copy. You keep mailing copies until they confirm receipt. The partner gets it 1 or more times (duplicate packages possible).</li>
+            <li><strong>Exactly-Once:</strong> You hire a secure carrier who locks the document in a case, verifies the recipient's fingerprint, and logs it. The partner gets the document exactly 1 time.</li>
+          </ul>
+        </div>
+
+        <h2>Comparison of the Three Semantics</h2>
+
+        <h3>1. At-Most-Once</h3>
+        <p>Messages are written and read, but never retried. If a write fails or a consumer crashes before processing, the data is lost.</p>
+        <ul>
+          <li><strong>Producer Settings:</strong> <code>acks=0</code>, <code>retries=0</code></li>
+          <li><strong>Consumer Settings:</strong> <code>enable.auto.commit=true</code> (commits offset immediately after polling)</li>
+          <li><strong>Data Loss Risk:</strong> High.</li>
+        </ul>
+
+        <h3>2. At-Least-Once (Default)</h3>
+        <p>Messages are retried on write failures. If an acknowledgment fails, the producer resends the message, which can result in duplicates on the broker.</p>
+        <ul>
+          <li><strong>Producer Settings:</strong> <code>acks=all</code>, <code>retries > 0</code>, <code>enable.idempotence=false</code></li>
+          <li><strong>Consumer Settings:</strong> <code>enable.auto.commit=false</code> (commits offsets manually *after* processing completes)</li>
+          <li><strong>Data Loss Risk:</strong> Zero. However, duplicates are possible.</li>
+        </ul>
+
+        <h3>3. Exactly-Once Semantics (EOS)</h3>
+        <p>Messages are written and read exactly once. No records are lost, and no duplicates are introduced, even during server crashes.</p>
+        <ul>
+          <li><strong>Producer Settings:</strong> <code>enable.idempotence=true</code>, <code>transactional.id</code> configured</li>
+          <li><strong>Consumer Settings:</strong> <code>isolation.level=read_committed</code></li>
+          <li><strong>Complexity:</strong> Highest, with slight network overhead.</li>
+        </ul>
+
+        <h2>Choosing the Right Option</h2>
+        <p>Most business applications use **At-Least-Once** because preventing data loss is critical. Duplicates are then handled by writing idempotent consumer logic (e.g., checking database records before inserting). For payment gateways and ledger systems, invest the effort to configure true **Exactly-Once Semantics**.</p>
+
+        <h2>Conclusion</h2>
+        <p>Match your delivery guarantees to your business goals. For simple logs, choose At-Most-Once to save network resources. For database updates, choose At-Least-Once, and use Exactly-Once transactions when database consistency is paramount.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

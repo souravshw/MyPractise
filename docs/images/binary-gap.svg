@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0822" />
+      <stop offset="100%" stop-color="#04020A" />
+    </linearGradient>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#1F153C" stroke-width="2"/>
+  <text x="400" y="50" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">Longest Binary Gap Algorithm</text>
+  <text x="400" y="75" font-family="'Segoe UI', sans-serif" font-size="13" fill="#887DA5" text-anchor="middle">Finding consecutive zeros bounded by ones in binary format</text>
+  
+  <g transform="translate(150, 160)">
+    <!-- Binary representation boxes -->
+    <!-- 1 -->
+    <rect x="0" y="0" width="60" height="60" rx="6" fill="#1F153C" stroke="#00FF87" stroke-width="2" filter="url(#glowGreen)"/>
+    <text x="30" y="38" font-family="monospace" font-size="26" font-weight="bold" fill="#00FF87" text-anchor="middle">1</text>
+    <text x="30" y="80" font-family="'Segoe UI', sans-serif" font-size="11" fill="#887DA5" text-anchor="middle">Post</text>
+    
+    <!-- 0 -->
+    <rect x="80" y="0" width="60" height="60" rx="6" fill="#120D23" stroke="#5C42A5" stroke-width="1"/>
+    <text x="110" y="38" font-family="monospace" font-size="26" fill="#887DA5" text-anchor="middle">0</text>
+    
+    <!-- 0 -->
+    <rect x="160" y="0" width="60" height="60" rx="6" fill="#120D23" stroke="#5C42A5" stroke-width="1"/>
+    <text x="190" y="38" font-family="monospace" font-size="26" fill="#887DA5" text-anchor="middle">0</text>
+    <text x="150" y="-20" font-family="'Segoe UI', sans-serif" font-size="13" fill="#FF5E5E" font-weight="bold" text-anchor="middle">Gap = 2</text>
+    <path d="M90 -10 L210 -10" stroke="#FF5E5E" stroke-width="1.5" marker-end="url(#arrow)" fill="none"/>
+    
+    <!-- 1 -->
+    <rect x="240" y="0" width="60" height="60" rx="6" fill="#1F153C" stroke="#00FF87" stroke-width="2" filter="url(#glowGreen)"/>
+    <text x="270" y="38" font-family="monospace" font-size="26" font-weight="bold" fill="#00FF87" text-anchor="middle">1</text>
+    <text x="270" y="80" font-family="'Segoe UI', sans-serif" font-size="11" fill="#887DA5" text-anchor="middle">Post</text>
+    
+    <!-- 0 -->
+    <rect x="320" y="0" width="60" height="60" rx="6" fill="#120D23" stroke="#5C42A5" stroke-width="1"/>
+    <text x="350" y="38" font-family="monospace" font-size="26" fill="#887DA5" text-anchor="middle">0</text>
+    
+    <!-- 0 -->
+    <rect x="400" y="0" width="60" height="60" rx="6" fill="#120D23" stroke="#5C42A5" stroke-width="1"/>
+    <text x="430" y="38" font-family="monospace" font-size="26" fill="#887DA5" text-anchor="middle">0</text>
+    
+    <!-- 0 -->
+    <rect x="480" y="0" width="60" height="60" rx="6" fill="#120D23" stroke="#5C42A5" stroke-width="1"/>
+    <text x="510" y="38" font-family="monospace" font-size="26" fill="#887DA5" text-anchor="middle">0</text>
+    <text x="430" y="-20" font-family="'Segoe UI', sans-serif" font-size="13" fill="#00FF87" font-weight="bold" text-anchor="middle">Max Gap = 3</text>
+    <path d="M330 -10 L530 -10" stroke="#00FF87" stroke-width="2" fill="none"/>
+
+    <!-- 1 -->
+    <rect x="560" y="0" width="60" height="60" rx="6" fill="#1F153C" stroke="#00FF87" stroke-width="2" filter="url(#glowGreen)"/>
+    <text x="590" y="38" font-family="monospace" font-size="26" font-weight="bold" fill="#00FF87" text-anchor="middle">1</text>
+    <text x="590" y="80" font-family="'Segoe UI', sans-serif" font-size="11" fill="#887DA5" text-anchor="middle">Post</text>
+  </g>
+</svg>

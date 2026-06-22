@@ -1,0 +1,250 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detecting Loops in a Linked List | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/detecting-linked-list-loops.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Algorithms",
+      "item": "https://enggnotes.com/index.html?category=Algorithms"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Detecting Loops in a Linked List",
+      "item": "https://enggnotes.com/posts/detecting-linked-list-loops.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to detect loops (cycles) in a Linked List in Java using simple sticky notes visited flag analogy and step-by-step code trace.">
+  <meta name="keywords" content="java linked list loop detection, detect cycle in linked list java, floyd cycle finding algorithm java, singly linked list cycle tutorial, detecting loops, loops linked, detecting java, loops java, linked java, list java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Detecting Loops in a Linked List | Engineering Notes">
+  <meta property="og:description" content="Learn how to detect loops (cycles) in a Linked List in Java using a simple sticky notes visited flag analogy.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Algorithms">Algorithms</a></li>
+          <li aria-current="page">Loop Detection</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Algorithms</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">3 min read</span>
+        </div>
+        <h1 class="article-title">Detecting Loops in a Linked List</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>A <strong>loop or cycle</strong> in a linked list happens when a node points back to a node we have already visited instead of pointing to <code>null</code>. If we try to traverse this list, our code will run forever in an infinite loop, freezing the program!</p>
+        
+        <p>Let's look at how we can detect this loop easily using a simple room-and-sticky-note analogy.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/linked_list_loop_detector.svg" alt="Illustration of a linked list loop detected with visited sticky notes" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Leaving Sticky Notes on Doors
+          </div>
+          <p>Imagine you are exploring a series of connected rooms (Nodes). Each room has a single door leading to the next room.</p>
+          <p>You want to check if you are walking in a circle. Here is your plan:</p>
+          <ul>
+            <li>Every time you walk into a room, you put a **bright neon sticky note** on the door (we mark <code>isTraversed = true</code>).</li>
+            <li>Before you walk through any door, you check if there is already a sticky note on it.</li>
+            <li>If you find a sticky note, you shout: **"Loop Detected! I've been in this room before!"**</li>
+            <li>If you reach a dead end (a room with no door to follow, i.e., <code>null</code>), you know there is no loop!</li>
+          </ul>
+        </div>
+
+        <h2>Walkthrough of the Loop Detection Scenario</h2>
+        <p>Let's trace how the program executes step-by-step from the entry point of a loop checking method:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 1: Setting up our Nodes
+          </div>
+          <p>We create three nodes representing our list. We also deliberately point Node C back to Node B to form a cycle:</p>
+          <pre><code class="language-java">Node1 c = new Node1("Node C", null); // we will point it to B later
+Node1 b = new Node1("Node B", c);
+Node1 a = new Node1("Node A", b);
+c.nextNode = b; // Cycle created! C -> B</code></pre>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 2: Tracking Visited Rooms
+          </div>
+          <p>We start checking for loops starting from the head (Node A):</p>
+          <ul>
+            <li><strong>Check Node A:</strong> Is Node A visited? No (<code>isTraversed</code> is false). Mark Node A as visited: <code>a.isTraversed = true</code>. Move to Node B.</li>
+            <li><strong>Check Node B:</strong> Is Node B visited? No. Mark Node B: <code>b.isTraversed = true</code>. Move to Node C.</li>
+            <li><strong>Check Node C:</strong> Is Node C visited? No. Mark Node C: <code>c.isTraversed = true</code>. Move to Node C's next node: Node B.</li>
+            <li><strong>Check Node B again:</strong> Is Node B visited? **Yes!** (<code>b.isTraversed == true</code>). A loop is detected! The program immediately returns true.</li>
+          </ul>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code demonstrating how `Node1` utilizes the `isTraversed` boolean state flag to detect a cycle:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.accolite;
+ 
+public class LinkedListLoopDetector {
+ 
+    public static void main(String[] args) {
+        // Construct nodes
+        Node1 c = new Node1("Node C", null);
+        Node1 b = new Node1("Node B", c);
+        Node1 a = new Node1("Node A", b);
+ 
+        // Point Node C back to Node B to create a loop
+        c.nextNode = b; 
+ 
+        boolean hasLoop = detectLoop(a);
+        System.out.println("Does the list have a loop? " + hasLoop);
+    }
+ 
+    private static boolean detectLoop(Node1 head) {
+        Node1 current = head;
+        while (current != null) {
+            if (current.isTraversed) {
+                return true; // We hit a node we already marked! Loop found.
+            }
+            current.isTraversed = true; // Mark as visited (sticky note)
+            current = current.getNextNode();
+        }
+        return false; // Reached the end (null) with no cycles
+    }
+}
+ 
+class Node1 {
+    String data;
+    Node1 nextNode;
+    boolean isTraversed;
+ 
+    Node1(String data, Node1 nextNode) {
+        this.data = data;
+        this.nextNode = nextNode;
+    }
+ 
+    public String getData() {
+        return data;
+    }
+ 
+    public Node1 getNextNode() {
+        return nextNode;
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>By using a simple <code>boolean isTraversed</code> flag inside our list nodes, we can easily check for loop cycles in a single pass. This visited flag approach runs in O(N) time and requires minimal extra code to implement!</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

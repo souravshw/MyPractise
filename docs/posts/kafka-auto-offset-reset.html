@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kafka auto.offset.reset: Earliest vs. Latest Explained Simply | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-auto-offset-reset.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Kafka auto.offset.reset settings",
+      "item": "https://enggnotes.com/posts/kafka-auto-offset-reset.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="What is the difference between auto.offset.reset=earliest and latest in Apache Kafka? Learn how offset positioning works for new consumer groups simply.">
+  <meta name="keywords" content="auto offset reset, earliest vs latest, consumer offset configuration, kafka consumer offset reset, kafka autooffsetreset, autooffsetreset earliest, kafka java, autooffsetreset java, earliest java, vs java, apache kafka, event streaming, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Kafka auto.offset.reset: Earliest vs. Latest Explained Simply | Engineering Notes">
+  <meta property="og:description" content="Discover how Kafka determines where a consumer group starts reading when no committed offsets exist.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Offset Reset</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">3 min read</span>
+        </div>
+        <h1 class="article-title">Kafka auto.offset.reset: Earliest vs. Latest Explained Simply</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>When starting a fresh Kafka consumer group, or when a consumer points to a topic where records have expired, the consumer group has **no stored offset bookmark** to look at. In this scenario, how does Kafka know where your consumer should start reading?</p>
+        
+        <p>This is configured using the **auto.offset.reset** setting. Choosing the wrong setting can cause you to accidentally process years of stale historical data or, conversely, skip important messages. Let's compare the options simply.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka_offset_reset.png" alt="Kafka Offset Reset Options: Earliest vs. Latest" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Arriving Late to a Presentation
+          </div>
+          <p>Imagine walking into a presentation room 30 minutes after it started:</p>
+          <ul>
+            <li><strong>auto.offset.reset = earliest:</strong> You ask the organizer for a recording of the first 30 minutes. You sit in the back room and watch the entire recording from page 1, getting up to speed on everything that happened before joining the live audience.</li>
+            <li><strong>auto.offset.reset = latest:</strong> You ignore everything that happened in the first 30 minutes. You sit down in a chair and start taking notes *only* on the words spoken from the exact second you sat down.</li>
+          </ul>
+        </div>
+
+        <h2>The Three Offset Reset Options</h2>
+        
+        <h3>1. auto.offset.reset = "latest" (Default)</h3>
+        <p>If no committed offset exists, the consumer starts reading from the end of the partition. It will only process messages written <em>after</em> the consumer subscribed to the topic.</p>
+        <ul>
+          <li><strong>Use Case:</strong> Real-time dashboards, chat messaging apps where historical greetings are irrelevant.</li>
+          <li><strong>Risk:</strong> You miss any messages written before the consumer joined the group.</li>
+        </ul>
+
+        <h3>2. auto.offset.reset = "earliest"</h3>
+        <p>If no committed offset exists, the consumer starts reading from the absolute beginning of the partition (offset 0, or the oldest message still held on the broker).</p>
+        <ul>
+          <li><strong>Use Case:</strong> Data sync tasks, microservices rebuilding local database state, data analytics.</li>
+          <li><strong>Risk:</strong> Can cause high initial CPU/network load as the consumer processes massive amounts of historical backlog.</li>
+        </ul>
+
+        <h3>3. auto.offset.reset = "none"</h3>
+        <p>If no committed offset is found, Kafka throws a <code>NoOffsetForPartitionException</code> exception directly to your client code.</p>
+        <ul>
+          <li><strong>Use Case:</strong> Highly sensitive transaction engines where humans must manually inspect and set the starting offset.</li>
+        </ul>
+
+        <h2>Crucial Rule: Stored Offsets Always Win</h2>
+        <p>It is important to remember that <code>auto.offset.reset</code> **only applies when there are no committed offsets** for the consumer group. If a consumer has already run, committed offset 1025, stopped, and restarted, it will resume at offset 1026, regardless of whether you set earliest or latest.</p>
+
+        <h2>Configuring in Java</h2>
+        <p>Here is how to set the configuration during consumer client initialization:</p>
+        <pre><code class="language-java">Properties props = new Properties();
+props.put("bootstrap.servers", "localhost:9092");
+props.put("group.id", "analytics-group");
+
+// Set to earliest to process all historical messages
+props.put("auto.offset.reset", "earliest");
+
+props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+
+KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Choose <code>earliest</code> when data accuracy and processing history are critical. Choose <code>latest</code> when you only care about real-time events happening right now. Understanding this starting behavior prevents missing records or accidental duplicate replays when booting up new consumer applications.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

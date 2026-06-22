@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Java Semaphores: Rate Limiting &amp; Concurrency Control | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/java-semaphores-rate-limiting.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java Concurrency",
+      "item": "https://enggnotes.com/index.html?category=Java%20Concurrency"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Java Semaphores",
+      "item": "https://enggnotes.com/posts/java-semaphores-rate-limiting.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how Java Semaphores manage thread access control and rate-limiting using permits, explained simply with a playhouse-ticket analogy.">
+  <meta name="keywords" content="understanding java, java semaphores, java java, semaphores java, rate java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Understanding Java Semaphores: Rate Limiting &amp; Concurrency Control | Engineering Notes">
+  <meta property="og:description" content="Learn how Java Semaphores manage thread access control using permits, explained simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <main class="container">
+    <article class="article-container">
+      
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java%20Concurrency">Java Concurrency</a></li>
+          <li aria-current="page">Java Semaphores</li>
+        </ol>
+      </nav>
+      
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java Concurrency</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Understanding Java Semaphores: Rate Limiting &amp; Concurrency Control</h1>
+      </header>
+
+      <div class="article-body">
+        <p>A **Semaphore** in Java Concurrency is a utility that controls access to a shared resource using a set of virtual **permits**. Unlike a standard mutual exclusion lock (Mutex) which only allows one thread, a Semaphore can allow multiple threads to access a resource in parallel up to a configured limit.</p>
+
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/java-semaphores.svg" alt="Visualizing Java Semaphore permits" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: An ATM Booth with Two Machines
+          </div>
+          <p>Imagine an ATM bank vestibule that contains exactly **2 ATM machines** inside. A security guard stands outside holding exactly **2 keys (permits)**:</p>
+          <ul>
+            <li><strong>Alice</strong> arrives first. The guard hands her a key, and she enters the booth (1 permit remaining).</li>
+            <li><strong>Bob</strong> arrives second. The guard hands him the second key, and he enters (0 permits remaining).</li>
+            <li><strong>Charlie</strong> arrives third. Since there are no keys left, the guard makes him wait outside in a blocked queue.</li>
+            <li>Once Alice finished her transaction and leaves, she **returns the key (releases permit)** to the guard. The guard immediately hands it to Charlie, who can now enter.</li>
+          </ul>
+        </div>
+
+        <h2>Implementing Semaphore in Java</h2>
+        <p>Using <code>semaphore.acquire()</code> locks a thread if no permits are available, and <code>semaphore.release()</code> returns a permit to the pool:</p>
+
+        <pre><code class="language-java">package io.practise.threadsExample;
+ 
+import java.util.concurrent.Semaphore;
+ 
+public class SemaphoreExample {
+  // Only 2 threads can access the resource simultaneously
+  static Semaphore semaphore = new Semaphore(2);
+ 
+  public static void main(String[] args) {
+      new MyAtmThread("Alice").start();
+      new MyAtmThread("Bob").start();
+      new MyAtmThread("Charlie").start();
+  }
+ 
+  static class MyAtmThread extends Thread {
+      public MyAtmThread(String name) {
+          super(name);
+      }
+ 
+      @Override
+      public void run() {
+          try {
+              System.out.println(getName() + " is waiting to enter the ATM booth...");
+              // Acquire a permit
+              semaphore.acquire();
+              System.out.println(getName() + " entered the booth and is doing transactions.");
+              Thread.sleep(2000); // Simulate transaction processing
+              System.out.println(getName() + " is leaving the ATM booth.");
+          } catch (InterruptedException e) {
+              e.printStackTrace();
+          } finally {
+              // Always release permit in finally block to prevent thread deadlocks
+              semaphore.release();
+          }
+      }
+  }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Semaphores are highly useful for rate-limiting calls to external APIs, managing database connection pools, or shielding expensive physical server resources from concurrent overload.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <script src="../js/fragments.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

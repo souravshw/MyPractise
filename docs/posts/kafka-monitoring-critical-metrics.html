@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Important Kafka Metrics to Monitor in Production | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-monitoring-critical-metrics.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Important Kafka Metrics to Monitor",
+      "item": "https://enggnotes.com/posts/kafka-monitoring-critical-metrics.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="A production guide to Kafka monitoring. Learn the critical metrics including under-replicated partitions, consumer lag, and ISR shrink rates.">
+  <meta name="keywords" content="monitor kafka, consumer lag records, under replicated partitions, isr shrinks, active controller count, important kafka, kafka metrics, important java, kafka java, metrics java, monitor java, apache kafka, event streaming, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Important Kafka Metrics to Monitor in Production | Engineering Notes">
+  <meta property="og:description" content="Learn what metrics to track on your Prometheus and Grafana dashboards to keep Kafka healthy.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Monitoring Metrics</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Important Kafka Metrics to Monitor in Production</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>Running a Kafka cluster in production without monitoring is like flying an airplane blind. Because Kafka handles critical data pipelines, a silent failure (like a slow consumer causing data latency or an offline replica) can quickly impact your business operations.</p>
+        
+        <p>To keep your cluster healthy, you must export metrics (typically using tools like the **Prometheus JMX Exporter** and **Grafana**) and set alerts on key health indicators. Let's review the most important metrics to watch.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka-monitoring.svg" alt="Essential Kafka Dashboard Monitoring Metrics Diagram" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Car Dashboard
+          </div>
+          <p>Imagine driving a car down the highway:</p>
+          <ul>
+            <li><strong>Under-Replicated Partitions is the check engine light.</strong> If it turns red (value > 0), one of your tires is flat, and you risk a breakdown if another goes out.</li>
+            <li><strong>Consumer Lag is the fuel gauge.</strong> If the needle points to empty, your engine is running out of fuel (or processing backlog is growing), indicating that you need to fill up soon.</li>
+            <li><strong>Active Controller Count is the steering wheel.</strong> There must be exactly 1 steering wheel in the car. Having 0 or 2 steering wheels is a recipe for disaster.</li>
+          </ul>
+        </div>
+
+        <h2>Three Critical Broker Metrics</h2>
+
+        <h3>1. UnderReplicatedPartitions (Alert if > 0)</h3>
+        <p><strong>Metric Name:</strong> <code>kafka.server:type=ReplicaManager,name=UnderReplicatedPartitions</code></p>
+        <p>Indicates the count of partitions that do not have their full set of configured replicas online. If this number rises above 0, it means at least one follower broker has crashed or is struggling to sync data. **Set a high-priority alert on this metric.**</p>
+
+        <h3>2. ActiveControllerCount (Alert if != 1)</h3>
+        <p><strong>Metric Name:</strong> <code>kafka.controller:type=KafkaController,name=ActiveControllerCount</code></p>
+        <p>Tracks how many brokers are acting as the active controller manager. There must be exactly 1 active controller in the cluster. If this number drops to 0, leader elections cannot take place.</p>
+
+        <h3>3. IsrShrinksPerSec / IsrExpandsPerSec</h3>
+        <p><strong>Metric Name:</strong> <code>kafka.server:type=ReplicaManager,name=IsrShrinksPerSec</code></p>
+        <p>Tracks how often brokers are removed from the In-Sync Replicas (ISR) list. Frequent shrinks indicate network drops or broker performance issues.</p>
+
+        <h2>Critical Client Metrics</h2>
+
+        <h3>1. records-lag-max (Consumer metric)</h3>
+        <p>Measures the maximum difference between the latest message written to a partition and the offset committed by the consumer. If lag grows continuously, it means your consumer is too slow to handle incoming traffic, indicating that you need to add more consumer instances or partitions.</p>
+
+        <h3>2. record-error-rate (Producer metric)</h3>
+        <p>Tracks the rate of write requests that fail due to schema validation issues, broker downtime, or authorization errors. In a healthy system, this value should be 0.</p>
+
+        <h2>Conclusion</h2>
+        <p>Effective monitoring prevents minor glitches from turning into system outages. Set up Grafana dashboards to track **under-replicated partitions**, monitor **consumer lag** to prevent business delays, and alert on broker heartbeat failures to catch issues early.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

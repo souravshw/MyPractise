@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Handling Schema Evolution in Kafka with Schema Registry | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-schema-evolution-registry.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Schema Evolution with Schema Registry",
+      "item": "https://enggnotes.com/posts/kafka-schema-evolution-registry.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="How do you handle schema evolution in Kafka? Learn how Confluent Schema Registry works, Avro serialization compatibility rules, and best practices simply.">
+  <meta name="keywords" content="schema evolution, confluent schema registry, avro serialization, backward compatibility, forward compatibility, handling schema, handling java, schema java, evolution java, kafka java, apache kafka, event streaming, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture, schema registry">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Handling Schema Evolution in Kafka with Schema Registry | Engineering Notes">
+  <meta property="og:description" content="Prevent application crashes due to changing data formats by using the Schema Registry.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Schema Registry</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Handling Schema Evolution in Kafka with Schema Registry</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In distributed systems, microservices share data continuously. If one service updates its database structure (e.g., adding a middle name field to a user profile) and publishes this data to Kafka, downstream consumer applications that do not know about the new field can crash.</p>
+        
+        <p>To prevent format conflicts, you must manage how message shapes change over time. This is called **Schema Evolution**, and it is typically coordinated using the **Confluent Schema Registry**.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka-schema-registry.svg" alt="Confluent Schema Registry Architecture Flow" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Currency Detector
+          </div>
+          <p>Imagine a vending machine that accepts dollar bills:</p>
+          <ul>
+            <li><strong>Backward Compatibility:</strong> If a bank prints a new 2026 design dollar bill, old vending machines must still be able to scan and accept it.</li>
+            <li><strong>Forward Compatibility:</strong> If you use a legacy vending machine, it should still accept older dollar bills from 1990 without jamming.</li>
+            <li><strong>Schema Registry:</strong> The central mint directory that defines exactly what printing dimensions are valid. If a customer tries to insert a fake Monopoly bill, the machine rejects it immediately.</li>
+          </ul>
+        </div>
+
+        <h2>What is Confluent Schema Registry?</h2>
+        <p>The **Schema Registry** is a separate service that runs outside your Kafka brokers. It acts as a central library for schemas (typically written in formats like **Apache Avro**, **JSON Schema**, or **Protobuf**).</p>
+        
+        <p>Here is how it coordinates communication:</p>
+        <ol>
+          <li><strong>Registration:</strong> Before writing data, the producer's serializer registers the Avro schema with the Registry. The Registry returns a unique Schema ID.</li>
+          <li><strong>Write:</strong> The producer sends the message to the Kafka broker, prefixing the message bytes with just the Schema ID instead of the entire text schema (saving network bandwidth).</li>
+          <li><strong>Read:</strong> The consumer reads the message, extracts the Schema ID, fetches the corresponding schema from the Registry, and uses it to deserialize the payload.</li>
+        </ol>
+
+        <h2>Compatibility Rules</h2>
+        <p>To evolve schemas safely, you must enforce compatibility rules on the Registry:</p>
+        <ul>
+          <li><strong>BACKWARD (Default):</strong> New schemas can read data written by old schemas. <em>Tuning:</em> Only delete optional fields or add new fields with default values.</li>
+          <li><strong>FORWARD:</strong> Old schemas can read data written by new schemas. <em>Tuning:</em> Only add optional fields or delete fields that have default values.</li>
+          <li><strong>FULL:</strong> Both backward and forward compatible.</li>
+        </ul>
+
+        <h2>Java Producer Configuration Example</h2>
+        <p>To use Schema Registry with Avro in Java, define the registry URL in your properties:</p>
+        <pre><code class="language-java">Properties props = new Properties();
+props.put("bootstrap.servers", "localhost:9092");
+
+// Use Avro Serializer
+props.put("value.serializer", "io.confluent.kafka.serializers.KafkaAvroSerializer");
+
+// Configure Schema Registry URL
+props.put("schema.registry.url", "http://schema-registry:8081");
+
+KafkaProducer&lt;String, MyAvroClass&gt; producer = new KafkaProducer&lt;&gt;(props);</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Do not pass raw JSON payloads in production systems where formats change frequently. By utilizing **Apache Avro** and the **Schema Registry**, you enforce schema validation rules, prevent application crashes, and keep data footprints small.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

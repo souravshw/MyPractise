@@ -1,0 +1,277 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Printing Odd & Even Numbers using Two Threads | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/printing-odd-even-threads.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java Concurrency",
+      "item": "https://enggnotes.com/index.html?category=Java%20Concurrency"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Printing Odd & Even Numbers using Two Threads",
+      "item": "https://enggnotes.com/posts/printing-odd-even-threads.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to coordinate two threads to print alternating odd and even numbers in Java, explained simply with a relay race analogy and step-by-step trace.">
+  <meta name="keywords" content="print odd even two threads java, java multithreading odd even, blockingqueue odd even java, thread coordination java, java concurrent programming, printing odd, odd even, printing java, odd java, even java, numbers java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java concurrency, multithreading java, asynchronous programming, thread pool java, java parallel processing">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Printing Odd & Even Numbers using Two Threads | Engineering Notes">
+  <meta property="og:description" content="Learn how to coordinate two threads to print alternating odd and even numbers in Java, explained simply with a relay race analogy.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java%20Concurrency">Java Concurrency</a></li>
+          <li aria-current="page">Odd Even Threads</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java Concurrency</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Printing Odd & Even Numbers using Two Threads</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>A classic thread coordination problem is making two independent threads print numbers in perfect sequential order: one printing odd numbers (1, 3, 5...) and the other printing even numbers (2, 4, 6...). Without proper signaling, the threads will print out of order. Java's <code>BlockingQueue</code> makes this coordination simple and robust.</p>
+        
+        <p>In this guide, we will translate this concurrency problem into a simple relay-race analogy and trace the code's execution step by step.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/odd_even_threads.png" alt="Illustration of odd and even threads passing a baton in a relay race" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Number Relay Race
+          </div>
+          <p>Imagine a track relay race with two runners: <strong>Odd Runner</strong> and <strong>Even Runner</strong>. Instead of running laps, they are writing numbers in a notebook in order from 1 to 20.</p>
+          <p>They use a single **baton** (the ArrayBlockingQueue) to coordinate:</p>
+          <ul>
+            <li><strong>Odd Runner</strong> starts the game. They write down their number <code>1</code> in the notebook, print it, and then hand the baton to the Even Runner by placing the number `1` inside the queue.</li>
+            <li><strong>Even Runner</strong> is waiting by the track. They cannot do anything until they receive the baton. As soon as the number `1` is placed in the queue, they take it out, add 1 to it to get <code>2</code>, write down and print <code>2</code>, and wait again.</li>
+            <li>Meanwhile, <strong>Odd Runner</strong> increases their counter to <code>3</code> and places it in the queue, passing the baton back.</li>
+          </ul>
+          <p>By using the queue as a baton, they guarantee they never write out of turn!</p>
+        </div>
+
+        <h2>Walkthrough of the Main Method Scenario</h2>
+        <p>Let's trace how the program coordinates execution step-by-step from the entry point:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 1: Setting up the Queue Baton
+          </div>
+          <p>First, the main thread sets up the shared thread-safe queue with a limit of 20 elements:</p>
+          <pre><code class="language-java">BlockingQueue&lt;Integer&gt; blockingQueue = new ArrayBlockingQueue&lt;&gt;(20);</code></pre>
+          <p>It then constructs the Odd and Even runner classes, sharing this single queue instance between them, and starts both threads.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 2: Odd Number Thread Hand-Off
+          </div>
+          <p>The <code>OddNumber</code> thread runs its loop:</p>
+          <ul>
+            <li>It prints <code>"Odd Number 1"</code> to the console.</li>
+            <li>It calls <code>blockingQueue.put(1)</code>, which places the number in the queue.</li>
+            <li>It increments its local counter: <code>number += 2</code> (making it 3).</li>
+            <li>In the next iterations, if the queue is full (because the Even thread is slow), <code>blockingQueue.put(...)</code> will automatically block and put the Odd thread to sleep, preventing it from printing ahead of time.</li>
+          </ul>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Step 3: Even Number Thread Reception
+          </div>
+          <p>The <code>EvenNumber</code> thread runs its loop:</p>
+          <ul>
+            <li>It starts by calling <code>blockingQueue.take()</code>. If the queue is empty, this call blocks, putting the Even thread to sleep.</li>
+            <li>As soon as the Odd thread puts <code>1</code> in the queue, the Even thread wakes up and retrieves it.</li>
+            <li>It increments the value (1 + 1 = 2) and prints: <code>"Even Number 2"</code>.</li>
+            <li>If the printed value reaches 20, the loop breaks and the thread exits.</li>
+          </ul>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>Below is the complete Java code demonstrating odd/even printing using ArrayBlockingQueue:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.accolite;
+ 
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+ 
+public class PrintOddEvenUsingTwoThreads {
+    public static void main(String[] args) {
+ 
+        BlockingQueue&lt;Integer&gt; blockingQueue = new ArrayBlockingQueue&lt;&gt;(20);
+ 
+        OddNumber oddNumber = new OddNumber(blockingQueue);
+        EvenNumber evenNumber = new EvenNumber(blockingQueue);
+ 
+        new Thread(oddNumber).start();
+        new Thread(evenNumber).start();
+    }
+}
+ 
+class OddNumber implements Runnable {
+    private BlockingQueue&lt;Integer&gt; blockingQueue;
+    static int number = 1;
+ 
+    public OddNumber(BlockingQueue&lt;Integer&gt; blockingQueue) {
+        this.blockingQueue = blockingQueue;
+    }
+ 
+    @Override
+    public void run() {
+        try {
+            for (int index = 0; index &lt; 20; ++index) {
+                blockingQueue.put(number);
+                System.out.println("Odd Number " + number);
+                number += 2;
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+ 
+class EvenNumber implements Runnable {
+    int number = 2;
+    private BlockingQueue&lt;Integer&gt; blockingQueue;
+ 
+    public EvenNumber(BlockingQueue&lt;Integer&gt; blockingQueue) {
+        this.blockingQueue = blockingQueue;
+    }
+ 
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                Integer take = blockingQueue.take();
+                take++;
+                System.out.println("Even Number " + take);
+                if (take == 20) {
+                    break;
+                }
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Using a <code>BlockingQueue</code> eliminates the need for low-level synchronized, wait, and notify blocks. The queue handles thread state blocking and thread-safe messaging internally, providing a clean, concurrent design that avoids race conditions and index-ordering bugs.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

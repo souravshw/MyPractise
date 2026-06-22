@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0822" />
+      <stop offset="100%" stop-color="#04020A" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#1F153C" stroke-width="2"/>
+  <text x="400" y="50" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">Java Thread Creation Mechanisms</text>
+  <text x="400" y="75" font-family="'Segoe UI', sans-serif" font-size="13" fill="#887DA5" text-anchor="middle">Comparing Extending Thread vs. Implementing Runnable</text>
+
+  <!-- Extending Thread card -->
+  <g transform="translate(80, 140)">
+    <rect width="280" height="230" rx="8" fill="#140F27" stroke="#3A2075" stroke-width="1.5"/>
+    <text x="140" y="35" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#D2C8E3" text-anchor="middle">Extending Thread Class</text>
+    
+    <rect x="20" y="60" width="240" height="50" rx="4" fill="#1A152E" stroke="#5C42A5" stroke-width="1"/>
+    <text x="140" y="90" font-family="monospace" font-size="12" fill="#E2D6FF" text-anchor="middle">class MyThread extends Thread</text>
+    
+    <text x="140" y="140" font-family="'Segoe UI', sans-serif" font-size="12" fill="#887DA5" text-anchor="middle" text-anchor="middle">Tightly couples task logic with thread management.</text>
+    <text x="140" y="160" font-family="'Segoe UI', sans-serif" font-size="12" fill="#887DA5" text-anchor="middle" text-anchor="middle">Limits inheritance (no other class can be extended).</text>
+    <text x="140" y="195" font-family="'Segoe UI', sans-serif" font-size="13" fill="#00FF87" font-weight="bold" text-anchor="middle">Hiring a dedicated worker</text>
+  </g>
+
+  <!-- Implementing Runnable card -->
+  <g transform="translate(440, 140)">
+    <rect width="280" height="230" rx="8" fill="#1A182E" stroke="#5C42A5" stroke-width="1.5"/>
+    <text x="140" y="35" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="bold" fill="#E2D6FF" text-anchor="middle">Implementing Runnable Interface</text>
+    
+    <rect x="20" y="60" width="240" height="50" rx="4" fill="#1A152E" stroke="#5C42A5" stroke-width="1"/>
+    <text x="140" y="90" font-family="monospace" font-size="12" fill="#E2D6FF" text-anchor="middle">class MyTask implements Runnable</text>
+    
+    <text x="140" y="140" font-family="'Segoe UI', sans-serif" font-size="12" fill="#887DA5" text-anchor="middle" text-anchor="middle">Decouples task payload from execution wrapper.</text>
+    <text x="140" y="160" font-family="'Segoe UI', sans-serif" font-size="12" fill="#887DA5" text-anchor="middle" text-anchor="middle">Supports multiple inheritance interfaces.</text>
+    <text x="140" y="195" font-family="'Segoe UI', sans-serif" font-size="13" fill="#00FF87" font-weight="bold" text-anchor="middle">Writing a task checklist card</text>
+  </g>
+</svg>

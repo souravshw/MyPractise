@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is an Offset in Kafka and How is it Managed? | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-offsets-management.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "What is an Offset in Kafka and How is it Managed?",
+      "item": "https://enggnotes.com/posts/kafka-offsets-management.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn what Kafka offsets are and how to manage them. Discover auto-commit vs. manual commitSync and commitAsync methods with code examples.">
+  <meta name="keywords" content="kafka offset, commit offset, manual commit vs auto commit, consumer offset, exactly-once semantics, consumer group coordination, what offset, offset kafka, what java, offset java, kafka java, it java, apache kafka, event streaming, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="What is an Offset in Kafka and How is it Managed? | Engineering Notes">
+  <meta property="og:description" content="Master offsets in Kafka. Learn the difference between auto-commit and manual commits to prevent duplicate processing.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Offset Management</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">What is an Offset in Kafka and How is it Managed?</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Apache Kafka, messages are not deleted as soon as consumers read them. So how does a consumer know which message to read next when it restarts or polls a broker? The answer lies in **Offsets**.</p>
+        
+        <p>An offset is a unique, sequential number assigned to each record inside a partition. Managing these offsets correctly is the difference between an application that processes data smoothly and one that suffers from message loss or duplicate processing.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka_offsets.png" alt="Illustration of Partition Offsets and Consumer Reading Progress" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Bookmark
+          </div>
+          <p>Imagine reading a 500-page book in a library. When you need to go home, you don't tear out the pages you've read. Instead, you put a **bookmark** on page 42. When you return tomorrow, you look at your bookmark and immediately resume reading from page 43.</p>
+          <p>In Kafka, the partition is the book, and the **offset** is your bookmark. If your consumer crashes or restarts, it reads its committed offset bookmark from Kafka and picks up right where it left off.</p>
+        </div>
+
+        <h2>How Kafka Tracks Offsets</h2>
+        <p>Under the hood, Kafka stores consumer group reading progress in an internal system topic called <code>__consumer_offsets</code>. When a consumer completes processing a set of messages, it "commits" its offset, notifying Kafka of its new reading position.</p>
+        
+        <p>You can choose between two main offset committing strategies:</p>
+
+        <h3>1. Automatic Committing (Auto-Commit)</h3>
+        <p>By setting <code>enable.auto.commit = true</code>, the consumer client will automatically commit offsets in the background at regular intervals (defined by <code>auto.commit.interval.ms</code>, default is 5000ms).</p>
+        <p><strong>The Risk:</strong> If your consumer polls a batch of messages, auto-commits the offset, and then crashes <em>before</em> it finishes processing the actual work, those messages are lost to your business logic because the bookmark has already moved forward.</p>
+
+        <h3>2. Manual Committing</h3>
+        <p>For critical data pipelines, you should disable auto-commits and commit offsets manually using Java code. You do this in two ways:</p>
+        <ul>
+          <li><strong>commitSync():</strong> Blocks the thread until the broker acknowledges the commit. It is reliable but adds latency.</li>
+          <li><strong>commitAsync():</strong> Non-blocking. It fires the commit request and continues processing. It is highly efficient but cannot automatically retry on failures.</li>
+        </ul>
+
+        <h2>Manual Offset Commit Example in Java</h2>
+        <p>Here is how to disable auto-commits and run a manual, safe processing loop in Java:</p>
+        <pre><code class="language-java">import org.apache.kafka.clients.consumer.*;
+import java.time.Duration;
+import java.util.*;
+
+Properties props = new Properties();
+props.put("bootstrap.servers", "localhost:9092");
+props.put("group.id", "order-processors");
+props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+
+// 1. Disable Auto-Commit
+props.put("enable.auto.commit", "false");
+
+KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+consumer.subscribe(Collections.singletonList("orders"));
+
+try {
+    while (true) {
+        ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+        for (ConsumerRecord<String, String> record : records) {
+            // 2. Process message
+            System.out.printf("Processing: key=%s, value=%s%n", record.key(), record.value());
+        }
+        
+        // 3. Commit offset manually after processing completes successfully
+        if (!records.isEmpty()) {
+            consumer.commitSync(); 
+        }
+    }
+} finally {
+    consumer.close();
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Offsets are the glue that allows Kafka consumers to remain stateless and resilient. In production environments, always prefer **manual offset commits** and ensure that you only commit offsets <em>after</em> your business logic finishes successfully to prevent data loss.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

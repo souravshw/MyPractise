@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const headerPlaceholder = document.getElementById('main-header');
   const footerPlaceholder = document.getElementById('main-footer');
 
-  if (headerPlaceholder) {
+  // Only fetch header dynamically if it is currently empty
+  if (headerPlaceholder && headerPlaceholder.innerHTML.trim() === '') {
     const prefix = headerPlaceholder.getAttribute('data-path-prefix') || '';
     const activeNav = headerPlaceholder.getAttribute('data-active-nav');
     
@@ -22,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error('Error loading header:', err));
   }
 
-  if (footerPlaceholder) {
+  // Only fetch footer dynamically if it is currently empty
+  if (footerPlaceholder && footerPlaceholder.innerHTML.trim() === '') {
     const prefix = footerPlaceholder.getAttribute('data-path-prefix') || '';
     
     fetch(prefix + 'fragments/footer.html')

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kafka Streams vs. Kafka Consumer: Which Should You Use? | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-streams-vs-consumer.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Kafka Streams vs Kafka Consumer",
+      "item": "https://enggnotes.com/posts/kafka-streams-vs-consumer.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Compare Kafka Streams library with classic Kafka Consumers. Learn when to use stateful processing, KStreams, KTables, and RocksDB state stores simply.">
+  <meta name="keywords" content="kafka streams, streams vs consumer, stateful stream processing, kstream ktable, state store rocksdb, streams vs, kafka java, streams java, vs java, apache kafka, event streaming, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture, kafka consumer, consumer group, partition rebalancing, kafka consumer lag, offset management, state store, stream processing">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Kafka Streams vs. Kafka Consumer: Which Should You Use? | Engineering Notes">
+  <meta property="og:description" content="Decide whether to write a lightweight consumer or build a stateful Kafka Streams processing pipeline.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Streams vs Consumer</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">5 min read</span>
+        </div>
+        <h1 class="article-title">Kafka Streams vs. Kafka Consumer: Which Should You Use?</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>If you are writing a Java application to read messages from Apache Kafka, you have two primary options: write a standard <strong>Kafka Consumer</strong> or use the <strong>Kafka Streams API</strong> library.</p>
+        
+        <p>While both read data from Kafka topics, they are built for entirely different complexity profiles. Let's compare them simply to see when you should write a basic consumer versus building a stateful streams pipeline.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka-streams-intro.svg" alt="Kafka Streams Processing Architecture" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Courier vs. Sorting Department
+          </div>
+          <p>Imagine managing cargo packages:</p>
+          <ul>
+            <li><strong>A Kafka Consumer is like a courier driver.</strong> Their job is simple: pick up a package from point A, put it in the truck, and drop it off at point B. They don't open the package, don't aggregate items, and don't care about what was shipped yesterday.</li>
+            <li><strong>Kafka Streams is like an advanced sorting facility.</strong> When packages arrive, workers unpack them, filter out trash, group packages by size, calculate the total weight, and store details in a log file (State Store). They cross-reference items with customer database sheets (Joins) and pack the finished bundles onto a new outbound conveyor belt (Sink Topic).</li>
+          </ul>
+        </div>
+
+        <h2>Detailed Comparison</h2>
+        
+        <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+              <th style="padding: 0.75rem;">Aspect</th>
+              <th style="padding: 0.75rem;">Kafka Consumer</th>
+              <th style="padding: 0.75rem;">Kafka Streams API</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem; font-weight: bold;">Complexity</td>
+              <td style="padding: 0.75rem;">Low (trivially simple read loops).</td>
+              <td style="padding: 0.75rem;">Medium (requires understanding topologies and states).</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem; font-weight: bold;">Processing Model</td>
+              <td style="padding: 0.75rem;">Stateless (processes one record at a time).</td>
+              <td style="padding: 0.75rem;">Stateful (tracks aggregations, counts, windows).</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem; font-weight: bold;">State Store</td>
+              <td style="padding: 0.75rem;">None (must write to external databases).</td>
+              <td style="padding: 0.75rem;">Built-in local RocksDB storage.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem; font-weight: bold;">Operations</td>
+              <td style="padding: 0.75rem;">Read → Run custom code → Commit.</td>
+              <td style="padding: 0.75rem;">Fluent API (map, filter, join, window, aggregate).</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>When Should You Use a Kafka Consumer?</h2>
+        <p>A standard consumer is best when your processing logic is stateless and simple. Choose a consumer if:</p>
+        <ul>
+          <li>You just want to read messages and insert them directly into a database (e.g., PostgreSQL, Elasticsearch, MongoDB).</li>
+          <li>You are triggering external third-party API actions (e.g., sending an email or SMS notification for each message).</li>
+          <li>You are writing applications in non-JVM languages (Python, Go, Node.js) where full Streams libraries are not as mature.</li>
+        </ul>
+
+        <h2>When Should You Use Kafka Streams?</h2>
+        <p>Kafka Streams is a client library built specifically for processing streams of data. Choose Kafka Streams if:</p>
+        <ul>
+          <li>You need to perform stateful operations like counting clicks per hour or summing transactions per customer.</li>
+          <li>You need to join two data streams together (e.g., merging an <code>Orders</code> stream with a <code>Payments</code> stream).</li>
+          <li>You want to use KStream (event stream) and KTable (database mirror table) abstractions natively.</li>
+          <li>You require built-in Exactly-Once processing guarantees.</li>
+        </ul>
+
+        <h2>Basic Kafka Streams Java Example</h2>
+        <p>Here is how to create a stream processing topology that filters and count records programmatically:</p>
+        <pre><code class="language-java">import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.*;
+import org.apache.kafka.streams.kstream.*;
+
+import java.util.Properties;
+
+Properties config = new Properties();
+config.put(StreamsConfig.APPLICATION_ID_CONFIG, "word-count-app");
+config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+config.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+
+StreamsBuilder builder = new StreamsBuilder();
+
+// Read from source topic "orders"
+KStream&lt;String, String&gt; orders = builder.stream("orders");
+
+// Filter and map values: only keep "completed" orders
+KStream&lt;String, String&gt; completedOrders = orders.filter(
+    (key, value) -&gt; value.contains("STATUS:COMPLETED")
+);
+
+// Write results to outbound sink topic
+completedOrders.to("completed-orders-destination");
+
+KafkaStreams streams = new KafkaStreams(builder.build(), config);
+streams.start();</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Start with a lightweight **Kafka Consumer** for simple, stateless ingestion tasks. As soon as you need to aggregate data, join topics, or track time-based windows, upgrade to the **Kafka Streams API** to leverage its built-in RocksDB state stores and robust streaming abstractions.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

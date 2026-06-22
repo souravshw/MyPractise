@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Common Apache Kafka Pitfalls and How to Avoid Them | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-common-pitfalls.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Common Apache Kafka Pitfalls",
+      "item": "https://enggnotes.com/posts/kafka-common-pitfalls.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Explore common mistakes developers make when using Apache Kafka. Learn how to prevent hot partitions, consumer lag buildup, and rebalance loops simply.">
+  <meta name="keywords" content="kafka pitfalls, duplicate processing, consumer lag buildup, static group membership, hot partitions, common apache, apache kafka, common java, apache java, kafka java, pitfalls java, event streaming, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Common Apache Kafka Pitfalls and How to Avoid Them | Engineering Notes">
+  <meta property="og:description" content="Avoid partition skew, duplicate records, and uncontrolled rebalancing by optimizing your Kafka client layouts.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Common Pitfalls</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Common Apache Kafka Pitfalls and How to Avoid Them</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>Apache Kafka is a highly scalable, robust platform, but its distributed nature means minor configuration mistakes can lead to major production problems. Developers new to Kafka often face issues like processing delays, duplicate messages, or unbalanced servers.</p>
+        
+        <p>In this guide, we'll look at the three most common Kafka pitfalls, why they happen, and how you can configure your clients to avoid them simply.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka-pitfalls.svg" alt="Visualizing Hot Partitions and Rebalance Storms in Kafka" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Skewed Plumbing Pressure
+          </div>
+          <p>Imagine building a plumbing system for a large apartment block:</p>
+          <p>If you route all the waste pipes from 100 apartments into a **single primary pipe (hot partition)** while leaving the other 3 drainage pipes completely empty, that single pipe will clog, backup, and burst. </p>
+          <p>Furthermore, if your repair crew takes too long to fix a leak, and the management company keeps firing and replacing them every 5 minutes (false rebalances), no actual work gets done and the building floods.</p>
+        </div>
+
+        <h2>Pitfall 1: Hot Partitions (Skewed Load)</h2>
+        <p>A **Hot Partition** occurs when one partition in a topic receives significantly more messages than the others, overloading the broker hosting it while other brokers sit idle.</p>
+        <ul>
+          <li><strong>Why it happens:</strong> Poor choice of message keys. For example, if you partition a retail topic by `countryCode`, and 95% of your orders are from the `US`, Partition 0 (holding the US hash) will be overloaded.</li>
+          <li><strong>How to avoid it:</strong> Use high-cardinality keys that contain diverse values (like <code>userId</code> or <code>transactionId</code>) to distribute records evenly across all partitions.</li>
+        </ul>
+
+        <h2>Pitfall 2: Uncontrolled Rebalance Storms</h2>
+        <p>A **Rebalance Storm** occurs when consumer group rebalances happen repeatedly, stalling message consumption indefinitely.</p>
+        <ul>
+          <li><strong>Why it happens:</strong> If your consumer takes longer to process a batch of records than <code>max.poll.interval.ms</code>, the broker assumes the consumer is dead, kicks it out of the group, and triggers a rebalance. When the consumer finally finishes and polls again, it rejoins, triggering <em>another</em> rebalance.</li>
+          <li><strong>How to avoid it:</strong> 
+            <ol>
+              <li>Reduce <code>max.poll.records</code> so your application processes smaller batches.</li>
+              <li>Increase <code>max.poll.interval.ms</code> to give your consumer threads more time.</li>
+              <li>Enable **Static Membership** using <code>group.instance.id</code>.</li>
+            </ol>
+          </li>
+        </ul>
+
+        <h2>Pitfall 3: Committing Offsets Before Processing</h2>
+        <p>Committing offsets immediately after calling <code>.poll()</code> leads to silent data loss.</p>
+        <ul>
+          <li><strong>Why it happens:</strong> If your consumer pulls a batch, commits the offset (moving the bookmark forward), and then crashes or gets a database error during the processing loop, those records are never processed. When the consumer restarts, it skips those messages.</li>
+          <li><strong>How to avoid it:</strong> Always use the **Process-then-Commit** pattern. Only commit offsets <em>after</em> your business logic executes successfully.</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>Avoid generic configurations in production. By picking high-cardinality partitioning keys, matching poll record limits to processing speeds, and committing offsets only after data processing finishes, you build a stable and fast Kafka architecture.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

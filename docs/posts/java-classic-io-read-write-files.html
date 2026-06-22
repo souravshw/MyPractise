@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading and Writing Files in Java: The Classic IO Way | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/java-classic-io-read-write-files.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Reading and Writing Files in Java: The Classic IO Way",
+      "item": "https://enggnotes.com/posts/java-classic-io-read-write-files.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to read and write files in Java using classic classes like FileReader, BufferedReader, and PrintWriter. Explained simply with clear examples.">
+  <meta name="keywords" content="java file io, read file bufferedreader java, write file printwriter, java io streams, reading writing, writing files, reading java, writing java, files java, java java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java nio, file manipulation java, java 8 streams">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Reading and Writing Files in Java: The Classic IO Way | Engineering Notes">
+  <meta property="og:description" content="Learn how to read and write files in Java using classic classes like FileReader, BufferedReader, and PrintWriter simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Classic File IO</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Reading and Writing Files in Java: The Classic IO Way</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>Before Java NIO introduced path routing wrappers, Java relied on its classic stream-based classes in the <code>java.io</code> package. These classes are designed to wrap around each other, building a pipeline to read or write characters efficiently.</p>
+        
+        <p>In this guide, we will look at how to read file contents using <code>BufferedReader</code> and how to write lines using <code>PrintWriter</code>.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/java_classic_io_read_write.png" alt="Illustration of streaming characters between files and memory" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Straws and Funnels
+          </div>
+          <p>Imagine reading water out of a deep well:</p>
+          <ul>
+            <li><strong>The Straw (<code>FileReader</code>):</strong> This is a very thin straw that lets you sip water one single droplet (character) at a time. It is slow and tedious for drinking.</li>
+            <li><strong>The Thermos Bucket (<code>BufferedReader</code>):</strong> You place a thermos bucket at the end of the straw. It sucks up a large mouthful of water at once and stores it, allowing you to drink a whole glass (readLine) instantly.</li>
+          </ul>
+        </div>
+
+        <h2>1. Reading Files with <code>BufferedReader</code></h2>
+        <p>To read a file line-by-line, we wrap a raw <code>FileReader</code> inside a <code>BufferedReader</code> to enable buffering capability:</p>
+
+        <pre><code class="language-java">import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class FileRead {
+    public static void main(String[] args) {
+        String content = textFromFile();
+        System.out.println(content);
+    }
+
+    private static String textFromFile() {
+        FileReader f = null;
+        try {
+            f = new FileReader("wordcheck.txt");
+            BufferedReader b = new BufferedReader(f);
+            
+            String alltext = "";
+            String line = "";
+            while ((line = b.readLine()) != null) {
+                alltext += line + "\n";
+            }
+            return alltext;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (f != null) {
+                try {
+                    f.close(); // Clean up resource handles!
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+}</code></pre>
+
+        <h2>2. Writing Files with <code>PrintWriter</code></h2>
+        <p>To write text lines to a file, we wrap a <code>FileWriter</code> inside a <code>PrintWriter</code>, which gives us access to convenient methods like <code>println()</code>:</p>
+
+        <pre><code class="language-java">import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
+
+public class FileWrite {
+    public static void main(String[] args) {
+        textToFile("Hello World.", "Classic IO is cool.", "Goodbye!");
+    }
+
+    private static void textToFile(String... lines) {
+        PrintWriter w = null;
+        try {
+            w = new PrintWriter(new FileWriter("output.txt"));
+            for (String s : lines) {
+                w.println(s);
+            }
+            System.out.println("Done writing file!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (w != null) {
+                w.close(); // Flush and close stream!
+            }
+        }
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>While newer Java versions offer simpler one-liners to read files (like <code>Files.readString()</code>), understanding classic IO stream wrapping remains essential for handling large files without crashing memory.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

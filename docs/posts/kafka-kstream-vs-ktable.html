@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kafka Streams: KStream vs. KTable Explained Simply | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-kstream-vs-ktable.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Kafka Streams: KStream vs. KTable",
+      "item": "https://enggnotes.com/posts/kafka-kstream-vs-ktable.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="What is the difference between KStream and KTable in Kafka Streams? Learn their append vs. upsert semantics and windowing behavior simply.">
+  <meta name="keywords" content="kstream vs ktable, stream vs table, streams builder, event streams, changelog topic, kafka streams, streams kstream, kafka java, streams java, kstream java, vs java, apache kafka, event streaming, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture, state store, kstream ktable, stream processing">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Kafka Streams: KStream vs. KTable Explained Simply | Engineering Notes">
+  <meta property="og:description" content="Master the core abstractions of Kafka Streams: KStream (event stream) and KTable (changelog table).">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">KStream vs KTable</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Kafka Streams: KStream vs. KTable Explained Simply</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In the Kafka Streams library, data streams are modeled using two primary abstractions: <strong>KStream</strong> and <strong>KTable</strong>. These abstractions represent the two sides of a famous architectural coin: the duality between streams and tables.</p>
+        
+        <p>Understanding when to use a KStream versus a KTable is the key to designing stateful calculations, joins, and aggregates in your stream-processing applications. Let's compare their core mechanics and differences.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka-kstream-ktable.svg" alt="Comparison between KStream and KTable" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Transaction Log vs. Bank Account Balance
+          </div>
+          <p>Imagine managing your bank account:</p>
+          <ul>
+            <li><strong>KStream is like your bank statement (Transaction Log).</strong> It records every transaction as a separate line item: "Received +$100 (t:1)", "Spent -$10 (t:2)". Each line is appended to the list and never modified.</li>
+            <li><strong>KTable is like your current account balance page.</strong> It doesn't show the history of how you got there; it only shows your latest status: "Balance: $90". When a new transaction arrives, the balance number is overwritten (upserted).</li>
+          </ul>
+        </div>
+
+        <h2>Detailed Comparison Table</h2>
+        
+        <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+              <th style="padding: 0.75rem;">Aspect</th>
+              <th style="padding: 0.75rem;">KStream</th>
+              <th style="padding: 0.75rem;">KTable</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem; font-weight: bold;">Semantics</td>
+              <td style="padding: 0.75rem;">Infinite, unbounded event stream.</td>
+              <td style="padding: 0.75rem;">Changelog snapshot representing latest values.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem; font-weight: bold;">Message Write</td>
+              <td style="padding: 0.75rem;">Append (INSERT semantics).</td>
+              <td style="padding: 0.75rem;">Upsert by Key (UPDATE semantics).</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem; font-weight: bold;">Null Values</td>
+              <td style="padding: 0.75rem;">Treated as a regular event with empty payload.</td>
+              <td style="padding: 0.75rem;">Treated as a DELETE (Tombstone record).</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem; font-weight: bold;">Use Case</td>
+              <td style="padding: 0.75rem;">Individual events (clicks, sensor inputs).</td>
+              <td style="padding: 0.75rem;">Active state records (user profile configurations).</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Declaring KStream and KTable in Java</h2>
+        <p>Using the <code>StreamsBuilder</code>, you can consume topics as streams or tables easily:</p>
+        <pre><code class="language-java">StreamsBuilder builder = new StreamsBuilder();
+
+// 1. Consume a topic as an event stream
+KStream&lt;String, String&gt; clickStream = builder.stream("user-clicks");
+
+// 2. Consume a topic as a changelog table (retains only latest value per key)
+KTable&lt;String, String&gt; userProfiles = builder.table("user-profiles");</code></pre>
+
+        <h2>The Stream-Table Duality</h2>
+        <p>A stream can be converted into a table, and a table can be converted into a stream:</p>
+        <ul>
+          <li><strong>Stream to Table:</strong> Grouping a KStream and running an aggregation (like <code>count()</code>) creates a KTable representing the running counts.</li>
+          <li><strong>Table to Stream:</strong> Calling <code>ktable.toStream()</code> converts updates on the table back into a sequence of change events (changelog stream).</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>Model your raw, chronological events using a **KStream**. When you need a lookup table containing the latest state of an entity (like checking a user's current subscription tier during a join operation), consume that topic as a **KTable** to let Kafka handle upsert deduplication automatically.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

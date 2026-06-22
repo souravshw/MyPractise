@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Initialization Sequences in Java Inheritance | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/java-class-initialization-blocks-inheritance.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Class Initialization Sequences in Java Inheritance",
+      "item": "https://enggnotes.com/posts/java-class-initialization-blocks-inheritance.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn the initialization sequence rules of static blocks and instance blocks in a Java subclass-superclass inheritance layout simply.">
+  <meta name="keywords" content="java initialization order inheritance, parent child static block order, java instance initialization block inheritance, class initialization, initialization sequences, class java, initialization java, sequences java, java java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java nio, file manipulation java, java io streams, java 8 streams">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Class Initialization Sequences in Java Inheritance | Engineering Notes">
+  <meta property="og:description" content="Learn the initialization sequence rules of static blocks and instance blocks in a Java subclass-superclass inheritance layout simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java%20Core%20%26%20OOP">Java Core & OOP</a></li>
+          <li aria-current="page">Inheritance Initialization</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java Core & OOP</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">3 min read</span>
+        </div>
+        <h1 class="article-title">Class Initialization Sequences in Java Inheritance</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Java, when you instantiate a child class object (e.g. <code>new Child()</code>), a cascade of static blocks, instance blocks, and constructor calls executes across the parent-child inheritance layout. This sequence is a classic interview favorite and represents how Java guarantees parent state is safe before loading child state.</p>
+        
+        <p>In this guide, we will trace the exact console output order of an inheritance hierarchy containing static and instance initialization blocks.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/java_initialization_blocks.png" alt="Timeline of static blocks and instance blocks running during inheritance instantiation" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Building a Nested Sports Center
+          </div>
+          <p>Imagine building a massive Sports Complex (Parent) containing a swimming pool center (Child):</p>
+          <ul>
+            <li><strong>Static Blocks (Foundation):</strong> First, the construction crew pours the foundation of the main complex. Then, they lay the pipes for the pool. This only happens **once** when the center is built.</li>
+            <li><strong>Instance Blocks (Guest Arrivals):</strong> When a guest walks into the swimming pool:
+              1. First, they must go through the main complex ticket lobby (Parent instance block).
+              2. Then, they go into the swimming pool locker room (Child instance block).
+              This happens for **every visitor** (new instance creation).</li>
+          </ul>
+        </div>
+
+        <h2>1. The Inheritance Code Structure</h2>
+        <p>Let's look at a class layout with static and instance blocks on both <code>Parent</code> and <code>Child</code> classes:</p>
+
+        <pre><code class="language-java">class Parent {
+    static {
+        System.out.println("Parent static block");
+    }
+
+    {
+        System.out.println("Parent instance block");
+    }
+}
+
+class Child extends Parent {
+    static {
+        System.out.println("Child static block");
+    }
+
+    {
+        System.out.println("Child instance block");
+    }
+}
+
+public class MockInterview {
+    public static void main(String[] args) {
+        new Child(); // Instantiate Child
+    }
+}</code></pre>
+
+        <h2>2. Tracing the Console Output</h2>
+        <p>When the program executes `new Child()`, here is the exact order of logs printed to the console:</p>
+        <ol>
+          <li><code>Parent static block</code> — Runs when the Parent class is loaded. Static blocks always run first, starting from the top of the inheritance chain.</li>
+          <li><code>Child static block</code> — Runs when the Child class is loaded.</li>
+          <li><code>Parent instance block</code> — Runs because Parent constructor initialization begins. Instance blocks execute right before the constructor body.</li>
+          <li><code>Child instance block</code> — Runs because Child constructor initialization begins, after the Parent setup finishes.</li>
+        </ol>
+
+        <h2>Conclusion</h2>
+        <p>Java guarantees that:
+          <ul>
+            <li>All static loads occur first (Parent then Child) once.</li>
+            <li>All instance initialization loads occur for every new object (Parent block, then Child block).</li>
+          </ul>
+        </p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

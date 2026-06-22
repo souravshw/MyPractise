@@ -1,0 +1,243 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Use throw, throws, and Custom Exceptions in Java | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/java-throw-throws-custom-exceptions.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How to Use throw, throws, and Custom Exceptions in Java",
+      "item": "https://enggnotes.com/posts/java-throw-throws-custom-exceptions.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn the difference between throw and throws in Java and how to create custom exception classes simply with real-world analogies.">
+  <meta name="keywords" content="java throw vs throws, custom exception java, checked throws java, throw new exception java, use throw, throw throws, use java, throw java, throws java, custom java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java nio, file manipulation java, java io streams, java 8 streams, java exceptions, exception handling java, method overriding exceptions">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="How to Use throw, throws, and Custom Exceptions in Java | Engineering Notes">
+  <meta property="og:description" content="Learn the difference between throw and throws in Java and how to create custom exception classes simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Exceptions & Custom Exceptions</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">How to Use throw, throws, and Custom Exceptions in Java</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Java, when things go wrong, we throw exceptions. Java provides two keywords that look very similar but do completely different tasks: <code>throw</code> and <code>throws</code>. Furthermore, Java lets you declare your own custom exception classes to represent specific business errors.</p>
+        
+        <p>In this guide, we will clarify the difference between <code>throw</code> and <code>throws</code>, and demonstrate how to write a custom exception class.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/java_throw_throws_custom.png" alt="Illustration of throwing warning signals and declaring exception keywords" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Throw vs. Throws
+          </div>
+          <p>Imagine a theme park ride with an age restriction:</p>
+          <ul>
+            <li><strong><code>throw</code> (Action):</strong> The ride coordinator checks your height. If you are too short, they physically hand you a red card and say: "Access Denied." This is the action of **throwing** a specific exception.</li>
+            <li><strong><code>throws</code> (Warning Sign):</strong> At the entrance of the ride, there is a large warning sign saying: "Warning: This ride may throw Motion Sickness." This is the method signature **declaring** that it can cause this exception.</li>
+          </ul>
+        </div>
+
+        <h2>1. The <code>throw</code> Keyword</h2>
+        <p>The <code>throw</code> keyword is used to explicitly throw an exception object from any method or block of code:</p>
+        <pre><code class="language-java">class ThrowExample {
+    static void validate(int age) {
+        if (age < 18) {
+            // Throwing an instance of ArithmeticException
+            throw new ArithmeticException("not valid");
+        } else {
+            System.out.println("welcome to vote");
+        }
+    }
+
+    public static void main(String args[]) {
+        validate(13); // Triggers exception throw
+    }
+}</code></pre>
+
+        <h2>2. The <code>throws</code> Keyword</h2>
+        <p>The <code>throws</code> keyword is part of the method signature. It warns callers that this method contains checked exceptions that they must handle:</p>
+        <pre><code class="language-java">import java.io.IOException;
+
+class ThrowsExample {
+    void m() throws IOException {
+        throw new IOException("device error"); // Checked exception
+    }
+
+    void n() throws IOException {
+        m(); // Propagates it further
+    }
+
+    void p() {
+        try {
+            n();
+        } catch (IOException e) {
+            System.out.println("Exception handled in p()");
+        }
+    }
+
+    public static void main(String args[]) {
+        new ThrowsExample().p();
+    }
+}</code></pre>
+
+        <h2>3. Creating Custom Exceptions</h2>
+        <p>Sometimes Java's built-in exceptions don't represent your business domain. For example, if a user tries to withdraw more money than they have, you might want to throw an <code>InvalidAgeException</code> or <code>InsufficientFundsException</code>:</p>
+        <pre><code class="language-java">// Custom Checked Exception (extends Exception)
+class InvalidAgeException extends Exception {
+    InvalidAgeException(String s) {
+        super(s); // Pass message to super constructor
+    }
+}
+
+public class CustomException {
+    static void validate(int age) throws InvalidAgeException {
+        if (age < 18) {
+            throw new InvalidAgeException("not valid");
+        } else {
+            System.out.println("welcome to vote");
+        }
+    }
+
+    public static void main(String args[]) {
+        try {
+            validate(13);
+        } catch (InvalidAgeException m) {
+            System.out.println("Exception occurred: " + m.getMessage());
+        }
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>In short:
+          <ul>
+            <li>Use <code>throw</code> inside method bodies to trigger an exception.</li>
+            <li>Use <code>throws</code> in method signatures to warn callers about checked exceptions.</li>
+            <li>Extend <code>Exception</code> to build checked custom exceptions, or <code>RuntimeException</code> to build unchecked custom exceptions.</li>
+          </ul>
+        </p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

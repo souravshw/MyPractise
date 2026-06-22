@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0822" />
+      <stop offset="100%" stop-color="#04020A" />
+    </linearGradient>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="12" fill="url(#bgGrad)" stroke="#1F153C" stroke-width="2"/>
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="bold" fill="#F0EBF8" text-anchor="middle">
+    Kafka Connect: Source and Sink Connectors
+  </text>
+  <text x="400" y="70" font-family="'Segoe UI', sans-serif" font-size="13" fill="#887DA5" text-anchor="middle">
+    Streaming data between external storage systems and Kafka topics automatically
+  </text>
+
+  <!-- Left: Source System -->
+  <g transform="translate(40, 110)">
+    <rect width="180" height="240" rx="10" fill="#120D23" stroke="#3A2075" stroke-width="1.5"/>
+    <text x="90" y="30" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#D2C8E3" text-anchor="middle">External Source</text>
+    
+    <!-- Database Icon -->
+    <path d="M50 80 C50 70, 130 70, 130 80 L130 180 C130 190, 50 190, 50 180 Z" fill="#1B1530" stroke="#5C42A5" stroke-width="2"/>
+    <path d="M50 80 C50 90, 130 90, 130 80" fill="none" stroke="#5C42A5" stroke-width="2"/>
+    <path d="M50 110 C50 120, 130 120, 130 110" fill="none" stroke="#5C42A5" stroke-width="2"/>
+    <path d="M50 140 C50 150, 130 150, 130 140" fill="none" stroke="#5C42A5" stroke-width="2"/>
+    <text x="90" y="215" font-family="'Segoe UI', sans-serif" font-size="12" fill="#E2D6FF" text-anchor="middle">Relational DB (SQL)</text>
+  </g>
+
+  <!-- Source Connector Card -->
+  <g transform="translate(240, 175)">
+    <rect width="130" height="110" rx="8" fill="#152C24" stroke="#00FF87" stroke-width="1.5" filter="url(#glowGreen)"/>
+    <text x="65" y="30" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="bold" fill="#00FF87" text-anchor="middle">Source Connector</text>
+    <text x="65" y="55" font-family="monospace" font-size="10" fill="#C4FFE2" text-anchor="middle">Debezium / JDBC</text>
+    <path d="M30 75 L100 75" stroke="#00FF87" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+    <text x="65" y="95" font-family="'Segoe UI', sans-serif" font-size="10" fill="#887DA5" text-anchor="middle">Pulls into Kafka</text>
+  </g>
+
+  <!-- Middle: Kafka Topic -->
+  <g transform="translate(390, 110)">
+    <rect width="110" height="240" rx="10" fill="#151A33" stroke="#3A86FF" stroke-width="1.5" filter="url(#glowBlue)"/>
+    <text x="55" y="30" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#7AB1FF" text-anchor="middle">Kafka Topic</text>
+    <rect x="20" y="70" width="70" height="15" rx="2" fill="#0E1225" stroke="#2D72D6" stroke-width="1"/>
+    <rect x="20" y="100" width="70" height="15" rx="2" fill="#0E1225" stroke="#2D72D6" stroke-width="1"/>
+    <rect x="20" y="130" width="70" height="15" rx="2" fill="#0E1225" stroke="#2D72D6" stroke-width="1"/>
+    <rect x="20" y="160" width="70" height="15" rx="2" fill="#0E1225" stroke="#2D72D6" stroke-width="1"/>
+    <rect x="20" y="190" width="70" height="15" rx="2" fill="#0E1225" stroke="#2D72D6" stroke-width="1"/>
+    <text x="55" y="225" font-family="'Segoe UI', sans-serif" font-size="10" fill="#887BA2" text-anchor="middle">Broker Storage</text>
+  </g>
+
+  <!-- Sink Connector Card -->
+  <g transform="translate(520, 175)">
+    <rect width="130" height="110" rx="8" fill="#1A243D" stroke="#3A86FF" stroke-width="1.5" filter="url(#glowBlue)"/>
+    <text x="65" y="30" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="bold" fill="#7AB1FF" text-anchor="middle">Sink Connector</text>
+    <text x="65" y="55" font-family="monospace" font-size="10" fill="#A8CDFF" text-anchor="middle">Elasticsearch / S3</text>
+    <path d="M30 75 L100 75" stroke="#3A86FF" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+    <text x="65" y="95" font-family="'Segoe UI', sans-serif" font-size="10" fill="#887DA5" text-anchor="middle">Pushes from Kafka</text>
+  </g>
+
+  <!-- Right: Destination System -->
+  <g transform="translate(670, 110)">
+    <rect width="100" height="240" rx="10" fill="#120D23" stroke="#3A2075" stroke-width="1.5"/>
+    <text x="50" y="30" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold" fill="#D2C8E3" text-anchor="middle">External Sink</text>
+    
+    <!-- Cloud Storage Icon -->
+    <path d="M30 110 C30 90, 70 90, 70 100 C70 90, 90 95, 85 110 Z" fill="#1B1530" stroke="#5C42A5" stroke-width="2"/>
+    <text x="50" y="160" font-family="'Segoe UI', sans-serif" font-size="12" fill="#E2D6FF" text-anchor="middle">S3 / Cloud</text>
+  </g>
+</svg>

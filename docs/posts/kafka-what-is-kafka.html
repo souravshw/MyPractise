@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is Apache Kafka and Why is it Used? | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-what-is-kafka.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "What is Apache Kafka and Why is it Used?",
+      "item": "https://enggnotes.com/posts/kafka-what-is-kafka.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn what Apache Kafka is, how it works, and why companies use it for high-throughput, real-time event streaming. Explained simply in layman terms.">
+  <meta name="keywords" content="apache kafka, introduction to kafka, why use kafka, event streaming, distributed commit log, real-time data streaming, publish-subscribe system, what apache, what java, apache java, kafka java, it java, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="What is Apache Kafka and Why is it Used? | Engineering Notes">
+  <meta property="og:description" content="A beginner-friendly introduction to Apache Kafka, event streaming, and why modern systems rely on it.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Introduction to Kafka</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">What is Apache Kafka and Why is it Used?</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In modern software engineering, millions of events happen every second. A user clicks a button, a sensor measures temperature, or a bank transfer gets approved. Managing these constant streams of data in real time is a huge challenge. That is where <strong>Apache Kafka</strong> comes in.</p>
+        
+        <p>Originally developed by LinkedIn and later open-sourced under the Apache Software Foundation, Apache Kafka is a distributed event streaming platform. It acts as the nervous system for digital architectures, allowing systems to ingest, store, and process continuous streams of data reliably and at an enormous scale.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka_intro.png" alt="Illustration of Apache Kafka Architecture and Data Flow" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Giant Bulletin Board
+          </div>
+          <p>Imagine a traditional messaging system like an envelope-based mailbox. Once you take the mail out and read it, it's gone from the box forever.</p>
+          <p><strong>Kafka is different.</strong> Think of it as a massive, infinite digital bulletin board. Whenever a service has new information (like "User purchased a shirt"), it pins the notice to the board. Any other service that needs this information can walk up, read it, and take notes. The notice stays pinned to the board so that other services can read it later, or the same service can re-read it if they forget something.</p>
+        </div>
+
+        <h2>Why is Apache Kafka So Popular?</h2>
+        <p>Before Kafka, applications communicated directly with each other. If system A needed to send data to system B, C, and D, it had to write custom connections to all of them. This quickly created a messy "spaghetti architecture." Kafka solves this by decoupling systems: producers just write to Kafka, and consumers read from Kafka.</p>
+        
+        <p>Here are the key reasons why modern companies rely on Kafka:</p>
+        <ul>
+          <li><strong>Decoupling:</strong> Creators of data (Producers) and users of data (Consumers) are completely independent.</li>
+          <li><strong>Durability:</strong> Kafka writes messages to physical disks and replicates them across multiple servers so they are never lost.</li>
+          <li><strong>Scalability:</strong> You can start with one server and scale to hundreds of servers handling trillions of messages daily.</li>
+          <li><strong>Fault Tolerance:</strong> If one server crashes, other servers in the cluster step in automatically with zero downtime.</li>
+          <li><strong>Message Replay:</strong> Consumers can rewind and re-read historical data whenever they need to.</li>
+        </ul>
+
+        <h2>How Kafka Differs from Traditional Queues</h2>
+        <p>Traditional message brokers (like RabbitMQ) delete messages as soon as the recipient acknowledges them. Kafka is a <strong>distributed commit log</strong>. It acts as an append-only ledger on disk. It keeps messages for hours, days, or years based on your business requirements, enabling powerful features like data auditing, event sourcing, and analytical processing.</p>
+
+        <h2>Conclusion</h2>
+        <p>Apache Kafka has transitioned from a niche logging tool at LinkedIn to the standard backbone of modern real-time data pipelines. Whether you are building financial transactions engines, tracking ride-sharing drivers, or aggregating application metrics, Kafka provides the scale and safety you need.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Designing a Kafka-Based Order Processing System | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-order-processing-system-design.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Designing an Order Processing System",
+      "item": "https://enggnotes.com/posts/kafka-order-processing-system-design.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="A comprehensive system design guide for building a real-time, scalable order processing pipeline using Apache Kafka, Schema Registry, and microservices.">
+  <meta name="keywords" content="order processing system design, microservices architecture, event validation, transactional producer, design kafka system, designing kafkabased, kafkabased order, designing java, kafkabased java, order java, processing java, apache kafka, event streaming, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Designing a Kafka-Based Order Processing System | Engineering Notes">
+  <meta property="og:description" content="Learn how to structure topics, choose partitions, and configure producers/consumers for a highly available, transactional order system.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Order System Design</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">5 min read</span>
+        </div>
+        <h1 class="article-title">Designing a Kafka-Based Order Processing System</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>Designing a system that handles thousands of ecommerce orders per second is a classic system design interview question. In a traditional database-driven approach, heavy read/write operations on a single database can create bottlenecks and lead to data loss during traffic spikes.</p>
+        
+        <p>By leveraging Apache Kafka, we can build an asynchronous, decoupled, event-driven order processing system that is highly scalable and fault-tolerant.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka-order-system.svg" alt="Architecture diagram of a Kafka-based order processing pipeline" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: A Busy Restaurant Kitchen
+          </div>
+          <p>Imagine a bustling restaurant kitchen handling hundreds of orders on a Friday night:</p>
+          <p>Waiters do not run directly into the kitchen to scream orders at individual chefs. Instead, they write orders on slips and place them on a **central ticket carousel wheel (the "orders" topic)**.</p>
+          <p>A **validation chef** reviews the tickets to ensure the kitchen has the ingredients (inventory check). Approved tickets get stamped and placed on the **prep counter (the "orders-validated" topic)**. From there, separate prep chefs (consumers) slice vegetables, grill meat, and plate the final dishes (the "orders-fulfilled" topic) in parallel.</p>
+        </div>
+
+        <h2>High-Level Architecture</h2>
+        <p>A robust order processing system is composed of several independent stages connected via Kafka topics:</p>
+        
+        <h3>1. Topics & Partitioning Strategy</h3>
+        <ul>
+          <li><strong><code>orders</code> (raw):</strong> Receives newly placed orders from the public API Gateway.</li>
+          <li><strong><code>orders-validated</code>:</strong> Holds validated orders ready for payment and shipment processing.</li>
+          <li><strong><code>orders-fulfilled</code>:</strong> Stash of successfully processed and paid orders.</li>
+          <li><strong><code>orders-dlq</code>:</strong> Holds malformed or invalid orders for debugging.</li>
+          <li><strong>Partitioning Key:</strong> Use <code>customerId</code> or <code>orderId</code>. Using <code>customerId</code> ensures all orders placed by the same user are processed sequentially on the same partition. Assign **12 to 24 partitions** to allow scaling consumer groups up to 12–24 parallel instances.</li>
+        </ul>
+
+        <h3>2. Safe Producers</h3>
+        <p>The Order API service must write messages to the <code>orders</code> topic safely. Enable idempotency and all-replica confirmations to prevent double-charging or losing orders:</p>
+        <pre><code class="language-properties"># Producer Properties
+bootstrap.servers=localhost:9092
+acks=all
+enable.idempotence=true
+retries=2147483647
+max.in.flight.requests.per.connection=5</code></pre>
+
+        <h3>3. Processing Pipeline (Consumers)</h3>
+        <ul>
+          <li><strong>Validation Microservice:</strong> Subscribes to the raw <code>orders</code> topic, verifies item availability and customer accounts, and writes to <code>orders-validated</code>. If validation fails, it routes the message to <code>orders-dlq</code>.</li>
+          <li><strong>Fulfillment & Payment Microservice:</strong> Subscribes to <code>orders-validated</code>, calls the external payment gateway, charges the customer, and publishes the result to <code>orders-fulfilled</code>.</li>
+        </ul>
+
+        <h2>Type Safety with Schema Registry</h2>
+        <p>To avoid bad data corrupting your downstream microservices, use **Avro Schemas** enforced by a central **Schema Registry** (like Confluent Schema Registry). This ensures that producers cannot publish events that do not conform to the predefined order model.</p>
+        
+        <pre><code class="language-java">// Example order model instantiation and production
+Properties props = new Properties();
+props.put("bootstrap.servers", "localhost:9092");
+props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+props.put("value.serializer", "io.confluent.kafka.serializers.KafkaAvroSerializer");
+props.put("schema.registry.url", "http://schema-registry:8081");
+
+KafkaProducer&lt;String, Order&gt; producer = new KafkaProducer&lt;&gt;(props);
+Order newOrder = Order.newBuilder()
+    .setOrderId("ord-98765")
+    .setCustomerId("cust-4321")
+    .setAmount(129.99)
+    .setStatus("CREATED")
+    .build();
+
+producer.send(new ProducerRecord&lt;&gt;("orders", newOrder.getOrderId(), newOrder));</code></pre>
+
+        <h2>Monitoring and Reliability</h2>
+        <p>In production, ensure you set up alerts for:</p>
+        <ul>
+          <li><strong>Consumer Lag:</strong> If consumer lag rises on <code>orders-validated</code>, it means payment processing is slowing down and you need to spin up more consumer instances.</li>
+          <li><strong>DLQ Ingestion:</strong> A rise in <code>orders-dlq</code> volume means there is a front-end input validation bypass or a major version mismatch between microservices.</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>By decoupling your order validation, payment, and fulfillment pipelines using Kafka, you build a system that can absorb massive seasonal traffic surges, process payments in a transactionally safe manner, and recover gracefully from microservice crashes.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

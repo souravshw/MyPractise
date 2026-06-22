@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding the Basics of Java Enums | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-java-enums-basics.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Understanding the Basics of Java Enums",
+      "item": "https://enggnotes.com/posts/understanding-java-enums-basics.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn the basics of Java Enums, including declaring enums inside or outside classes and using them inside switch statements simply.">
+  <meta name="keywords" content="java enums, enum declaration, enum inside class, enum outside class, java enum switch case, understanding basics, basics java, understanding java, java java, enums java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, advanced java enums, oop design patterns">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Understanding the Basics of Java Enums | Engineering Notes">
+  <meta property="og:description" content="Learn the basics of Java Enums, including declaring enums inside or outside classes and using them inside switch statements simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Enum Basics</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">3 min read</span>
+        </div>
+        <h1 class="article-title">Understanding the Basics of Java Enums</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>An enum (short for enumeration) is a special Java data type used to define collections of constants. Instead of using plain integers or strings to represent options, enums restrict variables to one of a few predefined values, making your code highly readable and type-safe.</p>
+        
+        <p>In this guide, we will look at how to declare enums (both inside and outside a class) and how to evaluate them using switch cases.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/java_enums_basics.png" alt="Illustration of selector bubbles showing seasons or days of the week, representing enum options" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Selector Knob
+          </div>
+          <p>Imagine a microwave or a dryer with a cycle selector knob:</p>
+          <ul>
+            <li>You can turn the knob to **WINTER**, **SPRING**, **SUMMER**, or **FALL**.</li>
+            <li>You cannot turn the knob to a custom value like "Banana" or 5.6.</li>
+            <li>The system is physically locked into those few preset choices. This is what an **enum** does for your variables.</li>
+          </ul>
+        </div>
+
+        <h2>1. Declaring Enums Outside vs. Inside Classes</h2>
+        <p>You can declare enums either as standalone files/outer structures, or nested inside class declarations:</p>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Option A: Declared Outside the Class
+          </div>
+          <pre><code class="language-java">enum Season {
+    WINTER, SPRING, SUMMER, FALL
+}
+
+class EnumOutsideClass {
+    public static void main(String[] args) {
+        Season s = Season.WINTER;
+        System.out.println(s);
+    }
+}</code></pre>
+          <p>Enums declared outside can be shared globally across all classes in the package.</p>
+        </div>
+
+        <div class="analogy-box" style="border-left-color: var(--accent-color);">
+          <div class="analogy-box-title" style="color: var(--accent-color);">
+            Option B: Declared Inside the Class
+          </div>
+          <pre><code class="language-java">class EnumInClass {
+    enum Season {
+        WINTER, SPRING, SUMMER, FALL; // semicolon is optional for simple lists
+    }
+
+    public static void main(String[] args) {
+        Season s = Season.WINTER;
+        System.out.println(s);
+    }
+}</code></pre>
+          <p>Enums declared inside are scoped strictly to the enclosing class, preventing naming collisions in large packages.</p>
+        </div>
+
+        <h2>2. Evaluating Enums with Switch Cases</h2>
+        <p>Enums are a natural match for switch statements. Because the compiler knows all possible enum values, switch evaluations are extremely clean and readable:</p>
+        <pre><code class="language-java">class Enum_Switch {
+    enum Day {
+        SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+    }
+
+    public static void main(String args[]) {
+        Day day = Day.MONDAY;
+
+        switch (day) {
+            case SUNDAY:
+                System.out.println("sunday");
+                break;
+            case MONDAY:
+                System.out.println("monday"); // Prints!
+                break;
+            default:
+                System.out.println("other day");
+        }
+    }
+}</code></pre>
+        <p>Notice that inside the <code>case</code> statements, you don't write <code>Day.SUNDAY</code>—you simply write the constant name (<code>SUNDAY</code>) because Java infers the type from the switch parameter.</p>
+
+        <h2>Conclusion</h2>
+        <p>Use simple enums whenever you need to represent a fixed set of options. They make code self-documenting and prevent bugs caused by invalid user inputs or spelling mistakes in String constants.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

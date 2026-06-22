@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Java Class Initialization Order and Blocks | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-class-initialization-blocks.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java",
+      "item": "https://enggnotes.com/index.html?category=Java"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Understanding Java Class Initialization Order and Blocks",
+      "item": "https://enggnotes.com/posts/understanding-class-initialization-blocks.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn Java initialization blocks (static and instance blocks) and constructor execution order using BaseballTeam, explained simply.">
+  <meta name="keywords" content="java initialization blocks, static block java, instance initializer, java constructor order, baseballteam equals logic, understanding java, java class, java java, class java, initialization java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java nio, file manipulation java, java io streams, java 8 streams">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Understanding Java Class Initialization Order and Blocks | Engineering Notes">
+  <meta property="og:description" content="Learn Java initialization blocks (static and instance blocks) and constructor execution order simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Class Initialization</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java</span>
+          <span class="post-date">June 19, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Understanding Java Class Initialization Order and Blocks</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>When you create an instance of a Java class, what happens behind the scenes? In addition to constructors, Java supports two types of initialization blocks: <strong>static initialization blocks</strong> and <strong>instance initialization blocks</strong>. Understanding their order of execution is crucial for setting up state safely.</p>
+        
+        <p>In this guide, we will trace the execution sequence of these blocks using a <code>BaseballTeam</code> class example and highlight common traps developers make when implementing object equality comparison.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/java_initialization_blocks.png" alt="Timeline of static block, instance block, and constructor execution order" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Setting Up a Sports Team
+          </div>
+          <p>Imagine opening a new baseball stadium and scheduling games:</p>
+          <ul>
+            <li><strong>Static Initialization (<code>static { ... }</code>):</strong> You build the stadium, lay down the turf, and install the lights. This only happens <strong>once</strong>, when the stadium is opened.</li>
+            <li><strong>Instance Initialization (<code>{ ... }</code>):</strong> Every time a team arrives to play, they must put on their jerseys and clean the locker room. This happens for <strong>every game</strong>.</li>
+            <li><strong>Constructor (<code>BaseballTeam()</code>):</strong> The umpire blows the whistle, and the match begins.</li>
+          </ul>
+        </div>
+
+        <h2>1. The Execution Sequence Trace</h2>
+        <p>Let's look at the implementation of <code>BaseballTeam</code>:</p>
+
+        <pre><code class="language-java">public class BaseballTeam {
+    private String city, mascot;
+    private int noOfPlayers;
+
+    // Static Block
+    static {
+        System.out.println("Test Static initialization block");
+    }
+
+    // Instance Block
+    {
+        System.out.println("Test Initialization Block");
+    }
+
+    public BaseballTeam() {
+        System.out.println("Hello World !!");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Main Method ");
+        new BaseballTeam();
+    }
+}</code></pre>
+
+        <p>When you run the <code>main</code> method, here is the exact order of messages printed to the console:</p>
+        <ol>
+          <li><code>Test Static initialization block</code> — The JVM loads the class into memory. This executes before the main method starts.</li>
+          <li><code>Main Method </code> — The main method starts.</li>
+          <li><code>Test Initialization Block</code> — The instance block executes because we called <code>new BaseballTeam()</code>. It runs before the constructor body.</li>
+          <li><code>Hello World !!</code> — Finally, the constructor body completes its execution.</li>
+        </ol>
+
+        <h2>2. Traps in the equals() and hashcode() methods</h2>
+        <p>The <code>BaseballTeam</code> class also contains a bug in its comparison logic:</p>
+        <pre><code class="language-java">public boolean equals(Object obj) {
+    if (!(obj instanceof BaseballTeam))
+        return false;
+
+    BaseballTeam other = (BaseballTeam) obj;
+    return (this.city == other.city || this.mascot == other.mascot);
+}
+
+public int hashcode() { // Misspelled lowercase 'c'
+    return noOfPlayers;
+}</code></pre>
+
+        <ul>
+          <li><strong>The OR (<code>||</code>) Trap:</strong> In <code>equals()</code>, it returns true if the cities match OR the mascots match. This means two different teams (e.g. "Boston Red Sox" and "Chicago Red Sox") would be considered equal because their mascot fields are identical!</li>
+          <li><strong>The Reference (<code>==</code>) Trap:</strong> Comparing strings with <code>==</code> compares their memory address instead of character contents. Use <code>.equals()</code> for strings.</li>
+          <li><strong>Misspelled <code>hashcode()</code>:</strong> The lowercase `c` means it does not override <code>Object.hashCode()</code>, breaking HashMap entries.</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>Remember that:
+          <ul>
+            <li>Static blocks run once upon class loading.</li>
+            <li>Instance blocks run for every object creation, preceding the constructor body.</li>
+            <li>Always match your comparison logic using <code>&&</code> for mandatory unique fields and use <code>.equals()</code> for String data.</li>
+          </ul>
+        </p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

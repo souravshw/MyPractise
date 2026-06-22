@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Kafka Producer ACKs Settings and Trade-offs | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-producer-acks-settings.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Understanding Kafka Producer ACKs Settings and Trade-offs",
+      "item": "https://enggnotes.com/posts/kafka-producer-acks-settings.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="A guide to Kafka acks configuration (0, 1, all). Learn the trade-offs between durability and throughput, and how to avoid data loss.">
+  <meta name="keywords" content="kafka acks, acks=all, acks=1, acks=0, kafka durability, producer throughput, in sync replicas, isr, understanding kafka, kafka producer, understanding java, kafka java, producer java, acks java, apache kafka, event streaming, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture, message delivery guarantees, idempotent producer, acks settings">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Understanding Kafka Producer ACKs Settings and Trade-offs | Engineering Notes">
+  <meta property="og:description" content="Discover how setting your producer acks parameter affects write reliability and network latency.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Acks Configuration</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Understanding Kafka Producer ACKs Settings and Trade-offs</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In distributed systems, servers fail. To protect your data, Apache Kafka replicates messages across multiple brokers. But when you write a message, how do you know if it is safely stored? This is controlled by the **acks** (acknowledgment) setting on your producer.</p>
+        
+        <p>Tuning the <code>acks</code> configuration is one of the most critical decisions you will make. It represents a fundamental trade-off: **How much performance are you willing to sacrifice for data durability?** Let's explore the three settings and their impacts.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka_acks.png" alt="Visual Guide of acks=0, acks=1 and acks=all comparison" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Mailing an Important Document
+          </div>
+          <p>Imagine sending a contract to an office building:</p>
+          <ul>
+            <li><strong>acks=0 (No receipt):</strong> You drop the contract in a regular mailbox. You don't wait for confirmation. If the mailbox catches fire, the contract is lost, but your sending process is instant.</li>
+            <li><strong>acks=1 (Recipient receipt):</strong> You deliver it to the office lobby receptionist. You wait for them to sign a slip saying, "I have it." However, if the receptionist loses it before filing it in the archive cabinet upstairs, it's lost.</li>
+            <li><strong>acks=all (Certified receipt):</strong> You wait at the lobby until the receptionist passes the contract to all office departments, who review, stamp, and archive it. You only leave when they all sign off. It takes longer, but the contract is completely secure.</li>
+          </ul>
+        </div>
+
+        <h2>The Three ACKs Settings</h2>
+        
+        <h3>1. acks = 0 (Fire and Forget)</h3>
+        <p>The producer writes the message to the network socket and immediately reports a successful write. It does not wait for any acknowledgment from the broker.</p>
+        <ul>
+          <li><strong>Performance:</strong> Maximum throughput and lowest latency.</li>
+          <li><strong>Risk:</strong> Highest data loss risk. If the broker is down or the network fails, the producer will never know.</li>
+          <li><strong>Use Case:</strong> IoT sensor readings, application metric logs where losing a few lines doesn't matter.</li>
+        </ul>
+
+        <h3>2. acks = 1 (Leader Acknowledgment)</h3>
+        <p>The producer waits for the partition's leader broker to write the record to its local disk and acknowledge the write. It does not wait for follower brokers to copy the message.</p>
+        <ul>
+          <li><strong>Performance:</strong> Good balance of throughput and safety.</li>
+          <li><strong>Risk:</strong> Moderate. If the leader broker acknowledges the write and immediately crashes before its followers copy the message, that message is lost.</li>
+          <li><strong>Use Case:</strong> General application communications, social media updates.</li>
+        </ul>
+
+        <h3>3. acks = all (or -1) (Full Quorum Acknowledgment)</h3>
+        <p>The producer waits for the partition leader <em>and</em> all active **In-Sync Replicas (ISR)** to write the record to disk and acknowledge the write.</p>
+        <ul>
+          <li><strong>Performance:</strong> Lowest throughput and highest latency due to network consensus.</li>
+          <li><strong>Risk:</strong> Zero data loss (provided you have multiple replicas configured).</li>
+          <li><strong>Use Case:</strong> Financial transactions, banking systems, billing logs.</li>
+        </ul>
+
+        <h2>Production Safety: The min.insync.replicas Rule</h2>
+        <p>Setting <code>acks=all</code> only protects you if there are active followers. If your replication factor is 3, but 2 followers crash, a replication factor of 1 remains. If <code>acks=all</code> writes to the single remaining broker, a crash will still lose data.</p>
+        <p>To prevent this, pair <code>acks=all</code> with <code>min.insync.replicas = 2</code> (set at the broker or topic level). This forces Kafka to reject writes with an exception if fewer than 2 active replicas are online, protecting your data integrity.</p>
+
+        <h2>Conclusion</h2>
+        <p>There is no single "best" acks setting. For logs and telemetry, choose <code>acks=0</code> or <code>acks=1</code> to maximize speed. For payment engines and system audits where data loss is unacceptable, configure <code>acks=all</code> combined with a strong <code>min.insync.replicas</code> policy.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

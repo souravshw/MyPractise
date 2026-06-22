@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apache Kafka vs. RabbitMQ: Understanding the Differences | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/kafka-vs-rabbitmq-message-queues.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kafka & Distributed Systems",
+      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Apache Kafka vs. RabbitMQ: Understanding the Differences",
+      "item": "https://enggnotes.com/posts/kafka-vs-rabbitmq-message-queues.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="A simple, layman-friendly comparison of Apache Kafka vs. RabbitMQ. Learn when to use a distributed commit log vs. a traditional message queue.">
+  <meta name="keywords" content="kafka vs rabbitmq, message queue vs commit log, event streaming vs message queue, message broker comparison, rabbitmq vs kafka, apache kafka, kafka vs, apache java, kafka java, vs java, rabbitmq java, event streaming, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Apache Kafka vs. RabbitMQ: Understanding the Differences | Engineering Notes">
+  <meta property="og:description" content="RabbitMQ and Kafka are built for completely different scenarios. Find out which one fits your project best.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Kafka%20%26%20Distributed%20Systems">Kafka & Distributed Systems</a></li>
+          <li aria-current="page">Kafka vs RabbitMQ</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Kafka & Distributed Systems</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Apache Kafka vs. RabbitMQ: Understanding the Differences</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>If you are building a system where different applications need to send messages to one another, you will quickly encounter two major technologies: <strong>RabbitMQ</strong> and <strong>Apache Kafka</strong>. Both are used to pass messages between systems, but they are built on completely different core philosophies.</p>
+        
+        <p>Choosing the wrong one can lead to performance bottlenecks or complex code updates later. Let's compare them simply to see when you should choose a traditional message queue like RabbitMQ versus a distributed commit log like Kafka.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/kafka_vs_mq.png" alt="Comparison between RabbitMQ Message Queue and Apache Kafka Log" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Post-It Notes vs. A Ledger Book
+          </div>
+          <p>Imagine task management in an office:</p>
+          <ul>
+            <li><strong>RabbitMQ is like a pile of Post-It Notes.</strong> When you have a task for someone, you write it on a Post-It and stick it on their desk. As soon as they complete the task, they rip up the Post-It and throw it in the trash. Once it's done, it's gone forever.</li>
+            <li><strong>Kafka is like a continuous Ledger Book.</strong> Every task and event is written sequentially on page after page. When a worker finishes a task, they put a checkmark next to the line (updating their offset bookmark). The line remains written in the ledger. If someone wants to inspect what happened last week, or if a new employee joins and needs to replay the entire history to get up to speed, they can simply flip back the pages and read it again.</li>
+          </ul>
+        </div>
+
+        <h2>Key Architectural Differences</h2>
+        
+        <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+              <th style="padding: 0.75rem;">Feature</th>
+              <th style="padding: 0.75rem;">RabbitMQ</th>
+              <th style="padding: 0.75rem;">Apache Kafka</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem; font-weight: bold;">Core Model</td>
+              <td style="padding: 0.75rem;">Queue-based (smart broker, dumb consumer)</td>
+              <td style="padding: 0.75rem;">Log-based (dumb broker, smart consumer)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem; font-weight: bold;">Data Retention</td>
+              <td style="padding: 0.75rem;">Deleted immediately after consumption</td>
+              <td style="padding: 0.75rem;">Retained based on size/time policies</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem; font-weight: bold;">Message Replay</td>
+              <td style="padding: 0.75rem;">No (message is deleted)</td>
+              <td style="padding: 0.75rem;">Yes (can reset offset bookmarks)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem; font-weight: bold;">Scaling Model</td>
+              <td style="padding: 0.75rem;">Vertical scaling (some clustering capabilities)</td>
+              <td style="padding: 0.75rem;">Horizontal scaling via partitions</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem; font-weight: bold;">Flow Model</td>
+              <td style="padding: 0.75rem;">Push-based (broker pushes to consumer)</td>
+              <td style="padding: 0.75rem;">Pull-based (consumer requests data at own pace)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>When Should You Choose RabbitMQ?</h2>
+        <p>RabbitMQ is an excellent choice when you need complex routing logic, message priority, and quick setup. Choose RabbitMQ if:</p>
+        <ul>
+          <li>You need dynamic message routing (e.g., routing based on specific criteria like wildcard keys).</li>
+          <li>You are building a task queue where jobs are distributed to workers, completed, and discarded.</li>
+          <li>You need native support for features like message-level confirmation, dead-letter exchanges, and message priority.</li>
+        </ul>
+
+        <h2>When Should You Choose Apache Kafka?</h2>
+        <p>Kafka shines when you have high-volume streams of data and need data persistence. Choose Kafka if:</p>
+        <ul>
+          <li>You are building event-driven microservices that need to share historical data.</li>
+          <li>You need to process streams of real-time data (e.g., user activity clickstreams, IoT telemetry data).</li>
+          <li>You want the ability to replay historical messages (e.g., re-running calculations or recovering from a service crash).</li>
+          <li>You require extremely high throughput (millions of messages per second).</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>Instead of viewing Kafka and RabbitMQ as competitors, think of them as complementary tools. RabbitMQ is a highly capable **Message Broker** built for flexible, short-term routing, while Kafka is an **Event Streaming Platform** built as a durable, high-throughput distributed commit log. Match the tool to your architecture's core data flow pattern.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>

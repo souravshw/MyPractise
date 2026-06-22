@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Java Serialization &amp; the Transient Keyword | Engineering Notes</title>
+  <link rel="canonical" href="https://enggnotes.com/posts/java-serialization-transient.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java Concurrency",
+      "item": "https://enggnotes.com/index.html?category=Java%20Concurrency"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Java Serialization",
+      "item": "https://enggnotes.com/posts/java-serialization-transient.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how Java Serialization writes object states to streams and how the transient keyword excludes sensitive data fields from being saved, explained simply.">
+  <meta name="keywords" content="understanding java, java serialization, java java, serialization java, amp java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java nio, file manipulation java, java io streams, java 8 streams">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Understanding Java Serialization &amp; the Transient Keyword | Engineering Notes">
+  <meta property="og:description" content="Learn how Java Serialization writes object states to streams and how transient excludes fields, explained simply.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+
+</header>
+
+  <main class="container">
+    <article class="article-container">
+      
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java%20Concurrency">Java Concurrency</a></li>
+          <li aria-current="page">Serialization</li>
+        </ol>
+      </nav>
+      
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java Concurrency</span>
+          <span class="post-date">June 20, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">5 min read</span>
+        </div>
+        <h1 class="article-title">Understanding Java Serialization &amp; the Transient Keyword</h1>
+      </header>
+
+      <div class="article-body">
+        <p>**Serialization** is a mechanism in Java that lets you save the current state of an object as a sequence of bytes. You can write these bytes to a file on disk or send them over a network. **Deserialization** is the reverse process, taking the byte stream and rebuilding the live Java object in memory.</p>
+
+        <p>If an object contains sensitive fields (like credit card numbers or passwords) that should not be saved or transmitted, Java provides the **<code>transient</code>** keyword to exclude those specific fields from serialization.</p>
+
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/serialization-basic.svg" alt="Visualizing Serialization and Transient field exclusion" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Mailing a Flat Dollhouse
+          </div>
+          <p>Imagine you built a beautiful 3D plastic toy dollhouse (a live object in memory) and want to mail it to a friend:</p>
+          <ul>
+            <li><strong>Serialization:</strong> You fold the dollhouse flat, pack the pieces in an envelope, and mail it (the byte stream). Your friend receives the envelope and pops the pieces back up to recreate the exact 3D house (deserialization).</li>
+            <li><strong>Transient:</strong> The dollhouse has a secret drawer containing real gold coins. Before flattening and mailing the house, you write **"transient"** on the drawer. The post office machine sees this tag and automatically **discards the coins** (excludes them from the package) to keep it safe. When your friend rebuilds the house, the secret drawer is present but empty (reverts to its default state, e.g. 0 or null).</li>
+          </ul>
+        </div>
+
+        <h2>Java Implementation</h2>
+        <p>In this code, we serialize a student record. The <code>id</code> field is marked as <code>transient</code>, so it gets skipped during serialization and prints its default integer value <code>0</code> upon deserialization:</p>
+
+        <pre><code class="language-java">package io.practise;
+ 
+import java.io.*;
+ 
+public class TransientExample {
+    public static void main(String args[]) throws Exception {
+        TStudent s1 = new TStudent(211, "ravi");
+ 
+        // Serialize the Object to a file
+        FileOutputStream fout = new FileOutputStream("transient.txt");
+        ObjectOutputStream out = new ObjectOutputStream(fout);
+        out.writeObject(s1);
+        out.flush();
+        out.close();
+        System.out.println("Object successfully written to disk.");
+ 
+        // Deserialize the Object from the file
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream("transient.txt"));
+        TStudent s = (TStudent) in.readObject();
+        
+        // Output fields. "id" was transient, so it restores to default integer value (0)
+        System.out.println("Restored Student ID (Transient): " + s.id);
+        System.out.println("Restored Student Name (Normal): " + s.name);
+        in.close();
+    }
+}
+ 
+class TStudent implements Serializable {
+    // transient field will not be serialized
+    transient int id;
+    String name;
+ 
+    public TStudent(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Use the `transient` keyword to secure sensitive data fields, exclude loggers, or optimize performance by skipping large, temporary cache fields during object persistence operations.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+
+</footer>
+
+  <script src="../js/fragments.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

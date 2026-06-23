@@ -111,9 +111,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>For over a decade, running an Apache Kafka cluster meant running two separate systems: the **Kafka Brokers** themselves and a separate **ZooKeeper Cluster** to manage metadata, broker registrations, and leader elections.</p>
+        <p>For over a decade, running an Apache Kafka cluster meant running two separate systems: the <strong>Kafka Brokers</strong> themselves and a separate <strong>ZooKeeper Cluster</strong> to manage metadata, broker registrations, and leader elections.</p>
         
-        <p>While ZooKeeper served Kafka well, it introduced significant operational complexity and scalability bottlenecks. In modern Kafka versions (3.x and 4.x), ZooKeeper has been completely replaced by **KRaft** (Kafka Raft Metadata Mode). Let's review the architectural reasons behind this massive shift.</p>
+        <p>While ZooKeeper served Kafka well, it introduced significant operational complexity and scalability bottlenecks. In modern Kafka versions (3.x and 4.x), ZooKeeper has been completely replaced by <strong>KRaft</strong> (Kafka Raft Metadata Mode). Let's review the architectural reasons behind this massive shift.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -149,7 +149,7 @@
         <ul>
           <li><strong>Unified Cluster:</strong> You configure certain Kafka brokers to act as controllers. They manage metadata directly, removing ZooKeeper entirely.</li>
           <li><strong>Sub-Second Failover:</strong> Because metadata is stored directly inside the controller quorum, if an active controller crashes, a backup controller is elected in <strong>milliseconds</strong>, preventing system hangs.</li>
-          <li><strong>Vastly Improved Scale:</strong> KRaft allows a single cluster to scale to **millions of partitions** because it bypasses external serialization bottlenecks.</li>
+          <li><strong>Vastly Improved Scale:</strong> KRaft allows a single cluster to scale to <strong>millions of partitions</strong> because it bypasses external serialization bottlenecks.</li>
           <li><strong>Unified Security:</strong> A single security policy controls client traffic and metadata sync operations.</li>
         </ul>
 

@@ -126,11 +126,11 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Arcade Leaderboard
           </div>
-          <p>Imagine you run a classic arcade machine. The screen has a **High Score Leaderboard** with only three slots (K = 3).</p>
+          <p>Imagine you run a classic arcade machine. The screen has a <strong>High Score Leaderboard</strong> with only three slots (K = 3).</p>
           <p>As kids play games, they get scores. To maintain the board:</p>
           <ul>
             <li>Every time a score is submitted, the machine slots it into its sorted ranking list automatically.</li>
-            <li>By default, a Java <code>TreeSet</code> ignores duplicates (if two players score exactly 66, it will only keep one). To prevent this, we write a custom rule: **"Even if two scores are equal, keep them both as separate entries on the board!"**</li>
+            <li>By default, a Java <code>TreeSet</code> ignores duplicates (if two players score exactly 66, it will only keep one). To prevent this, we write a custom rule: <strong>"Even if two scores are equal, keep them both as separate entries on the board!"</strong></li>
             <li>Once all players submit their scores, the board displays the top 3 rows, letting you know who takes home the trophies!</li>
           </ul>
         </div>
@@ -177,7 +177,7 @@ int k = 3;</code></pre>
     System.out.println(iterator.next());
     --k;
 }</code></pre>
-          <p>This yields the top 3 highest scores: **75**, **66**, and **66**.</p>
+          <p>This yields the top 3 highest scores: <strong>75</strong>, <strong>66</strong>, and <strong>66</strong>.</p>
         </div>
 
         <h2>Java Implementation</h2>

@@ -113,7 +113,7 @@
       <div class="article-body">
         <p>In distributed systems, microservices share data continuously. If one service updates its database structure (e.g., adding a middle name field to a user profile) and publishes this data to Kafka, downstream consumer applications that do not know about the new field can crash.</p>
         
-        <p>To prevent format conflicts, you must manage how message shapes change over time. This is called **Schema Evolution**, and it is typically coordinated using the **Confluent Schema Registry**.</p>
+        <p>To prevent format conflicts, you must manage how message shapes change over time. This is called <strong>Schema Evolution</strong>, and it is typically coordinated using the <strong>Confluent Schema Registry</strong>.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -135,7 +135,7 @@
         </div>
 
         <h2>What is Confluent Schema Registry?</h2>
-        <p>The **Schema Registry** is a separate service that runs outside your Kafka brokers. It acts as a central library for schemas (typically written in formats like **Apache Avro**, **JSON Schema**, or **Protobuf**).</p>
+        <p>The <strong>Schema Registry</strong> is a separate service that runs outside your Kafka brokers. It acts as a central library for schemas (typically written in formats like <strong>Apache Avro</strong>, <strong>JSON Schema</strong>, or <strong>Protobuf</strong>).</p>
         
         <p>Here is how it coordinates communication:</p>
         <ol>
@@ -166,7 +166,7 @@ props.put("schema.registry.url", "http://schema-registry:8081");
 KafkaProducer&lt;String, MyAvroClass&gt; producer = new KafkaProducer&lt;&gt;(props);</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Do not pass raw JSON payloads in production systems where formats change frequently. By utilizing **Apache Avro** and the **Schema Registry**, you enforce schema validation rules, prevent application crashes, and keep data footprints small.</p>
+        <p>Do not pass raw JSON payloads in production systems where formats change frequently. By utilizing <strong>Apache Avro</strong> and the <strong>Schema Registry</strong>, you enforce schema validation rules, prevent application crashes, and keep data footprints small.</p>
       </div>
 
     </article>

@@ -75,7 +75,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>**Polymorphism** (from the Greek words for "many shapes") is one of the pillars of Object-Oriented Programming (OOP). It allows us to treat objects of different child classes as if they were objects of their shared parent class, while still letting each object behave in its own unique way at runtime.</p>
+        <p><strong>Polymorphism</strong> (from the Greek words for "many shapes") is one of the pillars of Object-Oriented Programming (OOP). It allows us to treat objects of different child classes as if they were objects of their shared parent class, while still letting each object behave in its own unique way at runtime.</p>
         
         <p>Let's look at how Java handles polymorphic method dispatch using a simple theater actor analogy.</p>
 
@@ -90,8 +90,8 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Theater Actor
           </div>
-          <p>Imagine a director writing a theater script. The script has a role called **"Actor"** (the Parent Class A) with directions like **"give speech"** (method <code>m1()</code>) and **"take a bow"** (method <code>m2()</code>).</p>
-          <p>When the play begins, the director hires a specific actor named **"Bob"** (the Child Class B) to play the role. The play unfolds like this:</p>
+          <p>Imagine a director writing a theater script. The script has a role called <strong>"Actor"</strong> (the Parent Class A) with directions like <strong>"give speech"</strong> (method <code>m1()</code>) and <strong>"take a bow"</strong> (method <code>m2()</code>).</p>
+          <p>When the play begins, the director hires a specific actor named <strong>"Bob"</strong> (the Child Class B) to play the role. The play unfolds like this:</p>
           <ul>
             <li>The script says: <code>Actor a = new Bob();</code> (The director refers to Bob simply as "the actor" on stage).</li>
             <li>The script commands the actor to: <code>a.m1();</code> ("give speech"). Even though the script is written for a generic Actor, Bob delivers his own custom lines that he rehearsed (B's overridden method <code>m1()</code> executes).</li>
@@ -117,7 +117,7 @@
           </div>
           <p>Next, the program calls <code>a.m1()</code>:</p>
           <ul>
-            <li>At runtime, the JVM looks at the **actual object** on the heap, which is of type <code>B</code>.</li>
+            <li>At runtime, the JVM looks at the <strong>actual object</strong> on the heap, which is of type <code>B</code>.</li>
             <li>It checks if class <code>B</code> overrides <code>m1()</code>. It does!</li>
             <li>Thus, it invokes <code>B</code>'s version of the method, printing: **<code>B m1()</code>**.</li>
           </ul>
@@ -137,7 +137,7 @@ b.m1();</code></pre>
           <div class="analogy-box-title" style="color: var(--accent-color);">
             Important Concept: Variables are NOT Polymorphic!
           </div>
-          <p>Notice that Parent Class <code>A</code> declares <code>protected int x = 10;</code>. If Child Class <code>B</code> were to declare its own <code>int x = 20;</code>, variables do not override each other (this is called **variable hiding**). If we access <code>a.x</code>, it would print <code>10</code> because field access is resolved at compile time based on the **reference type** (A), not the actual object type!</p>
+          <p>Notice that Parent Class <code>A</code> declares <code>protected int x = 10;</code>. If Child Class <code>B</code> were to declare its own <code>int x = 20;</code>, variables do not override each other (this is called <strong>variable hiding</strong>). If we access <code>a.x</code>, it would print <code>10</code> because field access is resolved at compile time based on the <strong>reference type</strong> (A), not the actual object type!</p>
         </div>
 
         <h2>Java Implementation</h2>

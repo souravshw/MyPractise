@@ -106,7 +106,7 @@
       </header>
 
       <div class="article-body">
-        <p>If you are given a long string of numeric digits, like <code>"50122"</code>, and asked to rearrange the digits to construct the smallest possible number, the standard sorting approach (O(N Log N)) is to sort characters. However, since the digit range is very small (only digits 0 to 9), we can optimize this to O(N) using **Counting Sort**.</p>
+        <p>If you are given a long string of numeric digits, like <code>"50122"</code>, and asked to rearrange the digits to construct the smallest possible number, the standard sorting approach (O(N Log N)) is to sort characters. However, since the digit range is very small (only digits 0 to 9), we can optimize this to O(N) using <strong>Counting Sort</strong>.</p>
 
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/minimum-number.svg" alt="Visualizing digit count sorting" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
@@ -118,7 +118,7 @@
             Real-World Analogy: Numbered Tile Organizers
           </div>
           <p>Imagine you have a messy pile of numbered toy tiles (digits). You want to align them to make the smallest number possible.</p>
-          <p>Instead of comparing tiles, you place 10 plastic trays labeled **0 to 9** on the table. You pick up each tile from the pile and drop it in its matching tray:
+          <p>Instead of comparing tiles, you place 10 plastic trays labeled <strong>0 to 9</strong> on the table. You pick up each tile from the pile and drop it in its matching tray:
             <ul>
               <li>All `0` tiles go to tray 0, all `1` tiles to tray 1, and so on.</li>
             </ul>

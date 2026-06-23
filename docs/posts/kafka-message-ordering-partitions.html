@@ -111,7 +111,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>A fundamental rule of Apache Kafka is that **message order is guaranteed only within a single partition**. There is no global ordering across different partitions in a topic.</p>
+        <p>A fundamental rule of Apache Kafka is that <strong>message order is guaranteed only within a single partition</strong>. There is no global ordering across different partitions in a topic.</p>
         
         <p>If you have an application where events must be processed in the exact order they occurred (like user profile updates, or financial deposit/withdrawal sequences), you must design your architecture to preserve this order.</p>
 
@@ -126,22 +126,22 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: Courier Delivery Trucks
           </div>
-          <p>Imagine you run a retail delivery company. A customer orders a table in parts: **Part A (table legs)** and **Part B (table top)**.</p>
+          <p>Imagine you run a retail delivery company. A customer orders a table in parts: <strong>Part A (table legs)</strong> and <strong>Part B (table top)</strong>.</p>
           <p>If you load Part A onto Truck 1 (Partition 1) and Part B onto Truck 2 (Partition 2), the trucks will take different routes. Truck 2 might arrive first, leaving the customer with a table top but no legs. </p>
-          <p>To ensure Part A is received before Part B, you must load **both packages onto the exact same truck (Partition)** in the correct sequence. The driver will then deliver them in the exact order they were loaded.</p>
+          <p>To ensure Part A is received before Part B, you must load <strong>both packages onto the exact same truck (Partition)</strong> in the correct sequence. The driver will then deliver them in the exact order they were loaded.</p>
         </div>
 
         <h2>Strategies to Handle Ordering in Kafka</h2>
         
         <h3>1. Single-Partition Topic (Total Ordering)</h3>
-        <p>The simplest way to guarantee global order is to create a topic with only **one partition**.</p>
+        <p>The simplest way to guarantee global order is to create a topic with only <strong>one partition</strong>.</p>
         <ul>
           <li><strong>How it works:</strong> All records are sent to Partition 0. Only one consumer thread in a group can read from it, guaranteeing absolute sequential processing.</li>
           <li><strong>Trade-off:</strong> It completely eliminates horizontal scalability. Your throughput is bottlenecked by the speed of a single consumer thread. Use this only for low-throughput configuration topics.</li>
         </ul>
 
         <h3>2. Key-Based Routing (Per-Entity Ordering)</h3>
-        <p>In most real-world scenarios, you do not need global topic-wide ordering. You only need ordering **for a specific user, transaction, or device**.</p>
+        <p>In most real-world scenarios, you do not need global topic-wide ordering. You only need ordering <strong>for a specific user, transaction, or device</strong>.</p>
         <ul>
           <li><strong>How it works:</strong> Assign a logical key (such as <code>userId</code> or <code>orderId</code>) to your messages. Kafka hashes the key (using the Murmur2 algorithm by default) and routes all messages with that same key to the exact same partition.</li>
           <li><strong>Benefit:</strong> Different users' events are processed in parallel across multiple partitions, but any single user's events are processed in the exact sequence they were produced.</li>
@@ -160,16 +160,16 @@ producer.send(record);</code></pre>
 
         <h3>3. Producer Client Configuration</h3>
         <p>Even with key-based routing, network retries can scramble message order. If the producer sends message 1, it fails, then it sends message 2 successfully, and then retries message 1 successfully, the broker stores them as `[Message 2, Message 1]`.</p>
-        <p>To prevent this, configure the producer with **idempotence enabled** or restrict flight requests:</p>
+        <p>To prevent this, configure the producer with <strong>idempotence enabled</strong> or restrict flight requests:</p>
         <pre><code class="language-properties"># Prevent retry ordering inversion
 enable.idempotence=true
 max.in.flight.requests.per.connection=5</code></pre>
 
         <h3>4. Application-Level Resequencing</h3>
-        <p>If you must read from multiple partitions and sort them, embed a **sequence number** or **timestamp** in the payload. The consumer can buffer incoming messages in a local window (using a tool like Kafka Streams or an in-memory priority queue) and sort them before triggering the database updates.</p>
+        <p>If you must read from multiple partitions and sort them, embed a <strong>sequence number</strong> or <strong>timestamp</strong> in the payload. The consumer can buffer incoming messages in a local window (using a tool like Kafka Streams or an in-memory priority queue) and sort them before triggering the database updates.</p>
 
         <h2>Conclusion</h2>
-        <p>For high-throughput systems, use **Key-Based Routing** with a unique entity ID as the message key. Combine this with an **Idempotent Producer** configuration to guarantee that network retries never shuffle your event sequences.</p>
+        <p>For high-throughput systems, use <strong>Key-Based Routing</strong> with a unique entity ID as the message key. Combine this with an <strong>Idempotent Producer</strong> configuration to guarantee that network retries never shuffle your event sequences.</p>
       </div>
 
     </article>

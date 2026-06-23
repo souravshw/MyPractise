@@ -111,7 +111,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In financial services, healthcare records, and audit log processing, losing even a single message is unacceptable. By default, Apache Kafka is optimized for a balance of speed and reliability. However, with the right configurations across producers, brokers, and consumers, you can configure Kafka for **zero data loss** (absolute durability).</p>
+        <p>In financial services, healthcare records, and audit log processing, losing even a single message is unacceptable. By default, Apache Kafka is optimized for a balance of speed and reliability. However, with the right configurations across producers, brokers, and consumers, you can configure Kafka for <strong>zero data loss</strong> (absolute durability).</p>
         
         <p>In this guide, we provide a concrete checklist of properties you must set to guarantee that messages are never lost in transit.</p>
 
@@ -127,7 +127,7 @@
             Real-World Analogy: High-Security Bank Transport
           </div>
           <p>Imagine a bank transferring physical cash between vault facilities:</p>
-          <p>Instead of sending one truck, the bank uses **three armored trucks carrying duplicate boxes (Replication Factor = 3)**. The bank dispatcher demands that at least **two trucks must arrive safely and co-sign the receipt (min.insync.replicas = 2)** before marking the transfer as successful (acks = all).</p>
+          <p>Instead of sending one truck, the bank uses <strong>three armored trucks carrying duplicate boxes (Replication Factor = 3)</strong>. The bank dispatcher demands that at least <strong>two trucks must arrive safely and co-sign the receipt (min.insync.replicas = 2)</strong> before marking the transfer as successful (acks = all).</p>
           <p>If a truck gets a flat tire, they do not elect a random bicycle driver to lead the remaining trucks (unclean.leader.election = false). Finally, the receiving vault clerk only logs the deposit in the main ledger after the money is physically counted and stored in the safe (manual offset commits).</p>
         </div>
 

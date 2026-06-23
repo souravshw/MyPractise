@@ -129,8 +129,8 @@
           <p>Imagine registering students for a class in alphabetical order:</p>
           <ul>
             <li>The registrar has a rule: "If two names compare as identical, they are the same student, and we refuse duplicate registration."</li>
-            <li>A student named **Coffee** registers first. The registrar writes their name down.</li>
-            <li>A student named **Tea** arrives. The registrar, being lazy, evaluates their alphabetical comparison as: "They are the same priority level" (returns 0).</li>
+            <li>A student named <strong>Coffee</strong> registers first. The registrar writes their name down.</li>
+            <li>A student named <strong>Tea</strong> arrives. The registrar, being lazy, evaluates their alphabetical comparison as: "They are the same priority level" (returns 0).</li>
             <li>The registrar says: "Tea, we already have Coffee registered, and since you are the same, we won't write you down." Tea is rejected because the sorting comparison said they are equal.</li>
           </ul>
         </div>
@@ -183,7 +183,7 @@
         <h2>Conclusion</h2>
         <p>When design custom types for sorted collections:
           <ul>
-            <li>Remember that <code>TreeSet</code> and <code>TreeMap</code> use <code>compareTo()</code> or a <code>Comparator</code> to enforce uniqueness, **not** <code>equals()</code>.</li>
+            <li>Remember that <code>TreeSet</code> and <code>TreeMap</code> use <code>compareTo()</code> or a <code>Comparator</code> to enforce uniqueness, <strong>not</strong> <code>equals()</code>.</li>
             <li>Ensure that if two objects are not equal, your <code>compareTo()</code> method never returns <code>0</code>. Use field-by-field string or integer comparisons to break ties.</li>
           </ul>
         </p>

@@ -113,7 +113,7 @@
       <div class="article-body">
         <p>Running a Kafka cluster in production without monitoring is like flying an airplane blind. Because Kafka handles critical data pipelines, a silent failure (like a slow consumer causing data latency or an offline replica) can quickly impact your business operations.</p>
         
-        <p>To keep your cluster healthy, you must export metrics (typically using tools like the **Prometheus JMX Exporter** and **Grafana**) and set alerts on key health indicators. Let's review the most important metrics to watch.</p>
+        <p>To keep your cluster healthy, you must export metrics (typically using tools like the <strong>Prometheus JMX Exporter</strong> and <strong>Grafana</strong>) and set alerts on key health indicators. Let's review the most important metrics to watch.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -138,7 +138,7 @@
 
         <h3>1. UnderReplicatedPartitions (Alert if > 0)</h3>
         <p><strong>Metric Name:</strong> <code>kafka.server:type=ReplicaManager,name=UnderReplicatedPartitions</code></p>
-        <p>Indicates the count of partitions that do not have their full set of configured replicas online. If this number rises above 0, it means at least one follower broker has crashed or is struggling to sync data. **Set a high-priority alert on this metric.**</p>
+        <p>Indicates the count of partitions that do not have their full set of configured replicas online. If this number rises above 0, it means at least one follower broker has crashed or is struggling to sync data. <strong>Set a high-priority alert on this metric.</strong></p>
 
         <h3>2. ActiveControllerCount (Alert if != 1)</h3>
         <p><strong>Metric Name:</strong> <code>kafka.controller:type=KafkaController,name=ActiveControllerCount</code></p>
@@ -157,7 +157,7 @@
         <p>Tracks the rate of write requests that fail due to schema validation issues, broker downtime, or authorization errors. In a healthy system, this value should be 0.</p>
 
         <h2>Conclusion</h2>
-        <p>Effective monitoring prevents minor glitches from turning into system outages. Set up Grafana dashboards to track **under-replicated partitions**, monitor **consumer lag** to prevent business delays, and alert on broker heartbeat failures to catch issues early.</p>
+        <p>Effective monitoring prevents minor glitches from turning into system outages. Set up Grafana dashboards to track <strong>under-replicated partitions</strong>, monitor <strong>consumer lag</strong> to prevent business delays, and alert on broker heartbeat failures to catch issues early.</p>
       </div>
 
     </article>

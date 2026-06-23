@@ -111,9 +111,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In a Kafka consumer group, partitions are divided fairly among all active consumer instances. But what happens if a consumer crashes, a new instance is deployed, or a network glitch cuts off a node? Kafka responds by performing a process called **Consumer Rebalancing**.</p>
+        <p>In a Kafka consumer group, partitions are divided fairly among all active consumer instances. But what happens if a consumer crashes, a new instance is deployed, or a network glitch cuts off a node? Kafka responds by performing a process called <strong>Consumer Rebalancing</strong>.</p>
         
-        <p>While rebalancing is crucial for maintaining fault tolerance, it comes with a major cost: **during a rebalance, consumers stop reading data**, leading to stop-the-world pauses and processing delays. Let's look at what triggers rebalances and how to minimize their impact.</p>
+        <p>While rebalancing is crucial for maintaining fault tolerance, it comes with a major cost: <strong>during a rebalance, consumers stop reading data</strong>, leading to stop-the-world pauses and processing delays. Let's look at what triggers rebalances and how to minimize their impact.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -128,7 +128,7 @@
           </div>
           <p>Imagine a team of 3 office workers dividing a pile of documents to review. Suddenly, a 4th worker joins the room.</p>
           <p>Everyone must stop working immediately, gather up all their current folders, and stand in a circle. The team manager recalculates who should take which files, distributes them anew, and then tells everyone they can sit back down and resume working.</p>
-          <p>This "stop work and shuffle" is **consumer rebalancing**. If a worker briefly steps out to grab a glass of water, they shouldn't trigger this entire desk rearrangement if they are coming right back!</p>
+          <p>This "stop work and shuffle" is <strong>consumer rebalancing</strong>. If a worker briefly steps out to grab a glass of water, they shouldn't trigger this entire desk rearrangement if they are coming right back!</p>
         </div>
 
         <h2>What Triggers a Rebalance?</h2>
@@ -157,7 +157,7 @@ props.put("heartbeat.interval.ms", "15000");</code></pre>
         <pre><code class="language-java">props.put("group.instance.id", "processor-node-1");</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Consumer rebalances ensure that your data continues to flow even when nodes crash. However, false rebalances cause unnecessary pauses. Tune your poll timeouts and use **static membership** to build a highly stable and resilient consumption layer.</p>
+        <p>Consumer rebalances ensure that your data continues to flow even when nodes crash. However, false rebalances cause unnecessary pauses. Tune your poll timeouts and use <strong>static membership</strong> to build a highly stable and resilient consumption layer.</p>
       </div>
 
     </article>

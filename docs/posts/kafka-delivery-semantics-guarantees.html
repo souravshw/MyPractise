@@ -111,7 +111,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>When sending data over a network, things go wrong. Servers crash, sockets drop, and routers drop packets. In a distributed message system, you must configure how your applications handle these glitches. This is defined by **Delivery Semantics**.</p>
+        <p>When sending data over a network, things go wrong. Servers crash, sockets drop, and routers drop packets. In a distributed message system, you must configure how your applications handle these glitches. This is defined by <strong>Delivery Semantics</strong>.</p>
         
         <p>Kafka supports three delivery options, each suited for different business needs. Let's compare their behaviors, configurations, and risks.</p>
 
@@ -161,7 +161,7 @@
         </ul>
 
         <h2>Choosing the Right Option</h2>
-        <p>Most business applications use **At-Least-Once** because preventing data loss is critical. Duplicates are then handled by writing idempotent consumer logic (e.g., checking database records before inserting). For payment gateways and ledger systems, invest the effort to configure true **Exactly-Once Semantics**.</p>
+        <p>Most business applications use <strong>At-Least-Once</strong> because preventing data loss is critical. Duplicates are then handled by writing idempotent consumer logic (e.g., checking database records before inserting). For payment gateways and ledger systems, invest the effort to configure true <strong>Exactly-Once Semantics</strong>.</p>
 
         <h2>Conclusion</h2>
         <p>Match your delivery guarantees to your business goals. For simple logs, choose At-Most-Once to save network resources. For database updates, choose At-Least-Once, and use Exactly-Once transactions when database consistency is paramount.</p>

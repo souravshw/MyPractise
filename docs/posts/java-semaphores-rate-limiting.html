@@ -106,7 +106,7 @@
       </header>
 
       <div class="article-body">
-        <p>A **Semaphore** in Java Concurrency is a utility that controls access to a shared resource using a set of virtual **permits**. Unlike a standard mutual exclusion lock (Mutex) which only allows one thread, a Semaphore can allow multiple threads to access a resource in parallel up to a configured limit.</p>
+        <p>A <strong>Semaphore</strong> in Java Concurrency is a utility that controls access to a shared resource using a set of virtual <strong>permits</strong>. Unlike a standard mutual exclusion lock (Mutex) which only allows one thread, a Semaphore can allow multiple threads to access a resource in parallel up to a configured limit.</p>
 
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/java-semaphores.svg" alt="Visualizing Java Semaphore permits" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
@@ -117,12 +117,12 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: An ATM Booth with Two Machines
           </div>
-          <p>Imagine an ATM bank vestibule that contains exactly **2 ATM machines** inside. A security guard stands outside holding exactly **2 keys (permits)**:</p>
+          <p>Imagine an ATM bank vestibule that contains exactly <strong>2 ATM machines</strong> inside. A security guard stands outside holding exactly <strong>2 keys (permits)</strong>:</p>
           <ul>
             <li><strong>Alice</strong> arrives first. The guard hands her a key, and she enters the booth (1 permit remaining).</li>
             <li><strong>Bob</strong> arrives second. The guard hands him the second key, and he enters (0 permits remaining).</li>
             <li><strong>Charlie</strong> arrives third. Since there are no keys left, the guard makes him wait outside in a blocked queue.</li>
-            <li>Once Alice finished her transaction and leaves, she **returns the key (releases permit)** to the guard. The guard immediately hands it to Charlie, who can now enter.</li>
+            <li>Once Alice finished her transaction and leaves, she <strong>returns the key (releases permit)</strong> to the guard. The guard immediately hands it to Charlie, who can now enter.</li>
           </ul>
         </div>
 

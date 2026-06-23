@@ -127,7 +127,7 @@
             Real-World Analogy: The Number Relay Race
           </div>
           <p>Imagine a track relay race with two runners: <strong>Odd Runner</strong> and <strong>Even Runner</strong>. Instead of running laps, they are writing numbers in a notebook in order from 1 to 20.</p>
-          <p>They use a single **baton** (the ArrayBlockingQueue) to coordinate:</p>
+          <p>They use a single <strong>baton</strong> (the ArrayBlockingQueue) to coordinate:</p>
           <ul>
             <li><strong>Odd Runner</strong> starts the game. They write down their number <code>1</code> in the notebook, print it, and then hand the baton to the Even Runner by placing the number `1` inside the queue.</li>
             <li><strong>Even Runner</strong> is waiting by the track. They cannot do anything until they receive the baton. As soon as the number `1` is placed in the queue, they take it out, add 1 to it to get <code>2</code>, write down and print <code>2</code>, and wait again.</li>

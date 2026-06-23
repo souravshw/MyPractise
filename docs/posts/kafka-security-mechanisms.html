@@ -113,7 +113,7 @@
       <div class="article-body">
         <p>By default, Kafka clusters are completely open. Any client can connect to a broker without a password, read from any topic, and write fake data. In production environments, this lacks basic security controls.</p>
         
-        <p>Securing Apache Kafka involves three distinct layers: **Encryption in Transit**, **Authentication**, and **Authorization**. Let's review these concepts and how they secure a cluster.</p>
+        <p>Securing Apache Kafka involves three distinct layers: <strong>Encryption in Transit</strong>, <strong>Authentication</strong>, and <strong>Authorization</strong>. Let's review these concepts and how they secure a cluster.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -143,11 +143,11 @@
         <p>Authentication verifies the identity of the connecting client. Kafka supports two main options:</p>
         <ul>
           <li><strong>mTLS (Mutual TLS):</strong> The client and broker present security certificates to verify each other.</li>
-          <li><strong>SASL (Simple Authentication and Security Layer):</strong> Users log in using username/password. SASL support includes **SASL/SCRAM** (hashed password databases stored inside ZooKeeper/KRaft) and **SASL/PLAIN** (cleartext, only recommended if wrapped inside an encrypted SSL tunnel).</li>
+          <li><strong>SASL (Simple Authentication and Security Layer):</strong> Users log in using username/password. SASL support includes <strong>SASL/SCRAM</strong> (hashed password databases stored inside ZooKeeper/KRaft) and <strong>SASL/PLAIN</strong> (cleartext, only recommended if wrapped inside an encrypted SSL tunnel).</li>
         </ul>
 
         <h3>3. Authorization (ACLs)</h3>
-        <p>Once a client is authenticated, you must define what actions they can perform. Kafka uses **Access Control Lists (ACLs)** to set permissions. For example, you can create a rule stating: <em>"User Alice is allowed to WRITE to topic 'orders', but is NOT allowed to READ from it."</em></p>
+        <p>Once a client is authenticated, you must define what actions they can perform. Kafka uses <strong>Access Control Lists (ACLs)</strong> to set permissions. For example, you can create a rule stating: <em>"User Alice is allowed to WRITE to topic 'orders', but is NOT allowed to READ from it."</em></p>
 
         <h2>Java Client SSL/SASL Configuration Example</h2>
         <p>To connect a producer securely using SASL and SSL, configure the client properties as follows:</p>
@@ -170,7 +170,7 @@ props.put("ssl.truststore.password", "truststore-secret-password");
 KafkaProducer&lt;String, String&gt; producer = new KafkaProducer&lt;&gt;(props);</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Securing Kafka is essential for maintaining enterprise safety. Always encrypt your traffic using **SSL/TLS**, verify client identities via **SASL/SCRAM**, and enforce least-privilege access permissions using **ACLs**.</p>
+        <p>Securing Kafka is essential for maintaining enterprise safety. Always encrypt your traffic using <strong>SSL/TLS</strong>, verify client identities via <strong>SASL/SCRAM</strong>, and enforce least-privilege access permissions using <strong>ACLs</strong>.</p>
       </div>
 
     </article>

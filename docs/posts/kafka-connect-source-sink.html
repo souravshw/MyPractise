@@ -113,7 +113,7 @@
       <div class="article-body">
         <p>If you want to pull data from a MySQL database into a Kafka topic, or export messages from a Kafka topic to Elasticsearch, you might start writing a custom producer or consumer application. While this works, writing and maintaining custom connection code is tedious and repetitive.</p>
         
-        <p>To solve this, Kafka provides **Kafka Connect**—a free, open-source framework designed specifically for streaming data between Kafka and external databases, search indexes, key-value stores, and cloud storage systems without writing a single line of code.</p>
+        <p>To solve this, Kafka provides <strong>Kafka Connect</strong>—a free, open-source framework designed specifically for streaming data between Kafka and external databases, search indexes, key-value stores, and cloud storage systems without writing a single line of code.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -136,13 +136,13 @@
         <h2>Source Connectors vs. Sink Connectors</h2>
         
         <h3>1. Source Connector (Ingestion)</h3>
-        <p>A Source Connector imports data from external systems into Kafka. For example, a **Debezium Source Connector** monitors transaction logs in a MySQL database. Whenever a row is added or updated, the connector instantly publishes that change as a structured message to a Kafka topic. </p>
+        <p>A Source Connector imports data from external systems into Kafka. For example, a <strong>Debezium Source Connector</strong> monitors transaction logs in a MySQL database. Whenever a row is added or updated, the connector instantly publishes that change as a structured message to a Kafka topic. </p>
 
         <h3>2. Sink Connector (Export)</h3>
-        <p>A Sink Connector exports data from Kafka topics to external systems. For example, an **Elasticsearch Sink Connector** reads new messages from a Kafka topic and indexes them directly in Elasticsearch, making the data instantly searchable.</p>
+        <p>A Sink Connector exports data from Kafka topics to external systems. For example, an <strong>Elasticsearch Sink Connector</strong> reads new messages from a Kafka topic and indexes them directly in Elasticsearch, making the data instantly searchable.</p>
 
         <h2>Under the Hood: Workers and Tasks</h2>
-        <p>Kafka Connect runs on dedicated cluster servers called **Workers**. When you configure a connector via a simple REST API JSON payload, the worker splits the workload into parallel processes called **Tasks**. If a worker server fails, other workers automatically inherit its active tasks, making the ingestion pipeline completely fault-tolerant.</p>
+        <p>Kafka Connect runs on dedicated cluster servers called <strong>Workers</strong>. When you configure a connector via a simple REST API JSON payload, the worker splits the workload into parallel processes called <strong>Tasks</strong>. If a worker server fails, other workers automatically inherit its active tasks, making the ingestion pipeline completely fault-tolerant.</p>
 
         <h2>Example: REST Configuration JSON</h2>
         <p>To run a connector, you do not write Java code. Instead, you send a configuration JSON block to the Kafka Connect REST API endpoint:</p>
@@ -162,7 +162,7 @@
 }</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Do not reinvent the wheel. If you need to integrate Kafka with standard databases, file systems, or analytical search indexes, look for pre-built **Kafka Connectors** first. They allow you to build reliable, scalable integration pipelines using simple configuration settings.</p>
+        <p>Do not reinvent the wheel. If you need to integrate Kafka with standard databases, file systems, or analytical search indexes, look for pre-built <strong>Kafka Connectors</strong> first. They allow you to build reliable, scalable integration pipelines using simple configuration settings.</p>
       </div>
 
     </article>

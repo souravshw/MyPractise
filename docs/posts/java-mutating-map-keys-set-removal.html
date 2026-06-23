@@ -128,9 +128,9 @@
           </div>
           <p>Imagine a school mail sorter room:</p>
           <ul>
-            <li>You receive a letter labeled for **Mailbox 2**. The sorter places it in slot 2.</li>
-            <li>While no one is looking, a student changes the label on the envelope to read **Mailbox 1** (mutating a field).</li>
-            <li>Later, you want to retrieve the envelope. The sorter checks the label, sees it says Mailbox 1, and goes to **Slot 1** to look for it.</li>
+            <li>You receive a letter labeled for <strong>Mailbox 2</strong>. The sorter places it in slot 2.</li>
+            <li>While no one is looking, a student changes the label on the envelope to read <strong>Mailbox 1</strong> (mutating a field).</li>
+            <li>Later, you want to retrieve the envelope. The sorter checks the label, sees it says Mailbox 1, and goes to <strong>Slot 1</strong> to look for it.</li>
             <li>Because Slot 1 is empty, the sorter returns and says: "Sorry, your letter doesn't exist!" even though it is still sitting inside Slot 2. It is lost forever.</li>
           </ul>
         </div>
@@ -198,7 +198,7 @@ class KeyMaster {
         <h2>Conclusion</h2>
         <p>To avoid this collection trap:
           <ul>
-            <li>Always design your Map keys and Set elements to be **immutable** (use <code>final</code> fields).</li>
+            <li>Always design your Map keys and Set elements to be <strong>immutable</strong> (use <code>final</code> fields).</li>
             <li>If you must modify properties of an element inside a Set or Map, remove the object first, mutate the field, and re-add it.</li>
           </ul>
         </p>

@@ -111,9 +111,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>When starting a fresh Kafka consumer group, or when a consumer points to a topic where records have expired, the consumer group has **no stored offset bookmark** to look at. In this scenario, how does Kafka know where your consumer should start reading?</p>
+        <p>When starting a fresh Kafka consumer group, or when a consumer points to a topic where records have expired, the consumer group has <strong>no stored offset bookmark</strong> to look at. In this scenario, how does Kafka know where your consumer should start reading?</p>
         
-        <p>This is configured using the **auto.offset.reset** setting. Choosing the wrong setting can cause you to accidentally process years of stale historical data or, conversely, skip important messages. Let's compare the options simply.</p>
+        <p>This is configured using the <strong>auto.offset.reset</strong> setting. Choosing the wrong setting can cause you to accidentally process years of stale historical data or, conversely, skip important messages. Let's compare the options simply.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -156,7 +156,7 @@
         </ul>
 
         <h2>Crucial Rule: Stored Offsets Always Win</h2>
-        <p>It is important to remember that <code>auto.offset.reset</code> **only applies when there are no committed offsets** for the consumer group. If a consumer has already run, committed offset 1025, stopped, and restarted, it will resume at offset 1026, regardless of whether you set earliest or latest.</p>
+        <p>It is important to remember that <code>auto.offset.reset</code> <strong>only applies when there are no committed offsets</strong> for the consumer group. If a consumer has already run, committed offset 1025, stopped, and restarted, it will resume at offset 1026, regardless of whether you set earliest or latest.</p>
 
         <h2>Configuring in Java</h2>
         <p>Here is how to set the configuration during consumer client initialization:</p>

@@ -127,26 +127,26 @@
             Real-World Analogy: Skewed Plumbing Pressure
           </div>
           <p>Imagine building a plumbing system for a large apartment block:</p>
-          <p>If you route all the waste pipes from 100 apartments into a **single primary pipe (hot partition)** while leaving the other 3 drainage pipes completely empty, that single pipe will clog, backup, and burst. </p>
+          <p>If you route all the waste pipes from 100 apartments into a <strong>single primary pipe (hot partition)</strong> while leaving the other 3 drainage pipes completely empty, that single pipe will clog, backup, and burst. </p>
           <p>Furthermore, if your repair crew takes too long to fix a leak, and the management company keeps firing and replacing them every 5 minutes (false rebalances), no actual work gets done and the building floods.</p>
         </div>
 
         <h2>Pitfall 1: Hot Partitions (Skewed Load)</h2>
-        <p>A **Hot Partition** occurs when one partition in a topic receives significantly more messages than the others, overloading the broker hosting it while other brokers sit idle.</p>
+        <p>A <strong>Hot Partition</strong> occurs when one partition in a topic receives significantly more messages than the others, overloading the broker hosting it while other brokers sit idle.</p>
         <ul>
           <li><strong>Why it happens:</strong> Poor choice of message keys. For example, if you partition a retail topic by `countryCode`, and 95% of your orders are from the `US`, Partition 0 (holding the US hash) will be overloaded.</li>
           <li><strong>How to avoid it:</strong> Use high-cardinality keys that contain diverse values (like <code>userId</code> or <code>transactionId</code>) to distribute records evenly across all partitions.</li>
         </ul>
 
         <h2>Pitfall 2: Uncontrolled Rebalance Storms</h2>
-        <p>A **Rebalance Storm** occurs when consumer group rebalances happen repeatedly, stalling message consumption indefinitely.</p>
+        <p>A <strong>Rebalance Storm</strong> occurs when consumer group rebalances happen repeatedly, stalling message consumption indefinitely.</p>
         <ul>
           <li><strong>Why it happens:</strong> If your consumer takes longer to process a batch of records than <code>max.poll.interval.ms</code>, the broker assumes the consumer is dead, kicks it out of the group, and triggers a rebalance. When the consumer finally finishes and polls again, it rejoins, triggering <em>another</em> rebalance.</li>
           <li><strong>How to avoid it:</strong> 
             <ol>
               <li>Reduce <code>max.poll.records</code> so your application processes smaller batches.</li>
               <li>Increase <code>max.poll.interval.ms</code> to give your consumer threads more time.</li>
-              <li>Enable **Static Membership** using <code>group.instance.id</code>.</li>
+              <li>Enable <strong>Static Membership</strong> using <code>group.instance.id</code>.</li>
             </ol>
           </li>
         </ul>
@@ -155,7 +155,7 @@
         <p>Committing offsets immediately after calling <code>.poll()</code> leads to silent data loss.</p>
         <ul>
           <li><strong>Why it happens:</strong> If your consumer pulls a batch, commits the offset (moving the bookmark forward), and then crashes or gets a database error during the processing loop, those records are never processed. When the consumer restarts, it skips those messages.</li>
-          <li><strong>How to avoid it:</strong> Always use the **Process-then-Commit** pattern. Only commit offsets <em>after</em> your business logic executes successfully.</li>
+          <li><strong>How to avoid it:</strong> Always use the <strong>Process-then-Commit</strong> pattern. Only commit offsets <em>after</em> your business logic executes successfully.</li>
         </ul>
 
         <h2>Conclusion</h2>

@@ -106,7 +106,7 @@
       </header>
 
       <div class="article-body">
-        <p>In Java, multitasking is achieved using threads. To write code that runs concurrently on a separate CPU core, you must define the execution payload. Java offers two primary ways to create threads: **extending the <code>Thread</code> class** or **implementing the <code>Runnable</code> interface**.</p>
+        <p>In Java, multitasking is achieved using threads. To write code that runs concurrently on a separate CPU core, you must define the execution payload. Java offers two primary ways to create threads: **extending the <code>Thread</code> class<strong> or </strong>implementing the <code>Runnable</code> interface**.</p>
 
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/thread-creation.svg" alt="Thread Class vs Runnable Interface Visual" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
@@ -119,8 +119,8 @@
           </div>
           <p>Imagine you run a pizza shop and need to make deliveries:</p>
           <ul>
-            <li><strong>Extending Thread:</strong> You hire a dedicated **Pizza Delivery Driver (MyThread)** who has a built-in delivery cycle. This person does nothing but deliver pizza. This is simple, but now you cannot hire them to clean the kitchen because their entire identity is tied to being a driver.</li>
-            <li><strong>Implementing Runnable:</strong> You write down a **recipe checklist index card (MyRunnable)** containing the steps for making a delivery. You can hand this card to any employee you already have (the generic Thread wrapper) or throw it into a kitchen team tasks bin (a Thread Pool). This is highly flexible!</li>
+            <li><strong>Extending Thread:</strong> You hire a dedicated <strong>Pizza Delivery Driver (MyThread)</strong> who has a built-in delivery cycle. This person does nothing but deliver pizza. This is simple, but now you cannot hire them to clean the kitchen because their entire identity is tied to being a driver.</li>
+            <li><strong>Implementing Runnable:</strong> You write down a <strong>recipe checklist index card (MyRunnable)</strong> containing the steps for making a delivery. You can hand this card to any employee you already have (the generic Thread wrapper) or throw it into a kitchen team tasks bin (a Thread Pool). This is highly flexible!</li>
           </ul>
         </div>
 

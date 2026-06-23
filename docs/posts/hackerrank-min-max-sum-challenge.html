@@ -111,7 +111,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In competitive programming, the **Min-Max Sum** challenge asks you to take five positive integers and find the minimum and maximum values that can be calculated by summing exactly four of those five integers. While it sounds simple, the primary trap in this challenge is **integer overflow**.</p>
+        <p>In competitive programming, the <strong>Min-Max Sum</strong> challenge asks you to take five positive integers and find the minimum and maximum values that can be calculated by summing exactly four of those five integers. While it sounds simple, the primary trap in this challenge is <strong>integer overflow</strong>.</p>
         
         <p>In this guide, we will solve the problem efficiently using Java 8 Streams and review how to avoid numerical overflow bounds.</p>
 
@@ -131,7 +131,7 @@
             <li><strong>Minimum Sum:</strong> To get the lightest sum, you leave behind the heaviest weight (5g). The sum is: <code>1 + 2 + 3 + 4 = 10</code>.</li>
             <li><strong>Maximum Sum:</strong> To get the heaviest sum, you leave behind the lightest weight (1g). The sum is: <code>2 + 3 + 4 + 5 = 14</code>.</li>
           </ul>
-          <p>Mathematically, you don't need to try every combination. You simply calculate the **total sum** of all 5 weights, and then:
+          <p>Mathematically, you don't need to try every combination. You simply calculate the <strong>total sum</strong> of all 5 weights, and then:
             <ul>
               <li><code>Min Sum = Total Sum - Max Value</code></li>
               <li><code>Max Sum = Total Sum - Min Value</code></li>

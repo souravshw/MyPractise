@@ -128,8 +128,8 @@
           </div>
           <p>Imagine a library sorting room where books are sorted into physical boxes labeled by their ISBN:</p>
           <ul>
-            <li><strong>The Shelf Box (<code>hashCode()</code>):</strong> When a book arrives, you look up its ISBN to know which shelf box to put it in. This is the **hashCode**.</li>
-            <li><strong>Checking the Book (<code>equals()</code>):</strong> If you want to check if the book is already in that box, you do a detailed page comparison. This is the **equals** check.</li>
+            <li><strong>The Shelf Box (<code>hashCode()</code>):</strong> When a book arrives, you look up its ISBN to know which shelf box to put it in. This is the <strong>hashCode</strong>.</li>
+            <li><strong>Checking the Book (<code>equals()</code>):</strong> If you want to check if the book is already in that box, you do a detailed page comparison. This is the <strong>equals</strong> check.</li>
           </ul>
           <p>If two books have the exact same ISBN (i.e. they are equal), they MUST go into the same box (return the same hash code). If they go into different boxes because their hash codes don't match, you will never find them!</p>
         </div>

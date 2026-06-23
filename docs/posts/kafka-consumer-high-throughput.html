@@ -136,13 +136,13 @@
         <h2>Three Critical Consumer Settings</h2>
 
         <h3>1. fetch.min.bytes (Default: 1 Byte)</h3>
-        <p>This setting controls the minimum amount of data the broker must return in a single fetch request. If set to 1, the broker returns data as soon as a single byte is available. By increasing this to **1024 or 4096 bytes** (or higher), you force the broker to wait until a healthy batch of data builds up, reducing the number of round-trip fetch requests.</p>
+        <p>This setting controls the minimum amount of data the broker must return in a single fetch request. If set to 1, the broker returns data as soon as a single byte is available. By increasing this to <strong>1024 or 4096 bytes</strong> (or higher), you force the broker to wait until a healthy batch of data builds up, reducing the number of round-trip fetch requests.</p>
 
         <h3>2. fetch.max.wait.ms (Default: 500ms)</h3>
         <p>If you increase <code>fetch.min.bytes</code>, the broker might hold back your fetch request if traffic is low. To prevent the consumer from waiting indefinitely for data, <code>fetch.max.wait.ms</code> sets a time limit. If traffic is slow, the broker will return whatever data it has once this timer expires, balancing latency and throughput.</p>
 
         <h3>3. max.poll.records (Default: 500 records)</h3>
-        <p>This controls the maximum number of records returned in a single call to <code>consumer.poll()</code>. If your processing loop is very fast, increase this to **1000 or 2000** to pull and process larger batches in memory. <em>Caution:</em> Ensure your consumer can finish processing the batch before <code>max.poll.interval.ms</code> expires to avoid false rebalances!</p>
+        <p>This controls the maximum number of records returned in a single call to <code>consumer.poll()</code>. If your processing loop is very fast, increase this to <strong>1000 or 2000</strong> to pull and process larger batches in memory. <em>Caution:</em> Ensure your consumer can finish processing the batch before <code>max.poll.interval.ms</code> expires to avoid false rebalances!</p>
 
         <h2>High Throughput Java Configuration Example</h2>
         <p>Here is how to set up your Kafka Consumer properties in Java for maximum throughput:</p>

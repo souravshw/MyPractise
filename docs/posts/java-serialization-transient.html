@@ -106,7 +106,7 @@
       </header>
 
       <div class="article-body">
-        <p>**Serialization** is a mechanism in Java that lets you save the current state of an object as a sequence of bytes. You can write these bytes to a file on disk or send them over a network. **Deserialization** is the reverse process, taking the byte stream and rebuilding the live Java object in memory.</p>
+        <p><strong>Serialization</strong> is a mechanism in Java that lets you save the current state of an object as a sequence of bytes. You can write these bytes to a file on disk or send them over a network. <strong>Deserialization</strong> is the reverse process, taking the byte stream and rebuilding the live Java object in memory.</p>
 
         <p>If an object contains sensitive fields (like credit card numbers or passwords) that should not be saved or transmitted, Java provides the **<code>transient</code>** keyword to exclude those specific fields from serialization.</p>
 
@@ -122,7 +122,7 @@
           <p>Imagine you built a beautiful 3D plastic toy dollhouse (a live object in memory) and want to mail it to a friend:</p>
           <ul>
             <li><strong>Serialization:</strong> You fold the dollhouse flat, pack the pieces in an envelope, and mail it (the byte stream). Your friend receives the envelope and pops the pieces back up to recreate the exact 3D house (deserialization).</li>
-            <li><strong>Transient:</strong> The dollhouse has a secret drawer containing real gold coins. Before flattening and mailing the house, you write **"transient"** on the drawer. The post office machine sees this tag and automatically **discards the coins** (excludes them from the package) to keep it safe. When your friend rebuilds the house, the secret drawer is present but empty (reverts to its default state, e.g. 0 or null).</li>
+            <li><strong>Transient:</strong> The dollhouse has a secret drawer containing real gold coins. Before flattening and mailing the house, you write <strong>"transient"</strong> on the drawer. The post office machine sees this tag and automatically <strong>discards the coins</strong> (excludes them from the package) to keep it safe. When your friend rebuilds the house, the secret drawer is present but empty (reverts to its default state, e.g. 0 or null).</li>
           </ul>
         </div>
 

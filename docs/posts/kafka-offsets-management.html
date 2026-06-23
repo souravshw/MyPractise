@@ -111,7 +111,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In Apache Kafka, messages are not deleted as soon as consumers read them. So how does a consumer know which message to read next when it restarts or polls a broker? The answer lies in **Offsets**.</p>
+        <p>In Apache Kafka, messages are not deleted as soon as consumers read them. So how does a consumer know which message to read next when it restarts or polls a broker? The answer lies in <strong>Offsets</strong>.</p>
         
         <p>An offset is a unique, sequential number assigned to each record inside a partition. Managing these offsets correctly is the difference between an application that processes data smoothly and one that suffers from message loss or duplicate processing.</p>
 
@@ -126,8 +126,8 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Bookmark
           </div>
-          <p>Imagine reading a 500-page book in a library. When you need to go home, you don't tear out the pages you've read. Instead, you put a **bookmark** on page 42. When you return tomorrow, you look at your bookmark and immediately resume reading from page 43.</p>
-          <p>In Kafka, the partition is the book, and the **offset** is your bookmark. If your consumer crashes or restarts, it reads its committed offset bookmark from Kafka and picks up right where it left off.</p>
+          <p>Imagine reading a 500-page book in a library. When you need to go home, you don't tear out the pages you've read. Instead, you put a <strong>bookmark</strong> on page 42. When you return tomorrow, you look at your bookmark and immediately resume reading from page 43.</p>
+          <p>In Kafka, the partition is the book, and the <strong>offset</strong> is your bookmark. If your consumer crashes or restarts, it reads its committed offset bookmark from Kafka and picks up right where it left off.</p>
         </div>
 
         <h2>How Kafka Tracks Offsets</h2>
@@ -182,7 +182,7 @@ try {
 }</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Offsets are the glue that allows Kafka consumers to remain stateless and resilient. In production environments, always prefer **manual offset commits** and ensure that you only commit offsets <em>after</em> your business logic finishes successfully to prevent data loss.</p>
+        <p>Offsets are the glue that allows Kafka consumers to remain stateless and resilient. In production environments, always prefer <strong>manual offset commits</strong> and ensure that you only commit offsets <em>after</em> your business logic finishes successfully to prevent data loss.</p>
       </div>
 
     </article>

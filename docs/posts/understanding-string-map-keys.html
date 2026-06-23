@@ -126,13 +126,13 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Shared Key and the Copy-Machine
           </div>
-          <p>Imagine a bank vault with a **treasure box** inside. To open the box, you must present a key with the letter <strong>"A"</strong> engraved on it.</p>
+          <p>Imagine a bank vault with a <strong>treasure box</strong> inside. To open the box, you must present a key with the letter <strong>"A"</strong> engraved on it.</p>
           <p>Two customers arrive wanting to open the treasure box using two different key sources:</p>
           <ul>
-            <li><strong>Customer 1 (String Literal):</strong> Takes a key engraved with "A" from the hotel's common key-rack (the **String Pool**). This rack stores unique keys so we don't have to waste time carving new ones. This key is labeled <code>str</code>.</li>
-            <li><strong>Customer 2 (New String):</strong> Decides to ignore the common key-rack. They buy a fresh block of metal and carve their own key engraved with "A" using a copy-machine (the **heap memory**). This key is labeled <code>str1</code>.</li>
+            <li><strong>Customer 1 (String Literal):</strong> Takes a key engraved with "A" from the hotel's common key-rack (the <strong>String Pool</strong>). This rack stores unique keys so we don't have to waste time carving new ones. This key is labeled <code>str</code>.</li>
+            <li><strong>Customer 2 (New String):</strong> Decides to ignore the common key-rack. They buy a fresh block of metal and carve their own key engraved with "A" using a copy-machine (the <strong>heap memory</strong>). This key is labeled <code>str1</code>.</li>
           </ul>
-          <p>When the bank guard compares the keys, they do not care about where the keys were manufactured (whether they point to the key-rack or the heap). They only look at the **engraving** on the key (using <code>equals()</code>). Since both keys are engraved with "A", they are deemed identical, and both open the exact same treasure box!</p>
+          <p>When the bank guard compares the keys, they do not care about where the keys were manufactured (whether they point to the key-rack or the heap). They only look at the <strong>engraving</strong> on the key (using <code>equals()</code>). Since both keys are engraved with "A", they are deemed identical, and both open the exact same treasure box!</p>
         </div>
 
         <h2>Walkthrough of the Main Method Scenario</h2>
@@ -173,7 +173,7 @@ map.put(str, 10);</code></pre>
             <li>It evaluates `str1.hashCode()`. Since `hashCode()` in the String class is computed strictly based on the character values, it returns the exact same integer hash code as `str`.</li>
             <li>The map goes to the same bucket and finds the entry for `str` ("A").</li>
             <li>It calls <code>str1.equals(str)</code>. The String class overrides the `equals` method to compare the character sequences. Since both represent <code>"A"</code>, the comparison returns <code>true</code>.</li>
-            <li>The map concludes the key already exists and **overwrites** the value with 20.</li>
+            <li>The map concludes the key already exists and <strong>overwrites</strong> the value with 20.</li>
           </ol>
           <p>When the program executes <code>System.out.println(map.size())</code>, it prints <strong>1</strong>. The heap-allocated key did not create a new map entry.</p>
         </div>

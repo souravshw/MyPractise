@@ -106,9 +106,9 @@
       </header>
 
       <div class="article-body">
-        <p>In Java, the <code>final</code> keyword makes variables immutable (unchangeable). Normally, you initialize a final variable at declaration time (e.g. <code>final int MAX = 100;</code>). However, Java also supports **Blank Final Variables**—final variables that are declared without an initial value.</p>
+        <p>In Java, the <code>final</code> keyword makes variables immutable (unchangeable). Normally, you initialize a final variable at declaration time (e.g. <code>final int MAX = 100;</code>). However, Java also supports <strong>Blank Final Variables</strong>—final variables that are declared without an initial value.</p>
         
-        <p>A blank final variable **must be initialized inside the constructor** of the class. If you fail to initialize it, the compiler throws an error. Once initialized, it freezes and cannot be changed.</p>
+        <p>A blank final variable <strong>must be initialized inside the constructor</strong> of the class. If you fail to initialize it, the compiler throws an error. Once initialized, it freezes and cannot be changed.</p>
 
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/blank-final.svg" alt="Visualizing blank final initialization" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
@@ -119,8 +119,8 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: Custom Engraved Birthday Trophies
           </div>
-          <p>Imagine you run a trophy workshop. You purchase **blank trophies (blank final variables)** from the supplier. They have no name engraved on them yet.</p>
-          <p>When a customer orders a trophy, you bring it into the **assembly workshop (the constructor)**. There, you engrave the winner's name on it. Once the trophy leaves the workshop, the name is carved in metal and sealed. It can **never be changed again**.</p>
+          <p>Imagine you run a trophy workshop. You purchase <strong>blank trophies (blank final variables)</strong> from the supplier. They have no name engraved on them yet.</p>
+          <p>When a customer orders a trophy, you bring it into the <strong>assembly workshop (the constructor)</strong>. There, you engrave the winner's name on it. Once the trophy leaves the workshop, the name is carved in metal and sealed. It can <strong>never be changed again</strong>.</p>
         </div>
 
         <h2>Java Implementation</h2>

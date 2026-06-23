@@ -120,14 +120,14 @@
             Real-World Analogy: Sharp Pencil on Graph Grid vs. A Fat Marker
           </div>
           <p>Imagine you are measuring precise cuts for a wooden model airplane:</p>
-          <p>If you use a **fat permanent marker (double)**, the ink line is thick and smudged. It's fast to draw, but when you cut along the line, you will be off by a fraction of a millimeter (rounding error). That's okay for building a dog house, but not for precision machinery.</p>
-          <p>If you use a **sharp pencil and grid ruler (BigDecimal)**, you count individual tiny grid boxes. You place the point exactly on the grid intersection. It takes longer, but the result is mathematically exact down to the last decimal point.</p>
+          <p>If you use a <strong>fat permanent marker (double)</strong>, the ink line is thick and smudged. It's fast to draw, but when you cut along the line, you will be off by a fraction of a millimeter (rounding error). That's okay for building a dog house, but not for precision machinery.</p>
+          <p>If you use a <strong>sharp pencil and grid ruler (BigDecimal)</strong>, you count individual tiny grid boxes. You place the point exactly on the grid intersection. It takes longer, but the result is mathematically exact down to the last decimal point.</p>
         </div>
 
         <h2>Why does Double fail?</h2>
-        <p>Double uses the **IEEE 754 standard** which stores fractions in base-2 powers (1/2, 1/4, 1/8, etc.). Decimals like <code>0.1</code> (1/10) cannot be represented as finite sums of base-2 fractions, creating an infinite repeating fraction in binary, which is truncated and rounded, introducing a tiny error.</p>
+        <p>Double uses the <strong>IEEE 754 standard</strong> which stores fractions in base-2 powers (1/2, 1/4, 1/8, etc.). Decimals like <code>0.1</code> (1/10) cannot be represented as finite sums of base-2 fractions, creating an infinite repeating fraction in binary, which is truncated and rounded, introducing a tiny error.</p>
         
-        <p><code>BigDecimal</code> stores two values: an **unscaled integer** (e.g. <code>12345</code>) and a **scale** (e.g. <code>2</code>, representing <code>123.45</code>), meaning it performs exact integer math internally and shifts the decimal point dynamically.</p>
+        <p><code>BigDecimal</code> stores two values: an <strong>unscaled integer</strong> (e.g. <code>12345</code>) and a <strong>scale</strong> (e.g. <code>2</code>, representing <code>123.45</code>), meaning it performs exact integer math internally and shifts the decimal point dynamically.</p>
 
         <h2>Java Implementation</h2>
         <pre><code class="language-java">package io.practise.myPractice;
@@ -152,7 +152,7 @@ public class BigDecimalClass {
 }</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Never use float or double for money. Always declare financial variables as `BigDecimal` using the **String constructor** (e.g., `new BigDecimal("0.1")`) to guarantee absolute precision.</p>
+        <p>Never use float or double for money. Always declare financial variables as `BigDecimal` using the <strong>String constructor</strong> (e.g., `new BigDecimal("0.1")`) to guarantee absolute precision.</p>
       </div>
 
     </article>

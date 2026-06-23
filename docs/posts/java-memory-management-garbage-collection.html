@@ -75,7 +75,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In languages like C or C++, developers must manually allocate and free memory in their programs. Forgetting to free memory leads to **memory leaks**, while freeing it too early causes program crashes. Java solves this problem by taking over memory management completely. The JVM automatically decides where objects live, keeps track of them, and uses a background cleaner called the **Garbage Collector (GC)** to destroy them when they are no longer needed.</p>
+        <p>In languages like C or C++, developers must manually allocate and free memory in their programs. Forgetting to free memory leads to <strong>memory leaks</strong>, while freeing it too early causes program crashes. Java solves this problem by taking over memory management completely. The JVM automatically decides where objects live, keeps track of them, and uses a background cleaner called the <strong>Garbage Collector (GC)</strong> to destroy them when they are no longer needed.</p>
         
         <p>Let's look at how Java organizes its memory (Stack vs. Heap) and how GC works using a simple kitchen analogy.</p>
 
@@ -92,17 +92,17 @@
           </div>
           <p>Imagine you are a chef working in a busy restaurant kitchen. Your kitchen is divided into two main areas:</p>
           <ul>
-            <li>**The Workbench (Stack Memory)**: This is your immediate prep counter. It is small, organized, and holds your active recipes and local utensils (method scopes and local variables). Once you finish a recipe step, you clear the workbench completely.</li>
-            <li>**The Pantry (Heap Memory)**: This is a huge shared storage area. Any big bowl, cake, or ingredient platter you prepare (objects on the heap) is stored here. To find a dish, you place a labeled sticky note on your workbench pointing to its location in the pantry (object references).</li>
-            <li>**The Cleanup Robot (Garbage Collector)**: The robot patrols the pantry. It looks at all the stored dishes. If a dish in the pantry doesn't have any sticky notes pointing to it from the active recipes on the workbench (it is unreachable), the robot throws it in the trash (reclaims the memory) so new dishes can be made!</li>
+            <li><strong>The Workbench (Stack Memory)</strong>: This is your immediate prep counter. It is small, organized, and holds your active recipes and local utensils (method scopes and local variables). Once you finish a recipe step, you clear the workbench completely.</li>
+            <li><strong>The Pantry (Heap Memory)</strong>: This is a huge shared storage area. Any big bowl, cake, or ingredient platter you prepare (objects on the heap) is stored here. To find a dish, you place a labeled sticky note on your workbench pointing to its location in the pantry (object references).</li>
+            <li><strong>The Cleanup Robot (Garbage Collector)</strong>: The robot patrols the pantry. It looks at all the stored dishes. If a dish in the pantry doesn't have any sticky notes pointing to it from the active recipes on the workbench (it is unreachable), the robot throws it in the trash (reclaims the memory) so new dishes can be made!</li>
           </ul>
         </div>
 
         <h2>Understanding the Divisions of Heap: Generational GC</h2>
-        <p>To make cleaning efficient, the Java Pantry (Heap) is divided into age sections because **most objects die young** (e.g., intermediate variables used in a loop):</p>
+        <p>To make cleaning efficient, the Java Pantry (Heap) is divided into age sections because <strong>most objects die young</strong> (e.g., intermediate variables used in a loop):</p>
         <ol>
-          <li><strong>Young Generation (Eden &amp; Survivor Spaces)</strong>: Newly created objects are placed in the **Eden** space. When Eden fills up, the GC robot sweeps it quickly, deleting unused objects. Objects that survive are moved to **Survivor** spaces. This quick sweep is called a **Minor GC**.</li>
-          <li><strong>Old Generation (Tenured Space)</strong>: If an object survives several rounds of Minor GC sweeps because it is referenced long-term (e.g., application configurations), the robot relocates it to the **Old Gen** space. This space is swept less frequently because the items here are expected to stay. A full sweep here is called a **Major GC / Full GC**.</li>
+          <li><strong>Young Generation (Eden &amp; Survivor Spaces)</strong>: Newly created objects are placed in the <strong>Eden</strong> space. When Eden fills up, the GC robot sweeps it quickly, deleting unused objects. Objects that survive are moved to <strong>Survivor</strong> spaces. This quick sweep is called a <strong>Minor GC</strong>.</li>
+          <li><strong>Old Generation (Tenured Space)</strong>: If an object survives several rounds of Minor GC sweeps because it is referenced long-term (e.g., application configurations), the robot relocates it to the <strong>Old Gen</strong> space. This space is swept less frequently because the items here are expected to stay. A full sweep here is called a <strong>Major GC / Full GC</strong>.</li>
         </ol>
 
         <h2>Walkthrough of Code Scenarios</h2>
@@ -114,8 +114,8 @@
           </div>
           <p>When you run <code>Dish mainCourse = new Dish("Lasagna");</code>:</p>
           <ul>
-            <li>A reference variable <code>mainCourse</code> is placed on the **Stack** frame.</li>
-            <li>A new <code>Dish</code> object with the name "Lasagna" is allocated in the **Heap** (Eden space).</li>
+            <li>A reference variable <code>mainCourse</code> is placed on the <strong>Stack</strong> frame.</li>
+            <li>A new <code>Dish</code> object with the name "Lasagna" is allocated in the <strong>Heap</strong> (Eden space).</li>
             <li>The reference on the stack points to the object on the heap.</li>
           </ul>
         </div>
@@ -128,7 +128,7 @@
           <ul>
             <li>A new "Spaghetti" object is created on the heap.</li>
             <li>The reference <code>mainCourse</code> on the stack is updated to point to the new "Spaghetti" object.</li>
-            <li>The original "Lasagna" object on the heap now has **no references** pointing to it. It is orphaned (unreachable) and immediately becomes eligible for Garbage Collection!</li>
+            <li>The original "Lasagna" object on the heap now has <strong>no references</strong> pointing to it. It is orphaned (unreachable) and immediately becomes eligible for Garbage Collection!</li>
           </ul>
         </div>
 
@@ -190,7 +190,7 @@ class Dish {
 }</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Java's split memory model makes execution fast and safe. The **Stack** is used for quick, structured method executions, while the **Heap** holds larger dynamic objects. Thanks to the **Garbage Collector**, developers don't have to write cleanup code—the JVM automatically monitors references and sweeps away garbage, preventing memory leaks and keeping programs running smoothly!</p>
+        <p>Java's split memory model makes execution fast and safe. The <strong>Stack</strong> is used for quick, structured method executions, while the <strong>Heap</strong> holds larger dynamic objects. Thanks to the <strong>Garbage Collector</strong>, developers don't have to write cleanup code—the JVM automatically monitors references and sweeps away garbage, preventing memory leaks and keeping programs running smoothly!</p>
       </div>
 
     </article>

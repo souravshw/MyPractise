@@ -111,7 +111,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>An interesting coding problem is to find the **longest chain of numbers** in an array where each number in the chain is exactly 1 larger than the one before it, and we must preserve the array order (we can only search forward, skipping elements that don't fit).</p>
+        <p>An interesting coding problem is to find the <strong>longest chain of numbers</strong> in an array where each number in the chain is exactly 1 larger than the one before it, and we must preserve the array order (we can only search forward, skipping elements that don't fit).</p>
         
         <p>Let's understand how we search for these runs using a simple card-stacking game analogy.</p>
 
@@ -127,7 +127,7 @@
             Real-World Analogy: The Left-To-Right Card Run
           </div>
           <p>Imagine you have cards spread out in a row on a table. You want to construct the longest possible sequence of cards that increase by exactly 1 (like <code>0 → 1 → 2 → 3 → 4</code>).</p>
-          <p>However, you must follow a strict rule: **you can only pick cards from left to right** (no backtracking!).</p>
+          <p>However, you must follow a strict rule: <strong>you can only pick cards from left to right</strong> (no backtracking!).</p>
           <ul>
             <li>You start with the first card (e.g. <code>0</code>).</li>
             <li>You scan the table to the right looking for a card that is exactly <code>1</code>.</li>
@@ -170,7 +170,7 @@ int maxCount = 0;</code></pre>
           <div class="analogy-box-title" style="color: var(--accent-color);">
             Step 3: Checking subsequent starting points
           </div>
-          <p>The outer loop moves to index 1 (starting at value <code>1</code>), index 2 (starting at <code>26</code>), and so on. None of these runs can reach a length of 5. The program prints the winning run length: **5**.</p>
+          <p>The outer loop moves to index 1 (starting at value <code>1</code>), index 2 (starting at <code>26</code>), and so on. None of these runs can reach a length of 5. The program prints the winning run length: <strong>5</strong>.</p>
         </div>
 
         <h2>Java Implementation</h2>

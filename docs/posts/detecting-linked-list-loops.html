@@ -129,9 +129,9 @@
           <p>Imagine you are exploring a series of connected rooms (Nodes). Each room has a single door leading to the next room.</p>
           <p>You want to check if you are walking in a circle. Here is your plan:</p>
           <ul>
-            <li>Every time you walk into a room, you put a **bright neon sticky note** on the door (we mark <code>isTraversed = true</code>).</li>
+            <li>Every time you walk into a room, you put a <strong>bright neon sticky note</strong> on the door (we mark <code>isTraversed = true</code>).</li>
             <li>Before you walk through any door, you check if there is already a sticky note on it.</li>
-            <li>If you find a sticky note, you shout: **"Loop Detected! I've been in this room before!"**</li>
+            <li>If you find a sticky note, you shout: <strong>"Loop Detected! I've been in this room before!"</strong></li>
             <li>If you reach a dead end (a room with no door to follow, i.e., <code>null</code>), you know there is no loop!</li>
           </ul>
         </div>
@@ -159,7 +159,7 @@ c.nextNode = b; // Cycle created! C -> B</code></pre>
             <li><strong>Check Node A:</strong> Is Node A visited? No (<code>isTraversed</code> is false). Mark Node A as visited: <code>a.isTraversed = true</code>. Move to Node B.</li>
             <li><strong>Check Node B:</strong> Is Node B visited? No. Mark Node B: <code>b.isTraversed = true</code>. Move to Node C.</li>
             <li><strong>Check Node C:</strong> Is Node C visited? No. Mark Node C: <code>c.isTraversed = true</code>. Move to Node C's next node: Node B.</li>
-            <li><strong>Check Node B again:</strong> Is Node B visited? **Yes!** (<code>b.isTraversed == true</code>). A loop is detected! The program immediately returns true.</li>
+            <li><strong>Check Node B again:</strong> Is Node B visited? <strong>Yes!</strong> (<code>b.isTraversed == true</code>). A loop is detected! The program immediately returns true.</li>
           </ul>
         </div>
 

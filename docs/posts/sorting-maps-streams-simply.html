@@ -75,7 +75,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>A standard Java **Map** (like a HashMap) is designed for fast lookups, but it **does not guarantee any order** of its elements. Sorting Map entries by their keys is easy, but sorting Map entries by their **values** requires converting the map entries into a stream, applying a comparator, and collecting the ordered elements back into a Map structure that remembers insertion order.</p>
+        <p>A standard Java <strong>Map</strong> (like a HashMap) is designed for fast lookups, but it <strong>does not guarantee any order</strong> of its elements. Sorting Map entries by their keys is easy, but sorting Map entries by their <strong>values</strong> requires converting the map entries into a stream, applying a comparator, and collecting the ordered elements back into a Map structure that remembers insertion order.</p>
         
         <p>Let's look at how we sort Map values using a simple leaderboard wall analogy.</p>
 
@@ -90,7 +90,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Leaderboard Wall
           </div>
-          <p>Imagine you run a company. You have a folder (the unsorted HashMap) containing records matching **salary numbers** to **Employee cards** (e.g. key `500` pointing to Employee `S1`). Because they are inside a folder, they are shuffled in no particular order.</p>
+          <p>Imagine you run a company. You have a folder (the unsorted HashMap) containing records matching <strong>salary numbers</strong> to <strong>Employee cards</strong> (e.g. key `500` pointing to Employee `S1`). Because they are inside a folder, they are shuffled in no particular order.</p>
           <p>You want to display a sorted ranking wall (the leaderboard) from highest salary to lowest:</p>
           <ul>
             <li>You pull the cards out of the folder and slide them onto a conveyor belt one-by-one (converting map entries to a Stream).</li>
@@ -128,10 +128,10 @@ salaryEmployeeMap.put(800, new TestEmployee(800, "S2", 2));
           </div>
           <p>The stream sorts the entries based on their employee values:</p>
           <pre><code class="language-java">.sorted(Map.Entry.comparingByValue((o1, o2) -> Integer.compare(o2.getSalary(), o1.getSalary())))</code></pre>
-          <p>The comparator compares the salary of the second object <code>o2</code> against the first <code>o1</code>. Since <code>o2</code> is placed first in the comparison, it forces a **descending** sort order (highest salary first):</p>
+          <p>The comparator compares the salary of the second object <code>o2</code> against the first <code>o1</code>. Since <code>o2</code> is placed first in the comparison, it forces a <strong>descending</strong> sort order (highest salary first):</p>
           <ul>
             <li><strong>S4 (900)</strong> vs. <strong>S2 (800)</strong> -> S4 is larger, moves to the front.</li>
-            <li>The resulting sorted order of employee names becomes: **S4, S2, S1, S3**.</li>
+            <li>The resulting sorted order of employee names becomes: <strong>S4, S2, S1, S3</strong>.</li>
           </ul>
         </div>
 
@@ -141,7 +141,7 @@ salaryEmployeeMap.put(800, new TestEmployee(800, "S2", 2));
           </div>
           <p>Finally, the sorted elements are iterated over and added to the output container:</p>
           <pre><code class="language-java">.forEach(eachEntry -> output.put(eachEntry.getValue().getName(), eachEntry.getValue().getSalary()));</code></pre>
-          <p>Because `output` is a **LinkedHashMap**, it remembers the order in which entries were inserted, successfully preserving the sorted leaderboard ranking!</p>
+          <p>Because `output` is a <strong>LinkedHashMap</strong>, it remembers the order in which entries were inserted, successfully preserving the sorted leaderboard ranking!</p>
         </div>
 
         <h2>Java Implementation</h2>

@@ -127,8 +127,8 @@
             Real-World Analogy: A Busy Restaurant Kitchen
           </div>
           <p>Imagine a bustling restaurant kitchen handling hundreds of orders on a Friday night:</p>
-          <p>Waiters do not run directly into the kitchen to scream orders at individual chefs. Instead, they write orders on slips and place them on a **central ticket carousel wheel (the "orders" topic)**.</p>
-          <p>A **validation chef** reviews the tickets to ensure the kitchen has the ingredients (inventory check). Approved tickets get stamped and placed on the **prep counter (the "orders-validated" topic)**. From there, separate prep chefs (consumers) slice vegetables, grill meat, and plate the final dishes (the "orders-fulfilled" topic) in parallel.</p>
+          <p>Waiters do not run directly into the kitchen to scream orders at individual chefs. Instead, they write orders on slips and place them on a <strong>central ticket carousel wheel (the "orders" topic)</strong>.</p>
+          <p>A <strong>validation chef</strong> reviews the tickets to ensure the kitchen has the ingredients (inventory check). Approved tickets get stamped and placed on the <strong>prep counter (the "orders-validated" topic)</strong>. From there, separate prep chefs (consumers) slice vegetables, grill meat, and plate the final dishes (the "orders-fulfilled" topic) in parallel.</p>
         </div>
 
         <h2>High-Level Architecture</h2>
@@ -140,7 +140,7 @@
           <li><strong><code>orders-validated</code>:</strong> Holds validated orders ready for payment and shipment processing.</li>
           <li><strong><code>orders-fulfilled</code>:</strong> Stash of successfully processed and paid orders.</li>
           <li><strong><code>orders-dlq</code>:</strong> Holds malformed or invalid orders for debugging.</li>
-          <li><strong>Partitioning Key:</strong> Use <code>customerId</code> or <code>orderId</code>. Using <code>customerId</code> ensures all orders placed by the same user are processed sequentially on the same partition. Assign **12 to 24 partitions** to allow scaling consumer groups up to 12–24 parallel instances.</li>
+          <li><strong>Partitioning Key:</strong> Use <code>customerId</code> or <code>orderId</code>. Using <code>customerId</code> ensures all orders placed by the same user are processed sequentially on the same partition. Assign <strong>12 to 24 partitions</strong> to allow scaling consumer groups up to 12–24 parallel instances.</li>
         </ul>
 
         <h3>2. Safe Producers</h3>
@@ -159,7 +159,7 @@ max.in.flight.requests.per.connection=5</code></pre>
         </ul>
 
         <h2>Type Safety with Schema Registry</h2>
-        <p>To avoid bad data corrupting your downstream microservices, use **Avro Schemas** enforced by a central **Schema Registry** (like Confluent Schema Registry). This ensures that producers cannot publish events that do not conform to the predefined order model.</p>
+        <p>To avoid bad data corrupting your downstream microservices, use <strong>Avro Schemas</strong> enforced by a central <strong>Schema Registry</strong> (like Confluent Schema Registry). This ensures that producers cannot publish events that do not conform to the predefined order model.</p>
         
         <pre><code class="language-java">// Example order model instantiation and production
 Properties props = new Properties();

@@ -111,7 +111,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>A classic software engineering puzzle (often called **Two Sum**) asks: Given an array of integers and a target sum, check if there are any two numbers that add up to the target. While a nested-loop approach is easy to write, it runs in slow <code>O(N²)</code> time. We can solve this in fast <code>O(N)</code> time using a **complements search**.</p>
+        <p>A classic software engineering puzzle (often called <strong>Two Sum</strong>) asks: Given an array of integers and a target sum, check if there are any two numbers that add up to the target. While a nested-loop approach is easy to write, it runs in slow <code>O(N²)</code> time. We can solve this in fast <code>O(N)</code> time using a <strong>complements search</strong>.</p>
         
         <p>In this guide, we will implement the complements lookup algorithm using a <code>HashSet</code> and a Java Stream.</p>
 
@@ -126,12 +126,12 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: Finding Dance Partners
           </div>
-          <p>Imagine people standing in a room, each holding a numbered card. You want to find if any two cards sum up to **9**:</p>
+          <p>Imagine people standing in a room, each holding a numbered card. You want to find if any two cards sum up to <strong>9</strong>:</p>
           <ul>
-            <li>A person holding card **7** enters. They calculate: "I need a partner holding card <code>9 - 7 = 2</code>."</li>
+            <li>A person holding card <strong>7</strong> enters. They calculate: "I need a partner holding card <code>9 - 7 = 2</code>."</li>
             <li>They check a chalkboard (HashSet) where previous entries are written. Since 2 is not on the board, they write "7" on the board and sit down.</li>
-            <li>Later, a person holding card **2** enters. They calculate: "I need card <code>9 - 2 = 7</code>."</li>
-            <li>They check the chalkboard, see **7** is already written there, and yell: "Match Found!"</li>
+            <li>Later, a person holding card <strong>2</strong> enters. They calculate: "I need card <code>9 - 2 = 7</code>."</li>
+            <li>They check the chalkboard, see <strong>7</strong> is already written there, and yell: "Match Found!"</li>
             <li>We found our pair in a single pass without making everyone compare cards with everyone else.</li>
           </ul>
         </div>

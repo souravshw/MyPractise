@@ -150,13 +150,13 @@
         <p>A <strong>Topic</strong> is a channel or folder name where records are published. Topics are always multi-subscriber, meaning many consumers can read from the same topic independently.</p>
 
         <h3>5. Partition</h3>
-        <p>Topics are divided into **Partitions**. A partition is an ordered, immutable sequence of records. Partitions are the key to Kafka's speed: because topics are divided into parts, Kafka can spread these parts across different brokers, allowing multiple machines to read and write in parallel.</p>
+        <p>Topics are divided into <strong>Partitions</strong>. A partition is an ordered, immutable sequence of records. Partitions are the key to Kafka's speed: because topics are divided into parts, Kafka can spread these parts across different brokers, allowing multiple machines to read and write in parallel.</p>
 
         <h3>6. Offset</h3>
         <p>Every message inside a partition is assigned a unique, sequential number called an <strong>Offset</strong>. Offsets are strictly sequential (0, 1, 2, 3...) and help consumers keep track of what they have already read.</p>
 
         <h3>7. ZooKeeper / KRaft</h3>
-        <p>A distributed system needs a manager to keep track of which brokers are alive and who is in charge. Historically, Kafka used **ZooKeeper** for this coordinator role. Modern Kafka versions use **KRaft** (Kafka Raft Metadata Mode), which builds this consensus system directly inside Kafka brokers for faster recovery and less operational complexity.</p>
+        <p>A distributed system needs a manager to keep track of which brokers are alive and who is in charge. Historically, Kafka used <strong>ZooKeeper</strong> for this coordinator role. Modern Kafka versions use <strong>KRaft</strong> (Kafka Raft Metadata Mode), which builds this consensus system directly inside Kafka brokers for faster recovery and less operational complexity.</p>
 
         <h2>Conclusion</h2>
         <p>By splitting data into Topics, spreading them across Brokers in parallel Partitions, and tracking reading status via Offsets, Apache Kafka achieves incredible performance. Next time you work with Kafka, remember this library system coordinates millions of messages a second using these simple building blocks.</p>

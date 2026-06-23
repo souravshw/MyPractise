@@ -136,10 +136,10 @@
         <p>Brokers continuously send heartbeat pings to the active cluster coordinator (managed by ZooKeeper or the KRaft quorum). If a broker crashes or fails to send a heartbeat within the timeout window, the coordinator marks that broker as offline.</p>
 
         <h3>Step 2: In-Sync Replica (ISR) Update</h3>
-        <p>For any partitions where the crashed broker was a **follower**, no leader election is necessary. The leader simply shrinks its **In-Sync Replicas (ISR)** pool by removing the failed broker. Replicas drop, and the cluster administrator is alerted of under-replicated partitions.</p>
+        <p>For any partitions where the crashed broker was a <strong>follower</strong>, no leader election is necessary. The leader simply shrinks its <strong>In-Sync Replicas (ISR)</strong> pool by removing the failed broker. Replicas drop, and the cluster administrator is alerted of under-replicated partitions.</p>
 
         <h3>Step 3: Leader Election</h3>
-        <p>For any partitions where the crashed broker was the active **leader**, the cluster controller elects a new leader. The controller scans the partition's active ISR list and selects a new leader (typically the next follower listed in the metadata configuration).</p>
+        <p>For any partitions where the crashed broker was the active <strong>leader</strong>, the cluster controller elects a new leader. The controller scans the partition's active ISR list and selects a new leader (typically the next follower listed in the metadata configuration).</p>
 
         <h3>Step 4: Client Redirection</h3>
         <p>Producers and consumers sending data to the crashed leader will experience brief timeouts. However, the Kafka client libraries automatically handle this: they request updated cluster metadata from any remaining online broker, learn who the new partition leader is, and seamlessly redirect all future reads and writes to the new node.</p>

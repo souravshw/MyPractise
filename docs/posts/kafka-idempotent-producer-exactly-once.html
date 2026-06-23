@@ -111,7 +111,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In messaging systems, network glitches happen. If a producer sends a message to Kafka, the broker writes it, but the acknowledgment fails due to a network drop, the producer will assume the message was lost and retry. This results in **duplicate messages** in your topic.</p>
+        <p>In messaging systems, network glitches happen. If a producer sends a message to Kafka, the broker writes it, but the acknowledgment fails due to a network drop, the producer will assume the message was lost and retry. This results in <strong>duplicate messages</strong> in your topic.</p>
         
         <p>Duplicate messages can break business logic (such as charging a customer twice for an order). To fix this, Kafka introduces the <strong>Idempotent Producer</strong>, a native way to ensure that retried messages do not create duplicates.</p>
 
@@ -157,14 +157,14 @@ props.put("enable.idempotence", "true");
 KafkaProducer<String, String> producer = new KafkaProducer<>(props);</code></pre>
 
         <h2>Achieving Exactly-Once Semantics (EOS)</h2>
-        <p>The idempotent producer handles deduplication between a single producer and a partition. To achieve **Exactly-Once Semantics (EOS)** across a complete data pipeline (read-process-write), Kafka combines idempotence with two other concepts:</p>
+        <p>The idempotent producer handles deduplication between a single producer and a partition. To achieve <strong>Exactly-Once Semantics (EOS)</strong> across a complete data pipeline (read-process-write), Kafka combines idempotence with two other concepts:</p>
         <ul>
           <li><strong>Transactional Producer:</strong> Allows you to write to multiple partitions atomically. Either all messages are written successfully, or none are.</li>
           <li><strong>read_committed Isolation:</strong> Consumers can be configured with <code>isolation.level = read_committed</code>, ensuring they skip messages from aborted transactions.</li>
         </ul>
 
         <h2>Conclusion</h2>
-        <p>Duplicate records can corrupt database registers and break transaction models. By enabling the **Idempotent Producer**, you ensure that network-based retries do not duplicate records on brokers, laying the foundation for true Exactly-Once processing pipelines.</p>
+        <p>Duplicate records can corrupt database registers and break transaction models. By enabling the <strong>Idempotent Producer</strong>, you ensure that network-based retries do not duplicate records on brokers, laying the foundation for true Exactly-Once processing pipelines.</p>
       </div>
 
     </article>

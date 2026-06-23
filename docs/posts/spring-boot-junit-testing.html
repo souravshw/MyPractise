@@ -75,9 +75,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In modern software engineering, writing automated tests is just as important as writing the application code itself. Spring Boot makes testing highly structured by separating tests into **Unit Tests** (which verify single classes in isolation using Mockito mocks) and **Integration Tests** (which boot up the full Spring context to verify how all components work together).</p>
+        <p>In modern software engineering, writing automated tests is just as important as writing the application code itself. Spring Boot makes testing highly structured by separating tests into <strong>Unit Tests</strong> (which verify single classes in isolation using Mockito mocks) and <strong>Integration Tests</strong> (which boot up the full Spring context to verify how all components work together).</p>
         
-        <p>Let's look at how we test a **User Registration system** using simple real-world analogies.</p>
+        <p>Let's look at how we test a <strong>User Registration system</strong> using simple real-world analogies.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -90,17 +90,17 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: Crash Dummies &amp; Movie Rehearsals
           </div>
-          <p>How do we make sure our application works in both good times and bad times? We design tests for both the **Happy Path** (correct inputs) and the **Sad Path** (failures/invalid states):</p>
+          <p>How do we make sure our application works in both good times and bad times? We design tests for both the <strong>Happy Path</strong> (correct inputs) and the <strong>Sad Path</strong> (failures/invalid states):</p>
           
           <h4 style="margin-top:1rem; margin-bottom:0.5rem; color:var(--primary-color);">1. Unit Testing with Mocking (The Crash Test Dummy)</h4>
-          <p>Imagine you want to test if a car's seatbelt (the Service) works. You don't put a real human driver in a real car and crash it on a highway. Instead, you put a **crash test dummy (a Mock)** in a mock seatbelt holder inside a lab:</p>
+          <p>Imagine you want to test if a car's seatbelt (the Service) works. You don't put a real human driver in a real car and crash it on a highway. Instead, you put a <strong>crash test dummy (a Mock)</strong> in a mock seatbelt holder inside a lab:</p>
           <ul>
             <li><strong>Happy Path:</strong> You click the seatbelt (method call). The dummy locks in place safely (assert true).</li>
             <li><strong>Sad Path:</strong> You try to click it with a dummy that is too large or out of position (bad input). The seatbelt fails to click and trigger an alarm (throws expected validation exception).</li>
           </ul>
 
           <h4 style="margin-top:1rem; margin-bottom:0.5rem; color:var(--primary-color);">2. Integration Testing (The Movie Set Rehearsal)</h4>
-          <p>Before filming a complex scene, the movie crew does a **full dress rehearsal (Integration Test)** on the actual set (Spring context) with all components active—actors, cameras, lighting, and props:</p>
+          <p>Before filming a complex scene, the movie crew does a <strong>full dress rehearsal (Integration Test)</strong> on the actual set (Spring context) with all components active—actors, cameras, lighting, and props:</p>
           <ul>
             <li><strong>Happy Path:</strong> The main actor (the Controller) walks in, orders food from the waiter (the Service), and pays at the cash register (the Database). Everything goes smoothly from start to finish.</li>
             <li><strong>Sad Path:</strong> The actor walks in, but tries to pay with a fake check (invalid registration/duplicate email). The register alarms, the waiter rejects it, and the actor is thrown out (assert correct error code propagates through all layers).</li>
@@ -287,7 +287,7 @@ public class UserIntegrationTest {
 }</code></pre>
 
         <h2>Conclusion</h2>
-        <p>By balancing unit tests and integration tests, you create a robust safety net for your Spring Boot application. **Unit tests with Mockito and MockMvc** allow you to quickly verify code logic and bad input handling in isolation. **Integration tests with @SpringBootTest** ensure that database tables, configuration beans, and HTTP routes connect and run smoothly together in production!</p>
+        <p>By balancing unit tests and integration tests, you create a robust safety net for your Spring Boot application. <strong>Unit tests with Mockito and MockMvc</strong> allow you to quickly verify code logic and bad input handling in isolation. <strong>Integration tests with @SpringBootTest</strong> ensure that database tables, configuration beans, and HTTP routes connect and run smoothly together in production!</p>
       </div>
 
     </article>

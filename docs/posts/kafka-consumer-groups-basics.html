@@ -128,19 +128,19 @@
           </div>
           <p>Imagine a hotel with 4 dirty rooms (partitions 0, 1, 2, and 3):</p>
           <ul>
-            <li>If you have **1 housekeeper** (a single consumer instance), they must clean all 4 rooms one after another. It takes a long time.</li>
-            <li>If you hire a team of **2 housekeepers** (a consumer group), they split the load. Housekeeper A cleans rooms 0 & 1, while Housekeeper B cleans rooms 2 & 3. They clean the hotel twice as fast!</li>
-            <li>If you bring in **4 housekeepers**, each takes exactly 1 room.</li>
-            <li>If you bring in **5 housekeepers**, 4 will take a room, and 1 will sit in the lobby drinking coffee (idle) because you can't split a single room (partition) between two workers without them stepping on each other's toes.</li>
+            <li>If you have <strong>1 housekeeper</strong> (a single consumer instance), they must clean all 4 rooms one after another. It takes a long time.</li>
+            <li>If you hire a team of <strong>2 housekeepers</strong> (a consumer group), they split the load. Housekeeper A cleans rooms 0 & 1, while Housekeeper B cleans rooms 2 & 3. They clean the hotel twice as fast!</li>
+            <li>If you bring in <strong>4 housekeepers</strong>, each takes exactly 1 room.</li>
+            <li>If you bring in <strong>5 housekeepers</strong>, 4 will take a room, and 1 will sit in the lobby drinking coffee (idle) because you can't split a single room (partition) between two workers without them stepping on each other's toes.</li>
           </ul>
         </div>
 
         <h2>How Partition Assignment Works</h2>
         <p>When you start a consumer client, you assign it a <code>group.id</code>. All consumer instances with the same <code>group.id</code> form a single group. Kafka coordinates them using these core rules:</p>
         <ul>
-          <li>Each partition inside a topic is assigned to **exactly one consumer** in the group.</li>
-          <li>If the number of consumers in a group is **greater** than the number of partitions, the extra consumers will sit idle.</li>
-          <li>If the number of consumers is **less** than the number of partitions, some consumers will read from multiple partitions.</li>
+          <li>Each partition inside a topic is assigned to <strong>exactly one consumer</strong> in the group.</li>
+          <li>If the number of consumers in a group is <strong>greater</strong> than the number of partitions, the extra consumers will sit idle.</li>
+          <li>If the number of consumers is <strong>less</strong> than the number of partitions, some consumers will read from multiple partitions.</li>
         </ul>
 
         <h2>Basic Java Consumer Example</h2>
@@ -178,7 +178,7 @@ try {
 }</code></pre>
 
         <h2>Broadcast (Fan-Out) Patterns</h2>
-        <p>If you want two different microservices (e.g., an Inventory Service and an Analytics Service) to read the <em>exact same messages</em> from a topic, you simply assign them **different consumer group IDs** (e.g., <code>group.id = inventory-service</code> and <code>group.id = analytics-service</code>). Kafka will send copy streams to both groups independently.</p>
+        <p>If you want two different microservices (e.g., an Inventory Service and an Analytics Service) to read the <em>exact same messages</em> from a topic, you simply assign them <strong>different consumer group IDs</strong> (e.g., <code>group.id = inventory-service</code> and <code>group.id = analytics-service</code>). Kafka will send copy streams to both groups independently.</p>
 
         <h2>Conclusion</h2>
         <p>Consumer Groups are what make Kafka highly scalable. By linking partition count to consumer counts, you can increase your processing capacity on the fly by simply adding new consumer instances. Just make sure to size your topic partitions with enough buffer to support your future consumer scale.</p>

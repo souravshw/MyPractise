@@ -111,7 +111,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>A common algorithmic puzzle is to compare values across two arrays to see which index positions have elements that sum to a specific **target number** (e.g. 10). What makes this puzzle interesting is that the two arrays can have **different lengths**, so we must handle index out-of-bounds conditions safely to prevent our code from crashing.</p>
+        <p>A common algorithmic puzzle is to compare values across two arrays to see which index positions have elements that sum to a specific <strong>target number</strong> (e.g. 10). What makes this puzzle interesting is that the two arrays can have <strong>different lengths</strong>, so we must handle index out-of-bounds conditions safely to prevent our code from crashing.</p>
         
         <p>Let's look at how we solve this using a simple card flipping game analogy.</p>
 
@@ -126,12 +126,12 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Card Flipping Game
           </div>
-          <p>Imagine you have two piles of cards lying side-by-side. Pile 1 has **6 cards** and Pile 2 has **10 cards**.</p>
+          <p>Imagine you have two piles of cards lying side-by-side. Pile 1 has <strong>6 cards</strong> and Pile 2 has <strong>10 cards</strong>.</p>
           <p>You play a game to count how many index pairs sum to exactly 10:</p>
           <ul>
             <li>You flip the top card from both piles at the same time (index = 0). If their values sum to 10, you record a score!</li>
             <li>You repeat this index-by-index down the decks.</li>
-            <li>When Pile 1 runs out of cards after the 6th flip, you don't stop the game. Instead, you pretend the empty slots are **0-value cards** and keep comparing them with the remaining cards in Pile 2 until both decks are exhausted.</li>
+            <li>When Pile 1 runs out of cards after the 6th flip, you don't stop the game. Instead, you pretend the empty slots are <strong>0-value cards</strong> and keep comparing them with the remaining cards in Pile 2 until both decks are exhausted.</li>
           </ul>
         </div>
 
@@ -172,7 +172,7 @@ int count = 0;</code></pre>
             <li><strong>Index 6:</strong> `firstArr[6]` throws an out-of-bounds error and is caught inside our `getNumber` helper, returning `0`. Result: `0 + 9 = 9` (no).</li>
             <li><strong>Index 7 to 9:</strong> Out of bounds. Returns `0`. Sums are not matching target.</li>
           </ul>
-          <p>At the end, the program prints the total matches found: **2**.</p>
+          <p>At the end, the program prints the total matches found: <strong>2</strong>.</p>
         </div>
 
         <h2>Java Implementation</h2>

@@ -111,7 +111,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In a large production cluster, hardware failures are inevitable. Hard drives fail, network switches disconnect, and servers crash. To ensure your streaming data remains available despite these issues, Kafka implements a robust partition-level **Replication Model**.</p>
+        <p>In a large production cluster, hardware failures are inevitable. Hard drives fail, network switches disconnect, and servers crash. To ensure your streaming data remains available despite these issues, Kafka implements a robust partition-level <strong>Replication Model</strong>.</p>
         
         <p>Replication ensures that multiple copies of your data exist across different brokers. If a server hosting your data crashes, Kafka instantly switches to another copy with zero downtime. Let's look at how this works.</p>
 
@@ -141,11 +141,11 @@
         </ul>
 
         <h2>What are In-Sync Replicas (ISR)?</h2>
-        <p>An **In-Sync Replica (ISR)** is any follower broker that is successfully keeping up with the leader. If a follower crashes or experiences network lag, it falls behind. If it doesn't catch up within 30 seconds (configured by <code>replica.lag.time.max.ms</code>), Kafka removes it from the ISR pool.</p>
-        <p>This is crucial: **Kafka will only elect a new leader from the active ISR pool** to guarantee that the new leader has all previously confirmed messages.</p>
+        <p>An <strong>In-Sync Replica (ISR)</strong> is any follower broker that is successfully keeping up with the leader. If a follower crashes or experiences network lag, it falls behind. If it doesn't catch up within 30 seconds (configured by <code>replica.lag.time.max.ms</code>), Kafka removes it from the ISR pool.</p>
+        <p>This is crucial: <strong>Kafka will only elect a new leader from the active ISR pool</strong> to guarantee that the new leader has all previously confirmed messages.</p>
 
         <h2>Topic Creation with Replication Factor</h2>
-        <p>When you create a topic, you define the <strong>Replication Factor</strong>. For production systems, a factor of **3** is the standard recommendation:</p>
+        <p>When you create a topic, you define the <strong>Replication Factor</strong>. For production systems, a factor of <strong>3</strong> is the standard recommendation:</p>
         <pre><code class="language-java">// Create a topic "payments" with 6 partitions and a replication factor of 3
 NewTopic paymentsTopic = new NewTopic("payments", 6, (short) 3);
 adminClient.createTopics(Collections.singletonList(paymentsTopic)).all().get();</code></pre>

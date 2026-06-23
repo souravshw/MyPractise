@@ -111,9 +111,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In stream processing, some actions are stateless, like converting string cases or filtering records. However, many production operations are **stateful**. If you need to count how many orders a user placed today, join two streams, or calculate a running average, your application must remember past data.</p>
+        <p>In stream processing, some actions are stateless, like converting string cases or filtering records. However, many production operations are <strong>stateful</strong>. If you need to count how many orders a user placed today, join two streams, or calculate a running average, your application must remember past data.</p>
         
-        <p>In standard architectures, you would query an external database (like Redis or MySQL) for every event. In Kafka Streams, you use **Local State Stores** to process stateful data at memory speeds.</p>
+        <p>In standard architectures, you would query an external database (like Redis or MySQL) for every event. In Kafka Streams, you use <strong>Local State Stores</strong> to process stateful data at memory speeds.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -128,7 +128,7 @@
           </div>
           <p>Imagine a chef cooking in a busy kitchen:</p>
           <p>If they had to walk to the back-office filing cabinet database every time they added a pinch of salt to check the customer's request history, they would cook very slowly.</p>
-          <p>Instead, they stick a **magnetic notepad (State Store)** on the refrigerator next to the stove. They quickly update and read order tallies from this notepad in milliseconds. If the kitchen catches fire (container crash), the manager recreates the notepad by reading a duplicate ledger kept at the front desk (Changelog Topic).</p>
+          <p>Instead, they stick a <strong>magnetic notepad (State Store)</strong> on the refrigerator next to the stove. They quickly update and read order tallies from this notepad in milliseconds. If the kitchen catches fire (container crash), the manager recreates the notepad by reading a duplicate ledger kept at the front desk (Changelog Topic).</p>
         </div>
 
         <h2>How State Stores Work</h2>
@@ -139,11 +139,11 @@
         </ul>
 
         <h2>RocksDB: The Default Engine</h2>
-        <p>By default, Kafka Streams uses **RocksDB** (an embedded, high-performance key-value store developed by Facebook) to write local state files to disk. You can also configure in-memory state stores if you have a small dataset and can afford to lose it on container restarts.</p>
+        <p>By default, Kafka Streams uses <strong>RocksDB</strong> (an embedded, high-performance key-value store developed by Facebook) to write local state files to disk. You can also configure in-memory state stores if you have a small dataset and can afford to lose it on container restarts.</p>
 
         <h2>Fault Tolerance: Changelog Topics</h2>
         <p>Since local disks can crash, how does Kafka Streams protect the state store? </p>
-        <p>Whenever your application writes to a local state store, the Kafka Streams client automatically writes a duplicate change record to an internal Kafka topic called a **Changelog Topic**. If your application container crashes, a new container boots up, reads the changelog topic from the beginning, and recreates the exact state store on its new local disk.</p>
+        <p>Whenever your application writes to a local state store, the Kafka Streams client automatically writes a duplicate change record to an internal Kafka topic called a <strong>Changelog Topic</strong>. If your application container crashes, a new container boots up, reads the changelog topic from the beginning, and recreates the exact state store on its new local disk.</p>
 
         <h2>Creating a Custom State Store in Java</h2>
         <p>While operations like <code>count()</code> create state stores automatically, you can declare a custom store programmatically:</p>

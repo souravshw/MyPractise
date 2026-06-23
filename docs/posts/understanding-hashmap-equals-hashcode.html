@@ -126,15 +126,15 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Broken Mailbox Labeling
           </div>
-          <p>Imagine a school sorting room with numbered **mailboxes**. When a mail sorter gets a letter, they use two steps to deliver and retrieve letters:</p>
+          <p>Imagine a school sorting room with numbered <strong>mailboxes</strong>. When a mail sorter gets a letter, they use two steps to deliver and retrieve letters:</p>
           <ul>
-            <li><strong>Step 1: The Box Number (`hashCode()`):</strong> The sorter looks at the name and converts it to a number. For example, any name starting with "A" gets sorted into Mailbox 1. This is the **hashCode**.</li>
-            <li><strong>Step 2: Checking the ID (`equals()`):</strong> If Mailbox 1 already has letters, the sorter must check the name on the envelope to find the correct letter. This is the **equals** check.</li>
+            <li><strong>Step 1: The Box Number (`hashCode()`):</strong> The sorter looks at the name and converts it to a number. For example, any name starting with "A" gets sorted into Mailbox 1. This is the <strong>hashCode</strong>.</li>
+            <li><strong>Step 2: Checking the ID (`equals()`):</strong> If Mailbox 1 already has letters, the sorter must check the name on the envelope to find the correct letter. This is the <strong>equals</strong> check.</li>
           </ul>
           <p>Now imagine we break the rules. We write a contract where:</p>
           <ol>
             <li>Every envelope we send gets placed in <strong>Mailbox 1</strong> (<code>hashCode()</code> always returns 1).</li>
-            <li>The ID check always returns **false** (<code>equals()</code> always says: "No, this is a different envelope").</li>
+            <li>The ID check always returns <strong>false</strong> (<code>equals()</code> always says: "No, this is a different envelope").</li>
           </ol>
           <p>When you send two letters addressed to "A", the sorter places the first letter in Mailbox 1. For the second letter, they go to Mailbox 1, check the name against the first letter, but because the equals check is broken, they think they are different and put the second letter in Mailbox 1 too. Mailbox 1 is now cluttered with duplicate letters, and you can never retrieve any letter because the sorter's identity check always says "Access Denied"!</p>
         </div>
@@ -162,7 +162,7 @@ map.put(ob1, ob1.getName());
 map.put(ob2, ob2.getName());</code></pre>
           <ul>
             <li><strong>First Put:</strong> The map evaluates <code>ob1.hashCode()</code>. The overridden method returns <code>1</code>, so the entry is stored in bucket 1.</li>
-            <li><strong>Second Put:</strong> The map evaluates <code>ob2.hashCode()</code>. It also returns <code>1</code>. The map goes to bucket 1 and finds `ob1` already exists. It then calls <code>ob2.equals(ob1)</code>. Because `equals()` is overridden to always return <code>false</code>, the map concludes they are different keys and adds `ob2` to bucket 1 as a new node, creating a **duplicate key**!</li>
+            <li><strong>Second Put:</strong> The map evaluates <code>ob2.hashCode()</code>. It also returns <code>1</code>. The map goes to bucket 1 and finds `ob1` already exists. It then calls <code>ob2.equals(ob1)</code>. Because `equals()` is overridden to always return <code>false</code>, the map concludes they are different keys and adds `ob2` to bucket 1 as a new node, creating a <strong>duplicate key</strong>!</li>
           </ul>
         </div>
 

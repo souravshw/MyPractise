@@ -113,7 +113,7 @@
       <div class="article-body">
         <p>By default, Apache Kafka deletes old messages after a configured time (e.g., 7 days) or when the topic reaches a certain size limit (e.g., 10GB). This is called the <code>delete</code> retention policy.</p>
         
-        <p>However, what if you are using Kafka to store data that represents the state of a system—like a user's profile information or account balances? You can't just delete this data after a week. To store state records efficiently without running out of disk space, Kafka provides **Log Compaction**.</p>
+        <p>However, what if you are using Kafka to store data that represents the state of a system—like a user's profile information or account balances? You can't just delete this data after a week. To store state records efficiently without running out of disk space, Kafka provides <strong>Log Compaction</strong>.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -128,16 +128,16 @@
           </div>
           <p>Imagine a directory board in an apartment building lobby:</p>
           <p>When a tenant moves or updates their phone number, the building supervisor doesn't add a new line to a growing list of hundreds of historical addresses. Instead, they find the tenant's name on the board, wipe off the old address, and write the new one in its place.</p>
-          <p>You only need to know **where the tenant lives right now**. Keeping a history of all their 10 old houses is a waste of board space. This board maintenance is **log compaction**.</p>
+          <p>You only need to know <strong>where the tenant lives right now</strong>. Keeping a history of all their 10 old houses is a waste of board space. This board maintenance is <strong>log compaction</strong>.</p>
         </div>
 
         <h2>How Log Compaction Works</h2>
-        <p>When log compaction is enabled on a topic (using <code>cleanup.policy=compact</code>), Kafka retains **at least the latest value** for each message key inside the topic partitions.</p>
+        <p>When log compaction is enabled on a topic (using <code>cleanup.policy=compact</code>), Kafka retains <strong>at least the latest value</strong> for each message key inside the topic partitions.</p>
         <p>A background thread on the broker called the <strong>Log Cleaner</strong> runs continuously. It scans inactive log segments. If it finds multiple messages sharing the same key, it keeps the message with the highest offset and deletes the older versions, reclaiming disk space.</p>
 
         <h2>Deleting Keys: Tombstone Records</h2>
         <p>If log compaction keeps the latest value for every key forever, how do you delete a key from the topic? </p>
-        <p>To delete a key, a producer publishes a message with that key and a **null payload**. This null-valued record is called a <strong>Tombstone</strong>. When the Log Cleaner runs, it recognizes the tombstone, deletes all older records for that key, and eventually clears the tombstone itself after a configured window (<code>delete.retention.ms</code>, default 24 hours).</p>
+        <p>To delete a key, a producer publishes a message with that key and a <strong>null payload</strong>. This null-valued record is called a <strong>Tombstone</strong>. When the Log Cleaner runs, it recognizes the tombstone, deletes all older records for that key, and eventually clears the tombstone itself after a configured window (<code>delete.retention.ms</code>, default 24 hours).</p>
 
         <h2>Use Cases for Compaction</h2>
         <ul>

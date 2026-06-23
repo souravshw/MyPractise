@@ -126,12 +126,12 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Hand-Holding Shoulder Line
           </div>
-          <p>Imagine a line of five children playing a game. Each child places their hands on the shoulders of the child **in front of them** (pointing to the next node):</p>
+          <p>Imagine a line of five children playing a game. Each child places their hands on the shoulders of the child <strong>in front of them</strong> (pointing to the next node):</p>
           <p style="text-align: center;"><code>Child 1 → Child 2 → Child 3 → Child 4 → Child 5</code></p>
           <p>To reverse the direction of this line, we cannot simply ask them to let go all at once, or they will lose track of who is where. Instead, we do it child-by-child using a 3-step shuffle:</p>
           <ul>
             <li><strong>Step 1 (Look behind):</strong> Before Child 2 lets go of Child 3, they make sure they know who is behind them (we store <code>Child 3</code> in a temporary variable).</li>
-            <li><strong>Step 2 (Redirect hand):</strong> Child 2 turns around and places their hands on the shoulders of the child **behind them** (Child 1).</li>
+            <li><strong>Step 2 (Redirect hand):</strong> Child 2 turns around and places their hands on the shoulders of the child <strong>behind them</strong> (Child 1).</li>
             <li><strong>Step 3 (Shift):</strong> We move our focus to the next child (Child 3) and repeat the process!</li>
           </ul>
         </div>

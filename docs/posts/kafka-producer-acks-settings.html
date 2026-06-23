@@ -111,9 +111,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In distributed systems, servers fail. To protect your data, Apache Kafka replicates messages across multiple brokers. But when you write a message, how do you know if it is safely stored? This is controlled by the **acks** (acknowledgment) setting on your producer.</p>
+        <p>In distributed systems, servers fail. To protect your data, Apache Kafka replicates messages across multiple brokers. But when you write a message, how do you know if it is safely stored? This is controlled by the <strong>acks</strong> (acknowledgment) setting on your producer.</p>
         
-        <p>Tuning the <code>acks</code> configuration is one of the most critical decisions you will make. It represents a fundamental trade-off: **How much performance are you willing to sacrifice for data durability?** Let's explore the three settings and their impacts.</p>
+        <p>Tuning the <code>acks</code> configuration is one of the most critical decisions you will make. It represents a fundamental trade-off: <strong>How much performance are you willing to sacrifice for data durability?</strong> Let's explore the three settings and their impacts.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -153,7 +153,7 @@
         </ul>
 
         <h3>3. acks = all (or -1) (Full Quorum Acknowledgment)</h3>
-        <p>The producer waits for the partition leader <em>and</em> all active **In-Sync Replicas (ISR)** to write the record to disk and acknowledge the write.</p>
+        <p>The producer waits for the partition leader <em>and</em> all active <strong>In-Sync Replicas (ISR)</strong> to write the record to disk and acknowledge the write.</p>
         <ul>
           <li><strong>Performance:</strong> Lowest throughput and highest latency due to network consensus.</li>
           <li><strong>Risk:</strong> Zero data loss (provided you have multiple replicas configured).</li>

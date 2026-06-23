@@ -111,7 +111,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Setting <code>acks=all</code> on your producer is the first step toward preventing data loss. But did you know that <code>acks=all</code> by itself **does not guarantee that your message is replicated**? </p>
+        <p>Setting <code>acks=all</code> on your producer is the first step toward preventing data loss. But did you know that <code>acks=all</code> by itself <strong>does not guarantee that your message is replicated</strong>? </p>
         
         <p>If your replication factor is 3, but 2 of your brokers crash, only 1 broker remains online. In this scenario, writing with <code>acks=all</code> will succeed after writing to the single remaining leader. If that broker then crashes, your data is gone forever. This is where <strong>min.insync.replicas</strong> becomes essential.</p>
 
@@ -126,13 +126,13 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: Co-Signing a Bank Document
           </div>
-          <p>Imagine a company bank account that normally requires **three executors** to approve a check (Replication Factor = 3).</p>
+          <p>Imagine a company bank account that normally requires <strong>three executors</strong> to approve a check (Replication Factor = 3).</p>
           <p>If two executors go on vacation, you only have one executor left. If you write a check, the single remaining executor signs it and releases the funds. However, having only one signature is highly risky (single point of failure).</p>
-          <p>To protect yourself, you establish a **co-signing rule**: "No funds can be released unless at least *two* executors sign the document" (min.insync.replicas = 2). If only one executor is in the office, the system rejects the transaction, preventing risky payments until a second executor returns.</p>
+          <p>To protect yourself, you establish a <strong>co-signing rule</strong>: "No funds can be released unless at least *two* executors sign the document" (min.insync.replicas = 2). If only one executor is in the office, the system rejects the transaction, preventing risky payments until a second executor returns.</p>
         </div>
 
         <h2>What is min.insync.replicas?</h2>
-        <p>The <code>min.insync.replicas</code> variable is a broker/topic level configuration. It defines the minimum number of In-Sync Replicas (ISR) that must acknowledge a write for the write to be considered successful, **but only when the producer writes with acks=all**.</p>
+        <p>The <code>min.insync.replicas</code> variable is a broker/topic level configuration. It defines the minimum number of In-Sync Replicas (ISR) that must acknowledge a write for the write to be considered successful, <strong>but only when the producer writes with acks=all</strong>.</p>
         
         <p>If the active ISR count falls below this limit, the broker rejects the write request and throws a <code>NotEnoughReplicasException</code> (or <code>NotEnoughReplicasAfterAppendException</code>) to the producer client.</p>
 
@@ -143,7 +143,7 @@
           <li><strong>min.insync.replicas (minISR):</strong> 2 (Ensures at least the leader and 1 follower must write the message before confirmation).</li>
           <li><strong>Producer acks:</strong> all (Forces the producer client to wait for this replication confirmation).</li>
         </ul>
-        <p>With this setup, you can tolerate **one broker failure** with zero data loss. If one broker fails, the ISR count drops to 2. Writes continue succeeding because the minISR limit of 2 is met. If a second broker fails, the ISR count drops to 1. Writes are rejected, protecting your data integrity by refusing to write to a single remaining node.</p>
+        <p>With this setup, you can tolerate <strong>one broker failure</strong> with zero data loss. If one broker fails, the ISR count drops to 2. Writes continue succeeding because the minISR limit of 2 is met. If a second broker fails, the ISR count drops to 1. Writes are rejected, protecting your data integrity by refusing to write to a single remaining node.</p>
 
         <h2>Example Configuration</h2>
         <p>In your broker's <code>server.properties</code> file, or when creating a topic, you define this limit:</p>

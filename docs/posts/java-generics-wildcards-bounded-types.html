@@ -111,7 +111,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In Java, generic collections are invariant. This means that even though <code>Integer</code> is a subclass of <code>Number</code>, an <code>ArrayList&lt;Integer&gt;</code> is <strong>not</strong> a subclass of <code>ArrayList&lt;Number&gt;</code>. To allow flexible relationships in collections, Java introduces **wildcards** (<code>?</code>) and **bounds**.</p>
+        <p>In Java, generic collections are invariant. This means that even though <code>Integer</code> is a subclass of <code>Number</code>, an <code>ArrayList&lt;Integer&gt;</code> is <strong>not</strong> a subclass of <code>ArrayList&lt;Number&gt;</code>. To allow flexible relationships in collections, Java introduces <strong>wildcards</strong> (<code>?</code>) and <strong>bounds</strong>.</p>
         
         <p>In this guide, we will explain upper bounds, lower bounds, and unbounded wildcards using a simple class hierarchy containing <code>Person</code>, <code>Student</code>, and <code>Teacher</code>.</p>
 
@@ -182,7 +182,7 @@ public static void main(String args[]) {
         <p>This method accepts an ArrayList containing any object type (String, Integer, Student, etc.) without throwing errors.</p>
 
         <h2>Conclusion</h2>
-        <p>Wildcards allow you to write reusable methods that accept subclasses or superclasses. Remember the **PECS** guideline:
+        <p>Wildcards allow you to write reusable methods that accept subclasses or superclasses. Remember the <strong>PECS</strong> guideline:
           <ul>
             <li><strong>Producer Extends:</strong> Use <code>? extends T</code> if you only read from the collection.</li>
             <li><strong>Consumer Super:</strong> Use <code>? super T</code> if you only write to the collection.</li>

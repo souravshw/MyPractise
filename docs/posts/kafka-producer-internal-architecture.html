@@ -139,10 +139,10 @@
         <p>The producer client performs several actions in sequence before network transmission begins:</p>
 
         <h3>1. Serialization</h3>
-        <p>Computers cannot transmit raw Java objects over network cables. The producer first passes your key and value through a **Serializer** (such as <code>StringSerializer</code> or <code>KafkaAvroSerializer</code>) to convert them into raw byte arrays.</p>
+        <p>Computers cannot transmit raw Java objects over network cables. The producer first passes your key and value through a <strong>Serializer</strong> (such as <code>StringSerializer</code> or <code>KafkaAvroSerializer</code>) to convert them into raw byte arrays.</p>
 
         <h3>2. Partitioning</h3>
-        <p>The serialized bytes pass to the **Partitioner**. If you specified a partition, it uses it. If not, it hashes the message key to select a partition, or runs a sticky round-robin pass to distribute messages across partitions.</p>
+        <p>The serialized bytes pass to the <strong>Partitioner</strong>. If you specified a partition, it uses it. If not, it hashes the message key to select a partition, or runs a sticky round-robin pass to distribute messages across partitions.</p>
 
         <h3>3. The Record Accumulator (Batching Buffer)</h3>
         <p>Instead of sending the message immediately, the producer stores the record in a memory buffer called the <strong>Record Accumulator</strong>. This accumulator has memory queues grouped by topic-partition. Messages are packed into batches (sized by <code>batch.size</code>, default 16KB).</p>

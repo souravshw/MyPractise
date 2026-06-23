@@ -164,6 +164,72 @@ KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer&lt;&gt;(props);
         <p>Consumer throughput is about efficiency. By waiting for slightly larger payload packets (<code>fetch.min.bytes</code>) and processing larger arrays of records in memory (<code>max.poll.records</code>), you reduce CPU overhead and network chat, allowing your applications to clear backlogs quickly.</p>
       </div>
 
+    
+      <!-- Navigation & Related Articles -->
+      <section class="post-navigation-related" id="post-navigation-related">
+        <div class="post-navigation">
+          
+          <a href="../posts/kafka-producer-high-throughput.html" class="nav-card prev-card">
+            <div class="nav-card-arrow prev-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </div>
+            <div class="nav-card-content">
+              <span class="nav-card-label">Previous Post</span>
+              <span class="nav-card-title">Key Producer Configurations for High Throughput in Kafka</span>
+            </div>
+          </a>
+          
+          <a href="../posts/kafka-why-is-kafka-so-fast.html" class="nav-card next-card">
+            <div class="nav-card-arrow next-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+            <div class="nav-card-content">
+              <span class="nav-card-label">Next Post</span>
+              <span class="nav-card-title">How Kafka Achieves High Throughput (Zero-Copy & Sequential I/O)</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="related-posts">
+          <h3 class="related-posts-title">Related Articles</h3>
+          <div class="related-posts-grid">
+            
+          <div class="related-card">
+            <a href="../posts/kafka-consumer-rebalancing.html" class="related-card-img">
+              <img src="../images/kafka_rebalancing.png" alt="Understanding Kafka Consumer Rebalancing and How to Minimize It">
+            </a>
+            <div class="related-card-content">
+              <div class="post-meta">
+                <span class="post-category">Kafka & Distributed Systems</span>
+              </div>
+              <h4 class="related-card-title"><a href="../posts/kafka-consumer-rebalancing.html">Understanding Kafka Consumer Rebalancing and How to Minimize It</a></h4>
+            </div>
+          </div>
+          <div class="related-card">
+            <a href="../posts/kafka-consumer-groups-basics.html" class="related-card-img">
+              <img src="../images/kafka_consumer_groups.png" alt="How Kafka Consumers and Consumer Groups Work">
+            </a>
+            <div class="related-card-content">
+              <div class="post-meta">
+                <span class="post-category">Kafka & Distributed Systems</span>
+              </div>
+              <h4 class="related-card-title"><a href="../posts/kafka-consumer-groups-basics.html">How Kafka Consumers and Consumer Groups Work</a></h4>
+            </div>
+          </div>
+          <div class="related-card">
+            <a href="../posts/kafka-streams-vs-consumer.html" class="related-card-img">
+              <img src="../images/kafka-streams-intro.svg" alt="Kafka Streams vs. Kafka Consumer: Which Should You Use?">
+            </a>
+            <div class="related-card-content">
+              <div class="post-meta">
+                <span class="post-category">Kafka & Distributed Systems</span>
+              </div>
+              <h4 class="related-card-title"><a href="../posts/kafka-streams-vs-consumer.html">Kafka Streams vs. Kafka Consumer: Which Should You Use?</a></h4>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
     </article>
   </main>
 

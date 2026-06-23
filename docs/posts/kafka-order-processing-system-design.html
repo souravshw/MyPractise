@@ -189,6 +189,72 @@ producer.send(new ProducerRecord&lt;&gt;("orders", newOrder.getOrderId(), newOrd
         <p>By decoupling your order validation, payment, and fulfillment pipelines using Kafka, you build a system that can absorb massive seasonal traffic surges, process payments in a transactionally safe manner, and recover gracefully from microservice crashes.</p>
       </div>
 
+    
+      <!-- Navigation & Related Articles -->
+      <section class="post-navigation-related" id="post-navigation-related">
+        <div class="post-navigation">
+          
+          <a href="../posts/kafka-dead-letter-queue-pattern.html" class="nav-card prev-card">
+            <div class="nav-card-arrow prev-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </div>
+            <div class="nav-card-content">
+              <span class="nav-card-label">Previous Post</span>
+              <span class="nav-card-title">How to Implement a Dead Letter Queue (DLQ) in Kafka</span>
+            </div>
+          </a>
+          
+          <a href="../posts/kafka-message-ordering-partitions.html" class="nav-card next-card">
+            <div class="nav-card-arrow next-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+            <div class="nav-card-content">
+              <span class="nav-card-label">Next Post</span>
+              <span class="nav-card-title">Handling Message Ordering in Kafka Across Partitions</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="related-posts">
+          <h3 class="related-posts-title">Related Articles</h3>
+          <div class="related-posts-grid">
+            
+          <div class="related-card">
+            <a href="../posts/kafka-idempotent-producer-exactly-once.html" class="related-card-img">
+              <img src="../images/kafka_exactly_once.png" alt="What is an Idempotent Producer in Kafka?">
+            </a>
+            <div class="related-card-content">
+              <div class="post-meta">
+                <span class="post-category">Kafka & Distributed Systems</span>
+              </div>
+              <h4 class="related-card-title"><a href="../posts/kafka-idempotent-producer-exactly-once.html">What is an Idempotent Producer in Kafka?</a></h4>
+            </div>
+          </div>
+          <div class="related-card">
+            <a href="../posts/kafka-zero-data-loss-configuration.html" class="related-card-img">
+              <img src="../images/kafka-zero-loss.svg" alt="How to Ensure Zero Data Loss in Apache Kafka">
+            </a>
+            <div class="related-card-content">
+              <div class="post-meta">
+                <span class="post-category">Kafka & Distributed Systems</span>
+              </div>
+              <h4 class="related-card-title"><a href="../posts/kafka-zero-data-loss-configuration.html">How to Ensure Zero Data Loss in Apache Kafka</a></h4>
+            </div>
+          </div>
+          <div class="related-card">
+            <a href="../posts/kafka-message-ordering-partitions.html" class="related-card-img">
+              <img src="../images/kafka-ordering.svg" alt="Handling Message Ordering in Kafka Across Partitions">
+            </a>
+            <div class="related-card-content">
+              <div class="post-meta">
+                <span class="post-category">Kafka & Distributed Systems</span>
+              </div>
+              <h4 class="related-card-title"><a href="../posts/kafka-message-ordering-partitions.html">Handling Message Ordering in Kafka Across Partitions</a></h4>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
     </article>
   </main>
 

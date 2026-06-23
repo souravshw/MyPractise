@@ -1,6 +1,16 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 117,
+    title: "Unit and Integration Testing in Spring Boot: A Simple Guide",
+    excerpt: "Learn how to write clean JUnit 5 unit and integration tests in Spring Boot. Understand Mockito mocking, MockMvc controller testing, and full integration tests simply.",
+    category: "Java Core & OOP",
+    date: "June 23, 2026",
+    readTime: "5 min read",
+    url: "posts/spring-boot-junit-testing.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
     id: 116,
     title: "Java Memory Management and Garbage Collection: A Simple Guide",
     excerpt: "Learn how Java manages Stack and Heap memory and how the Garbage Collector automatically reclaims memory, explained simply with a kitchen analogy.",

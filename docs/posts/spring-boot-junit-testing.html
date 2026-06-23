@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit and Integration Testing in Spring Boot: A Simple Guide | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/spring-boot-junit-testing.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java Core & OOP",
+      "item": "https://enggnotes.com/index.html?category=Java%20Core%20%26%20OOP"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Unit and Integration Testing in Spring Boot: A Simple Guide",
+      "item": "https://enggnotes.com/posts/spring-boot-junit-testing.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to write unit and integration tests in Spring Boot simply, using Mockito, MockMvc, and @SpringBootTest with real-world analogies.">
+  <meta name="keywords" content="springboot junit 5 tutorial, springboot mockito testing service, springboot mockmvc controller test, springboot integration test springboottest">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Unit and Integration Testing in Spring Boot: A Simple Guide | Engineering Notes">
+  <meta property="og:description" content="Learn how to write unit and integration tests in Spring Boot simply, using Mockito, MockMvc, and @SpringBootTest.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+         <ol>
+           <li><a href="../index.html">Home</a></li>
+           <li><a href="../index.html?category=Java Core & OOP">Java Core & OOP</a></li>
+           <li aria-current="page">Testing & JUnit</li>
+         </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java Core & OOP</span>
+          <span class="post-date">June 23, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">5 min read</span>
+        </div>
+        <h1 class="article-title">Unit and Integration Testing in Spring Boot: A Simple Guide</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In modern software engineering, writing automated tests is just as important as writing the application code itself. Spring Boot makes testing highly structured by separating tests into **Unit Tests** (which verify single classes in isolation using Mockito mocks) and **Integration Tests** (which boot up the full Spring context to verify how all components work together).</p>
+        
+        <p>Let's look at how we test a **User Registration system** using simple real-world analogies.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/springboot-junit-testing.svg" alt="Illustration of isolated unit tests with Mockito versus full Spring Boot integration tests" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: Crash Dummies &amp; Movie Rehearsals
+          </div>
+          <p>How do we make sure our application works in both good times and bad times? We design tests for both the **Happy Path** (correct inputs) and the **Sad Path** (failures/invalid states):</p>
+          
+          <h4 style="margin-top:1rem; margin-bottom:0.5rem; color:var(--primary-color);">1. Unit Testing with Mocking (The Crash Test Dummy)</h4>
+          <p>Imagine you want to test if a car's seatbelt (the Service) works. You don't put a real human driver in a real car and crash it on a highway. Instead, you put a **crash test dummy (a Mock)** in a mock seatbelt holder inside a lab:</p>
+          <ul>
+            <li><strong>Happy Path:</strong> You click the seatbelt (method call). The dummy locks in place safely (assert true).</li>
+            <li><strong>Sad Path:</strong> You try to click it with a dummy that is too large or out of position (bad input). The seatbelt fails to click and trigger an alarm (throws expected validation exception).</li>
+          </ul>
+
+          <h4 style="margin-top:1rem; margin-bottom:0.5rem; color:var(--primary-color);">2. Integration Testing (The Movie Set Rehearsal)</h4>
+          <p>Before filming a complex scene, the movie crew does a **full dress rehearsal (Integration Test)** on the actual set (Spring context) with all components active—actors, cameras, lighting, and props:</p>
+          <ul>
+            <li><strong>Happy Path:</strong> The main actor (the Controller) walks in, orders food from the waiter (the Service), and pays at the cash register (the Database). Everything goes smoothly from start to finish.</li>
+            <li><strong>Sad Path:</strong> The actor walks in, but tries to pay with a fake check (invalid registration/duplicate email). The register alarms, the waiter rejects it, and the actor is thrown out (assert correct error code propagates through all layers).</li>
+          </ul>
+        </div>
+
+        <h2>The Application Code</h2>
+        <p>Let's look at the simple User Registration codebase we want to test. It contains a Service layer and a Controller layer:</p>
+
+        <!-- Service & Controller Source Code -->
+        <pre><code class="language-java">// User Entity
+public class User {
+    private String email;
+    private String name;
+
+    public User(String email, String name) {
+        this.email = email;
+        this.name = name;
+    }
+    public String getEmail() { return email; }
+    public String getName() { return name; }
+}
+
+// Custom Exception for duplicate emails (Sad Path)
+public class DuplicateEmailException extends RuntimeException {
+    public DuplicateEmailException(String message) { super(message); }
+}
+
+// User Service
+public class UserService {
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public User registerUser(User user) {
+        if (user.getName() == null || user.getName().isBlank()) {
+            throw new IllegalArgumentException("Name cannot be blank");
+        }
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new DuplicateEmailException("Email already exists");
+        }
+        return userRepository.save(user);
+    }
+}
+
+// User Controller
+@RestController
+@RequestMapping("/users")
+public class UserController {
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping
+    public ResponseEntity&lt;User&gt; register(@RequestBody User user) {
+        try {
+            User registered = userService.registerUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(registered);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } catch (DuplicateEmailException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+}</code></pre>
+
+        <h2>1. Service Unit Test (Mockito Mocking)</h2>
+        <p>We test <code>UserService</code> in isolation. We replace <code>UserRepository</code> with a mock double to check the logic, testing both the happy registration and the duplicate email conflict:</p>
+
+        <!-- Service Test Code Snippet -->
+        <pre><code class="language-java">@ExtendWith(MockitoExtension.class)
+public class UserServiceTest {
+
+    @Mock
+    private UserRepository userRepository;
+
+    @InjectMocks
+    private UserService userService;
+
+    @Test
+    void registerUser_HappyPath_ReturnsSavedUser() {
+        // Arrange (Setup mock behavior)
+        User inputUser = new User("alice@gmail.com", "Alice");
+        Mockito.when(userRepository.existsByEmail("alice@gmail.com")).thenReturn(false);
+        Mockito.when(userRepository.save(inputUser)).thenReturn(inputUser);
+
+        // Act
+        User result = userService.registerUser(inputUser);
+
+        // Assert
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals("Alice", result.getName());
+    }
+
+    @Test
+    void registerUser_SadPath_ThrowsDuplicateEmailException() {
+        // Arrange
+        User duplicateUser = new User("alice@gmail.com", "Alice");
+        Mockito.when(userRepository.existsByEmail("alice@gmail.com")).thenReturn(true);
+
+        // Act & Assert
+        Assertions.assertThrows(DuplicateEmailException.class, () -> {
+            userService.registerUser(duplicateUser);
+        });
+    }
+}</code></pre>
+
+        <h2>2. Controller Unit Test (MockMvc WebMvcTest)</h2>
+        <p>To test Web routing and API HTTP codes without booting the whole database, we use <code>MockMvc</code> and <code>@WebMvcTest</code>. We mock the <code>UserService</code> component:</p>
+
+        <!-- Controller Test Code Snippet -->
+        <pre><code class="language-java">@WebMvcTest(UserController.class)
+public class UserControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private UserService userService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Test
+    void registerUserController_HappyPath_Returns201Created() throws Exception {
+        User inputUser = new User("bob@gmail.com", "Bob");
+        Mockito.when(userService.registerUser(Mockito.any(User.class))).thenReturn(inputUser);
+
+        mockMvc.perform(post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(inputUser)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").value("Bob"));
+    }
+
+    @Test
+    void registerUserController_SadPath_BlankNameReturns400BadRequest() throws Exception {
+        User invalidUser = new User("bob@gmail.com", ""); // Blank Name
+        Mockito.when(userService.registerUser(Mockito.any(User.class)))
+               .thenThrow(new IllegalArgumentException("Name cannot be blank"));
+
+        mockMvc.perform(post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidUser)))
+                .andExpect(status().isBadRequest());
+    }
+}</code></pre>
+
+        <h2>3. Full Integration Test (@SpringBootTest)</h2>
+        <p>To test the entire database connection, wiring, and API call together, we launch a real HTTP port using <code>@SpringBootTest</code>. We make a real HTTP request using <code>TestRestTemplate</code>:</p>
+
+        <!-- Integration Test Code Snippet -->
+        <pre><code class="language-java">@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class UserIntegrationTest {
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+
+    @Autowired
+    private UserRepository userRepository; // Real DB connection
+
+    @BeforeEach
+    void cleanUp() {
+        userRepository.deleteAll();
+    }
+
+    @Test
+    void registerUserIntegration_HappyPath_SavesInDB() {
+        User inputUser = new User("charlie@gmail.com", "Charlie");
+
+        ResponseEntity&lt;User&gt; response = restTemplate.postForEntity("/users", inputUser, User.class);
+
+        // Assert HTTP response
+        Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        Assertions.assertEquals("Charlie", response.getBody().getName());
+
+        // Assert database state
+        Assertions.assertTrue(userRepository.existsByEmail("charlie@gmail.com"));
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>By balancing unit tests and integration tests, you create a robust safety net for your Spring Boot application. **Unit tests with Mockito and MockMvc** allow you to quickly verify code logic and bad input handling in isolation. **Integration tests with @SpringBootTest** ensure that database tables, configuration beans, and HTTP routes connect and run smoothly together in production!</p>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

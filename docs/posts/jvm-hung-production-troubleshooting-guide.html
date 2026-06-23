@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JVM is Hung in Production: Step-by-Step Troubleshooting Guide | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/jvm-hung-production-troubleshooting-guide.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Java Concurrency",
+      "item": "https://enggnotes.com/index.html?category=Java%20Concurrency"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "JVM is Hung in Production: Step-by-Step Troubleshooting Guide",
+      "item": "https://enggnotes.com/posts/jvm-hung-production-troubleshooting-guide.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="A step-by-step production incident response guide for Java developers. Learn how to debug high CPU loops, thread deadlocks, GC thrashing, and database pool exhausts.">
+  <meta name="keywords" content="jvm hung in production, troubleshoot hung java application, jstack thread dump analysis, monitor spring boot gc thrashing, hikaricp database connection pool exhaustion, jvm hung, hung production, jvm java, hung java, production java, stepbystep java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java nio, file manipulation java, java io streams, java 8 streams">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="JVM is Hung in Production: Step-by-Step Troubleshooting Guide | Engineering Notes">
+  <meta property="og:description" content="A step-by-step production incident response guide for Java developers. Learn how to debug high CPU loops, thread deadlocks, GC thrashing, and database pool exhausts.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav=""></header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+         <ol>
+           <li><a href="../index.html">Home</a></li>
+           <li><a href="../index.html?category=Java Concurrency">Java Concurrency</a></li>
+           <li aria-current="page">Troubleshooting</li>
+         </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Java Concurrency</span>
+          <span class="post-date">June 23, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">6 min read</span>
+        </div>
+        <h1 class="article-title">JVM is Hung in Production: Step-by-Step Troubleshooting Guide</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>It's 2:00 AM. Your phone alerts start firing. A critical Spring Boot microservice is completely unresponsive. The load balancer is reporting HTTP 504 Gateway Timeouts, and API requests are backing up. You check the app logs—they have completely stopped moving. <strong>The JVM is hung in production.</strong></p>
+        
+        <p>Your team's immediate reaction might be to restart the server to restore service. However, <strong>restarting the JVM without capturing diagnostics kills the crime scene</strong>, ensuring the bug will return tomorrow. Here is an architect's step-by-step playbook to debug and fix a hung JVM under pressure.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/jvm-hung-troubleshooting.svg" alt="JVM Hung Troubleshooting Pathway flowchart" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Incidents Explained Simply
+          </div>
+          <p>When the kitchen (JVM) stops sending out meals (API responses), it usually happens in one of two ways:</p>
+          <ul>
+            <li><strong>The Hamster on a Wheel (High CPU):</strong> The chef is moving at lightning speed but getting absolutely nothing done. This represents an infinite loop or severe Garbage Collection thrashing where 100% of resources are consumed in vain.</li>
+            <li><strong>The Sleeping Guard (Normal CPU):</strong> The chef is sitting completely idle, staring at the phone, doing nothing. This represents threads blocked waiting for a lock (deadlock), waiting for a slow external API (missing socket timeouts), or waiting for a database connection (pool exhaustion).</li>
+          </ul>
+        </div>
+
+        <h2>Step 1: First Check Whether the JVM Is Alive</h2>
+        <p>Before launching complex tools, we must verify if the Java process is actually running on the server and if the process itself is responsive to the operating system.</p>
+        
+        <p>First, list the active Java processes using `jps` (Java Virtual Machine Process Status Tool) or `ps`:</p>
+        <pre><code class="language-bash"># Find the Java Process ID (PID)
+jps -l
+# Or alternatively on generic Linux:
+ps -ef | grep java</code></pre>
+
+        <p>Once you have the `<pid>`, check if the JVM is responding to basic admin commands by querying its uptime. If this command hangs or fails, the JVM is completely frozen (often due to kernel locks or a heavy Stop-the-World GC pause):</p>
+        <pre><code class="language-bash"># Check JVM Uptime
+jcmd &lt;pid&gt; VM.uptime</code></pre>
+
+        <h2>Step 2: Check CPU and Memory Usage</h2>
+        <p>Next, log into the server and run standard Linux monitoring tools to identify resource allocation. This will decide our troubleshooting branch (High CPU vs. Low CPU):</p>
+        <pre><code class="language-bash"># Monitor system-wide CPU and memory
+top
+# Or htop if installed:
+htop</code></pre>
+
+        <p>Look at the `%CPU` and `%MEM` columns for your Java process. Also check if the host memory is exhausted, forcing the OS to swap memory page blocks to disk:</p>
+        <pre><code class="language-bash"># Check physical memory allocation
+free -m
+# Monitor virtual memory state
+vmstat 1 5</code></pre>
+
+        <h2>Step 3: Troubleshooting High CPU Issues</h2>
+        <p>If your JVM process is consuming <strong>~100% CPU</strong>, it means one or more threads are stuck in a tight loop or performing heavy operations. Here is how you identify the exact line of Java code causing it:</p>
+
+        <h4 style="color:var(--accent-color);">A. Find the stuck Linux Thread ID</h4>
+        <p>Run `top` with thread monitoring enabled to locate which specific thread IDs (TIDs) are pegging the CPU:</p>
+        <pre><code class="language-bash"># List all native threads under the Java process
+top -Hp &lt;pid&gt;</code></pre>
+        <p>Identify the thread at the top of the list. Write down its decimal <strong>PID/TID</strong> (e.g. `2458`).</p>
+
+        <h4 style="color:var(--accent-color);">B. Convert the Thread ID to Hexadecimal</h4>
+        <p>Java thread dumps index native thread IDs (`nid`) in hexadecimal. Convert your decimal thread ID using `printf`:</p>
+        <pre><code class="language-bash"># Convert 2458 to hex format
+printf "%x\n" 2458
+# Outputs: 99a</code></pre>
+
+        <h4 style="color:var(--accent-color);">C. Capture a Thread Dump and Search</h4>
+        <p>Capture the thread states and search for the hexadecimal native thread ID (`0x99a`):</p>
+        <pre><code class="language-bash"># Capture thread snapshot
+jstack &lt;pid&gt; &gt; thread_dump.txt
+# Find the culprit thread
+grep -A 20 "0x99a" thread_dump.txt</code></pre>
+        <p>This will output the stack trace of the specific thread, pointing you directly to the class name and line number executing the loop.</p>
+
+        <h2>Step 4: JVM Not Responding but CPU Normal</h2>
+        <p>If the CPU usage is near 0% but the application is hung, threads are <strong>waiting</strong> on something. This is the <strong>Sleeping Guard</strong> scenario.</p>
+        
+        <p>Open the thread dump (`thread_dump.txt`) and check the thread states. Look for threads marked as <code>BLOCKED</code>, <code>WAITING</code>, or <code>TIMED_WAITING</code>:</p>
+        
+        <h4 style="color:var(--accent-color);">A. Database Connection Pool Exhaustion</h4>
+        <p>If you see dozens of application threads in a `WAITING` state trying to acquire a connection from a pool (like HikariCP), your database pool is exhausted. Look for stack traces mentioning:</p>
+        <pre><code class="language-text">"http-nio-8080-exec-5" #25 daemon prio=5
+  java.lang.Thread.State: WAITING (on object monitor)
+    at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:169)</code></pre>
+        <p>This means your API threads are waiting forever because database connections are not being released back to the pool (or the pool size is too small for the traffic volume).</p>
+
+        <h4 style="color:var(--accent-color);">B. Missing External API Socket Timeouts</h4>
+        <p>If threads are in a `RUNNABLE` or `SOCKET_READ` state but aren't moving, they are likely waiting for an external HTTP server to respond. By default, many Java HTTP clients have <strong>infinite socket read timeouts</strong>. If the remote system hangs, your JVM threads hang forever.</p>
+        <pre><code class="language-text">java.lang.Thread.State: RUNNABLE
+  at java.net.SocketInputStream.socketRead0(Native Method)</code></pre>
+
+        <h2>Step 5: Detecting Java Deadlocks</h2>
+        <p>A deadlock occurs when Thread 1 holds Lock A and waits for Lock B, while Thread 2 holds Lock B and waits for Lock A (the narrow one-lane bridge collision).</p>
+        
+        <p>Fortunately, the `jstack` tool automatically scans for deadlocks. Scroll to the <strong>very bottom of your thread dump</strong> file. If a deadlock exists, Java will print it prominently:</p>
+        <pre><code class="language-text">Found one Java-level deadlock:
+=============================
+"Thread-1":
+  waiting to lock monitor 0x00007f (object 0x0001, a java.lang.Object),
+  which is held by "Thread-2"
+"Thread-2":
+  waiting to lock monitor 0x00007e (object 0x0002, a java.lang.Object),
+  which is held by "Thread-1"</code></pre>
+
+        <h2>Step 6: Garbage Collection Related JVM Hang</h2>
+        <p>If the JVM is spending <strong>98% of its time doing GC</strong> and reclaiming less than 2% of the heap, it thrashing. The application freezes because the JVM performs constant Stop-the-World collections, preventing application threads from executing. This eventually triggers: `java.lang.OutOfMemoryError: GC overhead limit exceeded`.</p>
+        
+        <p>Run `jstat` to check the GC behavior in real time (capturing stats every 1 second):</p>
+        <pre><code class="language-bash"># Monitor GC metrics
+jstat -gcutil &lt;pid&gt; 1000 10</code></pre>
+        <p>Look at the columns:
+          <ul>
+            <li>`O` (Old Generation occupancy %): Is it at 100%?</li>
+            <li>`FGC` (Full GC count): Is it rapidly increasing?</li>
+            <li>`FGCT` (Full GC time): Is the accumulator growing while the application remains frozen?</li>
+          </ul>
+        </p>
+
+        <h2>Step 7: Heap Analysis</h2>
+        <p>If the JVM is stuck in a GC loop or running out of memory, you must capture a heap dump to analyze which objects are filling up the memory (the warehouse audit).</p>
+        
+        <p>Run `jmap` or `jcmd` to capture the heap snapshot:</p>
+        <pre><code class="language-bash"># Capture heap dump (Warning: This will pause the JVM temporarily!)
+jmap -dump:format=b,file=heapdump.hprof &lt;pid&gt;
+# Or using jcmd:
+jcmd &lt;pid&gt; GC.heap_dump /tmp/heapdump.hprof</code></pre>
+        <p>Once downloaded, load the `.hprof` file into an analyzer tool like <strong>Eclipse Memory Analyzer (MAT)</strong> or <strong>VisualVM</strong>. Look for the <strong>"Leak Suspects"</strong> report to see if static collections, unclosed streams, or query caches are accumulating memory.</p>
+
+        <h2>Step 8: External Resource Problems</h2>
+        <p>A JVM can appear hung because of OS-level socket blockages. If the OS socket buffers are full, writing to output streams will block the thread.</p>
+        
+        <p>Check the count of open sockets and their state connection records:</p>
+        <pre><code class="language-bash"># Check TCP connection status
+netstat -an | grep 8080
+# Or using the faster ss command:
+ss -s</code></pre>
+        <p>If you see a massive count of connections in `CLOSE_WAIT` state, it means the remote client closed the socket, but your Java application failed to call `close()` on the socket stream, leaking file descriptors until the JVM ran out.</p>
+
+        <h2>Step 9: Spring Boot Production Debugging</h2>
+        <p>When running Spring Boot microservices, you don't always need command-line tools to capture diagnostics. If you have enabled the <strong>Spring Boot Actuator</strong>, you can download thread and heap dumps securely over HTTP:</p>
+        
+        <pre><code class="language-bash"># Download Thread Dump as JSON
+curl -X GET http://localhost:8080/actuator/threaddump &gt; threaddump.json
+
+# Trigger and download Heap Dump
+curl -X GET http://localhost:8080/actuator/heapdump &gt; heapdump.hprof</code></pre>
+
+        <p>Make sure these endpoints are <strong>protected with spring-security</strong> in production so unauthorized users cannot access sensitive memory dumps!</p>
+
+        <h2>Step 10: Production Best Practices</h2>
+        <p>To ensure you have the diagnostics when a hang occurs next time, configure your JVM with these fail-safe parameters in your startup script:</p>
+        
+        <pre><code class="language-bash"># JVM Startup Parameters for auto-diagnosis
+java -XX:+HeapDumpOnOutOfMemoryError \
+     -XX:HeapDumpPath=/var/log/jvm_dumps/ \
+     -Xlog:gc*,gc+age=trace,safepoint:file=/var/log/gc.log:time,uptime,pid:filecount=5,filesize=100M \
+     -jar app.jar</code></pre>
+
+        <ul>
+          <li><strong>HeapDumpOnOutOfMemoryError</strong>: Automatically captures the hprof file the moment memory runs out, saving the crime scene.</li>
+          <li><strong>GC Logging (-Xlog:gc)</strong>: Writes a rotating trace of GC pauses and gen allocations to check memory history.</li>
+          <li><strong>Explicit Timeouts</strong>: Always configure connection and read timeouts on database pools (e.g. <code>connectionTimeout = 30000</code> in HikariCP) and REST API clients (e.g. RestTemplate, WebClient).</li>
+        </ul>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../"></footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

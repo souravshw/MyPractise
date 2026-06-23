@@ -1,6 +1,16 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 118,
+    title: "JVM is Hung in Production: Step-by-Step Troubleshooting Guide",
+    excerpt: "A step-by-step production incident response guide for Java developers. Learn how to debug high CPU loops, thread deadlocks, GC thrashing, and database pool exhausts.",
+    category: "Java Concurrency",
+    date: "June 23, 2026",
+    readTime: "6 min read",
+    url: "posts/jvm-hung-production-troubleshooting-guide.html",
+    image: "images/jvm-hung-troubleshooting.svg"
+  },
+  {
     id: 117,
     title: "Unit and Integration Testing in Spring Boot: A Simple Guide",
     excerpt: "Learn how to write clean JUnit 5 unit and integration tests in Spring Boot. Understand Mockito mocking, MockMvc controller testing, and full integration tests simply.",

@@ -38,6 +38,12 @@
     </url>
     <!-- Blog Posts -->
     <url>
+        <loc>https://enggnotes.com/posts/jvm-hung-production-troubleshooting-guide.html</loc>
+        <lastmod>2026-06-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://enggnotes.com/posts/spring-boot-junit-testing.html</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>

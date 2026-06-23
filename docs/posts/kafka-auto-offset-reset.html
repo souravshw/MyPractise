@@ -175,8 +175,6 @@ KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);</code></pre
         <h2>Conclusion</h2>
         <p>Choose <code>earliest</code> when data accuracy and processing history are critical. Choose <code>latest</code> when you only care about real-time events happening right now. Understanding this starting behavior prevents missing records or accidental duplicate replays when booting up new consumer applications.</p>
       </div>
-
-    
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

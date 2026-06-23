@@ -191,8 +191,6 @@ producer.close(); // Flushes remaining batches and releases memory</code></pre>
         <h2>Conclusion</h2>
         <p>Kafka producers are designed to be asynchronous and high-performance. By grouping records into batches in memory using the Record Accumulator, they minimize network overhead. Tuning <code>batch.size</code> and <code>linger.ms</code> allows you to control the sweet spot between latency and throughput.</p>
       </div>
-
-    
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

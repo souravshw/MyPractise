@@ -187,8 +187,6 @@ KTable&lt;String, String&gt; userProfiles = builder.table("user-profiles");</cod
         <h2>Conclusion</h2>
         <p>Model your raw, chronological events using a <strong>KStream</strong>. When you need a lookup table containing the latest state of an entity (like checking a user's current subscription tier during a join operation), consume that topic as a <strong>KTable</strong> to let Kafka handle upsert deduplication automatically.</p>
       </div>
-
-    
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

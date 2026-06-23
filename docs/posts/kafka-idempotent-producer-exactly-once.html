@@ -166,8 +166,6 @@ KafkaProducer<String, String> producer = new KafkaProducer<>(props);</code></pre
         <h2>Conclusion</h2>
         <p>Duplicate records can corrupt database registers and break transaction models. By enabling the <strong>Idempotent Producer</strong>, you ensure that network-based retries do not duplicate records on brokers, laying the foundation for true Exactly-Once processing pipelines.</p>
       </div>
-
-    
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

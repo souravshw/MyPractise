@@ -162,8 +162,6 @@ adminClient.incrementalAlterConfigs(updateConfigs).all().get();</code></pre>
         <h2>Conclusion</h2>
         <p>Data durability in Kafka is a team effort. Always pair your producer's <code>acks=all</code> with a topic-level <code>min.insync.replicas=2</code> policy to prevent single-point-of-failure writes and build a truly resilient data architecture.</p>
       </div>
-
-    
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

@@ -163,8 +163,6 @@ KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer&lt;&gt;(props);
         <h2>Conclusion</h2>
         <p>Consumer throughput is about efficiency. By waiting for slightly larger payload packets (<code>fetch.min.bytes</code>) and processing larger arrays of records in memory (<code>max.poll.records</code>), you reduce CPU overhead and network chat, allowing your applications to clear backlogs quickly.</p>
       </div>
-
-    
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

@@ -35,4 +35,32 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(err => console.error('Error loading footer:', err));
   }
+
+  // Keyboard navigation for Next & Previous posts
+  document.addEventListener('keydown', (e) => {
+    // Skip if typing in input elements
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+      return;
+    }
+    
+    if (e.key === 'ArrowLeft') {
+      const prevLink = document.querySelector('.prev-card');
+      if (prevLink) {
+        // Add a temporary visual press effect before navigating
+        prevLink.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+          prevLink.click();
+        }, 100);
+      }
+    } else if (e.key === 'ArrowRight') {
+      const nextLink = document.querySelector('.next-card');
+      if (nextLink) {
+        // Add a temporary visual press effect before navigating
+        nextLink.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+          nextLink.click();
+        }, 100);
+      }
+    }
+  });
 });

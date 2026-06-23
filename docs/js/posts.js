@@ -1,6 +1,16 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 116,
+    title: "Java Memory Management and Garbage Collection: A Simple Guide",
+    excerpt: "Learn how Java manages Stack and Heap memory and how the Garbage Collector automatically reclaims memory, explained simply with a kitchen analogy.",
+    category: "Java Core & OOP",
+    date: "June 23, 2026",
+    readTime: "5 min read",
+    url: "posts/java-memory-management-garbage-collection.html",
+    image: "images/java-memory-gc.svg"
+  },
+  {
     id: 115,
     title: "Sorting Maps by Value in Java Streams: A Simple Guide",
     excerpt: "Sorting entries in a Map by their values rather than keys is a common challenge. Learn how to sort Map values using Java Streams and a simple leaderboard analogy.",

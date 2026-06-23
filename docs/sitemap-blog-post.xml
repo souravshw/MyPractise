@@ -38,6 +38,12 @@
     </url>
     <!-- Blog Posts -->
     <url>
+        <loc>https://enggnotes.com/posts/java-memory-management-garbage-collection.html</loc>
+        <lastmod>2026-06-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://enggnotes.com/posts/sorting-maps-streams-simply.html</loc>
         <lastmod>2026-06-22</lastmod>
         <changefreq>monthly</changefreq>

@@ -1,6 +1,16 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 122,
+    title: "ExecutorService vs. CompletableFuture in Java: A Layman's Guide",
+    excerpt: "A beginner-friendly guide comparing ExecutorService.submit() vs CompletableFuture.supplyAsync() in Java. Learn exception handling patterns with simple analogies.",
+    category: "Java Concurrency",
+    date: "June 25, 2026",
+    readTime: "5 min read",
+    url: "posts/understanding-java-executor-service-vs-completable-future.html",
+    image: "images/executor-vs-completable-future.svg"
+  },
+  {
     id: 121,
     title: "Choosing the Right Java Lock: Synchronized, ReentrantLock, ReadWriteLock, and StampedLock",
     excerpt: "A comprehensive layman's guide comparing Java locking mechanisms. Understand when to use synchronized, ReentrantLock, ReadWriteLock, and StampedLock with code examples.",

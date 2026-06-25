@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#090d16" />
+    </linearGradient>
+
+    <!-- Node Glow Filters -->
+    <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Arrow Markers -->
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10b981" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" />
+  <rect width="796" height="446" x="2" y="2" rx="14" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" />
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Inter', system-ui, sans-serif" font-size="22" font-weight="bold" fill="#f8fafc" text-anchor="middle" letter-spacing="1">
+    ASYNC FLOWS: FUTURE VS. COMPLETABLEFUTURE
+  </text>
+  <text x="400" y="70" font-family="'Inter', system-ui, sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">
+    Comparing blocking pull-based execution to non-blocking push-based pipelines
+  </text>
+
+  <!-- LEFT COLUMN: ExecutorService + Future (Blocking) -->
+  <g transform="translate(50, 110)">
+    <rect width="330" height="290" rx="10" fill="#1e293b" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1.5" />
+    <rect width="330" height="35" rx="10" fill="#334155" />
+    <text x="165" y="22" font-family="'Inter', system-ui, sans-serif" font-size="12" font-weight="bold" fill="#f1f5f9" text-anchor="middle">ExecutorService.submit() (Pull/Blocking)</text>
+
+    <!-- Main Thread Box -->
+    <g transform="translate(20, 50)">
+      <rect width="290" height="45" rx="6" fill="#0f172a" stroke="rgba(255, 255, 255, 0.05)" />
+      <text x="15" y="27" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#cbd5e1">1. Submits Task to Thread Pool</text>
+    </g>
+
+    <!-- Thread Pool Processing -->
+    <g transform="translate(20, 110)">
+      <rect width="290" height="50" rx="6" fill="#0f172a" stroke="rgba(255, 255, 255, 0.05)" />
+      <text x="15" y="22" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#94a3b8">2. Task runs in background thread</text>
+      <text x="15" y="38" font-family="'Courier New', monospace" font-size="10" fill="#38bdf8">Returns Future&lt;T&gt;</text>
+    </g>
+
+    <!-- Blocking Barrier -->
+    <g transform="translate(20, 180)">
+      <rect width="290" height="60" rx="6" fill="#450a0a" stroke="#ef4444" stroke-width="1.5" filter="url(#glow-red)" />
+      <text x="15" y="25" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="bold" fill="#fca5a5">3. Calling future.get() blocks Main Thread</text>
+      <text x="15" y="45" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#fca5a5">Thread sits idle, waiting for task to complete</text>
+    </g>
+
+    <text x="165" y="270" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle" font-style="italic">
+      Analogy: Ordering food &amp; waiting at counter.
+    </text>
+  </g>
+
+  <!-- RIGHT COLUMN: CompletableFuture (Non-blocking) -->
+  <g transform="translate(420, 110)">
+    <rect width="330" height="290" rx="10" fill="#0f172a" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1.5" />
+    <rect width="330" height="35" rx="10" fill="#1e1b4b" />
+    <text x="165" y="22" font-family="'Inter', system-ui, sans-serif" font-size="12" font-weight="bold" fill="#c084fc" text-anchor="middle">CompletableFuture.supplyAsync() (Push/Pipeline)</text>
+
+    <!-- Step 1 -->
+    <g transform="translate(20, 50)">
+      <rect width="290" height="45" rx="6" fill="#1e1e38" stroke="rgba(255, 255, 255, 0.05)" />
+      <text x="15" y="27" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#cbd5e1">1. Starts Task asynchronously</text>
+    </g>
+
+    <!-- Step 2 -->
+    <g transform="translate(20, 110)">
+      <rect width="290" height="50" rx="6" fill="#1e1e38" stroke="rgba(255, 255, 255, 0.05)" />
+      <text x="15" y="22" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#94a3b8">2. Main Thread immediately continues</text>
+      <text x="15" y="38" font-family="'Courier New', monospace" font-size="10" fill="#c084fc">thenApply() / thenAccept() chained</text>
+    </g>
+
+    <!-- Non-Blocking Action -->
+    <g transform="translate(20, 180)">
+      <rect width="290" height="60" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5" filter="url(#glow-green)" />
+      <text x="15" y="25" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="bold" fill="#a7f3d0">3. Push-based Pipeline execution</text>
+      <text x="15" y="45" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#34d399">Task thread runs callbacks when done. No blocking!</text>
+    </g>
+
+    <text x="165" y="270" font-family="'Inter', system-ui, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle" font-style="italic">
+      Analogy: Getting a pager that buzzes when ready.
+    </text>
+  </g>
+</svg>

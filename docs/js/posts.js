@@ -1,6 +1,16 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 120,
+    title: "Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness",
+    excerpt: "Why does Java heap memory have identical Strings if they are immutable? Learn the difference between immutability and uniqueness, and how to optimize duplicate strings.",
+    category: "Java Core & OOP",
+    date: "June 25, 2026",
+    readTime: "4 min read",
+    url: "posts/understanding-java-duplicate-strings-heap.html",
+    image: "images/duplicate-strings-heap.svg"
+  },
+  {
     id: 119,
     title: "Understanding JVM Heap Dumps: A Layman's Guide to HPROF Files",
     excerpt: "Demystify JVM heap dumps and HPROF files. Learn what they contain, how to analyze them, and how to spot common memory leaks and pitfalls using simple analogies.",

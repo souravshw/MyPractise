@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+
+    <!-- Node Glow Filters -->
+    <filter id="glow-purple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glow-blue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Arrow Markers -->
+    <marker id="ref-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8" />
+    </marker>
+    <marker id="ref-arrow-purple" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c084fc" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" />
+  <rect width="796" height="446" x="2" y="2" rx="14" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" />
+
+  <!-- Title -->
+  <text x="400" y="45" font-family="'Inter', system-ui, sans-serif" font-size="22" font-weight="bold" fill="#f8fafc" text-anchor="middle" letter-spacing="1">
+    IMMUTABILITY VS. UNIQUENESS IN JAVA
+  </text>
+  <text x="400" y="70" font-family="'Inter', system-ui, sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">
+    Why immutable String values can still exist multiple times in Heap memory
+  </text>
+
+  <!-- LEFT: STACK (Variables) -->
+  <g transform="translate(50, 110)">
+    <rect width="180" height="280" rx="10" fill="#1e293b" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1.5" />
+    <rect width="180" height="35" rx="10" fill="#334155" />
+    <text x="90" y="22" font-family="'Inter', system-ui, sans-serif" font-size="12" font-weight="bold" fill="#f1f5f9" text-anchor="middle">Stack (References)</text>
+
+    <!-- s1 (Literal ref) -->
+    <g transform="translate(15, 55)">
+      <rect width="150" height="40" rx="6" fill="#0f172a" stroke="rgba(255, 255, 255, 0.1)" />
+      <text x="15" y="25" font-family="'Courier New', monospace" font-size="12" fill="#38bdf8" font-weight="bold">s1 = "hello"</text>
+    </g>
+
+    <!-- s2 (Literal ref) -->
+    <g transform="translate(15, 105)">
+      <rect width="150" height="40" rx="6" fill="#0f172a" stroke="rgba(255, 255, 255, 0.1)" />
+      <text x="15" y="25" font-family="'Courier New', monospace" font-size="12" fill="#38bdf8" font-weight="bold">s2 = "hello"</text>
+    </g>
+
+    <!-- s3 (Heap Object ref) -->
+    <g transform="translate(15, 170)">
+      <rect width="150" height="40" rx="6" fill="#0f172a" stroke="rgba(255, 255, 255, 0.1)" />
+      <text x="15" y="25" font-family="'Courier New', monospace" font-size="12" fill="#c084fc" font-weight="bold">s3 = new String()</text>
+    </g>
+
+    <!-- s4 (Heap Object ref) -->
+    <g transform="translate(15, 220)">
+      <rect width="150" height="40" rx="6" fill="#0f172a" stroke="rgba(255, 255, 255, 0.1)" />
+      <text x="15" y="25" font-family="'Courier New', monospace" font-size="12" fill="#c084fc" font-weight="bold">s4 = new String()</text>
+    </g>
+  </g>
+
+  <!-- RIGHT: HEAP (Objects) -->
+  <g transform="translate(290, 110)">
+    <rect width="460" height="280" rx="10" fill="#0f172a" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1.5" />
+    
+    <!-- String Constant Pool Card -->
+    <g transform="translate(20, 20)">
+      <rect width="420" height="100" rx="8" fill="#1e1b4b" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1.5" />
+      <text x="20" y="25" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="bold" fill="#c084fc">String Constant Pool (Interned)</text>
+
+      <!-- Shared Object -->
+      <g transform="translate(140, 35)">
+        <rect width="140" height="50" rx="6" fill="#581c87" stroke="#c084fc" stroke-width="1.5" filter="url(#glow-purple)" />
+        <text x="70" y="22" font-family="'Courier New', monospace" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">"hello"</text>
+        <text x="70" y="38" font-family="'Inter', system-ui, sans-serif" font-size="9" fill="#e9d5ff" text-anchor="middle">Address: 0x111</text>
+      </g>
+    </g>
+
+    <!-- General Heap Space Card -->
+    <g transform="translate(20, 135)">
+      <rect width="420" height="125" rx="8" fill="rgba(255, 255, 255, 0.02)" stroke="rgba(255, 255, 255, 0.05)" />
+      <text x="20" y="20" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="bold" fill="#38bdf8">Regular Heap Space (New Allocations)</text>
+
+      <!-- Duplicate Object 1 -->
+      <g transform="translate(40, 45)">
+        <rect width="140" height="55" rx="6" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" filter="url(#glow-blue)" />
+        <text x="70" y="22" font-family="'Courier New', monospace" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">String("hello")</text>
+        <text x="70" y="38" font-family="'Inter', system-ui, sans-serif" font-size="9" fill="#93c5fd" text-anchor="middle">Address: 0x222</text>
+      </g>
+
+      <!-- Duplicate Object 2 -->
+      <g transform="translate(240, 45)">
+        <rect width="140" height="55" rx="6" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1.5" filter="url(#glow-blue)" />
+        <text x="70" y="22" font-family="'Courier New', monospace" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">String("hello")</text>
+        <text x="70" y="38" font-family="'Inter', system-ui, sans-serif" font-size="9" fill="#93c5fd" text-anchor="middle">Address: 0x333</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Reference arrows -->
+  <!-- s1 & s2 pointing to shared "hello" (address 0x111) -->
+  <path d="M 215 185 Q 310 185, 410 180" fill="none" stroke="#c084fc" stroke-width="2" marker-end="url(#ref-arrow-purple)" />
+  <path d="M 215 235 Q 310 210, 410 180" fill="none" stroke="#c084fc" stroke-width="2" marker-end="url(#ref-arrow-purple)" />
+
+  <!-- s3 pointing to 0x222 -->
+  <path d="M 215 300 Q 280 300, 335 290" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#ref-arrow)" />
+
+  <!-- s4 pointing to 0x333 -->
+  <path d="M 215 350 Q 380 350, 535 300" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#ref-arrow)" />
+</svg>

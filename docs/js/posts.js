@@ -1,6 +1,16 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 121,
+    title: "Choosing the Right Java Lock: Synchronized, ReentrantLock, ReadWriteLock, and StampedLock",
+    excerpt: "A comprehensive layman's guide comparing Java locking mechanisms. Understand when to use synchronized, ReentrantLock, ReadWriteLock, and StampedLock with code examples.",
+    category: "Java Concurrency",
+    date: "June 25, 2026",
+    readTime: "5 min read",
+    url: "posts/understanding-java-locks-synchronized-reentrant-stamped.html",
+    image: "images/java-locks-comparison.svg"
+  },
+  {
     id: 120,
     title: "Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness",
     excerpt: "Why does Java heap memory have identical Strings if they are immutable? Learn the difference between immutability and uniqueness, and how to optimize duplicate strings.",

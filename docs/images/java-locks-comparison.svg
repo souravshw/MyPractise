@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#090d16" />
+    </linearGradient>
+
+    <!-- Glowing Filters -->
+    <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glow-blue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glow-gold" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glow-purple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" />
+  <rect width="796" height="446" x="2" y="2" rx="14" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" />
+
+  <!-- Title & Subtitle -->
+  <text x="400" y="45" font-family="'Inter', system-ui, sans-serif" font-size="22" font-weight="bold" fill="#f8fafc" text-anchor="middle" letter-spacing="1">
+    JAVA LOCKING PRIMITIVES COMPARISON
+  </text>
+  <text x="400" y="70" font-family="'Inter', system-ui, sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">
+    Choosing the right tool for concurrency control and resource protection
+  </text>
+
+  <!-- GRID: 4 Lock Types Cards -->
+
+  <!-- CARD 1: synchronized (Guarded Room) -->
+  <g transform="translate(45, 100)">
+    <rect width="330" height="140" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="1.5" filter="url(#glow-green)" />
+    <!-- Header -->
+    <rect width="330" height="35" rx="8" fill="#064e3b" />
+    <text x="165" y="22" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#34d399" text-anchor="middle">1. synchronized keyword</text>
+    
+    <!-- Body -->
+    <text x="20" y="65" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Mutual Exclusion (Single thread only)</text>
+    <text x="20" y="85" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Automatic Lock Release (No leaks)</text>
+    <text x="20" y="105" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#94a3b8">• Analogy: The Single-Key Guarded Bathroom</text>
+    <text x="20" y="123" font-family="'Courier New', monospace" font-size="10" fill="#34d399" font-weight="bold">synchronized(lock) { ... }</text>
+  </g>
+
+  <!-- CARD 2: ReentrantLock (Smart Lock) -->
+  <g transform="translate(425, 100)">
+    <rect width="330" height="140" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#glow-blue)" />
+    <!-- Header -->
+    <rect width="330" height="35" rx="8" fill="#1e3a8a" />
+    <text x="165" y="22" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#93c5fd" text-anchor="middle">2. ReentrantLock class</text>
+    
+    <!-- Body -->
+    <text x="20" y="65" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#cbd5e1">• TryLock with Timeout (Prevents hangs)</text>
+    <text x="20" y="85" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Interruptible Lock Waiting</text>
+    <text x="20" y="105" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#94a3b8">• Analogy: The Smart Keycard with Alarm</text>
+    <text x="20" y="123" font-family="'Courier New', monospace" font-size="10" fill="#93c5fd" font-weight="bold">lock.tryLock(5, TimeUnit.SECONDS)</text>
+  </g>
+
+  <!-- CARD 3: ReadWriteLock (Reading Room) -->
+  <g transform="translate(45, 265)">
+    <rect width="330" height="140" rx="8" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5" filter="url(#glow-gold)" />
+    <!-- Header -->
+    <rect width="330" height="35" rx="8" fill="#78350f" />
+    <text x="165" y="22" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#fde68a" text-anchor="middle">3. ReentrantReadWriteLock</text>
+    
+    <!-- Body -->
+    <text x="20" y="65" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Multiple Readers OR Single Writer</text>
+    <text x="20" y="85" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Boosts throughput for read-heavy operations</text>
+    <text x="20" y="105" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#94a3b8">• Analogy: The Library Study Hall (All can read)</text>
+    <text x="20" y="123" font-family="'Courier New', monospace" font-size="10" fill="#fde68a" font-weight="bold">readLock.lock() / writeLock.lock()</text>
+  </g>
+
+  <!-- CARD 4: StampedLock (Optimistic Reader) -->
+  <g transform="translate(425, 265)">
+    <rect width="330" height="140" rx="8" fill="#1e293b" stroke="#c084fc" stroke-width="1.5" filter="url(#glow-purple)" />
+    <!-- Header -->
+    <rect width="330" height="35" rx="8" fill="#581c87" />
+    <text x="165" y="22" font-family="'Inter', system-ui, sans-serif" font-size="13" font-weight="bold" fill="#e9d5ff" text-anchor="middle">4. StampedLock (Java 8+)</text>
+    
+    <!-- Body -->
+    <text x="20" y="65" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Optimistic Read mode (zero lock overhead)</text>
+    <text x="20" y="85" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#cbd5e1">• Non-Reentrant (Fast, but risk of self-deadlock)</text>
+    <text x="20" y="105" font-family="'Inter', system-ui, sans-serif" font-size="11" fill="#94a3b8">• Analogy: Ticket validation at gate check</text>
+    <text x="20" y="123" font-family="'Courier New', monospace" font-size="10" fill="#e9d5ff" font-weight="bold">sl.validate(stamp) // Non-blocking</text>
+  </g>
+</svg>

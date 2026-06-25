@@ -30,8 +30,8 @@
     <rect x="20" y="60" width="240" height="50" rx="4" fill="#1A152E" stroke="#5C42A5" stroke-width="1"/>
     <text x="140" y="90" font-family="monospace" font-size="12" fill="#E2D6FF" text-anchor="middle">class MyTask implements Runnable</text>
     
-    <text x="140" y="140" font-family="'Segoe UI', sans-serif" font-size="12" fill="#887DA5" text-anchor="middle" text-anchor="middle">Decouples task payload from execution wrapper.</text>
-    <text x="140" y="160" font-family="'Segoe UI', sans-serif" font-size="12" fill="#887DA5" text-anchor="middle" text-anchor="middle">Supports multiple inheritance interfaces.</text>
+    <text x="140" y="140" font-family="'Segoe UI', sans-serif" font-size="12" fill="#887DA5" text-anchor="middle">Decouples task payload from execution wrapper.</text>
+    <text x="140" y="160" font-family="'Segoe UI', sans-serif" font-size="12" fill="#887DA5" text-anchor="middle">Supports multiple inheritance interfaces.</text>
     <text x="140" y="195" font-family="'Segoe UI', sans-serif" font-size="13" fill="#00FF87" font-weight="bold" text-anchor="middle">Writing a task checklist card</text>
   </g>
 </svg>

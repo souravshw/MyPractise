@@ -1,6 +1,16 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 119,
+    title: "Understanding JVM Heap Dumps: A Layman's Guide to HPROF Files",
+    excerpt: "Demystify JVM heap dumps and HPROF files. Learn what they contain, how to analyze them, and how to spot common memory leaks and pitfalls using simple analogies.",
+    category: "Java Concurrency",
+    date: "June 25, 2026",
+    readTime: "5 min read",
+    url: "posts/understanding-jvm-heap-dumps-hprof.html",
+    image: "images/jvm-heap-dump-analysis.svg"
+  },
+  {
     id: 118,
     title: "JVM is Hung in Production: Step-by-Step Troubleshooting Guide",
     excerpt: "A step-by-step production incident response guide for Java developers. Learn how to debug high CPU loops, thread deadlocks, GC thrashing, and database pool exhausts.",

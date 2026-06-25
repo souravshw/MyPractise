@@ -260,7 +260,71 @@ class Consumer implements Runnable {
         <h2>Conclusion</h2>
         <p>Coordinating threads with <code>wait()</code> and <code>notifyAll()</code> requires strict adherence to Java monitor rules: always wait inside a loop checking the condition, and always hold the monitor lock when calling wait or notify. While it is more complex than high-level queues, it forms the foundation of all Java multithreaded communication APIs.</p>
       </div>
-
+      <!-- Navigation & Related Articles -->
+      <section class="post-navigation-related" id="post-navigation-related">
+        <div class="post-navigation">
+          
+          <a href="../posts/understanding-producer-consumer.html" class="nav-card prev-card">
+            <div class="nav-card-arrow prev-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </div>
+            <div class="nav-card-content">
+              <span class="nav-card-label">Previous Post</span>
+              <span class="nav-card-title">Understanding Java's Producer-Consumer Pattern</span>
+            </div>
+          </a>
+          
+          <a href="../posts/reversing-words-preserving-spaces.html" class="nav-card next-card">
+            <div class="nav-card-arrow next-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+            <div class="nav-card-content">
+              <span class="nav-card-label">Next Post</span>
+              <span class="nav-card-title">Reversing Strings While Preserving Space Positions</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="related-posts">
+          <h3 class="related-posts-title">Related Articles</h3>
+          <div class="related-posts-grid">
+            
+          <div class="related-card">
+            <a href="../posts/understanding-deadlock-synchronized.html" class="related-card-img">
+              <img src="../images/deadlock_synchronized.png" alt="Understanding Java's Synchronized Deadlocks">
+            </a>
+            <div class="related-card-content">
+              <div class="post-meta">
+                <span class="post-category">Java Concurrency</span>
+              </div>
+              <h4 class="related-card-title"><a href="../posts/understanding-deadlock-synchronized.html">Understanding Java's Synchronized Deadlocks</a></h4>
+            </div>
+          </div>
+          <div class="related-card">
+            <a href="../posts/understanding-producer-consumer.html" class="related-card-img">
+              <img src="../images/bakery_producer_consumer.png" alt="Understanding Java's Producer-Consumer Pattern">
+            </a>
+            <div class="related-card-content">
+              <div class="post-meta">
+                <span class="post-category">Java Concurrency</span>
+              </div>
+              <h4 class="related-card-title"><a href="../posts/understanding-producer-consumer.html">Understanding Java's Producer-Consumer Pattern</a></h4>
+            </div>
+          </div>
+          <div class="related-card">
+            <a href="../posts/understanding-synchronized-keyword.html" class="related-card-img">
+              <img src="../images/understanding_synchronized.png" alt="Demystifying Java's Synchronized Keyword">
+            </a>
+            <div class="related-card-content">
+              <div class="post-meta">
+                <span class="post-category">Java Concurrency</span>
+              </div>
+              <h4 class="related-card-title"><a href="../posts/understanding-synchronized-keyword.html">Demystifying Java's Synchronized Keyword</a></h4>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
     </article>
   </main>
 

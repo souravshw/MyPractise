@@ -1,0 +1,41 @@
+package io.practise.dsa;
+
+import java.util.Arrays;
+
+public class LongestCommonPrefix {
+
+    // Brute Force - O(n * m) where m is length of first word
+    public String longestCommonPrefixBrute(String[] strs) {
+        if (strs == null || strs.length == 0) return "";
+        String prefix = strs[0];
+        for (int i = 1; i < strs.length; i++) {
+            while (strs[i].indexOf(prefix) != 0) {
+                prefix = prefix.substring(0, prefix.length() - 1);
+            }
+        }
+        return prefix;
+    }
+
+    // Optimized - O(n log n) via sorting first/last
+    public String longestCommonPrefix(String[] strs) {
+        if (strs.length == 0) return "";
+        Arrays.sort(strs);
+        String first = strs[0], last = strs[strs.length - 1];
+        int i = 0;
+        while (i < first.length() && i < last.length() && first.charAt(i) == last.charAt(i)) {
+            i++;
+        }
+        return first.substring(0, i);
+    }
+
+    public static void main(String[] args) {
+        LongestCommonPrefix solver = new LongestCommonPrefix();
+        String[] strs = {"flower", "flow", "flight"};
+
+        System.out.println("--- Longest Common Prefix Demonstration ---");
+        System.out.println("Input words: " + Arrays.toString(strs));
+
+        String prefix = solver.longestCommonPrefix(strs);
+        System.out.println("Longest Common Prefix: " + prefix);
+    }
+}

@@ -110,19 +110,80 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to generate all permutations of an array using backtracking.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Permutations</strong> problem asks us to generate all possible permutations (different arrangements or orderings) of an array of distinct integers, <code>nums</code>.</p>
+        <p>A <strong>permutation</strong> is an arrangement of all members of a set into some sequence or linear order. For a set of size <code>n</code>, the total number of unique permutations is exactly <code>n!</code> (n factorial). For instance, if <code>nums = [1, 2, 3]</code>, the output contains <code>3! = 6</code> combinations:
+          <br><code>[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]</code>.
+          Generating all permutations requires us to explore all branches of a state space tree of size <code>O(n!)</code>. Backtracking combined with a fast lookup buffer (like a boolean array or a set) is the standard method for this task.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: Anagram Word Scrambler
+            Real-World Analogy: Spelling Words from Letter Tiles
           </div>
-          <p>To find all ordering permutations of numbers, you choose a number for the first spot, then choose a number for the second spot, and so on. If a number is already in your path, you skip it. Once you reach the target length, you record the permutation and backtrack.</p>
+          <p>Imagine you have three letter tiles on a desk: <strong>A</strong>, <strong>B</strong>, and <strong>C</strong>. You want to write down all possible 3-letter combinations you can make using each tile exactly once. You start with an empty spelling tray. For the first slot, you have 3 choices: A, B, or C. If you choose A, it goes in the tray. For the second slot, you only have tiles B and C left. If you choose B, you place it down. For the third slot, you only have tile C left, which completes the word "ABC". You write it down. To find other combinations starting with A, you pick up C, then pick up B (backtrack), and place C in the second slot instead, eventually completing "ACB". Repeating this systematic choice and retrieval explores every anagram possible.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>Backtracking Search with Used Buffer (O(n * n!) Time, O(n) Space)</h3>
+        <p>We build our permutations recursively, building a single permutation list <code>path</code> of length <code>n</code> step-by-step.
+          <ul>
+            <li><strong>Base Case:</strong> If the size of <code>path</code> equals <code>nums.length</code>, we have formed a complete permutation. We make a copy of <code>path</code> and add it to our results list.</li>
+            <li><strong>Recursive Exploration:</strong> We loop through all numbers in <code>nums</code>. For each number <code>num</code>:
+              <ul>
+                <li>If the number is already used in our current path, we skip it to prevent reusing elements. To do this efficiently, we can use a boolean array <code>used</code> where <code>used[i]</code> tracks whether <code>nums[i]</code> is currently in our path. This lookup is <code>O(1)</code>, which is much faster than calling <code>path.contains(num)</code>, which takes <code>O(n)</code>.</li>
+                <li>Otherwise, we mark the number as used, append it to <code>path</code>, and recurse forward.</li>
+                <li>When the recursive call returns, we backtrack by removing the number from the end of <code>path</code> and marking it as unused.</li>
+              </ul>
+            </li>
+          </ul>
+          The auxiliary space complexity is <code>O(n)</code> due to the recursion stack and the state arrays.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>If path size equals array length, add copy of path to result. Iterate through array. If path contains num, skip. Otherwise, add num, recurse, and then remove num.</p>
+        <p>Let's trace the backtracking flow for <code>nums = [1, 2, 3]</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Root Call):</strong> <code>backtrack(path=[], used=[false, false, false])</code>.
+            <ul>
+              <li>Iteration <code>i = 0</code>: <code>nums[0] (1)</code> is unused. Mark <code>used[0] = true</code>, path is <code>[1]</code>. Recurse!</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Recurse Level 1):</strong> <code>backtrack(path=[1], used=[true, false, false])</code>.
+            <ul>
+              <li>Iteration <code>i = 0</code>: Already used. Skip.</li>
+              <li>Iteration <code>i = 1</code>: <code>nums[1] (2)</code> is unused. Mark <code>used[1] = true</code>, path is <code>[1, 2]</code>. Recurse!</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Recurse Level 2):</strong> <code>backtrack(path=[1, 2], used=[true, true, false])</code>.
+            <ul>
+              <li>Iteration <code>i = 0, 1</code>: Already used. Skip.</li>
+              <li>Iteration <code>i = 2</code>: <code>nums[2] (3)</code> is unused. Mark <code>used[2] = true</code>, path is <code>[1, 2, 3]</code>. Recurse!</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Base Case reached):</strong> <code>backtrack(path=[1, 2, 3])</code>.
+            <ul>
+              <li><code>path.size() == 3</code>. Save copy to result. Return.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Backtrack from level 2):</strong> In Step 3, we unmark <code>used[2] = false</code>, pop 3. Path becomes <code>[1, 2]</code>. Loop ends. Return.</li>
+          <li><strong>Step 6 (Backtrack from level 1):</strong> In Step 2, we unmark <code>used[1] = false</code>, pop 2. Path becomes <code>[1]</code>.
+            <ul>
+              <li>Loop in Step 2 continues to <code>i = 2</code>. <code>nums[2] (3)</code> is unused. Mark <code>used[2] = true</code>, path becomes <code>[1, 3]</code>. Recurse!</li>
+              <li>This path will eventually complete to <code>[1, 3, 2]</code>, save it, and backtrack.</li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Explore other roots):</strong> The algorithm backtracks to the root and initiates scans starting with 2 and 3, exploring all paths.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>boolean[] used</code>: A high-performance lookup state. Using a boolean array reduces lookup time to <code>O(1)</code>, optimizing the overall runtime.</li>
+          <li><code>if (used[i]) continue;</code>: The pruning check. Skips characters that are already active in the current path.</li>
+          <li><code>used[i] = true; path.add(nums[i]); ... used[i] = false; path.remove(path.size() - 1);</code>: The classic choose-explore-unchoose cycle, restoring state for adjacent branches.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -130,27 +191,47 @@
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Permutations {
 
-    // Backtracking - O(n!)
+    // Backtracking Search: Time O(N * N!), Space O(N)
     public List&lt;List&lt;Integer&gt;&gt; permute(int[] nums) {
-        List&lt;List&lt;Integer&gt;&gt; res = new ArrayList&lt;&gt;();
-        backtrack(nums, new ArrayList&lt;&gt;(), res);
-        return res;
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+        if (nums == null || nums.length == 0) {
+            return result;
+        }
+
+        boolean[] used = new boolean[nums.length];
+        backtrack(nums, new ArrayList&lt;&gt;(), used, result);
+        return result;
     }
 
-    private void backtrack(int[] nums, List&lt;Integer&gt; path, List&lt;List&lt;Integer&gt;&gt; res) {
+    private void backtrack(int[] nums, List&lt;Integer&gt; path, boolean[] used, List&lt;List&lt;Integer&gt;&gt; result) {
+        // Base case: if current path contains all numbers, a permutation is complete
         if (path.size() == nums.length) {
-            res.add(new ArrayList&lt;&gt;(path));
+            result.add(new ArrayList&lt;&gt;(path)); // Must deep copy
             return;
         }
-        for (int num : nums) {
-            if (path.contains(num)) continue;
-            path.add(num);
-            backtrack(nums, path, res);
+
+        for (int i = 0; i &lt; nums.length; i++) {
+            // Skip elements that are already in our current path
+            if (used[i]) {
+                continue;
+            }
+
+            // 1. Choose: Mark as used and add to path
+            used[i] = true;
+            path.add(nums[i]);
+
+            // 2. Explore: Recurse to generate subsequent positions
+            backtrack(nums, path, used, result);
+
+            // 3. Unchoose: Backtrack by removing and marking unused
             path.remove(path.size() - 1);
+            used[i] = false;
         }
     }
 
@@ -158,15 +239,16 @@ public class Permutations {
         Permutations solver = new Permutations();
         int[] nums = {1, 2, 3};
 
-        System.out.println(&quot;--- Permutations Demonstration ---&quot;);
-        System.out.println(&quot;Input: &quot; + Arrays.toString(nums));
-        System.out.println(&quot;Permutations: &quot; + solver.permute(nums));
+        System.out.println("--- Permutations Demonstration ---");
+        System.out.println("Input Array: " + Arrays.toString(nums));
+        List&lt;List&lt;Integer&gt;&gt; list = solver.permute(nums);
+        System.out.println("All Permutations: " + list);
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Permutations</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Generating permutations requires exploring all possible orderings of a set. By utilizing backtracking and optimizing lookup operations with a <code>used</code> state array, we navigate the state space tree with maximum execution speed and minimum memory overhead.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

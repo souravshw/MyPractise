@@ -110,19 +110,85 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to design a Least Recently Used (LRU) Cache using a HashMap and a Doubly Linked List in O(1) time.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>An <strong>LRU (Least Recently Used) Cache</strong> is a popular caching mechanism used in systems design. Caches are high-speed, temporary storage structures with limited capacity. When the cache becomes full and a new item needs to be stored, the cache must evict an old item to make room. The LRU policy ejects the item that has not been accessed for the longest duration.</p>
+        <p>To design an efficient LRU Cache, we must support two core operations:
+          <ul>
+            <li><code>get(key)</code>: Retrieve the value associated with the key if it exists in the cache; otherwise, return <code>-1</code>. When accessed, this key is marked as the most recently used.</li>
+            <li><code>put(key, value)</code>: Insert or update the key-value pair. If the cache reaches its capacity, we must evict the least recently used key before inserting the new one.</li>
+          </ul>
+          Crucially, both operations must run in <strong>O(1) constant time complexity</strong>. To achieve this, we combine two data structures: a <strong>HashMap</strong> (for instant key-to-node lookups) and a custom <strong>Doubly Linked List</strong> (for instant removal and insertion of elements at the boundaries).
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Active Desk Files
+            Real-World Analogy: The Active File Desk
           </div>
-          <p>Imagine a desk that only holds 2 folders. When you access a folder, you pull it to the front of the pile. If the desk is full and you need a new folder, you throw away the folder at the very bottom (least recently used). We represent the pile using a Doubly Linked List and lookup using a HashMap.</p>
+          <p>Imagine you have a small study desk that can only fit exactly 3 files at a time. When you work on a file, you place it on the very top of the pile on your desk (most recently used). If you need to refer to a file that is already on the desk, you pull it out from the middle and put it at the very top of the pile. If you need a new file from the filing cabinet and your desk is already full, you must remove the file at the very bottom of the pile (least recently used) and return it to the cabinet to make room for the new file. In software, the desk pile is a Doubly Linked List (where the top is the head and the bottom is the tail), and your mental index of where each file is located on the desk is the HashMap.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>HashMap + Doubly Linked List (O(1) Get and Put)</h3>
+        <p>We implement a custom Doubly Linked List with dummy <code>head</code> and <code>tail</code> nodes:
+          <ul>
+            <li><strong>Dummy Nodes:</strong> Dummy <code>head</code> and <code>tail</code> act as sentinels. They linked together initially: <code>head.next = tail</code> and <code>tail.prev = head</code>. This eliminates null pointer checks during insertions and deletions.</li>
+            <li><strong>HashMap Lookup:</strong> The map stores the key and a reference to its corresponding <code>Node</code> in the list. This lets us jump directly to any node in <code>O(1)</code> time, avoiding linear list scans.</li>
+            <li><strong>Access Updates:</strong> Whenever a key is accessed (via <code>get</code>) or updated (via <code>put</code>), we disconnect its node from its current place in the list and insert it immediately after the dummy <code>head</code>. This keeps the list ordered by recency, with the most recently used at the front and the least recently used at the back (before the dummy <code>tail</code>).</li>
+            <li><strong>Ejection:</strong> When capacity is exceeded during a <code>put</code>, we remove the node right before the dummy tail (<code>tail.prev</code>) from both the list and the HashMap.</li>
+          </ul>
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>HashMap stores keys pointing to nodes in Doubly Linked List. 'get' moves accessed node to head. 'put' adds node to head; if capacity exceeded, it removes tail.prev node.</p>
+        <p>Let's trace an LRU Cache with a capacity of <code>2</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialize):</strong>
+            <ul>
+              <li>Capacity = 2. Dummy list: <code>head &harr; tail</code>. Map is empty.</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (put(1, 1)):</strong>
+            <ul>
+              <li>Create <code>Node(1, 1)</code>. Insert after head: <code>head &harr; Node(1,1) &harr; tail</code>.</li>
+              <li>Add to map: <code>{1: Node(1,1)}</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (put(2, 2)):</strong>
+            <ul>
+              <li>Create <code>Node(2, 2)</code>. Insert after head: <code>head &harr; Node(2,2) &harr; Node(1,1) &harr; tail</code>.</li>
+              <li>Add to map: <code>{1: Node(1,1), 2: Node(2,2)}</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (get(1)):</strong>
+            <ul>
+              <li>Key 1 is in map. Retrieve <code>Node(1,1)</code>.</li>
+              <li>Move to front: Remove <code>Node(1,1)</code> from list and insert after head: <code>head &harr; Node(1,1) &harr; Node(2,2) &harr; tail</code>.</li>
+              <li>Return value <code>1</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (put(3, 3)):</strong>
+            <ul>
+              <li>Key 3 is new. Cache size (2) equals capacity (2). Eject least recently used node.</li>
+              <li>Eject node before tail: <code>tail.prev</code> is <code>Node(2,2)</code>. Remove it from map: <code>{1: Node(1,1)}</code>. Remove from list: <code>head &harr; Node(1,1) &harr; tail</code>.</li>
+              <li>Create and insert <code>Node(3, 3)</code> after head: <code>head &harr; Node(3,3) &harr; Node(1,1) &harr; tail</code>.</li>
+              <li>Add to map: <code>{1: Node(1,1), 3: Node(3,3)}</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (get(2)):</strong>
+            <ul>
+              <li>Key 2 is not in map. Return <code>-1</code>.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>node.prev.next = node.next; node.next.prev = node.prev;</code>: Disconnects a node from its current spot in the linked list. Because it is a doubly linked list, we can perform this deletion in <code>O(1)</code> time without scanning the list.</li>
+          <li><code>head.next.prev = node; node.next = head.next; ...</code>: Inserts a node immediately after the dummy head, marking it as the most recently accessed.</li>
+          <li><code>remove(tail.prev);</code>: Evicts the least recently used node. Since the tail node is connected to the back of the list, <code>tail.prev</code> points directly to the victim node.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -134,10 +200,14 @@ import java.util.*;
 
 public class LRUCache {
 
+    // Doubly Linked List Node to store key-value pair and pointers
     static class Node {
         int key, val;
         Node prev, next;
-        Node(int k, int v) { key = k; val = v; }
+        Node(int k, int v) { 
+            key = k; 
+            val = v; 
+        }
     }
 
     private final int capacity;
@@ -153,30 +223,36 @@ public class LRUCache {
         tail.prev = head;
     }
 
+    // Get value from cache and mark node as recently accessed
     public int get(int key) {
-        if (!map.containsKey(key)) return -1;
+        if (!map.containsKey(key)) {
+            return -1;
+        }
         Node node = map.get(key);
-        remove(node);
-        insertToFront(node);
+        remove(node);          // Remove node from its current position
+        insertToFront(node);   // Move node to the head of the list
         return node.val;
     }
 
+    // Add or update value in cache and evict least recently used if full
     public void put(int key, int value) {
         if (map.containsKey(key)) {
             remove(map.get(key));
         }
         if (map.size() == capacity) {
-            remove(tail.prev);
+            remove(tail.prev); // Evict least recently used (node before tail dummy)
         }
         insertToFront(new Node(key, value));
     }
 
+    // Unlink node from list and remove from HashMap
     private void remove(Node node) {
         map.remove(node.key);
         node.prev.next = node.next;
         node.next.prev = node.prev;
     }
 
+    // Insert node directly after dummy head and add to HashMap
     private void insertToFront(Node node) {
         map.put(node.key, node);
         node.next = head.next;
@@ -186,19 +262,33 @@ public class LRUCache {
     }
 
     public static void main(String[] args) {
+        System.out.println("--- LRU Cache Demonstration ---");
         LRUCache cache = new LRUCache(2);
-        System.out.println(&quot;--- LRU Cache Demonstration ---&quot;);
+        
+        System.out.println("Putting (1, 1)");
         cache.put(1, 1);
+        System.out.println("Putting (2, 2)");
         cache.put(2, 2);
-        System.out.println(&quot;Get(1): &quot; + cache.get(1)); // returns 1
+        
+        System.out.println("Get(1): " + cache.get(1) + " (Expected: 1)"); // returns 1
+        
+        System.out.println("Putting (3, 3) [Ejects Key 2]");
         cache.put(3, 3); // evicts key 2
-        System.out.println(&quot;Get(2): &quot; + cache.get(2)); // returns -1 (not found)
+        
+        System.out.println("Get(2): " + cache.get(2) + " (Expected: -1)"); // returns -1 (not found)
+        
+        System.out.println("Putting (4, 4) [Ejects Key 1]");
+        cache.put(4, 4); // evicts key 1
+        
+        System.out.println("Get(1): " + cache.get(1) + " (Expected: -1)"); // returns -1 (not found)
+        System.out.println("Get(3): " + cache.get(3) + " (Expected: 3)");  // returns 3
+        System.out.println("Get(4): " + cache.get(4) + " (Expected: 4)");  // returns 4
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>LRU Cache</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Designing an LRU Cache demonstrates how mapping a Hash Table with a Doubly Linked List solves opposing performance constraints. The HashMap guarantees rapid access, while the list enables fast additions and updates, maintaining an O(1) runtime for all cache operations.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

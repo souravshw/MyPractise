@@ -110,19 +110,94 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to solve the classic N-Queens puzzle on an N x N chessboard using backtracking.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>N-Queens</strong> puzzle is a classic constraint satisfaction problem in computer science. The goal is to place <code>N</code> chess queens on an <code>N &times; N</code> chessboard such that no two queens can attack each other. </p>
+        <p>In chess, a queen is the most powerful piece; it can attack any other piece located in the same <strong>row</strong>, <strong>column</strong>, or along either of its two <strong>diagonals</strong> (primary and secondary). To solve this puzzle, we must find all unique grid layouts where <code>N</code> queens coexist in absolute peace. 
+           For example, for a <code>4 &times; 4</code> board, there are exactly 2 unique solutions.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Peaceful Chessboard
+            Real-World Analogy: Placing Volatile Diplomats
           </div>
-          <p>You want to place N queens on an N x N chessboard so they cannot attack each other (no two queens share a row, column, or diagonal). You place one queen per row. For each column, you check if it is safe. If safe, place queen, recurse to next row. If recursive branch fails, remove queen and try next column.</p>
+          <p>Imagine you are hosting a peace summit with <code>N</code> highly volatile diplomats. If any two diplomats are placed in the same line of sight (horizontally, vertically, or diagonally), they will break out into an argument. You have <code>N</code> rows of office spaces to place them. You start by placing the first diplomat in row 1, column 1. You then look for a safe office in row 2. If you find one, you place the second diplomat and proceed to row 3. If you reach row 3 and find that no office is safe, you realize your earlier placement in row 2 was a mistake. You must retreat (backtrack) to row 2, move that diplomat to their next option, and try again. By systematically making a choice, moving forward, and retreating when hitting a dead-end, you find a peaceful arrangement for all diplomats.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>Recursive Backtracking with Pruning (Time O(N!), Space O(N))</h3>
+        <p>Since we must place exactly one queen per row, we can simplify our search space by traversing the board row-by-row. Starting at row 0:
+          <ul>
+            <li><strong>Base Case:</strong> If the current <code>row</code> matches <code>N</code>, we have placed all queens successfully. We copy the current board state and add it to our results list.</li>
+            <li><strong>Column Iteration:</strong> For the current <code>row</code>, we try to place a queen in each column <code>col</code> from <code>0</code> to <code>N - 1</code>.</li>
+            <li><strong>Safety Check:</strong> Before placing a queen at <code>board[row][col]</code>, we check if it is safe. Since we build the board top-to-bottom, we only check for threats above:
+              <ol>
+                <li>Vertically upwards in the same column <code>col</code>.</li>
+                <li>Diagonally upwards to the left (primary diagonal direction).</li>
+                <li>Diagonally upwards to the right (secondary diagonal direction).</li>
+              </ol>
+            </li>
+            <li><strong>Explore and Backtrack:</strong> If safe, we place the queen (<code>board[row][col] = 'Q'</code>), recurse to <code>row + 1</code>, and then backtrack by removing the queen (<code>board[row][col] = '.'</code>) before trying the next column.</li>
+          </ul>
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Solve row by row. For each column in row, check safety (upward, left-up, right-up diagonals). If safe, place 'Q', recurse for row+1. If fails, backtrack by placing '.'.</p>
+        <p>Let's trace the backtracking search for <code>N = 4</code>. We start with an empty board:</p>
+        <ol>
+          <li><strong>Step 1 (Row 0):</strong>
+            <ul>
+              <li>Place queen at <code>col = 0</code>. Row 0: <code>[Q, ., ., .]</code>. Recurse to row 1.</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Row 1):</strong>
+            <ul>
+              <li><code>col = 0</code> (attacks <code>(0,0)</code> column).</li>
+              <li><code>col = 1</code> (attacks <code>(0,0)</code> diagonal).</li>
+              <li><code>col = 2</code> is safe! Place queen. Row 1: <code>[., ., Q, .]</code>. Recurse to row 2.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Row 2):</strong>
+            <ul>
+              <li><code>col = 0</code> (attacks <code>(0,0)</code> column).</li>
+              <li><code>col = 1</code> (attacks <code>(1,2)</code> diagonal).</li>
+              <li><code>col = 2</code> (attacks <code>(1,2)</code> column).</li>
+              <li><code>col = 3</code> (attacks <code>(1,2)</code> diagonal).</li>
+              <li>No columns are safe in Row 2! Backtrack to Row 1.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Backtrack to Row 1):</strong>
+            <ul>
+              <li>Remove queen from <code>col = 2</code>. Try <code>col = 3</code> (safe!). Row 1: <code>[., ., ., Q]</code>. Recurse to row 2.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Row 2):</strong>
+            <ul>
+              <li><code>col = 1</code> is safe! Place queen. Row 2: <code>[., Q, ., .]</code>. Recurse to row 3.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Row 3):</strong>
+            <ul>
+              <li>All columns are under attack! <code>col = 0</code>, <code>1</code>, <code>2</code>, <code>3</code> are invalid. Backtrack to Row 2.</li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Backtrack recursively):</strong>
+            <ul>
+              <li>Remove queen from Row 2, <code>col = 1</code>. Backtrack to Row 1. Remove queen from Row 1, <code>col = 3</code>. Backtrack to Row 0.</li>
+              <li>Move Row 0 queen to <code>col = 1</code>: Row 0: <code>[., Q, ., .]</code>. This branch eventually finds a valid solution:
+                <br>Row 0: <code>[., Q, ., .]</code>, Row 1: <code>[., ., ., Q]</code>, Row 2: <code>[Q, ., ., .]</code>, Row 3: <code>[., ., Q, .]</code>.
+              </li>
+            </ul>
+          </li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>if (row == board.length)</code>: The base case confirming a complete board solution. We build a list of strings representing the board and add it to our answers.</li>
+          <li><code>if (isSafe(board, row, col))</code>: The pruning helper that stops recursion on invalid paths early, preventing unnecessary operations.</li>
+          <li><code>board[row][col] = 'Q'; backtrack(row + 1, ...); board[row][col] = '.';</code>: The choose-explore-unchoose backtracking pattern. Setting the cell back to <code>'.'</code> is crucial so that adjacent column scans starting at this row see an empty board.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -134,38 +209,65 @@ import java.util.*;
 
 public class NQueens {
 
-    // Backtracking - O(n!)
+    // Backtracking - O(n!) Time, O(n) Space
     public List&lt;List&lt;String&gt;&gt; solveNQueens(int n) {
         List&lt;List&lt;String&gt;&gt; res = new ArrayList&lt;&gt;();
         char[][] board = new char[n][n];
-        for (char[] row : board) Arrays.fill(row, &#x27;.&#x27;);
+        for (char[] row : board) {
+            Arrays.fill(row, '.');
+        }
         backtrack(0, board, res);
         return res;
     }
 
     private void backtrack(int row, char[][] board, List&lt;List&lt;String&gt;&gt; res) {
+        // Base case: If all rows are filled, we found a valid placement
         if (row == board.length) {
             List&lt;String&gt; list = new ArrayList&lt;&gt;();
-            for (char[] r : board) list.add(new String(r));
+            for (char[] r : board) {
+                list.add(new String(r));
+            }
             res.add(list);
             return;
         }
+
+        // Try placing a queen in each column of the current row
         for (int col = 0; col &lt; board.length; col++) {
             if (isSafe(board, row, col)) {
-                board[row][col] = &#x27;Q&#x27;;
+                // 1. Choose: Place the queen
+                board[row][col] = 'Q';
+
+                // 2. Explore: Recurse to place the queen in the next row
                 backtrack(row + 1, board, res);
-                board[row][col] = &#x27;.&#x27;;
+
+                // 3. Unchoose: Backtrack by removing the queen
+                board[row][col] = '.';
             }
         }
     }
 
     private boolean isSafe(char[][] board, int row, int col) {
-        for (int i = 0; i &lt; row; i++)
-            if (board[i][col] == &#x27;Q&#x27;) return false;
-        for (int i = row - 1, j = col - 1; i &gt;= 0 &amp;&amp; j &gt;= 0; i--, j--)
-            if (board[i][j] == &#x27;Q&#x27;) return false;
-        for (int i = row - 1, j = col + 1; i &gt;= 0 &amp;&amp; j &lt; board.length; i--, j++)
-            if (board[i][j] == &#x27;Q&#x27;) return false;
+        // Check vertical column above
+        for (int i = 0; i &lt; row; i++) {
+            if (board[i][col] == 'Q') {
+                return false;
+            }
+        }
+
+        // Check top-left diagonal
+        for (int i = row - 1, j = col - 1; i &gt;= 0 &amp;&amp; j &gt;= 0; i--, j--) {
+            if (board[i][j] == 'Q') {
+                return false;
+            }
+        }
+
+        // Check top-right diagonal
+        for (int i = row - 1, j = col + 1; i &gt;= 0 &amp;&amp; j &lt; board.length; i--, j++) {
+            if (board[i][j] == 'Q') {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -173,19 +275,25 @@ public class NQueens {
         NQueens solver = new NQueens();
         int n = 4;
 
-        System.out.println(&quot;--- N-Queens Demonstration ---&quot;);
+        System.out.println("--- N-Queens Demonstration ---");
+        System.out.println("Chessboard Size: " + n + "x" + n);
         List&lt;List&lt;String&gt;&gt; solutions = solver.solveNQueens(n);
-        System.out.println(&quot;Number of solutions for 4-Queens: &quot; + solutions.size());
-        System.out.println(&quot;Example Solution:&quot;);
-        for (String row : solutions.get(0)) {
-            System.out.println(row);
+        System.out.println("Number of solutions found: " + solutions.size());
+        
+        System.out.println("\nAll Solutions:");
+        for (int i = 0; i &lt; solutions.size(); i++) {
+            System.out.println("Solution #" + (i + 1) + ":");
+            for (String row : solutions.get(i)) {
+                System.out.println(row);
+            }
+            System.out.println();
         }
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>N-Queens</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>The N-Queens problem is a beautiful showcase of the power of backtracking. By recursively placing queens row by row and checking constraints on the fly, we skip millions of invalid chess layouts, finding the valid layouts efficiently.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

@@ -110,19 +110,80 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to design a hit counter that records hits in the past 5 minutes.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>A <strong>Hit Counter</strong> is a system that monitors and records the frequency of requests (hits) over a sliding temporal window—typically the last 5 minutes (or 300 seconds). It is widely used in rate limiting, web analytics, and security logging systems.</p>
+        <p>Our system must implement the following operations:
+          <ul>
+            <li><code>hit(timestamp)</code>: Record a request event occurring at a given second-level timestamp (measured in seconds).</li>
+            <li><code>getHits(timestamp)</code>: Return the total count of hits received in the past 5 minutes (i.e., within the range <code>[timestamp - 299, timestamp]</code>).</li>
+          </ul>
+          The primary design constraints are execution speed and memory efficiency. We can achieve this with a <strong>Queue</strong> data structure to store timestamps sequentially, allowing us to easily append hits at the end and trim stale events from the front.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Sliding Turnstile
+            Real-World Analogy: The Sliding Turnstile Ticket Box
           </div>
-          <p>Imagine counting people entering a museum in the last 5 minutes. You store timestamps of visitors in a queue. When you request the hit count, you look at the front of the queue and remove all timestamps older than 5 minutes (300 seconds). The size of the remaining queue is your count.</p>
+          <p>Imagine a security turnstile at a theme park that counts visitors currently in a special zone where the maximum stay duration is exactly 5 minutes (300 seconds). Every visitor who enters is given a ticket stamped with their exact entry time. The guard puts these tickets into a box in the order they arrive. When someone asks 'How many visitors are in the zone right now?', the guard checks the current time, goes to the front of the ticket pile, and discards any ticket stamped older than 300 seconds. The number of remaining tickets in the box is the count of active visitors. In software, this box is a Queue, where new hits are offered to the back and stale hits are polled from the front.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>The Queue-Based Solution (Amortized O(1) Time, O(N) Space)</h3>
+        <p>Since timestamps of incoming hits are monotonically increasing, we can log each hit into a Queue:
+          <ul>
+            <li><strong>Recording Hits:</strong> When <code>hit(timestamp)</code> is called, we append the timestamp to the queue. This is a simple <code>O(1)</code> insertion.</li>
+            <li><strong>Cleaning Stale Hits:</strong> When <code>getHits(timestamp)</code> is called, we must evict all logged timestamps that are older than 300 seconds. We check the head of the queue (<code>queue.peek()</code>) in a loop:
+              <br>If <code>(timestamp - queue.peek() >= 300)</code>, the hit occurred outside the 5-minute window. We remove it (<code>queue.poll()</code>) and check the next head.
+            </li>
+            <li><strong>Returning Count:</strong> We repeat this until the queue is empty or the oldest hit is within the 300-second window. The current size of the queue is the count of active hits.</li>
+            <li><strong>Time Complexity:</strong> Although <code>getHits</code> contains a loop, each hit is offered exactly once and polled at most once. Thus, the time complexity averages out to <strong>amortized O(1)</strong> per operation.</li>
+          </ul>
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>hit(timestamp) offers timestamp to queue. getHits(timestamp) polls elements from queue as long as (timestamp - peek) >= 300. Returns queue size.</p>
+        <p>Let's trace a Hit Counter receiving hits at timestamps <code>1</code>, <code>2</code>, and <code>3</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Record Hits):</strong>
+            <ul>
+              <li><code>hit(1)</code>: Queue becomes <code>[1]</code>.</li>
+              <li><code>hit(2)</code>: Queue becomes <code>[1, 2]</code>.</li>
+              <li><code>hit(3)</code>: Queue becomes <code>[1, 2, 3]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (getHits(4)):</strong>
+            <ul>
+              <li>Compare front of queue <code>1</code> with current time <code>4</code>.</li>
+              <li><code>4 - 1 = 3</code> (less than 300). No hits are stale.</li>
+              <li>Return queue size: <code>3</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (getHits(300)):</strong>
+            <ul>
+              <li>Compare front of queue <code>1</code> with current time <code>300</code>.</li>
+              <li><code>300 - 1 = 299</code> (less than 300). No hits are stale.</li>
+              <li>Return queue size: <code>3</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (getHits(301)):</strong>
+            <ul>
+              <li>Compare front of queue <code>1</code> with current time <code>301</code>.</li>
+              <li><code>301 - 1 = 300</code> (equal to or greater than 300). Stale! Remove <code>1</code>. Queue becomes <code>[2, 3]</code>.</li>
+              <li>Compare next front <code>2</code> with current time <code>301</code>.</li>
+              <li><code>301 - 2 = 299</code> (less than 300). Not stale. Stop loop.</li>
+              <li>Return queue size: <code>2</code>.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>queue.offer(timestamp)</code>: Adds the incoming timestamp to the queue. It maintains the chronological ordering since timestamps are guaranteed to arrive in non-decreasing order.</li>
+          <li><code>while (!queue.isEmpty() && timestamp - queue.peek() >= 300)</code>: The pruning loop. It checks the oldest element at the front and discards it if it has aged past 300 seconds.</li>
+          <li><code>queue.size()</code>: Returns the remaining active hits in the rolling 5-minute window in constant time.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -135,13 +196,21 @@ import java.util.*;
 public class DesignHitCounter {
 
     public static class HitCounter {
-        private Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
+        // Queue to store the timestamps of incoming hits in chronological order
+        private final Queue&lt;Integer&gt; queue;
 
+        public HitCounter() {
+            this.queue = new LinkedList&lt;&gt;();
+        }
+
+        // Record a hit at the given timestamp
         public void hit(int timestamp) {
             queue.offer(timestamp);
         }
 
+        // Return the number of hits in the last 5 minutes (300 seconds)
         public int getHits(int timestamp) {
+            // Evict hits older than 300 seconds from the front of the queue
             while (!queue.isEmpty() &amp;&amp; timestamp - queue.peek() &gt;= 300) {
                 queue.poll();
             }
@@ -151,19 +220,26 @@ public class DesignHitCounter {
 
     public static void main(String[] args) {
         HitCounter counter = new HitCounter();
-        System.out.println(&quot;--- Design Hit Counter Demonstration ---&quot;);
+        System.out.println("--- Design Hit Counter Demonstration ---");
+        
+        System.out.println("Logging hits at seconds 1, 2, and 3...");
         counter.hit(1);
         counter.hit(2);
         counter.hit(3);
-        System.out.println(&quot;Hits at timestamp 4: &quot; + counter.getHits(4)); // 3
-        System.out.println(&quot;Hits at timestamp 300: &quot; + counter.getHits(300)); // 3
-        System.out.println(&quot;Hits at timestamp 301: &quot; + counter.getHits(301)); // 2 (hit at 1 expired)
+        
+        System.out.println("Hits at second 4: " + counter.getHits(4) + " (Expected: 3)");
+        System.out.println("Hits at second 300: " + counter.getHits(300) + " (Expected: 3)");
+        System.out.println("Hits at second 301: " + counter.getHits(301) + " (Expected: 2) [Hit at second 1 expired]");
+        
+        System.out.println("\nLogging another hit at second 302...");
+        counter.hit(302);
+        System.out.println("Hits at second 302: " + counter.getHits(302) + " (Expected: 3) [Hits at 2, 3, 302 are active]");
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Design Hit Counter</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Designing a Hit Counter teaches us how to manage rolling time windows. By caching timestamp sequences inside a Queue, we can continuously prune expired logs in amortized constant time, preventing stale details from occupying memory.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

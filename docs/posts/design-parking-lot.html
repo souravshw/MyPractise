@@ -110,19 +110,77 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to model a parking lot system using Object-Oriented Programming (OOP) and polymorphism.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>Designing a <strong>Parking Lot</strong> is a classic Object-Oriented Design (OOD) interview question. It assesses your ability to break down a physical, real-world system into logical software abstractions using fundamental OOP principles: <strong>Inheritance</strong>, <strong>Encapsulation</strong>, and <strong>Polymorphism</strong>.</p>
+        <p>A parking lot contains various parking spots of different sizes, and accommodates vehicles of matching sizes. To build a robust model, we must design:
+          <ul>
+            <li><strong>Vehicle Types:</strong> Support multiple classes of vehicles, such as Bikes, Cars, and Trucks.</li>
+            <li><strong>ParkingSpot Constraints:</strong> Spots are typed to match vehicle classes. A vehicle can only park in a spot of the same type.</li>
+            <li><strong>Parking Lot Management:</strong> A controller class that automates allocating available spots for incoming vehicles and vacating them upon departure.</li>
+          </ul>
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Labeled Parking Slots
+            Real-World Analogy: Labeled Mail Slots
           </div>
-          <p>A parking lot has spots of different sizes (Bike, Car, Truck). A vehicle can only park in a spot matching its type. We use an abstract class 'Vehicle' and subclasses 'Car', etc., and spots track their status in a clean object-oriented layout.</p>
+          <p>Imagine you run a mailroom that receives packages of three different sizes: letters (bikes), boxes (cars), and large crates (trucks). To store them, you have shelves with compartments of corresponding sizes: small slots, medium slots, and large shelves. When a package arrives, you look at its size and search for the first empty compartment that matches that size. You cannot place a large crate on a letter slot, nor do you want to waste a large shelf on a single letter. In software, the packages are <code>Vehicle</code> objects, the compartments are <code>ParkingSpot</code> objects, and the mailroom manager who assigns packages to spots is the <code>ParkingLot</code> coordinator.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>Polymorphic Class Hierarchies</h3>
+        <p>We leverage object-oriented principles to build a clean model:
+          <ul>
+            <li><strong>Polymorphism:</strong> We define a base abstract <code>Vehicle</code> class. Specific vehicle types (like <code>Car</code>) inherit from it, defining their own default <code>VehicleType</code>.</li>
+            <li><strong>Encapsulation:</strong> The <code>ParkingSpot</code> class manages its own state, exposing a <code>park(Vehicle v)</code> method that evaluates safety constraints internally:
+              <br><code>if (isFree && v.type == type)</code>.
+            </li>
+            <li><strong>Delegation:</strong> The <code>ParkingLot</code> class holds a collection of spots. When parking a vehicle, it loops through the spots and delegates the parking operation to each spot until one accepts the vehicle.</li>
+          </ul>
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Vehicle has a type and license. ParkingSpot has a type and availability. ParkingLot contains a list of spots, matches vehicle type, and parks/unparks vehicles.</p>
+        <p>Let's trace a parking lot containing a single <code>CAR</code> parking spot:</p>
+        <ol>
+          <li><strong>Step 1 (Setup):</strong>
+            <ul>
+              <li>Create <code>ParkingSpot spot1(type = CAR)</code>.</li>
+              <li>Initialize <code>ParkingLot</code> with <code>List.of(spot1)</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Park Car):</strong>
+            <ul>
+              <li>A <code>Car</code> object with license <code>"MH12-1234"</code> arrives. We call <code>lot.parkVehicle(car)</code>.</li>
+              <li>The loop scans spots. It invokes <code>spot1.park(car)</code>.</li>
+              <li><code>spot1</code> checks constraints: Is it free? Yes. Does vehicle type <code>CAR</code> match spot type <code>CAR</code>? Yes.</li>
+              <li>The spot is marked as occupied (<code>isFree = false</code>, <code>vehicle = car</code>). Returns <code>true</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Park Another Car):</strong>
+            <ul>
+              <li>A second <code>Car</code> arrives. We call <code>lot.parkVehicle(car2)</code>.</li>
+              <li>Scan spots: <code>spot1.park(car2)</code> is called.</li>
+              <li>Constraint check fails because <code>spot1.isFree</code> is false. Returns <code>false</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Unpark Car):</strong>
+            <ul>
+              <li>The first car leaves. We call <code>lot.unparkVehicle(car)</code>.</li>
+              <li>The loop searches spots for the one holding <code>car</code>. It finds <code>spot1</code> and invokes <code>spot1.leave()</code>.</li>
+              <li><code>spot1</code> clears its reference (<code>vehicle = null</code>) and sets <code>isFree = true</code>.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>public abstract static class Vehicle</code>: Enforces inheritance. By declaring this abstract, we ensure no generic "Vehicle" can be instantiated directly; it must be a concrete type like Car or Bike.</li>
+          <li><code>if (isFree && v.type == type)</code>: Enforces type-safety. Prevents a Truck from parking in a Motorcycle spot.</li>
+          <li><code>s.park(v)</code>: The delegation step. The lot itself doesn't modify the spot's attributes directly; it requests the spot to execute the action, respecting encapsulation.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -134,57 +192,89 @@ import java.util.*;
 
 public class DesignParkingLot {
 
-    public enum VehicleType { BIKE, CAR, TRUCK }
+    // Enum representing supported vehicle/spot sizes
+    public enum VehicleType { 
+        BIKE, 
+        CAR, 
+        TRUCK 
+    }
 
+    // Abstract base class representing a generic vehicle
     public abstract static class Vehicle {
         VehicleType type;
         String license;
+        
         public Vehicle(VehicleType type, String license) {
             this.type = type;
             this.license = license;
         }
     }
 
+    // Concrete Car class inheriting from Vehicle
     public static class Car extends Vehicle {
-        public Car(String license) { super(VehicleType.CAR, license); }
+        public Car(String license) { 
+            super(VehicleType.CAR, license); 
+        }
     }
 
+    // Class representing a single parking spot
     public static class ParkingSpot {
-        VehicleType type;
-        boolean isFree;
-        Vehicle vehicle;
+        private final VehicleType type;
+        private boolean isFree;
+        private Vehicle vehicle;
+        
         public ParkingSpot(VehicleType type) {
             this.type = type;
             this.isFree = true;
         }
+
+        // Park the vehicle if spot is free and type matches
         public boolean park(Vehicle v) {
-            if (isFree &amp;&amp; v.type == type) {
+            if (isFree &amp;&amp; v.type == this.type) {
                 this.vehicle = v;
-                isFree = false;
+                this.isFree = false;
                 return true;
             }
             return false;
         }
+
+        // Vacate the spot
         public void leave() {
             this.vehicle = null;
-            isFree = true;
+            this.isFree = true;
+        }
+
+        public boolean isFree() {
+            return isFree;
+        }
+
+        public Vehicle getVehicle() {
+            return vehicle;
         }
     }
 
+    // Controller class managing multiple spots
     public static class ParkingLot {
-        List&lt;ParkingSpot&gt; spots;
+        private final List&lt;ParkingSpot&gt; spots;
+        
         public ParkingLot(List&lt;ParkingSpot&gt; spots) {
             this.spots = spots;
         }
+
+        // Scan and park in the first available slot
         public boolean parkVehicle(Vehicle v) {
             for (ParkingSpot s : spots) {
-                if (s.park(v)) return true;
+                if (s.park(v)) {
+                    return true;
+                }
             }
             return false;
         }
+
+        // Scan and vacate the spot holding the vehicle
         public void unparkVehicle(Vehicle v) {
             for (ParkingSpot s : spots) {
-                if (s.vehicle == v) {
+                if (s.getVehicle() == v) {
                     s.leave();
                     break;
                 }
@@ -193,19 +283,30 @@ public class DesignParkingLot {
     }
 
     public static void main(String[] args) {
+        System.out.println("--- Design Parking Lot Demonstration ---");
+        
         ParkingSpot spot1 = new ParkingSpot(VehicleType.CAR);
         ParkingLot lot = new ParkingLot(List.of(spot1));
-        Car car = new Car(&quot;MH12-1234&quot;);
-
-        System.out.println(&quot;--- Design Parking Lot Demonstration ---&quot;);
-        System.out.println(&quot;Parking Car: &quot; + lot.parkVehicle(car)); // true
-        System.out.println(&quot;Parking same Car again (no spot): &quot; + lot.parkVehicle(car)); // false
+        
+        Car car = new Car("MH12-1234");
+        
+        System.out.println("Attempting to park Car [MH12-1234]...");
+        boolean park1 = lot.parkVehicle(car);
+        System.out.println("Parking Success: " + park1 + " (Expected: true)");
+        
+        System.out.println("\nAttempting to park same Car again (no empty spots)...");
+        boolean park2 = lot.parkVehicle(car);
+        System.out.println("Parking Success: " + park2 + " (Expected: false)");
+        
+        System.out.println("\nCar vacating spot...");
+        lot.unparkVehicle(car);
+        System.out.println("Spot status isFree: " + spot1.isFree() + " (Expected: true)");
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Design Parking Lot</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Designing a Parking Lot highlights the elegance of object-oriented modeling. By distributing logic into separate components (Vehicle subclasses, ParkingSpot verifiers, and ParkingLot coordinators), we build an extensible system capable of growing to support new vehicle classes effortlessly.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

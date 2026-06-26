@@ -110,19 +110,89 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to partition a string into all possible palindromic substrings using backtracking.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Palindrome Partitioning</strong> problem asks us to divide a given string <code>s</code> into all possible groups of substrings such that every substring in a group is a <strong>palindrome</strong>.</p>
+        <p>A <strong>palindrome</strong> is a word or sequence that reads the same backward as forward (e.g., "aba", "a", "racecar"). 
+           For a string like <code>"aab"</code>, there are multiple ways to partition it, but only some yield exclusively palindromic parts:
+           <br><code>[["a", "a", "b"], ["aa", "b"]]</code> is valid, whereas <code>["a", "ab"]</code> is invalid because "ab" is not a palindrome.
+           Generating these configurations requires exploring the character boundaries recursively. Backtracking combined with two-pointer checking is the optimal approach for this problem.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: Splitting Words symmetrically
+            Real-World Analogy: Splitting Patterned Beads
           </div>
-          <p>To split a string into palindromes, you try taking prefixes of length 1, 2, etc. If the prefix is a palindrome, you add it to your path and recursively partition the remaining string. Once you reach the end, you record the partition list and backtrack.</p>
+          <p>Imagine you have a necklace of colored beads with a pattern like <strong>red-red-blue</strong> (represented by "aab"). You want to cut the string of beads into smaller segments such that each segment is symmetrical. You start from the left: you cut off the first bead "a". Since a single bead is symmetric, you place it in a tray and move to the remaining beads "ab". You try cutting the next bead "a", which is symmetric, leaving "b". You cut the final bead "b", which is symmetric. Since you successfully cut the entire pattern symmetrically, you record your partition: <code>["a", "a", "b"]</code>. You backtrack (retrieve the bead "b" and the bead "a") and try a larger cut: cutting "aa". Since "aa" is symmetric, you place it in the tray and cut the remaining "b". This gives you <code>["aa", "b"]</code>. By systematically slicing, recursing, and backtracking, you discover all valid symmetric layouts.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>DFS Backtracking Search (Time O(N * 2<sup>N</sup>), Space O(N))</h3>
+        <p>We solve this by trying all possible cut sizes starting from index 0:
+          <ul>
+            <li><strong>Base Case:</strong> If the <code>start</code> index reaches the length of string <code>s</code>, we have successfully partitioned the entire string. We create a copy of the current <code>path</code> and add it to our results list.</li>
+            <li><strong>Substring Scan:</strong> We loop the ending boundary <code>end</code> from <code>start + 1</code> to <code>s.length()</code>.</li>
+            <li><strong>Palindrome Validation:</strong> For each partition, we extract the substring <code>s.substring(start, end)</code> and check if it is a palindrome using a two-pointer layout.</li>
+            <li><strong>Recurse and Backtrack:</strong> If the substring is a palindrome, we add it to our active partition <code>path</code>, recursively call the function starting at index <code>end</code>, and then backtrack by removing the substring from <code>path</code>.</li>
+          </ul>
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Loop end from start+1 to s.length. If s.substring(start, end) is palindrome, add to path, recurse for end, then remove from path.</p>
+        <p>Let's trace the backtracking function for <code>s = "aab"</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Root Call):</strong> <code>backtrack(start=0, path=[])</code>.
+            <ul>
+              <li>Scan <code>end = 1</code>: Substring is <code>"a"</code>. Is palindrome? Yes!</li>
+              <li>Add <code>"a"</code> to path: <code>path = ["a"]</code>. Recurse to index 1.</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Recurse at index 1):</strong> <code>backtrack(start=1, path=["a"])</code>.
+            <ul>
+              <li>Scan <code>end = 2</code>: Substring is <code>"a"</code>. Is palindrome? Yes!</li>
+              <li>Add <code>"a"</code> to path: <code>path = ["a", "a"]</code>. Recurse to index 2.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Recurse at index 2):</strong> <code>backtrack(start=2, path=["a", "a"])</code>.
+            <ul>
+              <li>Scan <code>end = 3</code>: Substring is <code>"b"</code>. Is palindrome? Yes!</li>
+              <li>Add <code>"b"</code> to path: <code>path = ["a", "a", "b"]</code>. Recurse to index 3.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Base Case reached):</strong> <code>backtrack(start=3, path=["a", "a", "b"])</code>.
+            <ul>
+              <li><code>start == s.length()</code>. Save copy to result. <code>result = [["a", "a", "b"]]</code>. Return.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Backtrack at index 2):</strong>
+            <ul>
+              <li>Pop <code>"b"</code>. Path becomes <code>["a", "a"]</code>. Loop ends. Return.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Backtrack at index 1):</strong>
+            <ul>
+              <li>Pop <code>"a"</code>. Path becomes <code>["a"]</code>.</li>
+              <li>Scan continues to <code>end = 3</code>: Substring is <code>"ab"</code>. Is palindrome? No. Skip.</li>
+              <li>Loop ends. Return.</li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Backtrack to Root):</strong>
+            <ul>
+              <li>Pop <code>"a"</code>. Path becomes <code>[]</code>.</li>
+              <li>Scan continues to <code>end = 2</code>: Substring is <code>"aa"</code>. Is palindrome? Yes!</li>
+              <li>Add <code>"aa"</code> to path: <code>path = ["aa"]</code>. Recurse to index 2.</li>
+              <li>Inside recursion: Scan <code>end = 3</code>: Substring is <code>"b"</code>. Is palindrome? Yes! Add <code>"b"</code> to path: <code>path = ["aa", "b"]</code>. Recurse to 3. Save copy. <code>result = [["a", "a", "b"], ["aa", "b"]]</code>.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>s.substring(start, end)</code>: Extracts the partition candidates. The starting index shifts forward with each recursive step to ensure we do not reuse processed letters.</li>
+          <li><code>if (isPalindrome(substr))</code>: The constraint checking filter. If the cut segment is not symmetrical, we prune the search branch immediately, saving computation.</li>
+          <li><code>path.add(substr); backtrack(end, ...); path.remove(path.size() - 1);</code>: The classic backtrack pattern that explores all alternative slice configurations.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -134,47 +204,66 @@ import java.util.*;
 
 public class PalindromePartitioning {
 
-    // Backtracking + isPalindrome
+    // Backtracking + isPalindrome: Time O(N * 2^N), Space O(N)
     public List&lt;List&lt;String&gt;&gt; partition(String s) {
         List&lt;List&lt;String&gt;&gt; res = new ArrayList&lt;&gt;();
+        if (s == null || s.length() == 0) {
+            return res;
+        }
         backtrack(0, s, new ArrayList&lt;&gt;(), res);
         return res;
     }
 
     private void backtrack(int start, String s, List&lt;String&gt; path, List&lt;List&lt;String&gt;&gt; res) {
+        // Base case: If we reached the end of the string, save the current partition path
         if (start == s.length()) {
-            res.add(new ArrayList&lt;&gt;(path));
+            res.add(new ArrayList&lt;&gt;(path)); // Deep copy
             return;
         }
+
+        // Try partitioning the string into all possible substring choices
         for (int end = start + 1; end &lt;= s.length(); end++) {
             String substr = s.substring(start, end);
+            
+            // Only proceed if the current partition is a palindrome
             if (isPalindrome(substr)) {
+                // 1. Choose: Add substring to the current partition path
                 path.add(substr);
+
+                // 2. Explore: Recurse on the remaining part of the string
                 backtrack(end, s, path, res);
+
+                // 3. Unchoose: Backtrack by removing the substring
                 path.remove(path.size() - 1);
             }
         }
     }
 
     private boolean isPalindrome(String s) {
-        int l = 0, r = s.length() - 1;
-        while (l &lt; r) if (s.charAt(l++) != s.charAt(r--)) return false;
+        int l = 0;
+        int r = s.length() - 1;
+        while (l &lt; r) {
+            if (s.charAt(l++) != s.charAt(r--)) {
+                return false;
+            }
+        }
         return true;
     }
 
     public static void main(String[] args) {
         PalindromePartitioning solver = new PalindromePartitioning();
-        String s = &quot;aab&quot;;
+        String s = "aab";
 
-        System.out.println(&quot;--- Palindrome Partitioning Demonstration ---&quot;);
-        System.out.println(&quot;String: &quot; + s);
-        System.out.println(&quot;Partitions: &quot; + solver.partition(s));
+        System.out.println("--- Palindrome Partitioning Demonstration ---");
+        System.out.println("Input String: " + s);
+        List&lt;List&lt;String&gt;&gt; partitions = solver.partition(s);
+        System.out.println("Palindromic Partitions: " + partitions);
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Palindrome Partitioning</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Palindrome Partitioning shows how backtracking can explore combinatorial string slices. By skipping non-palindromic branches early, we prune the search tree to retrieve only valid symmetric partitions efficiently.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

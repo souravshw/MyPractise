@@ -110,19 +110,99 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to search for a word in a 2D board using DFS and backtracking.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Word Search</strong> problem asks us to find if a target string <code>word</code> can be constructed from letters of sequentially adjacent cells in a 2D grid of characters <code>board</code>.</p>
+        <p>Adjacent cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once in spelling out the word.
+          For example, given:
+          <br><code>board = [
+            ['A','B','C','E'],
+            ['S','F','C','S'],
+            ['A','D','E','E']
+          ]</code>
+          <ul>
+            <li>For <code>word = "ABCCED"</code>, we start at row 0, col 0 ('A'), move right to 'B', then right to 'C', down to 'C', left to 'E', and down to 'D'. The path exists, so we return <code>true</code>.</li>
+            <li>For <code>word = "ABCB"</code>, we start at row 0, col 0 ('A'), move right to 'B', right to 'C', but then we cannot move back left to 'B' because we are forbidden from reusing the same cell. No other paths exist, so we return <code>false</code>.</li>
+          </ul>
+          To solve this, we perform a Depth First Search (DFS) starting from every cell in the grid, backtracking to undo our movements when a search path hits a dead end.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Maze Explorer
+            Real-World Analogy: Exploring a Maze with Breadcrumbs
           </div>
-          <p>Imagine exploring a grid of letters to spell a word. From your current cell, you check adjacent cells. To avoid using the same cell twice in a single word, you temporarily cross out the cell (replace it with '#') before moving to neighbors, and restore its letter when returning.</p>
+          <p>Imagine exploring a house made of modular grid rooms, looking to follow a specific sequence of signs (e.g. spelling out a word). As you walk into a room, you compare its sign to your checklist. If it matches, you drop a colored coin in the room so you know you've visited it, and walk into any neighboring room (up, down, left, right). If you hit a dead end where no adjacent room contains the next sign on your checklist, you step back out of the room, pick up your colored coin (backtrack) so it can be reused later, and try a different direction.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>DFS with In-Place Visited Tracking (O(m * n * 4<sup>L</sup>) Time, O(L) Space)</h3>
+        <p>Let <code>m</code> and <code>n</code> be the board dimensions, and <code>L</code> be the length of the target word.
+          For each cell <code>(r, c)</code> on the board, we initiate a recursive DFS search if <code>board[r][c] == word.charAt(0)</code>.
+          Here is our DFS helper logic at <code>dfs(r, c, index)</code>:
+          <ul>
+            <li><strong>Base Cases:</strong>
+              <ul>
+                <li>If <code>index == word.length()</code>, we have matched all characters. Return <code>true</code>.</li>
+                <li>If the cell <code>(r, c)</code> is out-of-bounds, or if <code>board[r][c] != word.charAt(index)</code>, the path is invalid. Return <code>false</code>.</li>
+              </ul>
+            </li>
+            <li><strong>Mark Visited:</strong> To prevent reusing the current cell in subsequent recursive branches, we temporarily save the character at <code>board[r][c]</code>, then replace it with a sentinel character (e.g., <code>'#'</code>). This avoids needing a separate 2D boolean array, reducing memory usage.</li>
+            <li><strong>Explore Neighbors:</strong> We recursively check the four adjacent cells: <code>(r+1, c)</code>, <code>(r-1, c)</code>, <code>(r, c+1)</code>, and <code>(r, c-1)</code> with <code>index + 1</code>.</li>
+            <li><strong>Backtrack:</strong> Once the recursive exploration is complete, we restore the original character back to <code>board[r][c]</code>.</li>
+            <li><strong>Result:</strong> If any of the four adjacent searches return <code>true</code>, we immediately propagate <code>true</code> up. Otherwise, return <code>false</code>.</li>
+          </ul>
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>From each cell (i, j), run a DFS. Check boundaries and if cell matches char. Mark visited. Explore 4 directions. Backtrack by restoring cell value. Return true if word found.</p>
+        <p>Let's trace the algorithm on a <code>2 &times; 2</code> board: <code>[['A', 'B'], ['C', 'D']]</code> searching for <code>"ABD"</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Scan Start):</strong>
+            <ul>
+              <li>Cell (0, 0) is 'A'. Matches <code>word[0]</code>. Start DFS: <code>dfs(r=0, c=0, idx=0)</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (DFS at (0, 0)):</strong>
+            <ul>
+              <li>Check: <code>board[0][0] == 'A'</code>. Correct.</li>
+              <li>Mark visited: Set <code>board[0][0] = '#'</code>.</li>
+              <li>Recurse neighbors: Call <code>dfs(r=1, c=0, idx=1)</code> (down) and <code>dfs(r=0, c=1, idx=1)</code> (right).</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Explore Down: (1, 0) - 'C'):</strong>
+            <ul>
+              <li>Check: <code>board[1][0] == 'C'</code>, but <code>word[1] == 'B'</code>. Mismatch. Return <code>false</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Explore Right: (0, 1) - 'B'):</strong>
+            <ul>
+              <li>Check: <code>board[0][1] == 'B'</code>. Matches <code>word[1]</code>.</li>
+              <li>Mark visited: Set <code>board[0][1] = '#'</code>.</li>
+              <li>Recurse neighbors: Call <code>dfs(r=1, c=1, idx=2)</code> (down to 'D').</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Explore Down: (1, 1) - 'D'):</strong>
+            <ul>
+              <li>Check: <code>board[1][1] == 'D'</code>. Matches <code>word[2]</code>.</li>
+              <li>Mark visited: Set <code>board[1][1] = '#'</code>.</li>
+              <li>Recurse neighbors: Call <code>dfs(idx=3)</code>.</li>
+              <li>Base Case: <code>idx == 3</code>. Return <code>true</code>!</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Unwind):</strong>
+            <ul>
+              <li>All recursive layers propagate <code>true</code>. The board cells are restored to their original characters as the stack unwinds. Return <code>true</code>.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>board[r][c] = '#';</code>: The visited marking step. Replaces the letter with a symbol that cannot match any alphabet, blocking reuse of the cell.</li>
+          <li><code>boolean found = dfs(...) || dfs(...) || ...</code>: Uses short-circuit boolean evaluation. If the first direction finds the word, remaining directions are skipped, speeding up execution.</li>
+          <li><code>board[r][c] = temp;</code>: The backtrack restore step. Restores the grid letter so that adjacent search paths starting from other cells can use it.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -130,50 +210,81 @@
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
 
+import java.util.Arrays;
+
 public class WordSearch {
 
-    // DFS + Backtracking
+    // DFS + Backtracking: Time O(M * N * 4^L), Space O(L)
     public boolean exist(char[][] board, String word) {
-        for (int i = 0; i &lt; board.length; i++) {
-            for (int j = 0; j &lt; board[0].length; j++) {
-                if (dfs(board, word, 0, i, j)) return true;
+        if (board == null || board.length == 0 || board[0].length == 0 || word == null) {
+            return false;
+        }
+
+        int rows = board.length;
+        int cols = board[0].length;
+
+        // Start DFS search from every cell on the board
+        for (int r = 0; r &lt; rows; r++) {
+            for (int c = 0; c &lt; cols; c++) {
+                if (dfs(board, word, 0, r, c)) {
+                    return true;
+                }
             }
         }
+
         return false;
     }
 
-    private boolean dfs(char[][] board, String word, int idx, int i, int j) {
-        if (idx == word.length()) return true;
-        if (i &lt; 0 || j &lt; 0 || i &gt;= board.length || j &gt;= board[0].length || board[i][j] != word.charAt(idx))
+    private boolean dfs(char[][] board, String word, int index, int r, int c) {
+        // Base case: matched all characters of the word
+        if (index == word.length()) {
+            return true;
+        }
+
+        // Boundary checks and mismatch checks
+        if (r &lt; 0 || c &lt; 0 || r &gt;= board.length || c &gt;= board[0].length || board[r][c] != word.charAt(index)) {
             return false;
-        char temp = board[i][j];
-        board[i][j] = &#x27;#&#x27;; // Mark visited
-        boolean found = dfs(board, word, idx + 1, i + 1, j) ||
-                        dfs(board, word, idx + 1, i - 1, j) ||
-                        dfs(board, word, idx + 1, i, j + 1) ||
-                        dfs(board, word, idx + 1, i, j - 1);
-        board[i][j] = temp; // Backtrack
+        }
+
+        // 1. Choose: Temporarily mark cell as visited using a sentinel char
+        char temp = board[r][c];
+        board[r][c] = '#';
+
+        // 2. Explore: Try moving in 4 directions
+        boolean found = dfs(board, word, index + 1, r + 1, c) // Down
+                     || dfs(board, word, index + 1, r - 1, c) // Up
+                     || dfs(board, word, index + 1, r, c + 1) // Right
+                     || dfs(board, word, index + 1, r, c - 1); // Left
+
+        // 3. Unchoose: Backtrack by restoring the cell's original character
+        board[r][c] = temp;
+
         return found;
     }
 
     public static void main(String[] args) {
         WordSearch solver = new WordSearch();
         char[][] board = {
-            {&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;E&#x27;},
-            {&#x27;S&#x27;,&#x27;F&#x27;,&#x27;C&#x27;,&#x27;S&#x27;},
-            {&#x27;A&#x27;,&#x27;D&#x27;,&#x27;E&#x27;,&#x27;E&#x27;}
+            {'A', 'B', 'C', 'E'},
+            {'S', 'F', 'C', 'S'},
+            {'A', 'D', 'E', 'E'}
         };
-        String word = &quot;ABCCED&quot;;
+        String word = "ABCCED";
 
-        System.out.println(&quot;--- Word Search Demonstration ---&quot;);
-        System.out.println(&quot;Word: &quot; + word);
-        System.out.println(&quot;Found: &quot; + solver.exist(board, word));
+        System.out.println("--- Word Search Demonstration ---");
+        System.out.println("Grid Board:");
+        for (char[] row : board) {
+            System.out.println(Arrays.toString(row));
+        }
+        System.out.println("Target Word: " + word);
+        boolean result = solver.exist(board, word);
+        System.out.println("Word exists in board: " + result); // Expected: true
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Word Search</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>The Word Search problem demonstrates how backtracking navigates 2D coordinates. By modifying the grid in-place to track visited states and restoring values during backtrack step, we optimize execution speed and save extra memory.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

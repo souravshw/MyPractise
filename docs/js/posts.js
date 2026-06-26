@@ -1,6 +1,457 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 167,
+    title: "Understanding Design URL Shortener in Java",
+    excerpt: "Learn how to build a URL Shortener using maps and unique Base36 index conversion.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/design-url-shortener.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 166,
+    title: "Understanding Design Parking Lot in Java",
+    excerpt: "Learn how to model a parking lot system using Object-Oriented Programming (OOP) and polymorphism.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/design-parking-lot.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 165,
+    title: "Understanding Design Twitter in Java",
+    excerpt: "Learn how to build a simplified Twitter system with follow, unfollow, post, and news feed features.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/design-twitter.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 164,
+    title: "Understanding Design Hit Counter in Java",
+    excerpt: "Learn how to design a hit counter that records hits in the past 5 minutes.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/design-hit-counter.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 163,
+    title: "Understanding LRU Cache in Java",
+    excerpt: "Learn how to design a Least Recently Used (LRU) Cache using a HashMap and a Doubly Linked List in O(1) time.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/lru-cache.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 162,
+    title: "Understanding Palindrome Partitioning in Java",
+    excerpt: "Learn how to partition a string into all possible palindromic substrings using backtracking.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/palindrome-partitioning.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 161,
+    title: "Understanding N-Queens in Java",
+    excerpt: "Learn how to solve the classic N-Queens puzzle on an N x N chessboard using backtracking.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/n-queens.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 160,
+    title: "Understanding Word Search in Java",
+    excerpt: "Learn how to search for a word in a 2D board using DFS and backtracking.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/word-search.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 159,
+    title: "Understanding Permutations in Java",
+    excerpt: "Learn how to generate all permutations of an array using backtracking.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/permutations.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 158,
+    title: "Understanding Subsets in Java",
+    excerpt: "Learn how to generate all subsets (power set) of a set of numbers using backtracking.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/subsets.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 157,
+    title: "Understanding Assign Cookies in Java",
+    excerpt: "Learn how to maximize content children using cookies of different sizes.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/assign-cookies.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 156,
+    title: "Understanding Non-overlapping Intervals in Java",
+    excerpt: "Learn how to find the minimum intervals to remove to make the rest non-overlapping by sorting by end times.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/non-overlapping-intervals.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 155,
+    title: "Understanding Merge Intervals in Java",
+    excerpt: "Learn how to merge overlapping intervals by sorting and combining.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/merge-intervals.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 154,
+    title: "Understanding Gas Station in Java",
+    excerpt: "Learn how to find the starting gas station to complete a circular circuit in O(n) time.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/gas-station.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 153,
+    title: "Understanding Jump Game in Java",
+    excerpt: "Learn how to check if you can reach the last index of an array using a greedy reachability scan.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/jump-game.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 152,
+    title: "Understanding Edit Distance in Java",
+    excerpt: "Learn how to find the minimum number of operations to convert one word to another using 2D DP.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/edit-distance.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 151,
+    title: "Understanding Longest Increasing Subsequence in Java",
+    excerpt: "Learn how to find the length of the longest increasing subsequence in O(n log n) time using binary search.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/longest-increasing-subsequence.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 150,
+    title: "Understanding House Robber in Java",
+    excerpt: "Learn how to maximize loot without robbing adjacent houses using DP.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/house-robber.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 149,
+    title: "Understanding Coin Change in Java",
+    excerpt: "Learn how to find the minimum number of coins that make up an amount using bottom-up DP.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/coin-change.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 148,
+    title: "Understanding Climbing Stairs in Java",
+    excerpt: "Learn how to count distinct ways to climb stairs using dynamic programming.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/climbing-stairs.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 147,
+    title: "Understanding Sliding Window Maximum in Java",
+    excerpt: "Learn how to find the maximum in each sliding window of size k using a monotonic Deque.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/sliding-window-maximum.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 146,
+    title: "Understanding Implement Queue using Stacks in Java",
+    excerpt: "Learn how to implement a FIFO queue using two LIFO stacks.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/implement-queue-using-stacks.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 145,
+    title: "Understanding Evaluate Reverse Polish Notation in Java",
+    excerpt: "Learn how to evaluate arithmetic expressions in postfix notation using a Stack.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/evaluate-reverse-polish-notation.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 144,
+    title: "Understanding Min Stack in Java",
+    excerpt: "Learn how to design a stack that retrieves the minimum element in constant O(1) time.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/min-stack.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 143,
+    title: "Understanding Valid Parentheses in Java",
+    excerpt: "Learn how to check if brackets are closed in the correct order using a Stack.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/valid-parentheses.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 142,
+    title: "Understanding Symmetric Tree in Java",
+    excerpt: "Learn how to check if a binary tree is symmetric around its center recursively.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/symmetric-tree.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 141,
+    title: "Understanding Diameter of Binary Tree in Java",
+    excerpt: "Learn how to find the length of the longest path between any two nodes in a binary tree.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/diameter-of-binary-tree.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 140,
+    title: "Understanding Lowest Common Ancestor (LCA) in Java",
+    excerpt: "Learn how to find the lowest common ancestor of two nodes in a binary tree recursively.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/lowest-common-ancestor.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 139,
+    title: "Understanding Level Order Traversal in Java",
+    excerpt: "Learn how to perform BFS level-by-level traversal of a binary tree using a Queue.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/level-order-traversal.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 138,
+    title: "Understanding Invert Binary Tree in Java",
+    excerpt: "Learn how to mirror a binary tree recursively in O(n) time.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/invert-binary-tree.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 137,
+    title: "Understanding Remove Nth Node From End in Java",
+    excerpt: "Learn how to remove the N-th node from the end of a linked list in a single pass.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/remove-nth-node-from-end.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 136,
+    title: "Understanding Palindrome Linked List in Java",
+    excerpt: "Learn how to check if a linked list is a palindrome by reversing the second half.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/palindrome-linked-list.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 135,
+    title: "Understanding Merge Two Sorted Lists in Java",
+    excerpt: "Learn how to merge two sorted linked lists into one sorted list iteratively.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/merge-two-sorted-lists.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 134,
+    title: "Understanding Detect Cycle in Linked List in Java",
+    excerpt: "Learn Floyd's Cycle Detection algorithm (Tortoise and Hare) to check if a linked list contains a cycle.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/detect-cycle-linked-list.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 133,
+    title: "Understanding Reverse a Linked List in Java",
+    excerpt: "Learn how to reverse a singly linked list in O(n) time and O(1) space.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/reverse-linked-list.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 132,
+    title: "Understanding Roman to Integer in Java",
+    excerpt: "Learn how to convert Roman numerals to integers by processing symbols left-to-right.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/roman-to-integer.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 131,
+    title: "Understanding Longest Common Prefix in Java",
+    excerpt: "Learn how to find the longest common prefix among an array of strings by sorting and comparing.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/longest-common-prefix.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 130,
+    title: "Understanding Group Anagrams in Java",
+    excerpt: "Learn how to group anagrams using a HashMap with sorted character arrays as keys.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/group-anagrams.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 129,
+    title: "Understanding Longest Palindromic Substring in Java",
+    excerpt: "Learn the Expand Around Center method to find the longest palindromic substring in O(n^2) time.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/longest-palindromic-substring.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 128,
+    title: "Understanding Valid Anagram in Java",
+    excerpt: "Learn how to check if two strings are anagrams of each other using sorting and frequency counting.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/valid-anagram.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 127,
+    title: "Understanding Trapping Rain Water in Java",
+    excerpt: "Learn the two-pointer approach to calculate how much rain water can be trapped between elevation map bars.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/trapping-rain-water.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 126,
+    title: "Understanding Rotate Array in Java",
+    excerpt: "Learn the elegant three-step reversal algorithm to rotate an array to the right by k steps in O(1) extra space.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/rotate-array.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 125,
+    title: "Understanding Move Zeroes in Java",
+    excerpt: "Learn how to move all zeroes in an array to the end in-place while keeping relative order of other elements.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/move-zeroes.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 124,
+    title: "Understanding Maximum Subarray (Kadane's Algorithm) in Java",
+    excerpt: "Learn Kadane's algorithm to find the contiguous subarray with the largest sum in O(n) time.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/maximum-subarray.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+  {
+    id: 123,
+    title: "Understanding Two Sum in Java",
+    excerpt: "Learn how to find indices of two numbers that add up to a target using brute force and an optimized HashMap in Java.",
+    category: "Algorithms",
+    date: "June 26, 2026",
+    readTime: "4 min read",
+    url: "posts/two-sum.html",
+    image: "images/springboot-junit-testing.svg"
+  },
+
+  {
     id: 122,
     title: "ExecutorService vs. CompletableFuture in Java: A Layman's Guide",
     excerpt: "A beginner-friendly guide comparing ExecutorService.submit() vs CompletableFuture.supplyAsync() in Java. Learn exception handling patterns with simple analogies.",

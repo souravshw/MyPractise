@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Design URL Shortener in Java | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/design-url-shortener.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Algorithms",
+      "item": "https://enggnotes.com/index.html?category=Algorithms"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Understanding Design URL Shortener",
+      "item": "https://enggnotes.com/posts/design-url-shortener.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to build a URL Shortener using maps and unique Base36 index conversion.">
+  <meta name="keywords" content="design url shortener java, java design url shortener tutorial, optimized design url shortener solution, how to solve design url shortener, design url shortener leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, design url shortener example, hashmap design url shortener java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Understanding Design URL Shortener in Java | Engineering Notes">
+  <meta property="og:description" content="Learn how to build a URL Shortener using maps and unique Base36 index conversion.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Algorithms">Algorithms</a></li>
+          <li aria-current="page">Design URL Shortener</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Algorithms</span>
+          <span class="post-date">June 26, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Understanding Design URL Shortener in Java</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>Learn how to build a URL Shortener using maps and unique Base36 index conversion.</p>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Library Catalog Number
+          </div>
+          <p>Instead of writing down a long book title, you write down its short catalog number (e.g. shelf 1, book 5 -> '15'). A URL shortener maintains two maps: short code to long URL, and long URL to short code. We convert incrementing integer IDs to base36 to generate tiny codes.</p>
+        </div>
+
+        <h2>Step-by-Step Execution Walkthrough</h2>
+        <p>encode(longUrl) checks map first. If not present, converts a unique counter ID to Base36, maps it, and returns short URL. decode(shortUrl) extracts code and gets long URL from map.</p>
+
+        <h2>Java Implementation Code</h2>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.dsa;
+
+import java.util.*;
+
+public class DesignURLShortener {
+
+    public static class Codec {
+        private Map&lt;String, String&gt; map = new HashMap&lt;&gt;();
+        private Map&lt;String, String&gt; reverse = new HashMap&lt;&gt;();
+        private String base = &quot;http://short.ly/&quot;;
+        private int id = 1;
+
+        public String encode(String longUrl) {
+            if (reverse.containsKey(longUrl)) return base + reverse.get(longUrl);
+            String code = Integer.toString(id++, 36);
+            map.put(code, longUrl);
+            reverse.put(longUrl, code);
+            return base + code;
+        }
+
+        public String decode(String shortUrl) {
+            String code = shortUrl.replace(base, &quot;&quot;);
+            return map.getOrDefault(code, &quot;&quot;);
+        }
+    }
+
+    public static void main(String[] args) {
+        Codec codec = new Codec();
+        System.out.println(&quot;--- Design URL Shortener Demonstration ---&quot;);
+        String originalUrl = &quot;https://leetcode.com/problems/design-tinyurl&quot;;
+        String shortUrl = codec.encode(originalUrl);
+        System.out.println(&quot;Shortened URL: &quot; + shortUrl);
+        System.out.println(&quot;Decoded URL: &quot; + codec.decode(shortUrl));
+    }
+}
+</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Solving the <strong>Design URL Shortener</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+      </div>
+
+      <!-- Navigation & Related Articles -->
+      <section class="post-navigation-related" id="post-navigation-related">
+        <div class="post-navigation">
+          <a href="../posts/design-parking-lot.html" class="nav-card prev-card">
+            <div class="nav-card-arrow prev-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </div>
+            <div class="nav-card-content">
+              <span class="nav-card-label">Previous Post</span>
+              <span class="nav-card-title">Understanding Design Parking Lot in Java</span>
+            </div>
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Valid Anagram in Java | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/valid-anagram.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Algorithms",
+      "item": "https://enggnotes.com/index.html?category=Algorithms"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Understanding Valid Anagram",
+      "item": "https://enggnotes.com/posts/valid-anagram.html"
+    }]
+  }
+  </script>
+  <meta name="description" content="Learn how to check if two strings are anagrams of each other using sorting and frequency counting.">
+  <meta name="keywords" content="valid anagram java, java valid anagram tutorial, optimized valid anagram solution, how to solve valid anagram, valid anagram leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, valid anagram example, hashmap valid anagram java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Understanding Valid Anagram in Java | Engineering Notes">
+  <meta property="og:description" content="Learn how to check if two strings are anagrams of each other using sorting and frequency counting.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+<div class="nav-container">
+  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
+    <div class="logo-icon"></div>
+    <span>Engineering Notes</span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="https://enggnotes.com/" id="nav-home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a></li>
+      <li><a href="../articles.html" id="nav-articles">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Articles
+      </a></li>
+      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Meet Sourav
+      </a></li>
+      <li><a href="../about.html" id="nav-about">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        About Us
+      </a></li>
+      <li><a href="../contact.html" id="nav-contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="../privacy.html" id="nav-privacy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Privacy
+      </a></li>
+    </ul>
+  </nav>
+</div>
+</header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+      
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Algorithms">Algorithms</a></li>
+          <li aria-current="page">Valid Anagram</li>
+        </ol>
+      </nav>
+      
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Algorithms</span>
+          <span class="post-date">June 26, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">4 min read</span>
+        </div>
+        <h1 class="article-title">Understanding Valid Anagram in Java</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>Learn how to check if two strings are anagrams of each other using sorting and frequency counting.</p>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Real-World Analogy: The Scrabble Letter Counter
+          </div>
+          <p>Imagine playing Scrabble. To check if one word is a valid anagram of another, you count the count of each letter in the first word, and then subtract the count of each letter in the second word. If you end up with exactly zero for all letters, they are anagrams!</p>
+        </div>
+
+        <h2>Step-by-Step Execution Walkthrough</h2>
+        <p>Compare lengths first. Create a frequency array of size 26. For each char in s, increment its index, and for each char in t, decrement it. Verify that all elements in the array are 0.</p>
+
+        <h2>Java Implementation Code</h2>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.dsa;
+
+import java.util.Arrays;
+
+public class ValidAnagram {
+
+    // Brute Force - O(n log n) by sorting
+    public boolean isAnagramBrute(String s, String t) {
+        if (s.length() != t.length()) return false;
+        char[] a = s.toCharArray();
+        char[] b = t.toCharArray();
+        Arrays.sort(a);
+        Arrays.sort(b);
+        return Arrays.equals(a, b);
+    }
+
+    // Optimized - O(n) with character count array
+    public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) return false;
+        int[] count = new int[26];
+        for (int i = 0; i &lt; s.length(); i++) {
+            count[s.charAt(i) - &#x27;a&#x27;]++;
+            count[t.charAt(i) - &#x27;a&#x27;]--;
+        }
+        for (int i : count) {
+            if (i != 0) return false;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        ValidAnagram solver = new ValidAnagram();
+        String s = &quot;anagram&quot;, t = &quot;nagaram&quot;;
+
+        System.out.println(&quot;--- Valid Anagram Demonstration ---&quot;);
+        System.out.printf(&quot;String 1: %s, String 2: %s\n&quot;, s, t);
+
+        boolean result = solver.isAnagram(s, t);
+        System.out.println(&quot;Step 1: Compare lengths. Both are length &quot; + s.length());
+        System.out.println(&quot;Step 2: Maintain frequency count arrays.&quot;);
+        System.out.println(&quot;Is Anagram: &quot; + result);
+    }
+}
+</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>Solving the <strong>Valid Anagram</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+      </div>
+
+      <!-- Navigation & Related Articles -->
+      <section class="post-navigation-related" id="post-navigation-related">
+        <div class="post-navigation">
+          <a href="../posts/trapping-rain-water.html" class="nav-card prev-card">
+            <div class="nav-card-arrow prev-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </div>
+            <div class="nav-card-content">
+              <span class="nav-card-label">Previous Post</span>
+              <span class="nav-card-title">Understanding Trapping Rain Water in Java</span>
+            </div>
+          </a>
+          <a href="../posts/longest-palindromic-substring.html" class="nav-card next-card">
+            <div class="nav-card-content" style="text-align: right;">
+              <span class="nav-card-label">Next Post</span>
+              <span class="nav-card-title">Understanding Longest Palindromic Substring in Java</span>
+            </div>
+            <div class="nav-card-arrow next-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+<div class="footer-container">
+  <div class="footer-copy">
+    &copy; 2026 Engineering Notes. All rights reserved.
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
+    <li><a href="../about.html" id="foot-about">About Us</a></li>
+    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+  </ul>
+</div>
+</footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

@@ -110,19 +110,85 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to find the starting gas station to complete a circular circuit in O(n) time.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Gas Station</strong> problem describes a circular route containing <code>n</code> gas stations. Each gas station <code>i</code> provides a certain amount of gas: <code>gas[i]</code>. You have a car with an unlimited gas tank, and it costs <code>cost[i]</code> of gas to travel from station <code>i</code> to its next neighbor station <code>(i + 1)</code>.</p>
+        <p>We start the journey with an empty tank at one of the gas stations. Our goal is to find the starting gas station's index if we can travel around the circuit once in the clockwise direction, otherwise return <code>-1</code>. If a solution exists, it is guaranteed to be unique.
+          For example:
+          <ul>
+            <li><code>gas = [1, 2, 3, 4, 5]</code></li>
+            <li><code>cost = [3, 4, 5, 1, 2]</code></li>
+          </ul>
+          The total gas is <code>1+2+3+4+5 = 15</code>, and the total cost is <code>3+4+5+1+2 = 15</code>. Since total gas is equal to total cost, a solution is possible. By starting at index 3 (gas value 4), we accumulate enough fuel to navigate the route.
+          If we check all starting stations naively, it takes <code>O(n<sup>2</sup>)</code>. We want to find an optimized, single-pass <code>O(n)</code> greedy solution.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Road Trip Tank
+            Real-World Analogy: The Circular Fuel Run
           </div>
-          <p>You want to drive a circular track. Each station gives gas and charging fee (cost). If the total gas is less than total cost, it's impossible. Otherwise, we drive from station 0. If our tank dips below zero, we cannot start from any of the stations visited so far. We reset start to the next station and reset tank.</p>
+          <p>Imagine running a circular race track with checkpoints. Each checkpoint gives you energy bars, and traveling to the next checkpoint burns calories. First, if the total calories provided by all checkpoints is less than the total calories burned to run the entire track, you can never finish—no matter where you start. Second, if you start at checkpoint A and run out of energy at checkpoint B, it means any checkpoint between A and B is also a failing starting point (since you would have arrived at those intermediate checkpoints with a surplus of energy from A, and still failed). Thus, you can skip all checkpoints between A and B and set your next trial start point to B + 1.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>Greedy Gas Tank Tracking (O(n) Time, O(1) Space)</h3>
+        <p>We use two observations to solve this in a single loop:
+          <ol>
+            <li><strong>Total Net Gas Check:</strong> If the sum of all elements in <code>gas</code> is less than the sum of all elements in <code>cost</code>, the car can never complete the circuit. We return <code>-1</code>.</li>
+            <li><strong>Resetting the Starting Station:</strong> We start driving from station 0 with a current tank of 0. At each station <code>i</code>, we add the net gas <code>gas[i] - cost[i]</code> to our tank. If our tank drops below 0 at station <code>i</code>, it means we cannot start at our chosen <code>start</code> index and reach <code>i + 1</code>. In fact, we cannot start at <em>any</em> station between <code>start</code> and <code>i</code> either. So, we set the new potential starting station to <code>i + 1</code> and reset our tank to 0.</li>
+          </ol>
+          If we complete a full loop through the stations and the total net gas is non-negative, the last recorded <code>start</code> index is guaranteed to be the correct starting position.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Track total surplus (gas - cost). If total < 0 at end, return -1. Track current surplus. If current surplus < 0, update start = i+1 and reset current surplus to 0.</p>
+        <p>Let's trace the algorithm with <code>gas = [1, 2, 3, 4, 5]</code> and <code>cost = [3, 4, 5, 1, 2]</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong> Set <code>totalSurplus = 0</code>, <code>currentTank = 0</code>, <code>start = 0</code>.</li>
+          <li><strong>Step 2 (Index 0: gas = 1, cost = 3):</strong>
+            <ul>
+              <li>Net: <code>1 - 3 = -2</code>.</li>
+              <li>Accumulate: <code>totalSurplus = -2</code>, <code>currentTank = -2</code>.</li>
+              <li>Since <code>currentTank < 0</code>, we reset! We set <code>start = 1</code> and <code>currentTank = 0</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Index 1: gas = 2, cost = 4):</strong>
+            <ul>
+              <li>Net: <code>2 - 4 = -2</code>.</li>
+              <li>Accumulate: <code>totalSurplus = -4</code>, <code>currentTank = -2</code>.</li>
+              <li>Since <code>currentTank < 0</code>, reset! Set <code>start = 2</code> and <code>currentTank = 0</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Index 2: gas = 3, cost = 5):</strong>
+            <ul>
+              <li>Net: <code>3 - 5 = -2</code>.</li>
+              <li>Accumulate: <code>totalSurplus = -6</code>, <code>currentTank = -2</code>.</li>
+              <li>Since <code>currentTank < 0</code>, reset! Set <code>start = 3</code> and <code>currentTank = 0</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Index 3: gas = 4, cost = 1):</strong>
+            <ul>
+              <li>Net: <code>4 - 1 = 3</code>.</li>
+              <li>Accumulate: <code>totalSurplus = -3</code>, <code>currentTank = 3</code>.</li>
+              <li>Since <code>currentTank >= 0</code>, we proceed without resetting.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Index 4: gas = 5, cost = 2):</strong>
+            <ul>
+              <li>Net: <code>5 - 2 = 3</code>.</li>
+              <li>Accumulate: <code>totalSurplus = 0</code>, <code>currentTank = 6</code>.</li>
+              <li>Since <code>currentTank >= 0</code>, we proceed.</li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Final Check):</strong> The loop ends. Since <code>totalSurplus = 0</code> (non-negative), the tour is possible. We return <code>start = 3</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>totalSurplus += gas[i] - cost[i];</code>: Keeps track of the global energy balance. If it ends up negative, a full cycle is mathematically impossible.</li>
+          <li><code>if (currentTank &lt; 0) { start = i + 1; currentTank = 0; }</code>: The greedy state transition. When the fuel tank goes dry, it proves all previous nodes are invalid starting candidates, so we jump our starting guess forward to the next index.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -134,18 +200,30 @@ import java.util.Arrays;
 
 public class GasStation {
 
-    // Greedy - O(n)
+    // Greedy: Time O(N), Space O(1)
     public int canCompleteCircuit(int[] gas, int[] cost) {
-        int total = 0, curr = 0, start = 0;
+        if (gas == null || cost == null || gas.length != cost.length) {
+            return -1;
+        }
+
+        int totalSurplus = 0;
+        int currentTank = 0;
+        int start = 0;
+
         for (int i = 0; i &lt; gas.length; i++) {
-            total += gas[i] - cost[i];
-            curr += gas[i] - cost[i];
-            if (curr &lt; 0) {
-                start = i + 1;
-                curr = 0;
+            int net = gas[i] - cost[i];
+            totalSurplus += net;
+            currentTank += net;
+
+            // If we run out of gas, we cannot start from "start" up to "i"
+            if (currentTank &lt; 0) {
+                start = i + 1; // Try starting from the next station
+                currentTank = 0; // Reset our current fuel tank
             }
         }
-        return total &lt; 0 ? -1 : start;
+
+        // If the total gas is less than total cost, completion is impossible
+        return totalSurplus &lt; 0 ? -1 : start;
     }
 
     public static void main(String[] args) {
@@ -153,16 +231,17 @@ public class GasStation {
         int[] gas = {1, 2, 3, 4, 5};
         int[] cost = {3, 4, 5, 1, 2};
 
-        System.out.println(&quot;--- Gas Station Demonstration ---&quot;);
-        System.out.println(&quot;Gas: &quot; + Arrays.toString(gas));
-        System.out.println(&quot;Cost: &quot; + Arrays.toString(cost));
-        System.out.println(&quot;Starting Index: &quot; + solver.canCompleteCircuit(gas, cost));
+        System.out.println("--- Gas Station Demonstration ---");
+        System.out.println("Gas values at stations: " + Arrays.toString(gas));
+        System.out.println("Cost to next stations: " + Arrays.toString(cost));
+        int startIndex = solver.canCompleteCircuit(gas, cost);
+        System.out.println("Optimal Starting Index: " + startIndex); // Expected: 3
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Gas Station</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>The Gas Station problem is a beautiful example of using mathematical properties to cut search complexity. By realizing that failing at station B invalidates all stations between B and the starting candidate, we collapse a nested loop search into a single O(n) sweep.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

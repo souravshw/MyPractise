@@ -110,19 +110,83 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to check if you can reach the last index of an array using a greedy reachability scan.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Jump Game</strong> problem gives us an integer array <code>nums</code>. We start at the array's first index, and each element in the array represents your maximum jump length at that position.</p>
+        <p>Our goal is to determine if we can reach the last index of the array.
+          For example, given <code>nums = [2, 3, 1, 1, 4]</code>, we return <code>true</code>. We jump 1 step from index 0 to index 1, then jump 3 steps to the last index.
+          Conversely, for <code>nums = [3, 2, 1, 0, 4]</code>, we return <code>false</code>. Regardless of how we jump, we always land at index 3, where the maximum jump length is <code>0</code>, leaving us stranded.
+          Although we could explore this using dynamic programming, we can solve it in a highly optimized linear time using a greedy reachability scan.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Fuel Station Leap
+            Real-World Analogy: Charging Stations along a Trail
           </div>
-          <p>Imagine traveling along indices. At each index, you find a fuel station that lets you jump up to N steps forward. You want to see if you can reach the end. You track the maximum index you can reach. If you ever find yourself at an index you cannot reach, you fail.</p>
+          <p>Imagine driving an electric vehicle along a straight highway. At each milestone, there's a battery charging station that can boost your driving range by a certain distance. As you drive, you track your maximum reach. If you ever reach a milestone that is beyond your battery's current maximum range, your car runs out of charge and you get stranded. If you can drive past or land exactly on the final destination milestone, you succeed!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>Greedy Reachability Scan (O(n) Time, O(1) Space)</h3>
+        <p>Instead of tracking all paths, we only care about the furthest index we can possibly reach at any point in time. We maintain a variable <code>reachable</code> initialized to <code>0</code>.
+          As we scan the array from left to right:
+          <ul>
+            <li><strong>Check Feasibility:</strong> If our current index <code>i</code> is greater than <code>reachable</code>, it means we have walked to a position that we can never actually reach. In this case, we immediately return <code>false</code>.</li>
+            <li><strong>Update Reach:</strong> Otherwise, we update our maximum reach. From index <code>i</code>, we can jump up to <code>nums[i]</code> steps forward. Therefore, the furthest index we can reach from this point is <code>i + nums[i]</code>. We update <code>reachable = Math.max(reachable, i + nums[i])</code>.</li>
+            <li><strong>Early Termination:</strong> If at any point <code>reachable</code> is greater than or equal to the last index (<code>nums.length - 1</code>), we can stop early and return <code>true</code>.</li>
+          </ul>
+          If the loop completes successfully, it means we were able to navigate the entire array, so we return <code>true</code>.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Initialize reachable = 0. Iterate through array. If current index i > reachable, return false. Otherwise, update reachable = max(reachable, i + nums[i]). If loop finishes, return true.</p>
+        <p>Let's trace the greedy scan for <code>nums = [2, 3, 1, 0, 4]</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong> Set <code>reachable = 0</code>.</li>
+          <li><strong>Step 2 (Index 0: val = 2):</strong>
+            <ul>
+              <li>Is <code>0 > reachable</code>? No.</li>
+              <li>Update reach: <code>reachable = Math.max(0, 0 + 2) = 2</code>.</li>
+              <li>Current state: <code>reachable = 2</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Index 1: val = 3):</strong>
+            <ul>
+              <li>Is <code>1 > reachable (2)</code>? No.</li>
+              <li>Update reach: <code>reachable = Math.max(2, 1 + 3) = 4</code>.</li>
+              <li>Furthest index is 4. Since <code>4 >= nums.length - 1</code> (which is 4), we stop early and return <code>true</code>!</li>
+            </ul>
+          </li>
+        </ol>
+        <p>Now, let's trace a failing case <code>nums = [1, 0, 2]</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong> Set <code>reachable = 0</code>.</li>
+          <li><strong>Step 2 (Index 0: val = 1):</strong>
+            <ul>
+              <li>Is <code>0 > 0</code>? No.</li>
+              <li>Update reach: <code>reachable = Math.max(0, 0 + 1) = 1</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Index 1: val = 0):</strong>
+            <ul>
+              <li>Is <code>1 > 1</code>? No.</li>
+              <li>Update reach: <code>reachable = Math.max(1, 1 + 0) = 1</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Index 2: val = 2):</strong>
+            <ul>
+              <li>Is <code>2 > reachable (1)</code>? Yes. Index 2 is unreachable because we are stuck at index 1.</li>
+              <li>Return <code>false</code>.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>if (i &gt; reachable) return false;</code>: The fail-fast check. If our current index exceeds our maximum possible reach, the game is over and we can never progress.</li>
+          <li><code>Math.max(reachable, i + nums[i])</code>: The greedy choice. We update our horizon by choosing the largest reach possible.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -134,29 +198,50 @@ import java.util.Arrays;
 
 public class JumpGame {
 
-    // Greedy - O(n)
+    // Greedy Reachability: Time O(N), Space O(1)
     public boolean canJump(int[] nums) {
-        int reachable = 0;
-        for (int i = 0; i &lt; nums.length; i++) {
-            if (i &gt; reachable) return false;
-            reachable = Math.max(reachable, i + nums[i]);
+        if (nums == null || nums.length == 0) {
+            return false;
         }
+
+        int reachable = 0;
+        int target = nums.length - 1;
+
+        for (int i = 0; i &lt; nums.length; i++) {
+            // If the current index is unreachable, we are stuck
+            if (i &gt; reachable) {
+                return false;
+            }
+
+            // Update the furthest index we can reach
+            reachable = Math.max(reachable, i + nums[i]);
+
+            // Early exit if we can already reach the destination
+            if (reachable &gt;= target) {
+                return true;
+            }
+        }
+
         return true;
     }
 
     public static void main(String[] args) {
         JumpGame solver = new JumpGame();
-        int[] nums = {2, 3, 1, 1, 4};
+        int[] nums1 = {2, 3, 1, 1, 4};
+        int[] nums2 = {3, 2, 1, 0, 4};
 
-        System.out.println(&quot;--- Jump Game Demonstration ---&quot;);
-        System.out.println(&quot;Array jumps: &quot; + Arrays.toString(nums));
-        System.out.println(&quot;Can reach last index: &quot; + solver.canJump(nums));
+        System.out.println("--- Jump Game Demonstration ---");
+        System.out.println("Scenario 1: " + Arrays.toString(nums1));
+        System.out.println("Can reach end: " + solver.canJump(nums1)); // Expected: true
+
+        System.out.println("\nScenario 2: " + Arrays.toString(nums2));
+        System.out.println("Can reach end: " + solver.canJump(nums2)); // Expected: false
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Jump Game</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>The Jump Game showcases the power of Greedy Algorithms. By only tracking the absolute furthest reach instead of exploring every path, we reduce an exponential search space to a single linear scan requiring zero auxiliary memory.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

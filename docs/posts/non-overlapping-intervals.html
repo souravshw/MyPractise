@@ -110,19 +110,87 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to find the minimum intervals to remove to make the rest non-overlapping by sorting by end times.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Non-overlapping Intervals</strong> problem asks us to find the minimum number of intervals we need to remove from a given collection of intervals so that the remaining intervals do not overlap.</p>
+        <p>An interval is represented as a pair <code>[start, end]</code>. For example, if the input is <code>[[1, 2], [2, 3], [3, 4], [1, 3]]</code>:
+          <ul>
+            <li>Intervals <code>[1, 2]</code>, <code>[2, 3]</code>, and <code>[3, 4]</code> do not overlap at their boundaries.</li>
+            <li>Interval <code>[1, 3]</code> overlaps with both <code>[1, 2]</code> and <code>[2, 3]</code>.</li>
+            <li>By removing <code>[1, 3]</code>, we are left with 3 non-overlapping intervals. This is the minimum possible number of removals, so we return <code>1</code>.</li>
+          </ul>
+          This problem is equivalent to the classic <strong>Interval Scheduling Maximization Problem (ISMP)</strong>, where we want to schedule the maximum number of mutually compatible events. By finding the maximum number of non-overlapping intervals we can keep (let this be <code>K</code>), the minimum number of removals is simply <code>Total Intervals - K</code>.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: Maximizing Movie Screenings
+            Real-World Analogy: The Greedy Classroom Scheduler
           </div>
-          <p>To fit the maximum number of movies in a theater, you should always choose the movie that finishes earliest. This leaves the maximum room for subsequent movies. Any movie that overlaps with the chosen movie must be removed.</p>
+          <p>Imagine you are scheduling classes in a single classroom to fit as many classes as possible. If Class A ends at 2:00 PM and Class B ends at 5:00 PM, which one should you schedule first? You should greedily choose Class A (the one that ends earliest) because finishing early frees up the classroom as quickly as possible, leaving the maximum room for other classes later in the day. Any class that starts before Class A finishes cannot be scheduled and must be removed.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>Greedy Sorting by End Time (O(n) Time, O(1) Space)</h3>
+        <p>The greedy rule for maximizing independent intervals is to **always select the interval that ends earliest**.
+          Here is our approach:
+          <ol>
+            <li><strong>Sort:</strong> We sort the intervals based on their end times: <code>a[1] - b[1]</code>.</li>
+            <li><strong>Track End Boundary:</strong> We maintain a variable <code>end</code> representing the end time of the last successfully scheduled interval, initialized to the end time of the first sorted interval. We also maintain a counter <code>removals = 0</code>.</li>
+            <li><strong>Scan and Count:</strong> For each subsequent interval <code>i</code>:
+              <ul>
+                <li>If the start time of interval <code>i</code> is less than our active <code>end</code> boundary (<code>intervals[i][0] &lt; end</code>), they overlap. Since we are greedily keeping the interval that ends earlier, we choose to remove this current interval. We increment <code>removals++</code>.</li>
+                <li>Otherwise, they do not overlap. We successfully schedule interval <code>i</code> by updating our active boundary: <code>end = intervals[i][1]</code>.</li>
+              </ul>
+            </li>
+          </ol>
+          Sorting takes <code>O(n log n)</code> time, and the linear sweep takes <code>O(n)</code>. Space complexity is <code>O(1)</code> if we sort the input array in place.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Sort intervals by end times. Keep track of the end time of the last scheduled interval. For each next interval, if its start time is less than the current end time, increment the count of removals. Otherwise, update end time.</p>
+        <p>Let's trace the algorithm with <code>intervals = [[1, 2], [2, 3], [3, 4], [1, 3]]</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Sorting):</strong> Sort the intervals based on their end times.
+            <ul>
+              <li>Sorted: <code>[[1, 2], [2, 3], [1, 3], [3, 4]]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Initialize):</strong>
+            <ul>
+              <li>Set <code>end = 2</code> (end time of the first interval <code>[1, 2]</code>).</li>
+              <li>Set <code>removals = 0</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Interval 1: [2, 3]):</strong>
+            <ul>
+              <li>Compare start: <code>intervals[1][0] = 2</code>. Since <code>2 &gt;= end (2)</code>, there is no overlap.</li>
+              <li>Schedule it: Update <code>end = 3</code>.</li>
+              <li>State: <code>end = 3</code>, <code>removals = 0</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Interval 2: [1, 3]):</strong>
+            <ul>
+              <li>Compare start: <code>intervals[2][0] = 1</code>. Since <code>1 &lt; end (3)</code>, they overlap!</li>
+              <li>Greedy removal: Increment <code>removals = 1</code>.</li>
+              <li>State: <code>end = 3</code>, <code>removals = 1</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Interval 3: [3, 4]):</strong>
+            <ul>
+              <li>Compare start: <code>intervals[3][0] = 3</code>. Since <code>3 &gt;= end (3)</code>, there is no overlap.</li>
+              <li>Schedule it: Update <code>end = 4</code>.</li>
+              <li>State: <code>end = 4</code>, <code>removals = 1</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Result):</strong> Loop ends. We return <code>removals = 1</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>Arrays.sort(intervals, (a, b) -&gt; Integer.compare(a[1], b[1]));</code>: The foundation of the greedy strategy. Sorting by end time ensures that we always evaluate options that vacate our resource earliest.</li>
+          <li><code>if (intervals[i][0] &lt; end) removals++;</code>: Identifies an overlap. Since the current interval ends later than or equal to our active boundary (due to sorting), we greedily discard the current interval to keep the smaller end boundary.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -134,18 +202,28 @@ import java.util.Arrays;
 
 public class NonOverlappingIntervals {
 
-    // Sort by end time - O(n log n)
+    // Greedy End-Time Sort: Time O(N log N), Space O(1)
     public int eraseOverlapIntervals(int[][] intervals) {
-        if (intervals.length == 0) return 0;
-        Arrays.sort(intervals, (a, b) -&gt; a[1] - b[1]);
-        int end = intervals[0][1], count = 0;
+        if (intervals == null || intervals.length == 0) {
+            return 0;
+        }
+
+        // Sort intervals by their end times (index 1)
+        Arrays.sort(intervals, (a, b) -&gt; Integer.compare(a[1], b[1]));
+
+        int count = 0;
+        int end = intervals[0][1]; // End time of the last scheduled interval
+
         for (int i = 1; i &lt; intervals.length; i++) {
+            // If the start time of the current interval is less than the active end, they overlap
             if (intervals[i][0] &lt; end) {
-                count++;
+                count++; // Increment the number of intervals to remove
             } else {
+                // Otherwise, they do not overlap, schedule this interval and update the end time
                 end = intervals[i][1];
             }
         }
+
         return count;
     }
 
@@ -153,15 +231,16 @@ public class NonOverlappingIntervals {
         NonOverlappingIntervals solver = new NonOverlappingIntervals();
         int[][] intervals = {{1, 2}, {2, 3}, {3, 4}, {1, 3}};
 
-        System.out.println(&quot;--- Non-overlapping Intervals Demonstration ---&quot;);
-        System.out.println(&quot;Input: &quot; + Arrays.deepToString(intervals));
-        System.out.println(&quot;Min intervals to remove: &quot; + solver.eraseOverlapIntervals(intervals));
+        System.out.println("--- Non-overlapping Intervals Demonstration ---");
+        System.out.println("Input Intervals: " + Arrays.deepToString(intervals));
+        int removals = solver.eraseOverlapIntervals(intervals);
+        System.out.println("Minimum intervals to remove: " + removals); // Expected: 1
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Non-overlapping Intervals</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>The Non-overlapping Intervals problem highlights how a change of perspective (sorting by end time instead of start time) simplifies a scheduling problem. With this greedy choice, we solve the problem optimally in <code>O(n log n)</code> time.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

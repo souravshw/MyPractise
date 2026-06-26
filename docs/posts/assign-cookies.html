@@ -110,19 +110,76 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to maximize content children using cookies of different sizes.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Assign Cookies</strong> problem describes a scenario where you want to maximize the number of content children using cookies of different sizes. Each child <code>i</code> has a greed factor <code>g[i]</code>, which is the minimum size of a cookie that the child will be content with. Each cookie <code>j</code> has a size <code>s[j]</code>. If <code>s[j] &gt;= g[i]</code>, we can assign the cookie <code>j</code> to the child <code>i</code>, making that child content.
+          Our goal is to output the maximum number of content children. We cannot assign more than one cookie to a single child, nor can we satisfy a child with a cookie that is smaller than their greed factor.
+          For example:
+          <ul>
+            <li>Children greed: <code>g = [1, 2, 3]</code></li>
+            <li>Cookies size: <code>s = [1, 1]</code></li>
+          </ul>
+          We have 3 children and 2 cookies. The greed factors are 1, 2, 3. The cookie sizes are both 1. We can satisfy the first child (greed 1) with either cookie. The other child (greed 2 or 3) cannot be satisfied. So we return <code>1</code>.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Cookie Handout
+            Real-World Analogy: Fitting Shoes on Kids
           </div>
-          <p>You have hungry children (with greed values) and cookies of different sizes. To satisfy the maximum children, you sort both children and cookies. You try to satisfy the child with the smallest greed using the smallest possible cookie that satisfies them.</p>
+          <p>Imagine you have a group of kids with different shoe sizes (greed factors) and a donation box of shoes of various sizes. If a kid wears a size 6, they can wear size 6, 7, or 8 shoes, but not a size 5. To make as many kids happy as possible, you sort the kids from the smallest feet to the largest, and you sort the shoes from smallest to largest. You take the kid with the smallest feet and search for the smallest shoe that fits them. If it fits, you give it to them and move to the next kid. If a shoe is too small even for the kid with the smallest feet, that shoe is useless, so you discard it and try the next shoe size.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>Two-Pointer Greedy Search (O(n log n) Time, O(1) Space)</h3>
+        <p>A greedy approach works optimally here. To maximize content children, we should avoid wasting large cookies on children with small greed factors.
+          Here is our approach:
+          <ol>
+            <li><strong>Sort:</strong> Sort both arrays: <code>g</code> (children's greed) and <code>s</code> (cookie sizes) in ascending order.</li>
+            <li><strong>Two Pointers:</strong> Initialize two pointers: <code>child = 0</code> and <code>cookie = 0</code>.</li>
+            <li><strong>Match Pointers:</strong> We loop while <code>child &lt; g.length</code> and <code>cookie &lt; s.length</code>:
+              <ul>
+                <li>If the cookie size satisfies the child (<code>s[cookie] &gt;= g[child]</code>), it means we have successfully made this child content. We increment our <code>child</code> pointer to evaluate the next child.</li>
+                <li>Regardless of whether the cookie satisfies the child or not, we increment the <code>cookie</code> pointer because a cookie that cannot satisfy the current child (who has the lowest greed among remaining unsatisfied kids) can never satisfy any subsequent child with a higher greed factor.</li>
+              </ul>
+            </li>
+          </ol>
+          The final value of the <code>child</code> pointer is our maximum number of satisfied children. Sorting takes <code>O(n log n + m log m)</code> time, and the two-pointer loop runs in linear <code>O(n + m)</code> time.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Sort greed array g and cookie size array s. Use two pointers 'child' and 'cookie'. If s[cookie] >= g[child], increment child. Increment cookie in all cases. Return child index.</p>
+        <p>Let's trace the algorithm with children greed <code>g = [1, 2]</code> and cookies <code>s = [1, 2, 3]</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Sorting):</strong> g and s are already sorted: <code>g = [1, 2]</code>, <code>s = [1, 2, 3]</code>.</li>
+          <li><strong>Step 2 (Initialize):</strong>
+            <ul>
+              <li>Pointers: <code>child = 0</code>, <code>cookie = 0</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Iteration 1: child = 0, cookie = 0):</strong>
+            <ul>
+              <li>Compare: <code>s[0] (1) >= g[0] (1)</code>. Match!</li>
+              <li>Increment <code>child</code> to 1.</li>
+              <li>Increment <code>cookie</code> to 1.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Iteration 2: child = 1, cookie = 1):</strong>
+            <ul>
+              <li>Compare: <code>s[1] (2) >= g[1] (2)</code>. Match!</li>
+              <li>Increment <code>child</code> to 2.</li>
+              <li>Increment <code>cookie</code> to 2.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Termination):</strong> The loop terminates because <code>child (2) == g.length</code>. We return <code>child = 2</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>Arrays.sort(g); Arrays.sort(s);</code>: Chronological ordering ensures that we match the smallest greed with the smallest sufficient cookie, preserving larger cookies for kids with larger greed factors.</li>
+          <li><code>if (s[cookie] &gt;= g[child]) child++;</code>: If the cookie is large enough, the child pointer shifts forward, signifying a successful match. If not, the child pointer remains on the same child to wait for a larger cookie.</li>
+          <li><code>cookie++;</code>: Discards the current cookie in each iteration, either because it was successfully eaten or because it was too small to satisfy anyone.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -134,35 +191,46 @@ import java.util.Arrays;
 
 public class AssignCookies {
 
-    // Sort + Two Pointers - O(n log n)
+    // Sorting & Two Pointers: Time O(N log N + M log M), Space O(1)
     public int findContentChildren(int[] g, int[] s) {
+        if (g == null || s == null) {
+            return 0;
+        }
+
+        // Sort children greed and cookie sizes
         Arrays.sort(g);
         Arrays.sort(s);
-        int child = 0, cookie = 0;
-        while (child &lt; g.length &amp;&amp; cookie &lt; s.length) {
+
+        int child = 0;
+        int cookie = 0;
+
+        // Try matching the smallest greed with the smallest sufficient cookie
+        while (child &lt; g.length && cookie &lt; s.length) {
             if (s[cookie] &gt;= g[child]) {
-                child++;
+                child++; // Successfully satisfied this child, move to next child
             }
-            cookie++;
+            cookie++; // Move to evaluate the next cookie
         }
+
         return child;
     }
 
     public static void main(String[] args) {
         AssignCookies solver = new AssignCookies();
-        int[] g = {1, 2, 3}; // children greed
-        int[] s = {1, 1};    // cookies size
+        int[] g = {1, 2, 3}; // Greed factors of children
+        int[] s = {1, 1};    // Cookie sizes
 
-        System.out.println(&quot;--- Assign Cookies Demonstration ---&quot;);
-        System.out.println(&quot;Children greed: &quot; + Arrays.toString(g));
-        System.out.println(&quot;Cookies size: &quot; + Arrays.toString(s));
-        System.out.println(&quot;Content children: &quot; + solver.findContentChildren(g, s));
+        System.out.println("--- Assign Cookies Demonstration ---");
+        System.out.println("Children Greed Factors: " + Arrays.toString(g));
+        System.out.println("Available Cookie Sizes: " + Arrays.toString(s));
+        int contentChildren = solver.findContentChildren(g, s);
+        System.out.println("Maximum satisfied children: " + contentChildren); // Expected: 1
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Assign Cookies</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Assign Cookies is a classic greedy problem. By sorting the arrays, we align our resources and requirements from smallest to largest, ensuring that we satisfy the maximum number of children without wasting larger cookies on smaller greed factors.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

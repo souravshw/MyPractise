@@ -110,19 +110,99 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to find the maximum in each sliding window of size k using a monotonic Deque.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Sliding Window Maximum</strong> problem is a classic hard problem that asks us to find the maximum value in each sliding window of size <code>k</code> moving across an array of integers <code>nums</code>.</p>
+        <p>Imagine we have an array <code>nums = [1, 3, -1, -3, 5, 3, 6, 7]</code> and a window size <code>k = 3</code>. The window slides from left to right, one element at a time:
+          <ul>
+            <li><code>[1, 3, -1]</code> -> Max is <code>3</code></li>
+            <li><code>[3, -1, -3]</code> -> Max is <code>3</code></li>
+            <li><code>[-1, -3, 5]</code> -> Max is <code>5</code></li>
+            <li><code>[-3, 5, 3]</code> -> Max is <code>5</code></li>
+            <li><code>[5, 3, 6]</code> -> Max is <code>6</code></li>
+            <li><code>[3, 6, 7]</code> -> Max is <code>7</code></li>
+          </ul>
+          Our result array is <code>[3, 3, 5, 5, 6, 7]</code>.
+          Solving this problem naively takes <code>O(n * k)</code> by checking all <code>k</code> elements for each of the <code>n - k + 1</code> window positions. We want to find an optimized, linear <code>O(n)</code> time complexity solution using a double-ended queue (Deque).
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Ageing Leaders Club
+            Real-World Analogy: The Hype-Cycle and Older Competitors
           </div>
-          <p>Imagine a moving line of competitors. We want to find the strongest competitor in the current window of size k. We use a Deque (double-ended queue) to store competitors' indices. We remove older indexes that are out-of-bounds, and remove weaker competitors who stand no chance of being the max.</p>
+          <p>Imagine a recruiting window for a sports team. Competitors enter a waiting line one by one. If a new, incredibly strong player arrives, any weaker players who arrived before them are immediately disqualified from ever being the "best candidate" because they are both weaker *and* will retire (slide out of the window) sooner. Thus, we discard weaker candidates from the back of our list. Additionally, when a player gets too old (out-of-bounds from the sliding window), they are removed from the front of the list. At any given moment, the absolute best player in the window is always the one sitting at the front of the list.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>Monotonic Deque Optimization (O(n) Time, O(k) Space)</h3>
+        <p>A double-ended queue (Deque) allows us to add or remove elements from both the front and the back in <code>O(1)</code> time. We store indices of elements in the Deque, maintaining them in a <strong>monotonically decreasing order</strong> of their values.
+          Here is our step-by-step process for each index <code>i</code> in the array:
+          <ul>
+            <li><strong>Remove Out-of-Bounds Indices:</strong> If the index at the front of the Deque is less than <code>i - k + 1</code>, it lies outside the current sliding window, so we remove it from the front.</li>
+            <li><strong>Maintain Monotonic Order:</strong> Before inserting the current index <code>i</code>, we look at the back of the Deque. If the value at the back index is smaller than the current value <code>nums[i]</code>, that back index can never be the maximum in this window or any future window. We pop it from the back. We repeat this until the Deque is empty or the back element is greater than or equal to <code>nums[i]</code>.</li>
+            <li><strong>Add Current Index:</strong> We push the current index <code>i</code> onto the back of the Deque.</li>
+            <li><strong>Record Maximum:</strong> Once our loop counter <code>i</code> reaches at least <code>k - 1</code> (meaning we have processed a full window size), the front of the Deque contains the index of the maximum element for the current window. We record <code>nums[deque.peekFirst()]</code>.</li>
+          </ul>
+          Since each index is added to and removed from the Deque at most once, the total operations are bounded by <code>2 * n</code>, resulting in a linear <code>O(n)</code> time complexity.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>For each element, remove indices from front of deque that are outside current window. Remove indices from back whose values are less than current. Add current index. The maximum is at the front of the deque.</p>
+        <p>Let's trace the algorithm on <code>nums = [1, 3, -1, -3, 5]</code> with <code>k = 3</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong> Empty Deque: <code>dq = []</code>, output array: <code>res = new int[3]</code>.</li>
+          <li><strong>Step 2 (Index 0: val = 1):</strong>
+            <ul>
+              <li>Deque is empty. Offer index 0.</li>
+              <li>Deque state: <code>[0]</code> (values: <code>[1]</code>)</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Index 1: val = 3):</strong>
+            <ul>
+              <li>Value at back index (<code>nums[0] = 1</code>) is less than current <code>3</code>. Pop index 0 from back.</li>
+              <li>Deque is now empty. Offer index 1.</li>
+              <li>Deque state: <code>[1]</code> (values: <code>[3]</code>)</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Index 2: val = -1):</strong>
+            <ul>
+              <li>Value at back index (<code>nums[1] = 3</code>) is greater than current <code>-1</code>. No pop.</li>
+              <li>Offer index 2.</li>
+              <li>Deque state: <code>[1, 2]</code> (values: <code>[3, -1]</code>)</li>
+              <li>Window of size 3 is formed (<code>i >= 2</code>). Max is at front: <code>nums[1] = 3</code>.</li>
+              <li>Result state: <code>res[0] = 3</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Index 3: val = -3):</strong>
+            <ul>
+              <li>Remove out-of-bounds front: index 1 is at <code>i-k+1 = 3-3+1 = 1</code>, which is in bounds. No removal.</li>
+              <li>Value at back index (<code>nums[2] = -1</code>) is greater than <code>-3</code>. No pop.</li>
+              <li>Offer index 3.</li>
+              <li>Deque state: <code>[1, 2, 3]</code> (values: <code>[3, -1, -3]</code>)</li>
+              <li>Max is at front: <code>nums[1] = 3</code>.</li>
+              <li>Result state: <code>res = [3, 3]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Index 4: val = 5):</strong>
+            <ul>
+              <li>Remove out-of-bounds front: front index is 1. Since <code>1 < 4 - 3 + 1 = 2</code>, it is out of bounds. Pop 1 from front. Deque is now <code>[2, 3]</code>.</li>
+              <li>Value at back index (<code>nums[3] = -3</code>) is less than 5. Pop 3.</li>
+              <li>Value at next back index (<code>nums[2] = -1</code>) is less than 5. Pop 2.</li>
+              <li>Deque is now empty. Offer index 4.</li>
+              <li>Deque state: <code>[4]</code> (values: <code>[5]</code>)</li>
+              <li>Max is at front: <code>nums[4] = 5</code>.</li>
+              <li>Result state: <code>res = [3, 3, 5]</code>.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>dq.peekFirst() &lt;= i - k</code>: Keeps the sliding window in bounds by discarding elements that have slid out of range.</li>
+          <li><code>nums[dq.peekLast()] &lt; nums[i]</code>: Discards smaller elements from the back because they can never become the maximum in a window where a larger, newer element is present.</li>
+          <li><code>nums[dq.peekFirst()]</code>: The front of the queue is always maintained as the index of the maximum element for the current window.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -130,30 +210,44 @@
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
 
 public class SlidingWindowMaximum {
 
-    // Deque (Monotonic Queue) - O(n)
+    // Monotonic Deque: Time O(N), Space O(K)
     public int[] maxSlidingWindow(int[] nums, int k) {
-        if (nums == null || nums.length == 0) return new int[0];
-        Deque&lt;Integer&gt; dq = new LinkedList&lt;&gt;();
+        if (nums == null || nums.length == 0 || k &lt;= 0) {
+            return new int[0];
+        }
+
         int n = nums.length;
-        int[] res = new int[n - k + 1];
-        
+        int[] result = new int[n - k + 1];
+        // Using ArrayDeque for faster performance than LinkedList
+        Deque&lt;Integer&gt; deque = new ArrayDeque&lt;&gt;();
+
         for (int i = 0; i &lt; n; i++) {
-            while (!dq.isEmpty() &amp;&amp; dq.peekFirst() &lt;= i - k) {
-                dq.pollFirst();
+            // 1. Remove elements that are out of bounds for the current window
+            if (!deque.isEmpty() && deque.peekFirst() &lt;= i - k) {
+                deque.pollFirst();
             }
-            while (!dq.isEmpty() &amp;&amp; nums[dq.peekLast()] &lt; nums[i]) {
-                dq.pollLast();
+
+            // 2. Remove elements from back that are smaller than the current element
+            while (!deque.isEmpty() && nums[deque.peekLast()] &lt; nums[i]) {
+                deque.pollLast();
             }
-            dq.offerLast(i);
+
+            // 3. Add current element's index
+            deque.offerLast(i);
+
+            // 4. If window has reached size k, record the maximum
             if (i &gt;= k - 1) {
-                res[i - k + 1] = nums[dq.peekFirst()];
+                result[i - k + 1] = nums[deque.peekFirst()];
             }
         }
-        return res;
+
+        return result;
     }
 
     public static void main(String[] args) {
@@ -161,15 +255,17 @@ public class SlidingWindowMaximum {
         int[] nums = {1, 3, -1, -3, 5, 3, 6, 7};
         int k = 3;
 
-        System.out.println(&quot;--- Sliding Window Maximum Demonstration ---&quot;);
-        System.out.println(&quot;Input: &quot; + Arrays.toString(nums));
-        System.out.println(&quot;Result: &quot; + Arrays.toString(solver.maxSlidingWindow(nums, k)));
+        System.out.println("--- Sliding Window Maximum Demonstration ---");
+        System.out.println("Input Array: " + Arrays.toString(nums));
+        System.out.println("Window Size (k): " + k);
+        int[] result = solver.maxSlidingWindow(nums, k);
+        System.out.println("Sliding Window Maximums: " + Arrays.toString(result));
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Sliding Window Maximum</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Using a double-ended queue to maintain a monotonic sequence allows us to solve the Sliding Window Maximum problem in linear <code>O(n)</code> time. This technique is highly effective for sliding window problems requiring dynamic range query updates.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

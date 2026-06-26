@@ -110,19 +110,91 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to check if brackets are closed in the correct order using a Stack.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Valid Parentheses</strong> problem asks us to determine if an input string containing only the bracket characters <code>'(', ')', '{', '}', '['</code> and <code>']'</code> is valid.</p>
+        <p>An input string is valid if:
+          <ol>
+            <li>Open brackets must be closed by the same type of brackets.</li>
+            <li>Open brackets must be closed in the correct order.</li>
+            <li>Every close bracket has a corresponding open bracket of the same type.</li>
+          </ol>
+          For example, <code>"()[]{}"</code> is valid, but <code>"(]"</code> or <code>"([)]"</code> are invalid. This logic is a foundational building block for code compilers, text editor bracket matching, and mathematical expression parsers.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Inward Nesting Dolls
+            Real-World Analogy: The Nesting Gift Boxes
           </div>
-          <p>Imagine opening a set of nested boxes. If you open a red box, then a blue box, you must close the blue box first before closing the red box. A stack (LIFO - Last In, First Out) is perfect for this: when you see an opening bracket, you push it. When you see a closing bracket, it must match the top of the stack.</p>
+          <p>Imagine packing nested gift boxes. If you open a large red box, then open a smaller blue box inside it, you must place the blue box's lid on *first* before you can place the red box's lid. If you try to close the red box before closing the blue box inside, the structure breaks. In computer science, this Last-In, First-Out (LIFO) behavior is modeled by a Stack. An opening bracket is like opening a box (pushing it onto the stack), and a closing bracket is like placing a lid (popping from the stack and checking if the box type matches).</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. Stack-Based Verification (O(n) Time, O(n) Space)</h3>
+        <p>We traverse the characters of the string from left to right:
+          <ul>
+            <li>If we see an opening bracket (<code>'(', '{', '['</code>), we push it onto our stack.</li>
+            <li>If we see a closing bracket (<code>')', '}', ']'</code>):
+              <ul>
+                <li>We check if the stack is empty. If it is, it means we have a closing bracket with no corresponding opening bracket, so the string is invalid.</li>
+                <li>Otherwise, we pop the top element from the stack and compare it to the current closing bracket. If they are not a matching pair (e.g., <code>'('</code> and <code>']'</code>), the string is invalid.</li>
+              </ul>
+            </li>
+          </ul>
+          After scanning the entire string, the stack must be empty (all opened boxes must be closed). If the stack still contains elements, it means some brackets were left unclosed. This runs in linear <code>O(n)</code> time and space.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Iterate chars. Push '(', '{', '['. When a closing bracket like ')' is seen, check if stack is empty or pop does not match '('. Return false if mismatch. Check if stack is empty at end.</p>
+        <p>Let's trace the stack-based algorithm on the string <code>s = "([{}])"</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong> Initialize an empty Character stack: <code>stack = []</code>.</li>
+          <li><strong>Step 2 (Index 0: '('):</strong> Opening bracket. We push it onto the stack.
+            <ul>
+              <li>Stack state: <code>['(']</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Index 1: '['):</strong> Opening bracket. We push it onto the stack.
+            <ul>
+              <li>Stack state: <code>['(', '[']</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Index 2: '{'):</strong> Opening bracket. We push it onto the stack.
+            <ul>
+              <li>Stack state: <code>['(', '[', '{']</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Index 3: '}'):</strong> Closing bracket.
+            <ul>
+              <li>We check if stack is empty (false) and pop the top: <code>top = '{'</code>.</li>
+              <li>Since <code>'{'</code> and <code>'}'</code> match, we proceed.</li>
+              <li>Stack state: <code>['(', '[']</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Index 4: ']'):</strong> Closing bracket.
+            <ul>
+              <li>We pop the top: <code>top = '['</code>.</li>
+              <li>Since <code>'['</code> and <code>']'</code> match, we proceed.</li>
+              <li>Stack state: <code>['(']</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Index 5: ')'):</strong> Closing bracket.
+            <ul>
+              <li>We pop the top: <code>top = '('</code>.</li>
+              <li>Since <code>'('</code> and <code>')'</code> match, we proceed.</li>
+              <li>Stack state: <code>[]</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 8 (Final Check):</strong> The loop ends. We verify if <code>stack.isEmpty()</code>. It is empty, so we return <code>true</code>. The string is valid!</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>stack.push(c);</code>: Stores opening brackets so we can match them with their corresponding closing elements in LIFO order.</li>
+          <li><code>if (stack.isEmpty()) return false;</code>: Immediately catches unmatched closing brackets appearing before an opening bracket (e.g. <code>")("</code>).</li>
+          <li><code>char top = stack.pop(); if (c == ')' && top != '(') return false;</code>: Compares the popped opening element with the current closing symbol, ensuring the brackets close in the correct order.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

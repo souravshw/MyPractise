@@ -110,19 +110,96 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to implement a FIFO queue using two LIFO stacks.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Implement Queue using Stacks</strong> problem challenges us to build a standard First-In, First-Out (FIFO) queue using only two Last-In, First-Out (LIFO) stacks.</p>
+        <p>A queue supports operations like:
+          <ul>
+            <li><code>push(x)</code>: Push element x to the back of queue.</li>
+            <li><code>pop()</code>: Removes the element from the front of the queue and returns it.</li>
+            <li><code>peek()</code>: Get the front element.</li>
+            <li><code>empty()</code>: Return whether the queue is empty.</li>
+          </ul>
+          A stack only allows us to push and pop from the top (LIFO). To build a FIFO structure, we must find a way to reverse the order of elements so that the oldest elements (which are at the bottom of a stack) become accessible at the top. This is a common interview question that tests your understanding of data structures, amortized complexity, and stack manipulation.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Double Cup Dispenser
+            Real-World Analogy: The Double Cafeteria Tray Stack
           </div>
-          <p>A stack is like a cup dispenser: you can only take the top cup (LIFO). To get the bottom cup (FIFO), you pour all cups from the first dispenser into a second dispenser. This reverses their order! Now, the top cup of the second dispenser is the first cup that was put in.</p>
+          <p>Imagine you have a stack of cafeteria trays in a narrow dispenser. When you put trays in, they stack on top (Last-In). Customers want the bottom tray because it was placed there first (First-Out). To serve them, you grab another empty dispenser, move the trays one by one from the first dispenser to the second. This action completely reverses their order! Now, the oldest tray is at the top of the second dispenser. Customers can now take trays from the second dispenser. You only need to move trays over when the second dispenser becomes completely empty.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>Two-Stack Order Reversal (Amortized O(1) Time, O(n) Space)</h3>
+        <p>We maintain two stacks:
+          <ul>
+            <li><code>inputStack</code>: Dedicated to receiving new elements when <code>push(x)</code> is called.</li>
+            <li><code>outputStack</code>: Dedicated to serving elements for <code>pop()</code> and <code>peek()</code>.</li>
+          </ul>
+          Here is how the operations work:
+          <ul>
+            <li><strong>Push:</strong> Simply push the element onto <code>inputStack</code>. This is a fast <code>O(1)</code> operation.</li>
+            <li><strong>Pop/Peek:</strong> We want to get the oldest element, which resides at the top of <code>outputStack</code>.
+              <ul>
+                <li>If <code>outputStack</code> is not empty, we simply pop/peek from it.</li>
+                <li>If <code>outputStack</code> is empty, we transfer all elements from <code>inputStack</code> to <code>outputStack</code> by popping them one by one and pushing them onto <code>outputStack</code>. This reverses their order, positioning the oldest element at the top. We then pop/peek from <code>outputStack</code>.</li>
+              </ul>
+            </li>
+            <li><strong>Empty:</strong> The queue is empty only when both <code>inputStack</code> and <code>outputStack</code> are empty.</li>
+          </ul>
+          While a transfer takes <code>O(n)</code> time, each element is pushed and popped at most a constant number of times. Thus, the amortized time complexity per operation is <code>O(1)</code>.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Stack 'in' takes new elements (push). Stack 'out' serves elements (pop/peek). If 'out' is empty, we pop everything from 'in' and push it to 'out' to reverse the order.</p>
+        <p>Let's trace a sequence of operations:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong> Initialize two empty stacks: <code>inputStack = []</code> and <code>outputStack = []</code>.</li>
+          <li><strong>Step 2 (Push 1):</strong> Push 1 onto <code>inputStack</code>.
+            <ul>
+              <li><code>inputStack = [1]</code>, <code>outputStack = []</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Push 2):</strong> Push 2 onto <code>inputStack</code>.
+            <ul>
+              <li><code>inputStack = [1, 2]</code>, <code>outputStack = []</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Peek):</strong>
+            <ul>
+              <li><code>outputStack</code> is empty, so we transfer elements from <code>inputStack</code>.</li>
+              <li>Pop 2 from <code>inputStack</code>, push to <code>outputStack</code>. State: <code>inputStack = [1]</code>, <code>outputStack = [2]</code>.</li>
+              <li>Pop 1 from <code>inputStack</code>, push to <code>outputStack</code>. State: <code>inputStack = []</code>, <code>outputStack = [2, 1]</code>.</li>
+              <li>Peek at the top of <code>outputStack</code>: returns <code>1</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Pop):</strong>
+            <ul>
+              <li><code>outputStack</code> is not empty, so we pop the top element from <code>outputStack</code>: returns <code>1</code>.</li>
+              <li>State: <code>inputStack = []</code>, <code>outputStack = [2]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Push 3):</strong> Push 3 onto <code>inputStack</code>.
+            <ul>
+              <li><code>inputStack = [3]</code>, <code>outputStack = [2]</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Pop):</strong>
+            <ul>
+              <li><code>outputStack</code> is not empty, so we pop from it: returns <code>2</code>.</li>
+              <li>State: <code>inputStack = [3]</code>, <code>outputStack = []</code>.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>inputStack.push(x)</code>: Keep the write path extremely simple and fast (O(1)).</li>
+          <li><code>while (!inputStack.isEmpty()) outputStack.push(inputStack.pop())</code>: The transfer logic that reverses the order of elements. By doing this lazily (only when the read stack is empty), we achieve O(1) amortized performance.</li>
+          <li><code>inputStack.isEmpty() && outputStack.isEmpty()</code>: Ensures we correctly track elements across both buffers before declaring the queue empty.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -135,46 +212,63 @@ import java.util.Stack;
 public class QueueUsingStacks {
 
     public static class MyQueue {
-        private Stack&lt;Integer&gt; in = new Stack&lt;&gt;();
-        private Stack&lt;Integer&gt; out = new Stack&lt;&gt;();
+        private final Stack&lt;Integer&gt; inputStack = new Stack&lt;&gt;();
+        private final Stack&lt;Integer&gt; outputStack = new Stack&lt;&gt;();
 
+        /** Push element x to the back of queue. */
         public void push(int x) {
-            in.push(x);
+            inputStack.push(x);
         }
 
+        /** Removes the element from in front of queue and returns that element. */
         public int pop() {
-            peek();
-            return out.pop();
+            shiftStacks();
+            return outputStack.pop();
         }
 
+        /** Get the front element. */
         public int peek() {
-            if (out.isEmpty()) {
-                while (!in.isEmpty()) {
-                    out.push(in.pop());
+            shiftStacks();
+            return outputStack.peek();
+        }
+
+        /** Returns whether the queue is empty. */
+        public boolean empty() {
+            return inputStack.isEmpty() && outputStack.isEmpty();
+        }
+
+        /** Helper method to transfer elements from input stack to output stack when empty. */
+        private void shiftStacks() {
+            if (outputStack.isEmpty()) {
+                while (!inputStack.isEmpty()) {
+                    outputStack.push(inputStack.pop());
                 }
             }
-            return out.peek();
-        }
-
-        public boolean empty() {
-            return in.isEmpty() &amp;&amp; out.isEmpty();
         }
     }
 
     public static void main(String[] args) {
         MyQueue queue = new MyQueue();
-        System.out.println(&quot;--- Implement Queue using Stacks Demonstration ---&quot;);
+        System.out.println("--- Implement Queue using Stacks Demonstration ---");
+        
+        System.out.println("Pushing: 1");
         queue.push(1);
+        System.out.println("Pushing: 2");
         queue.push(2);
-        System.out.println(&quot;Peek: &quot; + queue.peek()); // 1
-        System.out.println(&quot;Pop: &quot; + queue.pop());   // 1
-        System.out.println(&quot;Empty: &quot; + queue.empty()); // false
+        
+        System.out.println("Peek (front of queue): " + queue.peek()); // Should be 1
+        System.out.println("Pop (removed front): " + queue.pop());   // Should be 1
+        
+        System.out.println("Pushing: 3");
+        queue.push(3);
+        System.out.println("Pop (removed front): " + queue.pop());   // Should be 2
+        System.out.println("Is Queue empty? " + queue.empty());     // Should be false
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Implement Queue using Stacks</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Implementing a queue using stacks is a classic lesson in amortized analysis. By using a secondary stack to lazily reverse the element order, we preserve the FIFO contract while maintaining highly efficient runtime execution.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

@@ -110,7 +110,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to design a stack that retrieves the minimum element in constant O(1) time.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Min Stack</strong> problem requires us to design a stack data structure that supports standard operations: <code>push</code>, <code>pop</code>, <code>top</code>, and retrieving the minimum element <code>getMin</code>, all in constant <code>O(1)</code> time.</p>
+        <p>A standard stack allows <code>push</code> and <code>pop</code> in <code>O(1)</code> time, but finding the minimum element usually requires traversing the entire stack, which takes <code>O(n)</code> time. The challenge here is to optimize the minimum element retrieval to be a constant time operation without losing stack properties.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
@@ -118,11 +120,81 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Double Bookkeeping Ledger
           </div>
-          <p>A standard stack lets you push and pop. To find the minimum in O(1) time, you maintain a second parallel stack called 'minStack'. Whenever you push a value to the main stack, you also push the current minimum to the minStack. This way, the top of the minStack always represents the minimum.</p>
+          <p>Imagine keeping a history ledger of numbers in a stack. When you add a new number, you write it on the main page. To instantly answer "what is the smallest number currently in the pile?", you keep a second helper notepad right next to it. Whenever you add a number to the main pile, you check if it is smaller than the top number on your notepad. If it is (or if the notepad is empty), you write it on the notepad as well. If not, you write down a duplicate of the current minimum again. When you remove a number from the main pile, you tear off the top sheet of both the main pile and the notepad. The top sheet of your notepad always shows the current minimum!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. Auxiliary Min Stack Synchronization (O(1) Time, O(n) Space)</h3>
+        <p>We use two standard stacks:
+          <ul>
+            <li><code>stack</code>: Stores the actual data elements.</li>
+            <li><code>minStack</code>: Stores the minimum elements seen so far.</li>
+          </ul>
+          When we perform a <code>push(val)</code>:
+          <ul>
+            <li>We push <code>val</code> onto <code>stack</code>.</li>
+            <li>If <code>minStack</code> is empty, or <code>val</code> is less than or equal to the current minimum (the top of <code>minStack</code>), we push <code>val</code> onto <code>minStack</code> as well.</li>
+          </ul>
+          When we perform a <code>pop()</code>:
+          <ul>
+            <li>We pop the top value from <code>stack</code>.</li>
+            <li>If the popped value matches the top of <code>minStack</code>, we pop it from <code>minStack</code> too.</li>
+          </ul>
+          This guarantees that the top of <code>minStack</code> always holds the minimum value currently in the main stack. All operations run in constant <code>O(1)</code> time.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Push 5: main=[5], min=[5]. Push 3: main=[5, 3], min=[5, 3]. Push 7: main=[5, 3, 7], min=[5, 3]. Pop: main=[5, 3], min=[5, 3]. Min is top of minStack (3).</p>
+        <p>Let's trace the Min Stack operations: <code>push(-2)</code>, <code>push(0)</code>, <code>push(-3)</code>, <code>getMin()</code>, <code>pop()</code>, <code>top()</code>, <code>getMin()</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Push -2):</strong>
+            <ul>
+              <li>Push <code>-2</code> to <code>stack</code>: <code>stack = [-2]</code>.</li>
+              <li>Since <code>minStack</code> is empty, push <code>-2</code> to <code>minStack</code>: <code>minStack = [-2]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Push 0):</strong>
+            <ul>
+              <li>Push <code>0</code> to <code>stack</code>: <code>stack = [-2, 0]</code>.</li>
+              <li>Compare <code>0</code> with top of <code>minStack</code> (<code>-2</code>). Since <code>0 &gt; -2</code>, we do not push <code>0</code> to <code>minStack</code>.</li>
+              <li>Stack states: <code>stack = [-2, 0]</code>, <code>minStack = [-2]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Push -3):</strong>
+            <ul>
+              <li>Push <code>-3</code> to <code>stack</code>: <code>stack = [-2, 0, -3]</code>.</li>
+              <li>Compare <code>-3</code> with top of <code>minStack</code> (<code>-2</code>). Since <code>-3 &lt;= -2</code>, push <code>-3</code> to <code>minStack</code>.</li>
+              <li>Stack states: <code>stack = [-2, 0, -3]</code>, <code>minStack = [-2, -3]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (GetMin):</strong>
+            <ul>
+              <li>We peek at the top of <code>minStack</code>. Returns <code>-3</code>. Constant time lookup!</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Pop):</strong>
+            <ul>
+              <li>Pop top of <code>stack</code>: returns <code>-3</code>. <code>stack = [-2, 0]</code>.</li>
+              <li>Since the popped value <code>-3</code> equals the top of <code>minStack</code> (<code>-3</code>), we pop from <code>minStack</code> as well: <code>minStack = [-2]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Top):</strong>
+            <ul>
+              <li>We peek at the top of <code>stack</code>. Returns <code>0</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (GetMin):</strong>
+            <ul>
+              <li>We peek at the top of <code>minStack</code>. Returns <code>-2</code>.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>if (minStack.isEmpty() || val &lt;= minStack.peek()) minStack.push(val);</code>: The conditional update that stores a new minimum threshold when pushed. Note the <code>&lt;=</code> check, which is critical for handling duplicate minimums correctly.</li>
+          <li><code>if (stack.pop().equals(minStack.peek())) minStack.pop();</code>: Keeps the helper stack synchronized with the main stack when a minimum element is popped off.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

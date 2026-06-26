@@ -110,7 +110,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn the two-pointer approach to calculate how much rain water can be trapped between elevation map bars.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Trapping Rain Water</strong> problem is a classic hard-level coding challenge. We are given an array of non-negative integers representing an elevation map where the width of each bar is <code>1</code>. Our task is to calculate how much water it can trap after raining.</p>
+        <p>For example, given the elevation map <code>[0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]</code>, the total amount of trapped rain water is <code>6</code>. Trapping water occurs in the valleys between taller bars. Calculating this efficiently requires us to understand boundaries and limits.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
@@ -118,11 +120,94 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Valley Reservoirs
           </div>
-          <p>Imagine a valley of pillars of different heights. When it rains, water fills the dips. The amount of water above any pillar depends on the minimum of the tallest pillars to its left and right, minus the pillar's own height. By using two pointers moving inwards, we can track the maximum heights seen from both sides and calculate the trapped water dynamically.</p>
+          <p>Imagine a series of concrete pillars standing side-by-side on a line. During a heavy rainstorm, water fills up the gaps between them. How much water can accumulate on top of any single pillar? The water level above a pillar is bounded by the height of the tallest pillar to its left and the tallest pillar to its right. Specifically, water will fill up to the height of the *shorter* of these two giants. Any excess water spills over the sides. Thus, the depth of water trapped above a pillar is: <code>water = Math.min(tallestLeft, tallestRight) - pillarHeight</code>. By scanning from both ends, we can easily find these boundaries!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. The Naive Approach (O(n²))</h3>
+        <p>For every bar in the array, we scan to its left to find the maximum height, and scan to its right to find the maximum height. The water trapped at the current bar is <code>Math.min(leftMax, rightMax) - height[i]</code>. Since we do this search for each of the <code>n</code> bars, the time complexity is quadratic: <code>O(n²)</code>.</p>
+
+        <h3>2. The Dynamic Programming Approach (O(n) Time, O(n) Space)</h3>
+        <p>We can precompute the maximum heights seen from the left and right in two passes, storing them in two arrays: <code>leftMax</code> and <code>rightMax</code>. Then, in a third pass, we compute the water trapped at each index. This reduces the time to <code>O(n)</code> but requires <code>O(n)</code> auxiliary storage space.</p>
+
+        <h3>3. The Two-Pointer Approach (O(n) Time, O(1) Space)</h3>
+        <p>This is the most optimal approach. We maintain two pointers, <code>left = 0</code> and <code>right = n - 1</code>, along with two variables: <code>leftMax = 0</code> and <code>rightMax = 0</code>.
+          <ul>
+            <li>If <code>height[left] &lt; height[right]</code>: We know that the water level at <code>left</code> is determined by <code>leftMax</code> because <code>height[right]</code> acts as a solid, taller boundary on the right. If <code>height[left] &gt;= leftMax</code>, we update <code>leftMax = height[left]</code>. Otherwise, we add <code>leftMax - height[left]</code> to our total water, and increment <code>left</code>.</li>
+            <li>If <code>height[left] &gt;= height[right]</code>: We do the symmetric operation on the right side and decrement <code>right</code>.</li>
+          </ul>
+          This achieves <code>O(n)</code> time complexity and <code>O(1)</code> space complexity.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Using two pointers 'left' at start and 'right' at end, we compare heights. If height[left] is smaller, we update leftMax and add (leftMax - height[left]) to our water count, then move left inwards. Otherwise, we do the same for rightMax and move right inwards.</p>
+        <p>Let's trace the two-pointer algorithm on the array <code>height = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong>
+            <ul>
+              <li><code>left = 0</code>, <code>right = 11</code></li>
+              <li><code>leftMax = 0</code>, <code>rightMax = 0</code>, <code>water = 0</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Iteration 1):</strong> Compare <code>height[0] (0)</code> and <code>height[11] (1)</code>.
+            <ul>
+              <li>Since <code>0 &lt; 1</code>, we process the left pointer.</li>
+              <li>Is <code>height[left] &gt;= leftMax</code>? Yes, <code>0 &gt;= 0</code>. Update <code>leftMax = 0</code>. No water trapped.</li>
+              <li>Increment <code>left</code> to <code>1</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Iteration 2):</strong> Compare <code>height[1] (1)</code> and <code>height[11] (1)</code>.
+            <ul>
+              <li>Since <code>1 &gt;= 1</code>, we process the right pointer.</li>
+              <li>Is <code>height[right] &gt;= rightMax</code>? Yes, <code>1 &gt;= 0</code>. Update <code>rightMax = 1</code>. No water trapped.</li>
+              <li>Decrement <code>right</code> to <code>10</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Iteration 3):</strong> Compare <code>height[1] (1)</code> and <code>height[10] (2)</code>.
+            <ul>
+              <li>Since <code>1 &lt; 2</code>, we process the left pointer.</li>
+              <li>Is <code>height[1] (1) &gt;= leftMax (0)</code>? Yes. Update <code>leftMax = 1</code>. No water trapped.</li>
+              <li>Increment <code>left</code> to <code>2</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Iteration 4):</strong> Compare <code>height[2] (0)</code> and <code>height[10] (2)</code>.
+            <ul>
+              <li>Since <code>0 &lt; 2</code>, process left.</li>
+              <li>Is <code>height[2] (0) &gt;= leftMax (1)</code>? No.</li>
+              <li>Trapped water at index 2: <code>leftMax - height[2] = 1 - 0 = 1</code> unit. Update <code>water = 1</code>.</li>
+              <li>Increment <code>left</code> to <code>3</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Iteration 5):</strong> Compare <code>height[3] (2)</code> and <code>height[10] (2)</code>.
+            <ul>
+              <li>Since <code>2 &gt;= 2</code>, process right.</li>
+              <li>Is <code>height[10] (2) &gt;= rightMax (1)</code>? Yes. Update <code>rightMax = 2</code>. No water trapped.</li>
+              <li>Decrement <code>right</code> to <code>9</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Iteration 6):</strong> Compare <code>height[3] (2)</code> and <code>height[9] (1)</code>.
+            <ul>
+              <li>Since <code>2 &gt; 1</code>, process right.</li>
+              <li>Is <code>height[9] (1) &gt;= rightMax (2)</code>? No.</li>
+              <li>Trapped water at index 9: <code>rightMax - height[9] = 2 - 1 = 1</code> unit. Update <code>water = 1 + 1 = 2</code>.</li>
+              <li>Decrement <code>right</code> to <code>8</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 8 (Trace continues):</strong> The pointers continue to move inwards, trapping water in the remaining low spots (at indices 4, 5, 6).
+            <ul>
+              <li>Index 4 (height 1): traps <code>leftMax (2) - height[4] (1) = 1</code> unit. <code>water = 3</code>.</li>
+              <li>Index 5 (height 0): traps <code>leftMax (2) - height[5] (0) = 2</code> units. <code>water = 5</code>.</li>
+              <li>Index 6 (height 1): traps <code>leftMax (2) - height[6] (1) = 1</code> unit. <code>water = 6</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 9 (Completion):</strong> The pointers meet at index 7 (the peak height 3). The loop terminates. The total trapped water is <code>6</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>if (height[left] &lt; height[right])</code>: By comparing the heights at the two pointers, we ensure we only compute water heights based on the smaller, limiting boundary, which prevents water from spilling over the lower edge of the valley.</li>
+          <li><code>water += leftMax - height[left]</code>: Since <code>leftMax</code> is the height of the boundary we've seen on the left, and the right boundary is guaranteed to be at least <code>height[right]</code> (which is larger than <code>height[left]</code>), the trapped water depth is simply the boundary height minus the bar height.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

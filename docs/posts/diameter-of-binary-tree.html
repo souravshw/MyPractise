@@ -27,12 +27,12 @@
     }]
   }
   </script>
-  <meta name="description" content="Learn how to find the length of the longest path between any two nodes in a binary tree.">
-  <meta name="keywords" content="diameter of binary tree java, java diameter of binary tree tutorial, optimized diameter of binary tree solution, how to solve diameter of binary tree, diameter of binary tree leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, diameter of binary tree example, hashmap diameter of binary tree java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description" content="Learn how to find the length of the longest path between any two nodes in a binary tree in O(n) time using depth-first search.">
+  <meta name="keywords" content="diameter of binary tree, diameter binary tree java, longest path binary tree, recursive tree diameter, binary tree tutorial java, dsa interview questions, java algorithm questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, binary tree depth first search, height of binary tree java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Diameter of Binary Tree in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to find the length of the longest path between any two nodes in a binary tree.">
+  <meta property="og:description" content="Learn how to find the length of the longest path between any two nodes in a binary tree in O(n) time using depth-first search.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -103,14 +103,18 @@
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
           <span>•</span>
-          <span class="post-read-time">4 min read</span>
+          <span class="post-read-time">5 min read</span>
         </div>
         <h1 class="article-title">Understanding Diameter of Binary Tree in Java</h1>
       </header>
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to find the length of the longest path between any two nodes in a binary tree.</p>
+        
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Diameter of a Binary Tree</strong> is defined as the length of the longest path between any two nodes in a tree. The path does not necessarily have to pass through the root. The length of a path between two nodes is represented by the number of edges between them.</p>
+        
+        <p>This problem is tricky because the longest path can reside completely in the left subtree, completely in the right subtree, or traverse across the root connecting nodes on both subtrees. To find the overall maximum diameter, we need to inspect the split-path potential of every single node in the tree.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
@@ -118,13 +122,54 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Longest Highway Route
           </div>
-          <p>The diameter of a tree is the longest path between any two leaves. For any node, the longest path passing through it is the sum of the maximum depths of its left and right subtrees. By calculating depths recursively, we track the largest sum seen.</p>
+          <p>Imagine a highway network structured like a tree. Each town is a node, and the roads connecting them are branches. You want to find the longest driving route between any two dead-end towns (leaves) without backtracking.</p>
+          <p>For any specific town (node) acting as an intersection, the longest route that passes through it is the sum of the longest one-way road going down its left region (left depth) and the longest one-way road going down its right region (right depth). By checking every intersection town in the network, we find the absolute longest highway route!</p>
         </div>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Compute depth recursively. For each node, calculate left depth and right depth. Update a global max variable with (left + right). Return 1 + max(left, right) as the node's depth.</p>
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. The Naive Approach - O(N²)</h3>
+        <p>We can solve this by calculating the height of the left and right subtrees for every node in the tree, summing them, and keeping track of the maximum. Since calculating the height of a subtree takes O(N) time, repeating this for all N nodes leads to an inefficient quadratic time complexity of O(N²).</p>
 
-        <h2>Java Implementation Code</h2>
+        <h3>2. The Optimized DFS Approach - O(N)</h3>
+        <p>Instead of doing redundant height calculations, we can combine the diameter calculation and height tracking into a single Depth-First Search (DFS) traversal. As we recursively calculate the height of each node (bottom-up post-order traversal):</p>
+        <ol>
+          <li>We fetch the maximum depth of the left subtree (<code>left</code>).</li>
+          <li>We fetch the maximum depth of the right subtree (<code>right</code>).</li>
+          <li>The diameter passing through the current node is <code>left + right</code>. We compare this with our global maximum diameter and update it if it's larger.</li>
+          <li>We return the height of the current node to its parent, which is <code>1 + Math.max(left, right)</code>.</li>
+        </ol>
+        <p>This post-order traversal visits each node exactly once, bringing the time complexity down to a highly optimized O(N).</p>
+
+        <h2>Step-by-Step Execution Walkthrough</h2>
+        <p>Let's trace the algorithm on the following binary tree:</p>
+        <pre>
+          1
+         / \
+        2   3
+       / \
+      4   5
+        </pre>
+        
+        <ol>
+          <li><strong>Step 1:</strong> Start DFS traversal from the root (node 1). We must compute the height of its left child (node 2) and right child (node 3) first.</li>
+          <li><strong>Step 2:</strong> Traverse to node 2. To get its height, we traverse to its left child (node 4) and right child (node 5).</li>
+          <li><strong>Step 3:</strong> At leaf node 4: Both children are null, returning height 0. Local diameter = <code>0 + 0 = 0</code>. Node 4 returns height <code>1 + max(0, 0) = 1</code> to node 2.</li>
+          <li><strong>Step 4:</strong> At leaf node 5: Both children are null, returning height 0. Local diameter = <code>0 + 0 = 0</code>. Node 5 returns height <code>1 + max(0, 0) = 1</code> to node 2.</li>
+          <li><strong>Step 5:</strong> Back at node 2: Left child height = 1, right child height = 1. Local diameter = <code>1 + 1 = 2</code> (path 4 -> 2 -> 5). We update global max = 2. Node 2 returns height <code>1 + max(1, 1) = 2</code> to root (node 1).</li>
+          <li><strong>Step 6:</strong> At leaf node 3: Both children null, returns height 1 to root (node 1).</li>
+          <li><strong>Step 7:</strong> Back at root 1: Left child height = 2, right child height = 1. Local diameter = <code>2 + 1 = 3</code> (path 4 -> 2 -> 1 -> 3). We update global max = 3. Root returns height 3.</li>
+          <li><strong>Step 8:</strong> Traversal ends. The maximum diameter recorded is <strong>3</strong>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>if (node == null) return 0;</code>: The base case for the recursive traversal. An empty subtree has a height of 0.</li>
+          <li><code>max = Math.max(max, left + right);</code>: Updates our global variable <code>max</code> with the longest path found passing through the current node as the peak connector.</li>
+          <li><code>return 1 + Math.max(left, right);</code>: Computes the height of the current node by taking the maximum path from either left or right child and adding 1 (representing the edge connecting the current node to its parent).</li>
+        </ul>
+
+        <h2>Complete Java Implementation</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
@@ -162,8 +207,8 @@ public class DiameterBinaryTree {
         root.left.left = new TreeNode(4);
         root.left.right = new TreeNode(5);
 
-        System.out.println(&quot;--- Diameter of Binary Tree Demonstration ---&quot;);
-        System.out.println(&quot;Diameter: &quot; + solver.diameterOfBinaryTree(root));
+        System.out.println("--- Diameter of Binary Tree Demonstration ---");
+        System.out.println("Diameter: " + solver.diameterOfBinaryTree(root));
     }
 }
 </code></pre>

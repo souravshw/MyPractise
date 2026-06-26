@@ -110,7 +110,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn Kadane's algorithm to find the contiguous subarray with the largest sum in O(n) time.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Maximum Subarray</strong> problem asks us to find a contiguous subarray within a one-dimensional array of numbers (which contains at least one positive number) that has the largest sum.</p>
+        <p>For example, in the array <code>[-2, 1, -3, 4, -1, 2, 1, -5, 4]</code>, the contiguous subarray with the largest sum is <code>[4, -1, 2, 1]</code>, which sums up to <code>6</code>. Finding this efficiently is critical because contiguous sequence maximization is a common subproblem in data analysis and signal processing.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
@@ -118,11 +120,85 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Rollercoaster Happiness Tracker
           </div>
-          <p>Imagine riding a rollercoaster with positive highs and negative drops. You want to find the longest stretch of track where you had the maximum combined happiness. As you ride, if your cumulative happiness dips below zero, you discard it and start tracking a new streak from the current point. You also record the highest happiness score you ever reached during the ride.</p>
+          <p>Imagine riding a rollercoaster with positive highs (thrill) and negative drops (fear/boredom). You want to identify the single continuous segment of the ride that gave you the absolute highest aggregate happiness. As you traverse the track, you keep track of your running streak of happiness. If your cumulative happiness drops below zero, it means the sequence is actually dragging you down; so you discard it, reset your running streak, and start tracking a new streak from the next point. Throughout the entire ride, you note down the highest happiness score your streak ever reached. That peak score is the maximum subarray sum!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. The Naive Approach (O(n²))</h3>
+        <p>We can check every possible starting and ending index for all subarrays, sum their elements, and record the maximum. This requires two nested loops, yielding a time complexity of <code>O(n²)</code>. For large datasets, this approach is extremely slow and impractical.</p>
+
+        <h3>2. Kadane's Algorithm (O(n) Time, O(1) Space)</h3>
+        <p>Kadane's algorithm is a classic dynamic programming technique that solves the problem in a single pass. At each index, we make a local greedy decision: Is it better to add the current element to our existing running sum, or should we discard the current sum and start a brand-new subarray starting exactly at the current element? By taking <code>Math.max(nums[i], currSum + nums[i])</code>, we dynamically build the optimal subarray sum in <code>O(n)</code> time using only <code>O(1)</code> extra space.</p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>For array [-2, 1, -3, 4, -1, 2, 1, -5, 4]: We iterate through elements. At each index, we decide whether to add the element to our current streak or start a new streak with that element. We keep updating the global maximum sum seen so far.</p>
+        <p>Let's trace Kadane's algorithm on the input array <code>nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong> We initialize two variables: <code>currSum</code> (current running subarray sum) and <code>maxSum</code> (global maximum subarray sum seen so far). We set both to the first element of the array:
+            <ul>
+              <li><code>currSum = -2</code></li>
+              <li><code>maxSum = -2</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Index i = 1, Value = 1):</strong>
+            <ul>
+              <li>We compare the current element <code>1</code> against the sum of the element and the previous running sum: <code>Math.max(1, currSum + 1) = Math.max(1, -2 + 1) = 1</code>.</li>
+              <li>So, <code>currSum = 1</code> (we discard the negative history and start a new subarray here).</li>
+              <li>Update global maximum: <code>maxSum = Math.max(maxSum, currSum) = Math.max(-2, 1) = 1</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Index i = 2, Value = -3):</strong>
+            <ul>
+              <li>Calculate new running sum: <code>Math.max(-3, currSum + (-3)) = Math.max(-3, 1 - 3) = -2</code>.</li>
+              <li>So, <code>currSum = -2</code> (we continue the subarray because <code>-2</code> is better than starting fresh with <code>-3</code>).</li>
+              <li>Update global maximum: <code>maxSum = Math.max(1, -2) = 1</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Index i = 3, Value = 4):</strong>
+            <ul>
+              <li>Calculate new running sum: <code>Math.max(4, currSum + 4) = Math.max(4, -2 + 4) = 4</code>.</li>
+              <li>So, <code>currSum = 4</code> (we start a new subarray since <code>4</code> is greater than the accumulated <code>2</code>).</li>
+              <li>Update global maximum: <code>maxSum = Math.max(1, 4) = 4</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Index i = 4, Value = -1):</strong>
+            <ul>
+              <li>Calculate new running sum: <code>Math.max(-1, 4 - 1) = 3</code>. So, <code>currSum = 3</code>.</li>
+              <li>Update global maximum: <code>maxSum = Math.max(4, 3) = 4</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Index i = 5, Value = 2):</strong>
+            <ul>
+              <li>Calculate new running sum: <code>Math.max(2, 3 + 2) = 5</code>. So, <code>currSum = 5</code>.</li>
+              <li>Update global maximum: <code>maxSum = Math.max(4, 5) = 5</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Index i = 6, Value = 1):</strong>
+            <ul>
+              <li>Calculate new running sum: <code>Math.max(1, 5 + 1) = 6</code>. So, <code>currSum = 6</code>.</li>
+              <li>Update global maximum: <code>maxSum = Math.max(5, 6) = 6</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 8 (Index i = 7, Value = -5):</strong>
+            <ul>
+              <li>Calculate new running sum: <code>Math.max(-5, 6 - 5) = 1</code>. So, <code>currSum = 1</code>.</li>
+              <li>Update global maximum: <code>maxSum = Math.max(6, 1) = 6</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 9 (Index i = 8, Value = 4):</strong>
+            <ul>
+              <li>Calculate new running sum: <code>Math.max(4, 1 + 4) = 5</code>. So, <code>currSum = 5</code>.</li>
+              <li>Update global maximum: <code>maxSum = Math.max(6, 5) = 6</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 10 (Completion):</strong> The iteration completes, and the maximum subarray sum recorded is <code>6</code> (corresponding to the segment <code>[4, -1, 2, 1]</code>).</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>currSum = Math.max(nums[i], currSum + nums[i])</code>: This is the core dynamic programming state transition. It decides whether the current element should extend the previous subarray or start a new one.</li>
+          <li><code>maxSum = Math.max(maxSum, currSum)</code>: This ensures we capture the peak value of <code>currSum</code> at any point during the single-pass traversal.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

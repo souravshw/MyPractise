@@ -110,7 +110,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn the elegant three-step reversal algorithm to rotate an array to the right by k steps in O(1) extra space.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Rotate Array</strong> problem asks us to shift the elements of an array to the right by <code>k</code> steps, where <code>k</code> is a non-negative integer.</p>
+        <p>For example, if we have the array <code>[1, 2, 3, 4, 5, 6, 7]</code> and we want to rotate it by <code>k = 3</code>, the output should be <code>[5, 6, 7, 1, 2, 3, 4]</code>. The primary challenge is performing this rotation efficiently in-place with <code>O(1)</code> auxiliary space, as creating copies of large arrays is not memory-efficient.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
@@ -118,11 +120,62 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Deck Reversal Trick
           </div>
-          <p>Imagine a deck of cards. You want to shift the bottom k cards to the top. A simple way to do this in-place is to reverse the whole deck, then reverse the first k cards, and finally reverse the remaining cards. Amazingly, this reverses the orientation back to normal but leaves the cards perfectly rotated!</p>
+          <p>Imagine you have a stack of cards numbered from <code>1</code> to <code>7</code>. You want to move the bottom <code>3</code> cards (<code>5, 6, 7</code>) to the top, so they appear first, while keeping the rest in order. A simple, elegant way to do this without using any helper trays is to reverse the entire stack first. This places the bottom elements at the top, but they are backwards: <code>7, 6, 5, 4, 3, 2, 1</code>. Now, reverse just the first <code>3</code> cards: they become <code>5, 6, 7</code>. Finally, reverse the remaining <code>4</code> cards: they become <code>1, 2, 3, 4</code>. Combined, the stack is now <code>5, 6, 7, 1, 2, 3, 4</code>. The rotation is complete and we didn't need any extra space!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. The Naive Approach (O(n * k) Time, O(1) Space)</h3>
+        <p>We can shift the elements of the array to the right by one position, <code>k</code> times. While this is in-place, the time complexity is <code>O(n * k)</code>. If <code>k</code> is large, this is extremely slow.</p>
+
+        <h3>2. Extra Array Approach (O(n) Time, O(n) Space)</h3>
+        <p>We can copy the elements to a temporary array at their new calculated positions: <code>newPosition = (currentPosition + k) % size</code>. After that, we copy it back. This takes linear time but uses <code>O(n)</code> extra memory.</p>
+
+        <h3>3. The Reversal Algorithm (O(n) Time, O(1) Space)</h3>
+        <p>This is the most optimized approach. By reversing segments of the array, we can achieve rotation in-place in linear time. The steps are:
+          <ol>
+            <li>Perform modulo operation on <code>k</code>: <code>k = k % size</code> to handle cases where <code>k</code> is larger than the array length.</li>
+            <li>Reverse the entire array.</li>
+            <li>Reverse the first <code>k</code> elements.</li>
+            <li>Reverse the remaining <code>n - k</code> elements.</li>
+          </ol>
+          This achieves <code>O(n)</code> time complexity and <code>O(1)</code> space complexity.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>For array [1, 2, 3, 4, 5, 6, 7] and k = 3: Reverse the whole array to get [7, 6, 5, 4, 3, 2, 1]. Reverse the first 3 elements to get [5, 6, 7, 4, 3, 2, 1]. Reverse the rest from index 3 to 6 to get [5, 6, 7, 1, 2, 3, 4].</p>
+        <p>Let's trace the reversal rotation on the array <code>nums = [1, 2, 3, 4, 5, 6, 7]</code> with <code>k = 3</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Normalize k):</strong> <code>k = 3 % 7 = 3</code>.</li>
+          <li><strong>Step 2 (Reverse the entire array):</strong>
+            <ul>
+              <li>We call <code>reverse(nums, 0, 6)</code>.</li>
+              <li>Pointers at index <code>0</code> and <code>6</code> swap values. Pointers move inwards and repeat.</li>
+              <li>Array changes: <code>[1, 2, 3, 4, 5, 6, 7]</code> &rarr; <code>[7, 6, 5, 4, 3, 2, 1]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Reverse the first k elements):</strong>
+            <ul>
+              <li>We call <code>reverse(nums, 0, k - 1)</code> which is <code>reverse(nums, 0, 2)</code>.</li>
+              <li>This reverses the subarray <code>[7, 6, 5]</code>.</li>
+              <li>Array changes: <code>[7, 6, 5, 4, 3, 2, 1]</code> &rarr; <code>[5, 6, 7, 4, 3, 2, 1]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Reverse the remaining elements):</strong>
+            <ul>
+              <li>We call <code>reverse(nums, k, nums.length - 1)</code> which is <code>reverse(nums, 3, 6)</code>.</li>
+              <li>This reverses the subarray <code>[4, 3, 2, 1]</code>.</li>
+              <li>Array changes: <code>[5, 6, 7, 4, 3, 2, 1]</code> &rarr; <code>[5, 6, 7, 1, 2, 3, 4]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Completion):</strong> The rotation is complete. The resulting array is <code>[5, 6, 7, 1, 2, 3, 4]</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>k %= nums.length;</code>: Ensures we do not perform redundant full-circle rotations. For example, rotating an array of size 5 by 6 steps is equivalent to rotating it by 1 step.</li>
+          <li><code>reverse(nums, 0, nums.length - 1);</code>: Places all elements that need to end up at the front in the correct left half, although their internal order is inverted.</li>
+          <li><code>reverse(nums, 0, k - 1);</code> and <code>reverse(nums, k, nums.length - 1);</code>: Restore the original relative ordering of the two segments after the global reversal.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

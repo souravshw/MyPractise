@@ -110,19 +110,71 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to move all zeroes in an array to the end in-place while keeping relative order of other elements.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Move Zeroes</strong> problem requires us to modify an array in-place such that all occurrences of the number <code>0</code> are shifted to the end of the array, while maintaining the relative ordering of all non-zero elements.</p>
+        <p>Crucially, we must do this without creating a copy of the array (in-place operation), and we want to minimize the number of operations to keep it as efficient as possible. This is a common utility task in databases and garbage collection systems where active items need to be compacted.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: Sorting the Toy Box
+            Real-World Analogy: Compacting Toys on a Conveyor Belt
           </div>
-          <p>Imagine a conveyor belt with toys and empty boxes (zeroes). You want to move all the actual toys to the front in the same order, and push all empty boxes to the end. You have a helper pointer that keeps track of the 'write' position. Whenever a real toy comes, you write it to the helper pointer and move the pointer forward. At the end, you fill all the remaining spots on the belt with empty boxes.</p>
+          <p>Imagine a conveyor belt loaded with toys and empty cardboard boxes (representing zeroes). Your task is to pack the toys tightly together at the front of the belt in the exact order they appeared, pushing all the empty boxes to the very end. You stand at the beginning of the belt with a marker pointing to the "next write spot". As the belt moves, whenever a real toy passes, you grab it, place it at the "next write spot," and step one slot forward. You ignore the empty boxes. Once all toys are compacted at the front, you simply place empty boxes in all the remaining empty spaces behind you. The toys remain in order, and the empty boxes are pushed to the end!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. Using an Extra Array (O(n) Space)</h3>
+        <p>We can create a new array of the same size, iterate through the original array to copy all non-zero elements first, and then fill the remaining positions with zeroes. Finally, we copy the temp array back. This is simple but requires <code>O(n)</code> extra memory, which violates the in-place constraint.</p>
+
+        <h3>2. Two-Pointer In-Place Optimization (O(n) Time, O(1) Space)</h3>
+        <p>We maintain a pointer <code>insertPos</code> initialized to <code>0</code>, which tracks where the next non-zero element should be written. We iterate through the array:
+          <ol>
+            <li>If the current element is non-zero, we assign it to <code>nums[insertPos]</code> and increment <code>insertPos</code>.</li>
+            <li>If the current element is zero, we do nothing and proceed.</li>
+          </ol>
+          After scanning the array, all non-zero elements have been written to the front. We then run a simple loop starting from the current value of <code>insertPos</code> to the end of the array, setting all those indices to <code>0</code>. This is optimal as it visits every element exactly once with zero extra memory allocation.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>For array [0, 1, 0, 3, 12]: We scan the array. When we see 1, we write it at index 0. When we see 3, we write it at index 1. When we see 12, we write it at index 2. The remaining indexes 3 and 4 are filled with zeroes, giving [1, 3, 12, 0, 0].</p>
+        <p>Let's trace the optimized two-pointer compaction on the input array <code>nums = [0, 1, 0, 3, 12]</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong> Set <code>insertPos = 0</code>. This pointer is ready to write the first non-zero element we find.</li>
+          <li><strong>Step 2 (Index i = 0, Value = 0):</strong> The value is <code>0</code>. We do nothing and move to the next index. <code>insertPos</code> remains <code>0</code>.</li>
+          <li><strong>Step 3 (Index i = 1, Value = 1):</strong> The value is <code>1</code> (non-zero).
+            <ul>
+              <li>We write it at <code>nums[insertPos]</code>: <code>nums[0] = 1</code>.</li>
+              <li>Increment <code>insertPos</code> to <code>1</code>. The array is now: <code>[1, 1, 0, 3, 12]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Index i = 2, Value = 0):</strong> The value is <code>0</code>. We do nothing. <code>insertPos</code> remains <code>1</code>.</li>
+          <li><strong>Step 5 (Index i = 3, Value = 3):</strong> The value is <code>3</code> (non-zero).
+            <ul>
+              <li>We write it at <code>nums[insertPos]</code>: <code>nums[1] = 3</code>.</li>
+              <li>Increment <code>insertPos</code> to <code>2</code>. The array is now: <code>[1, 3, 0, 3, 12]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Index i = 4, Value = 12):</strong> The value is <code>12</code> (non-zero).
+            <ul>
+              <li>We write it at <code>nums[insertPos]</code>: <code>nums[2] = 12</code>.</li>
+              <li>Increment <code>insertPos</code> to <code>3</code>. The array is now: <code>[1, 3, 12, 3, 12]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Filling Zeroes):</strong> The main loop finishes. Now, we fill the remaining slots from <code>insertPos = 3</code> to the end of the array (<code>nums.length = 5</code>) with zeroes:
+            <ul>
+              <li>Write <code>nums[3] = 0</code>. Increment <code>insertPos</code> to <code>4</code>.</li>
+              <li>Write <code>nums[4] = 0</code>. Increment <code>insertPos</code> to <code>5</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 8 (Completion):</strong> The array is now fully processed: <code>[1, 3, 12, 0, 0]</code>. The relative order of <code>1, 3, 12</code> is preserved, and all zeroes are successfully moved to the end.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>if (num != 0) nums[insertPos++] = num;</code>: This compacts all active non-zero elements sequentially at the front of the array.</li>
+          <li><code>while (insertPos &lt; nums.length) nums[insertPos++] = 0;</code>: This fills all remaining trailing elements with zeroes, effectively wiping out the leftover duplicates of elements that were shifted forward.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

@@ -110,19 +110,93 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to convert Roman numerals to integers by processing symbols left-to-right.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Roman to Integer</strong> problem asks us to convert a given Roman numeral string into its corresponding integer representation.</p>
+        <p>Roman numerals are represented by seven different symbols: <code>I (1), V (5), X (10), L (50), C (100), D (500), M (1000)</code>. They are written from largest to smallest, left to right. However, there are six subtraction cases:
+          <ul>
+            <li><code>I</code> placed before <code>V</code> (4) or <code>X</code> (9).</li>
+            <li><code>X</code> placed before <code>L</code> (40) or <code>C</code> (90).</li>
+            <li><code>C</code> placed before <code>D</code> (400) or <code>M</code> (900).</li>
+          </ul>
+          The challenge is converting these cases correctly during a single pass.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Subtract-Ahead Ledger
+            Real-World Analogy: The Look-Ahead Accountant
           </div>
-          <p>Roman numerals are read left-to-right. Usually, you add the values together. However, if a smaller value symbol appears before a larger one (like 'IX'), it means subtraction (10 - 1 = 9). You check if the current character's value is smaller than the next character's value; if so, subtract it; otherwise, add it.</p>
+          <p>Imagine reading an old transaction ledger where values are entered. Usually, you just add each value you read to your total sum. However, there is a special rule: if you see a smaller amount listed right before a larger amount (such as a $1 service fee followed immediately by a $10 refund, labeled "IX"), it means subtraction. To account for this, as you read left to right, you look ahead to the next entry. If the next entry is larger than the current one, you subtract the current entry from your ledger. Otherwise, you add it. By applying this simple rule, you get the correct net total instantly!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. Map-Based Translation with Look-Ahead (O(n) Time, O(1) Space)</h3>
+        <p>We use a HashMap to store the symbol-to-value associations. We iterate through the string from left to right:
+          <ul>
+            <li>For each character at index <code>i</code>, we fetch its value: <code>currentValue</code>.</li>
+            <li>If <code>i + 1 &lt; stringLength</code>, we also fetch the next character's value: <code>nextValue</code>.</li>
+            <li>If <code>currentValue &lt; nextValue</code>, it means we are encountering a subtractive combination (e.g. <code>IV</code> or <code>IX</code>). We subtract <code>currentValue</code> from our sum.</li>
+            <li>Otherwise, we add <code>currentValue</code> to our sum.</li>
+          </ul>
+          This runs in linear <code>O(n)</code> time using constant <code>O(1)</code> auxiliary space since the map is of a fixed size of 7 elements.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>For 'LVIII': L=50, V=5, I=1, I=1, I=1. Since no symbol is followed by a larger one, we simply add: 50 + 5 + 1 + 1 + 1 = 58.</p>
+        <p>Let's trace the look-ahead algorithm on the Roman numeral string <code>s = "MCMXCIV"</code> (which represents 1994):</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong> Initialize <code>sum = 0</code>. Length of string is <code>7</code>.</li>
+          <li><strong>Step 2 (Index i = 0, Character 'M'):</strong>
+            <ul>
+              <li>Value of 'M' = <code>1000</code>. Next is 'C' = <code>100</code>.</li>
+              <li>Since <code>1000 &gt;= 100</code>, we add 1000: <code>sum = 1000</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Index i = 1, Character 'C'):</strong>
+            <ul>
+              <li>Value of 'C' = <code>100</code>. Next is 'M' = <code>1000</code>.</li>
+              <li>Since <code>100 &lt; 1000</code>, this is a subtractive combination. We subtract 100: <code>sum = 1000 - 100 = 900</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Index i = 2, Character 'M'):</strong>
+            <ul>
+              <li>Value of 'M' = <code>1000</code>. Next is 'X' = <code>10</code>.</li>
+              <li>Since <code>1000 &gt;= 10</code>, we add 1000: <code>sum = 900 + 1000 = 1900</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Index i = 3, Character 'X'):</strong>
+            <ul>
+              <li>Value of 'X' = <code>10</code>. Next is 'C' = <code>100</code>.</li>
+              <li>Since <code>10 &lt; 100</code>, subtract 10: <code>sum = 1900 - 10 = 1890</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Index i = 4, Character 'C'):</strong>
+            <ul>
+              <li>Value of 'C' = <code>100</code>. Next is 'I' = <code>1</code>.</li>
+              <li>Since <code>100 &gt;= 1</code>, add 100: <code>sum = 1890 + 100 = 1990</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Index i = 5, Character 'I'):</strong>
+            <ul>
+              <li>Value of 'I' = <code>1</code>. Next is 'V' = <code>5</code>.</li>
+              <li>Since <code>1 &lt; 5</code>, subtract 1: <code>sum = 1990 - 1 = 1989</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 8 (Index i = 6, Character 'V'):</strong>
+            <ul>
+              <li>Value of 'V' = <code>5</code>. This is the last character. We add 5: <code>sum = 1989 + 5 = 1994</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 9 (Completion):</strong> The iteration completes. We return the final value <code>1994</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>if (i < s.length() - 1 && map.get(s.charAt(i)) < map.get(s.charAt(i + 1)))</code>: Detects if the current Roman numeral has a smaller value than the one following it, indicating a subtraction rule.</li>
+          <li><code>sum -= map.get(s.charAt(i));</code>: Correctly decrements the running total for subtractive cases like IV (5-1) or IX (10-1).</li>
+          <li><code>sum += map.get(s.charAt(i));</code>: Handles the standard additive case where values monotonically decrease or stay equal.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

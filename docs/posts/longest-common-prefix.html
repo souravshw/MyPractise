@@ -110,7 +110,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to find the longest common prefix among an array of strings by sorting and comparing.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Longest Common Prefix</strong> problem asks us to find the longest string of characters that is a prefix of all strings in a given array of strings. If there is no common prefix, we return an empty string <code>""</code>.</p>
+        <p>For example, given the input array <code>["flower", "flow", "flight"]</code>, the longest common prefix is <code>"fl"</code>. If the input is <code>["dog", "racecar", "car"]</code>, there is no common prefix, so the output is <code>""</code>. Finding common prefixes is widely used in text search suggestions, command autocompleters, and IP routing tables.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
@@ -118,11 +120,52 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Alphabetical Filing Cabinet
           </div>
-          <p>If you sort a list of words alphabetically, the first word and the last word will be the most different. Any common prefix shared by all words in the list MUST also be shared between the first and last word. By sorting and then comparing just the first and last words, we find the prefix instantly!</p>
+          <p>Imagine you have a large folder of words. You decide to arrange them in alphabetical order. In an alphabetically sorted list, the first word and the last word represent the extreme opposites of the set. Consequently, any common letters that are shared by *all* the words in the list must, by definition, be shared between the first and last words as well. By sorting the list alphabetically and comparing *just* the first and last words, we can find the common prefix immediately, without having to inspect all the middle words!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. Horizontal Scanning (O(n * m))</h3>
+        <p>We take the first string as our initial prefix candidate. We compare it with the second string, shortening the candidate until it matches. Then, we compare the result with the third string, and so on. While simple, this requires comparing many words repeatedly.</p>
+
+        <h3>2. Vertical Scanning (O(n * m))</h3>
+        <p>We compare characters column-by-column across all strings, starting at index <code>0</code>. The moment we find a mismatch or reach the end of any string, we return the prefix up to that column index.</p>
+
+        <h3>3. Sorting First and Last (O(n log n * m) Time, O(1) Space)</h3>
+        <p>This is a highly elegant approach. We sort the array alphabetically. The strings at the boundaries, <code>strs[0]</code> and <code>strs[strs.length - 1]</code>, will be the most different. We then iterate and compare characters of only these two strings from left to right. The matching sequence is the longest common prefix for the entire array.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>For ['flower', 'flow', 'flight']: Sorting yields ['flight', 'flow', 'flower']. We compare the first ('flight') and last ('flower'). The letters match at index 0 ('f') and index 1 ('l'). Common prefix is 'fl'.</p>
+        <p>Let's trace the boundary sorting algorithm on the array <code>strs = ["flower", "flow", "flight"]</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Base Case Check):</strong> We check if the array is null or empty. It is not.</li>
+          <li><strong>Step 2 (Sorting):</strong> We sort the array alphabetically:
+            <ul>
+              <li><code>["flower", "flow", "flight"]</code> &rarr; <code>["flight", "flow", "flower"]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Extract Boundaries):</strong>
+            <ul>
+              <li>First string: <code>first = "flight"</code></li>
+              <li>Last string: <code>last = "flower"</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Character Comparisons):</strong> We compare characters of <code>first</code> and <code>last</code> at each index:
+            <ul>
+              <li>Index <code>0</code>: <code>first.charAt(0) ('f') == last.charAt(0) ('f')</code>. Match.</li>
+              <li>Index <code>1</code>: <code>first.charAt(1) ('l') == last.charAt(1) ('l')</code>. Match.</li>
+              <li>Index <code>2</code>: <code>first.charAt(2) ('i') == last.charAt(2) ('o')</code>. Mismatch!</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Completion):</strong> The iteration stops at index <code>2</code> due to the mismatch. We return the substring of <code>first</code> from index <code>0</code> up to <code>2</code>, which is <code>"fl"</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>Arrays.sort(strs);</code>: Lexicographically sorts the array, placing the two most distinct string structures at the first and last positions.</li>
+          <li><code>while (i < first.length() && i < last.length())</code>: Ensures we do not walk past the end of either boundary string during character checks.</li>
+          <li><code>if (first.charAt(i) == last.charAt(i)) i++;</code>: Increments our prefix index only as long as both boundary strings have matching characters.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

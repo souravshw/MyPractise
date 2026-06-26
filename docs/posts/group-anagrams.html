@@ -110,19 +110,84 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to group anagrams using a HashMap with sorted character arrays as keys.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Group Anagrams</strong> problem asks us to group an array of strings such that all strings that are anagrams of each other are placed in the same sublist.</p>
+        <p>For example, given the input array <code>["eat", "tea", "tan", "ate", "nat", "bat"]</code>, we want to return a list of groups: <code>[["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]</code>. The groups can be returned in any order. The challenge is organizing these strings efficiently when the array contains thousands of words.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Alphabetical Signature Box
+            Real-World Analogy: Sorting Mail by Zip Code
           </div>
-          <p>Imagine you have a bucket of words. You sort the letters of each word alphabetically (e.g., 'eat' becomes 'aet'). This sorted word is the word's unique fingerprint. You put all words sharing the same fingerprint into a box labeled with that signature. In code, the HashMap keys represent these fingerprints.</p>
+          <p>Imagine you have a stack of unsorted letters. Each letter has letters written on it in a random order (e.g. "eat", "tea", "ate"). To organize them, you decide to rearrange the letters of each word alphabetically. This sorted word acts as a unique signature or "fingerprint" (e.g., all three words sort to "aet"). You label filing folders with these sorted fingerprints. As you process each letter, you sort its letters, find the matching folder, and drop it in. At the end, every folder contains words that are perfect anagrams of each other!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. The Naive Approach (O(n² * k))</h3>
+        <p>We can check every pair of strings using a nested loop, comparing if they are anagrams. When we find matches, we group them. This has a quadratic complexity of <code>O(n² * k)</code> where <code>k</code> is the maximum length of a string, which is extremely slow for larger datasets.</p>
+
+        <h3>2. HashMap with Sorted Key Fingerprints (O(n * k log k))</h3>
+        <p>We can use a HashMap where the key is the sorted version of a string (its canonical form/fingerprint), and the value is a list of all strings that match that sorted key.
+          <ul>
+            <li>We iterate through each string in the array.</li>
+            <li>For each string, we convert it to a character array, sort it alphabetically, and convert it back to a string to form our key.</li>
+            <li>We check if the key is already in the map. If not, we add it with a new list. Then, we add the original string to that key's list.</li>
+          </ul>
+          This runs in <code>O(n * k log k)</code> time (where <code>n</code> is the number of strings and <code>k</code> is the maximum string length), which is highly efficient.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>For input ['eat', 'tea', 'tan', 'ate', 'nat', 'bat']: We sort each word. 'eat', 'tea', and 'ate' all sort to 'aet', so they are grouped under key 'aet'. 'tan' and 'nat' sort to 'ant', grouping together. 'bat' sorts to 'abt', forming its own group.</p>
+        <p>Let's trace the HashMap-based grouping on the array <code>strs = ["eat", "tea", "tan", "ate", "nat", "bat"]</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong> Initialize an empty HashMap: <code>map = {}</code>.</li>
+          <li><strong>Step 2 (Word "eat"):</strong>
+            <ul>
+              <li>Sort the letters: <code>"eat"</code> sorted alphabetically becomes <code>"aet"</code>.</li>
+              <li>Check if key <code>"aet"</code> exists in the map. It does not.</li>
+              <li>Create a new list for <code>"aet"</code> and add <code>"eat"</code>. Map: <code>{"aet": ["eat"]}</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Word "tea"):</strong>
+            <ul>
+              <li>Sort the letters: <code>"tea"</code> sorted becomes <code>"aet"</code>.</li>
+              <li>Key <code>"aet"</code> already exists in the map.</li>
+              <li>Add <code>"tea"</code> to its list. Map: <code>{"aet": ["eat", "tea"]}</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Word "tan"):</strong>
+            <ul>
+              <li>Sort the letters: <code>"tan"</code> sorted becomes <code>"ant"</code>.</li>
+              <li>Key <code>"ant"</code> does not exist. Create list and add. Map: <code>{"aet": ["eat", "tea"], "ant": ["tan"]}</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Word "ate"):</strong>
+            <ul>
+              <li>Sort the letters: <code>"ate"</code> sorted becomes <code>"aet"</code>.</li>
+              <li>Add to list: Map: <code>{"aet": ["eat", "tea", "ate"], "ant": ["tan"]}</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Word "nat"):</strong>
+            <ul>
+              <li>Sort the letters: <code>"nat"</code> sorted becomes <code>"ant"</code>.</li>
+              <li>Add to list: Map: <code>{"aet": ["eat", "tea", "ate"], "ant": ["tan", "nat"]}</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Word "bat"):</strong>
+            <ul>
+              <li>Sort the letters: <code>"bat"</code> sorted becomes <code>"abt"</code>. Key does not exist.</li>
+              <li>Add: Map: <code>{"aet": ["eat", "tea", "ate"], "ant": ["tan", "nat"], "abt": ["bat"]}</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 8 (Completion):</strong> The iteration is complete. We return the values of the map as a list of lists: <code>[["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>char[] chars = s.toCharArray(); Arrays.sort(chars);</code>: Standardizes any anagram permutation into a single unique sorted key representation.</li>
+          <li><code>map.computeIfAbsent(key, k -> new ArrayList<>()).add(s);</code>: An elegant Java utility that initializes a new list for a key if it is missing, then adds the string, avoiding nested null checks.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

@@ -110,7 +110,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to find the lowest common ancestor of two nodes in a binary tree recursively.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Lowest Common Ancestor (LCA)</strong> of two nodes <code>p</code> and <code>q</code> in a binary tree is defined as the lowest node in the tree that has both <code>p</code> and <code>q</code> as descendants (where we allow a node to be a descendant of itself).</p>
+        <p>For example, in a tree with root <code>3</code>, and child nodes <code>p = 5</code> and <code>q = 1</code>, the LCA is the root <code>3</code> itself because both nodes diverge from it. If <code>p = 5</code> and <code>q = 4</code> (where 4 is a child of 5), the LCA is <code>5</code>. This algorithm is widely used in relational databases, organization chart software, and inheritance mapping compilers.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
@@ -118,11 +120,60 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Nearest Common Manager
           </div>
-          <p>In a company org chart (tree), you want to find the lowest-level manager who has both employee A and employee B under them. If employee A and B are on separate branches, their LCA is the manager at the split point. If one employee is the manager of another, they are the LCA.</p>
+          <p>Imagine a company org chart, which is structured like a tree. You have two employees, Alice (p) and Bob (q). You want to find their Lowest Common Ancestor, which represents their nearest shared manager who has authority over both of them. If Alice and Bob work in completely different departments (e.g., Engineering and Marketing), their nearest common manager is the CEO at the top split point. However, if Alice is a Senior Engineer and Bob is a Junior Engineer reporting directly to Alice, then Alice herself is their nearest common manager, as she has authority over Bob and is a descendant of herself in the org chart hierarchy!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. Post-Order Recursive DFS Search (O(n) Time, O(h) Space)</h3>
+        <p>We traverse the tree recursively. For any given node:
+          <ul>
+            <li>If the current node is <code>null</code>, or equals either <code>p</code> or <code>q</code>, we return the current node. This represents finding one of our target nodes or hitting a leaf boundary.</li>
+            <li>We recursively search the left subtree: <code>TreeNode left = lowestCommonAncestor(root.left, p, q)</code>.</li>
+            <li>We recursively search the right subtree: <code>TreeNode right = lowestCommonAncestor(root.right, p, q)</code>.</li>
+            <li>If both <code>left</code> and <code>right</code> search results are non-null, it means one target node was found in the left subtree and the other was found in the right subtree. Therefore, the current node is their split point, which makes it the LCA.</li>
+            <li>If only one of them is non-null, it means both target nodes reside in that non-null subtree, so we pass that result up to the parent caller.</li>
+          </ul>
+          This traverses each node once, giving <code>O(n)</code> time complexity. The space complexity is <code>O(h)</code> due to the recursion call stack.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Recursively search left and right subtrees. If a subtree contains either node p or q, it returns that node. If both left and right searches return non-null, the current root is the LCA. Otherwise, return the non-null result.</p>
+        <p>Let's trace the recursive LCA algorithm on a tree with root <code>3</code>, left child <code>5</code>, right child <code>1</code>. We want to find the LCA of <code>p = 5</code> and <code>q = 1</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Root call):</strong> Start at root node <code>3</code>.
+            <ul>
+              <li>We call <code>lowestCommonAncestor(3, 5, 1)</code>.</li>
+              <li>Since 3 is not null, and doesn't equal p (5) or q (1), we proceed to search left and right.</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Search Left Subtree of 3):</strong> We call <code>lowestCommonAncestor(3.left, 5, 1)</code> which is <code>lowestCommonAncestor(5, 5, 1)</code>.
+            <ul>
+              <li>Since the node is <code>5</code>, which matches <code>p = 5</code>, the base case triggers!</li>
+              <li>The method immediately returns node <code>5</code> to the root caller.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Search Right Subtree of 3):</strong> We call <code>lowestCommonAncestor(3.right, 5, 1)</code> which is <code>lowestCommonAncestor(1, 5, 1)</code>.
+            <ul>
+              <li>Since the node is <code>1</code>, which matches <code>q = 1</code>, the base case triggers!</li>
+              <li>The method immediately returns node <code>1</code> to the root caller.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Resolve at Root 3):</strong>
+            <ul>
+              <li>We receive <code>left = 5</code> and <code>right = 1</code>.</li>
+              <li>Since both <code>left</code> and <code>right</code> are non-null, the split point condition matches: <code>if (left != null && right != null) return root;</code>.</li>
+              <li>The root node <code>3</code> is returned as the LCA.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Completion):</strong> The algorithm completes and correctly returns node <code>3</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>if (root == null || root == p || root == q) return root;</code>: The recursive base case. It stops the search and returns the node as soon as we find either <code>p</code> or <code>q</code>, or hit a leaf.</li>
+          <li><code>if (left != null && right != null) return root;</code>: The core split condition. If both subtrees returned a match, the current node is the lowest common ancestor of the two targets.</li>
+          <li><code>return left != null ? left : right;</code>: If only one subtree returned a match, it means both nodes are on that side, so we bubble that match up.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

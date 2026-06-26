@@ -110,19 +110,99 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to mirror a binary tree recursively in O(n) time.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Invert Binary Tree</strong> problem (sometimes famously known as mirroring a binary tree) asks us to take the root of a binary tree and invert it, so that for every node in the tree, its left and right subtrees are swapped.</p>
+        <p>For example, if the input tree is:
+          <pre>
+             4
+           /   \
+          2     7
+         / \   / \
+        1   3 6   9
+          </pre>
+          The inverted output tree should be:
+          <pre>
+             4
+           /   \
+          7     2
+         / \   / \
+        9   6 3   1
+          </pre>
+          This is a classic recursive tree problem that tests understanding of tree traversals and structural modifications.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Reflection in a Lake
+            Real-World Analogy: The Ceiling Mobile Decoration
           </div>
-          <p>Imagine a mobile hanging from the ceiling. To mirror it, you grab the central branch and swap all left decorations with right decorations. You recursively perform this swapping for every sub-branch down to the leaves.</p>
+          <p>Imagine a decorative mobile hanging from the ceiling. It has a main central branch, which splits into two smaller branches (left and right), each holding further sub-decorations. If you look at it in a mirror, or if you grab the main branch and spin it 180 degrees, every single left-hand decoration swaps positions with the right-hand decoration. To perform this swap in code, you start at the top, swap the two main branches, and then go down to each sub-branch and swap their hangers, repeating this all the way down to the individual hanging charms (leaf nodes).</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. Recursive Depth-First Search (O(n) Time, O(h) Space)</h3>
+        <p>A binary tree has a naturally recursive structure, making recursion the most elegant way to solve this. As we traverse the tree (post-order DFS):
+          <ul>
+            <li>If the current node is <code>null</code>, we reach a base case and simply return <code>null</code>.</li>
+            <li>We recursively call our invert function on the left child: <code>invertTree(root.left)</code>.</li>
+            <li>We recursively call our invert function on the right child: <code>invertTree(root.right)</code>.</li>
+            <li>We swap the left and right pointers of the current node: <code>TreeNode temp = root.left; root.left = root.right; root.right = temp;</code>.</li>
+            <li>We return the <code>root</code> node.</li>
+          </ul>
+          This visits every node exactly once, giving a time complexity of <code>O(n)</code>. The space complexity is <code>O(h)</code>, where <code>h</code> is the height of the tree, representing the recursion stack depth.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>For each node, we recursively call invertTree on its left child and right child, swap the node's left and right references, and return the node.</p>
+        <p>Let's trace the recursive inversion on a simple binary tree:</p>
+        <pre>
+            4
+           / \
+          2   7
+        </pre>
+        <ol>
+          <li><strong>Step 1 (Root call):</strong> Start at root node <code>4</code>.
+            <ul>
+              <li>We must invert its left subtree (node <code>2</code>) and right subtree (node <code>7</code>) first.</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Invert Left child 2):</strong> Travel to node <code>2</code>.
+            <ul>
+              <li>Node 2 has no children (left and right are null).</li>
+              <li>Recursive calls on left and right return null. No swap is needed (or swapping nulls does nothing).</li>
+              <li>Node 2 returns itself back to node 4.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Invert Right child 7):</strong> Travel to node <code>7</code>.
+            <ul>
+              <li>Node 7 has no children.</li>
+              <li>Recursive calls return null.</li>
+              <li>Node 7 returns itself back to node 4.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Swap at Root 4):</strong>
+            <ul>
+              <li>We are back at node 4. We swap its left pointer (currently node <code>2</code>) and right pointer (currently node <code>7</code>).</li>
+              <li>After swapping: 4's left becomes node <code>7</code>, and 4's right becomes node <code>2</code>.</li>
+              <li>The tree structure is now:
+                <pre>
+                    4
+                   / \
+                  7   2
+                </pre>
+              </li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Completion):</strong> The root node <code>4</code> is returned, and the tree is successfully inverted.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>if (root == null) return null;</code>: The base case. An empty tree or empty child pointer has nothing to invert, so we return null.</li>
+          <li><code>TreeNode left = invertTree(root.left); TreeNode right = invertTree(root.right);</code>: Recursively solves the sub-problems, ensuring that we mirror all lower subtrees before linking them back.</li>
+          <li><code>root.left = right; root.right = left;</code>: The pointer swapping step, placing the mirrored right subtree in the left branch and vice versa.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

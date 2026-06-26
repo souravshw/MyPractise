@@ -110,7 +110,18 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to perform BFS level-by-level traversal of a binary tree using a Queue.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Level Order Traversal</strong> problem (also known as Breadth-First Search on a tree) requires us to traverse a binary tree level-by-level, from left to right, returning a list of list of integers representing the values of nodes at each height level.</p>
+        <p>For example, if the input tree is:
+          <pre>
+             3
+            / \
+           9  20
+             /  \
+            15   7
+          </pre>
+          The output list of lists should be: <code>[[3], [9, 20], [15, 7]]</code>. This traversal is essential for hierarchical structure processing, network packet broadcasting, and calculating the minimum depth of a tree.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
@@ -118,11 +129,65 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Family Tree Generation Walk
           </div>
-          <p>Imagine listing family members generation by generation. You write down the grandparents (level 0), then their children (level 1), and then their grandchildren (level 2). You use a queue (waiting line) to make sure you visit people in the exact order of their generation.</p>
+          <p>Imagine you are cataloging a family tree. Instead of following a single branch down to the modern day (Depth-First Search), you want to write down family members generation-by-generation. First, you record the grandparents (Level 0). Next, you record all of their children (Level 1). Finally, you record all of the grandchildren (Level 2). To do this in an orderly fashion, you set up a waiting line (Queue). You call in one generation, note down their names, and as you do so, you ask them to send their children to wait at the back of the line. This ensures nobody gets mixed up between generations!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. Breadth-First Search (BFS) using a Queue (O(n) Time, O(n) Space)</h3>
+        <p>A standard queue (FIFO - First In, First Out) is perfect for BFS. To separate the levels:
+          <ul>
+            <li>We initialize a queue and add the root node.</li>
+            <li>While the queue is not empty, we read its size: <code>int levelSize = queue.size()</code>. This tells us exactly how many nodes are at the current level.</li>
+            <li>We loop <code>levelSize</code> times to dequeue these nodes, add their values to a list representing the current level, and enqueue their non-null left and right children.</li>
+            <li>Once the inner loop finishes, we add the level list to our main results list.</li>
+          </ul>
+          This runs in <code>O(n)</code> time since we visit every node exactly once. The space complexity is <code>O(w)</code> (where <code>w</code> is the maximum width of the tree) to hold queue elements.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Add root to queue. While queue is not empty, get the number of nodes at this level (size). Dequeue each node, add its value to the current level list, and enqueue its left and right children.</p>
+        <p>Let's trace the level order traversal on the tree: <code>3</code> (root), left <code>9</code>, right <code>20</code> (with children <code>15</code> and <code>7</code>):</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong>
+            <ul>
+              <li>Create result list <code>res = []</code>.</li>
+              <li>Initialize queue and add root: <code>queue = [3]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Level 0):</strong>
+            <ul>
+              <li>The queue size is <code>1</code>. We process 1 node.</li>
+              <li>Dequeue node <code>3</code>. Add value <code>3</code> to level list: <code>level = [3]</code>.</li>
+              <li>Enqueue children of 3: left child <code>9</code> and right child <code>20</code>.</li>
+              <li>Queue is now: <code>[9, 20]</code>. Add level to results: <code>res = [[3]]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Level 1):</strong>
+            <ul>
+              <li>The queue size is <code>2</code>. We must process exactly 2 nodes (node <code>9</code> and node <code>20</code>).</li>
+              <li>Dequeue node <code>9</code>. Add value <code>9</code> to level list: <code>level = [9]</code>. Node 9 has no children.</li>
+              <li>Dequeue node <code>20</code>. Add value <code>20</code> to level list: <code>level = [9, 20]</code>.</li>
+              <li>Enqueue children of 20: left child <code>15</code> and right child <code>7</code>.</li>
+              <li>Queue is now: <code>[15, 7]</code>. Add level to results: <code>res = [[3], [9, 20]]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Level 2):</strong>
+            <ul>
+              <li>The queue size is <code>2</code>. We process 2 nodes (node <code>15</code> and node <code>7</code>).</li>
+              <li>Dequeue node <code>15</code>. Add to level: <code>level = [15]</code>. No children.</li>
+              <li>Dequeue node <code>7</code>. Add to level: <code>level = [15, 7]</code>. No children.</li>
+              <li>Queue is now empty: <code>[]</code>. Add level to results: <code>res = [[3], [9, 20], [15, 7]]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Completion):</strong> The queue is empty, so the loop ends. The method returns <code>res</code>: <code>[[3], [9, 20], [15, 7]]</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>int size = queue.size();</code>: Captures the number of elements at the current level. Crucial because it prevents child nodes added during iteration from being processed in the current level's list.</li>
+          <li><code>queue.offer(root);</code>: Adds the starting element to the queue.</li>
+          <li><code>if (curr.left != null) queue.offer(curr.left);</code>: Conditionally adds child nodes to the queue to be processed at the next generation level.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

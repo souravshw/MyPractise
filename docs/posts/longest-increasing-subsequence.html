@@ -110,19 +110,82 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to find the length of the longest increasing subsequence in O(n log n) time using binary search.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Longest Increasing Subsequence (LIS)</strong> problem asks us to find the length of the longest subsequence of a given array of integers such that all elements of the subsequence are sorted in strictly increasing order.</p>
+        <p>A <strong>subsequence</strong> is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, given the array <code>[10, 9, 2, 5, 3, 7, 101, 18]</code>, the LIS is <code>[2, 3, 7, 101]</code> or <code>[2, 3, 7, 18]</code>, both having a length of <code>4</code>.
+          A standard dynamic programming approach solves this problem in <code>O(n<sup>2</sup>)</code> time. However, we can optimize this to <code>O(n log n)</code> time by combining dynamic programming with binary search (a technique related to Patience Sorting).
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Patience Sorting Card Trick
+            Real-World Analogy: The Patience Sorting Card Game
           </div>
-          <p>Imagine laying cards in piles. If a new card is smaller or equal to the top card of a pile, you place it on that pile. If it is larger than all piles, you start a new pile. The number of piles at the end is the length of the longest increasing subsequence!</p>
+          <p>Imagine dealing cards face up in piles from left to right. When a new card is drawn, you place it on the leftmost pile whose top card is greater than or equal to the new card. If no such pile exists, you create a new pile to the right of all existing piles. For example, if you draw a 5, then a 3, the 3 goes on top of the 5. If you then draw a 7, it's larger than both, so you start a new pile to the right. By the time all cards are placed, the total number of piles is exactly the length of the longest increasing subsequence you can construct!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>DP with Binary Search (O(n log n) Time, O(n) Space)</h3>
+        <p>We maintain an active list (or array) <code>sub</code> that represents the smallest tail of all increasing subsequences of various lengths found so far.
+          As we iterate through each number <code>num</code> in the input array:
+          <ul>
+            <li>We use binary search to find the insertion position of <code>num</code> in <code>sub</code>.</li>
+            <li>If <code>num</code> is larger than all elements in <code>sub</code>, it means we can extend our longest increasing subsequence. We append <code>num</code> to the end of <code>sub</code>.</li>
+            <li>Otherwise, we find the first element in <code>sub</code> that is greater than or equal to <code>num</code> and replace it with <code>num</code>. This swap optimizes future possibilities by reducing the tail value of that subsequence length, making it easier to append subsequent numbers.</li>
+          </ul>
+          At the end of the array traversal, the size of the <code>sub</code> list is the length of the LIS. <em>Note: The elements in <code>sub</code> do not necessarily form the actual LIS, but its size is guaranteed to be correct.</em>
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>We maintain an active subsequence list. For each number, we use binary search to find its insertion spot. If it is greater than all elements, append it. Otherwise, replace the element at the search index.</p>
+        <p>Let's trace the algorithm on the input array <code>nums = [10, 9, 2, 5, 3]</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong> Initialize an empty list: <code>sub = []</code>.</li>
+          <li><strong>Step 2 (Element: 10):</strong>
+            <ul>
+              <li>Binary search for 10 in <code>[]</code> gives insertion index 0.</li>
+              <li>Since index 0 equals <code>sub.size()</code>, we append 10.</li>
+              <li>State: <code>sub = [10]</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Element: 9):</strong>
+            <ul>
+              <li>Binary search for 9 in <code>[10]</code> yields insertion index 0.</li>
+              <li>We replace the element at index 0 (10) with 9. (A sequence of length 1 ending in 9 is better than ending in 10).</li>
+              <li>State: <code>sub = [9]</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Element: 2):</strong>
+            <ul>
+              <li>Binary search for 2 in <code>[9]</code> yields insertion index 0.</li>
+              <li>We replace the element at index 0 (9) with 2.</li>
+              <li>State: <code>sub = [2]</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Element: 5):</strong>
+            <ul>
+              <li>Binary search for 5 in <code>[2]</code> yields insertion index 1.</li>
+              <li>Since index 1 equals <code>sub.size()</code>, we append 5.</li>
+              <li>State: <code>sub = [2, 5]</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Element: 3):</strong>
+            <ul>
+              <li>Binary search for 3 in <code>[2, 5]</code> yields insertion index 1.</li>
+              <li>We replace the element at index 1 (5) with 3. (A subsequence of length 2 ending in 3 is better than ending in 5).</li>
+              <li>State: <code>sub = [2, 3]</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Final Result):</strong> The list size is 2. We return <code>2</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>int i = Collections.binarySearch(sub, num);</code>: Searches the list in <code>O(log n)</code> time. If the element is not found, it returns <code>-(insertion_point + 1)</code>.</li>
+          <li><code>if (i &lt; 0) i = -(i + 1);</code>: Converts a negative search result into the correct insertion point where the element should reside.</li>
+          <li><code>sub.set(i, num);</code>: The greedy replacement step. Lowering the tail element values increases our options for future numbers.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -130,19 +193,39 @@
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class LongestIncreasingSubsequence {
 
-    // DP with Binary Search - O(n log n)
+    // DP with Binary Search: Time O(N log N), Space O(N)
     public int lengthOfLIS(int[] nums) {
-        List&lt;Integer&gt; sub = new ArrayList&lt;&gt;();
-        for (int num : nums) {
-            int i = Collections.binarySearch(sub, num);
-            if (i &lt; 0) i = -(i + 1);
-            if (i == sub.size()) sub.add(num);
-            else sub.set(i, num);
+        if (nums == null || nums.length == 0) {
+            return 0;
         }
+
+        List&lt;Integer&gt; sub = new ArrayList&lt;&gt;();
+
+        for (int num : nums) {
+            // Find the index of the first element >= num
+            int index = Collections.binarySearch(sub, num);
+            
+            // If not found, binarySearch returns -(insertionPoint + 1)
+            if (index &lt; 0) {
+                index = -(index + 1);
+            }
+
+            // If num is larger than all elements in sub, append it
+            if (index == sub.size()) {
+                sub.add(num);
+            } else {
+                // Otherwise, replace the first element that is >= num
+                sub.set(index, num);
+            }
+        }
+
         return sub.size();
     }
 
@@ -150,15 +233,16 @@ public class LongestIncreasingSubsequence {
         LongestIncreasingSubsequence solver = new LongestIncreasingSubsequence();
         int[] nums = {10, 9, 2, 5, 3, 7, 101, 18};
 
-        System.out.println(&quot;--- Longest Increasing Subsequence Demonstration ---&quot;);
-        System.out.println(&quot;Input: &quot; + Arrays.toString(nums));
-        System.out.println(&quot;Length of LIS: &quot; + solver.lengthOfLIS(nums));
+        System.out.println("--- Longest Increasing Subsequence Demonstration ---");
+        System.out.println("Input Array: " + Arrays.toString(nums));
+        int length = solver.lengthOfLIS(nums);
+        System.out.println("Length of LIS: " + length); // Expected: 4 (e.g., [2, 3, 7, 18])
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Longest Increasing Subsequence</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Dynamic programming alone solves the LIS problem in quadratic time. By combining subproblem storage with binary search, we optimize search operations, achieving a highly efficient <code>O(n log n)</code> solution.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

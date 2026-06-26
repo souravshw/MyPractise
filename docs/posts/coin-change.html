@@ -110,19 +110,90 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to find the minimum number of coins that make up an amount using bottom-up DP.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Coin Change</strong> problem asks us to find the minimum number of coins needed to make up a target <code>amount</code> of money, using a given list of coin denominations (<code>coins</code>). We can assume we have an infinite supply of each kind of coin. If that amount of money cannot be made up by any combination of the coins, we should return <code>-1</code>.</p>
+        <p>This is a classic variation of the knapsack problem. For example, if <code>coins = [1, 2, 5]</code> and <code>amount = 11</code>, we can make 11 using <code>5 + 5 + 1</code>, which requires 3 coins. This is the optimal configuration.
+          Using a greedy strategy (always choosing the largest denomination first) fails for inputs like <code>coins = [1, 3, 4]</code> and <code>amount = 6</code>: greedy gives <code>4 + 1 + 1</code> (3 coins), whereas the optimal is <code>3 + 3</code> (2 coins). Therefore, we must evaluate all possibilities using Dynamic Programming.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Price Tag Calculator
+            Real-World Analogy: The Stamp Ledger
           </div>
-          <p>Imagine building amounts from $0 up to $Amount. To find the fewest coins needed for $amount, you check the minimum coins needed for ($amount - coinValue) for each coin, and add 1. We fill an array `dp` where index represents the target amount.</p>
+          <p>Imagine you are a postal clerk. You have a ledger listing the fewest stamps needed to mail letters of various costs from $0 up to $11. To write the entry for $11, you look at your stamp drawer which contains $1, $2, and $5 stamps. If you use a $5 stamp, the remaining cost is $6; you look up the ledger entry for $6 and add 1. If you use a $2 stamp, the remaining cost is $9; you look up $9 and add 1. If you use a $1 stamp, you look up $10 and add 1. Whichever of these leads to the lowest count is recorded in the ledger as the answer for $11.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>Bottom-Up Dynamic Programming (O(n * amount) Time, O(amount) Space)</h3>
+        <p>We build a table <code>dp</code> of size <code>amount + 1</code>, where <code>dp[i]</code> stores the minimum number of coins needed to make the value <code>i</code>.
+          <ul>
+            <li><strong>Base Case:</strong> <code>dp[0] = 0</code> because 0 coins are needed to make an amount of 0.</li>
+            <li><strong>Initialization:</strong> We fill all other indices from <code>1</code> to <code>amount</code> with a placeholder representing "infinity" (we can use <code>amount + 1</code>, as it is impossible to need more coins than the target amount itself when the minimum denomination is at least 1).</li>
+            <li><strong>State Transition:</strong> For each sub-amount <code>a</code> from 1 to <code>amount</code>, we check each coin <code>c</code>. If <code>a - c >= 0</code>, then we can form <code>a</code> by adding one coin of value <code>c</code> to the optimal solution for <code>a - c</code>.
+              Our transition formula is: <code>dp[a] = Math.min(dp[a], 1 + dp[a - c])</code>.
+            </li>
+          </ul>
+          Finally, if <code>dp[amount]</code> is still greater than <code>amount</code>, it means no combination can form the target value, so we return <code>-1</code>. Otherwise, we return <code>dp[amount]</code>.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Initialize dp array of size amount+1 with 'infinity'. dp[0]=0. Loop from 1 to amount. For each coin, if a-coin >= 0, dp[a] = min(dp[a], 1 + dp[a-coin]). Return dp[amount].</p>
+        <p>Let's trace the algorithm for <code>coins = [1, 2, 5]</code> and <code>amount = 5</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong> Declare <code>dp</code> array of size 6 filled with <code>6</code>:
+            <ul>
+              <li><code>dp = [0, 6, 6, 6, 6, 6]</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Sub-amount a = 1):</strong>
+            <ul>
+              <li>For coin 1: <code>a-c = 1-1 = 0</code>. <code>dp[1] = Math.min(6, 1 + dp[0]) = 1</code>.</li>
+              <li>For coin 2: <code>1-2 < 0</code> (skip).</li>
+              <li>For coin 5: <code>1-5 < 0</code> (skip).</li>
+              <li>State: <code>dp = [0, 1, 6, 6, 6, 6]</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Sub-amount a = 2):</strong>
+            <ul>
+              <li>For coin 1: <code>2-1 = 1</code>. <code>dp[2] = Math.min(6, 1 + dp[1]) = 2</code>.</li>
+              <li>For coin 2: <code>2-2 = 0</code>. <code>dp[2] = Math.min(2, 1 + dp[0]) = 1</code>.</li>
+              <li>For coin 5: <code>2-5 < 0</code> (skip).</li>
+              <li>State: <code>dp = [0, 1, 1, 6, 6, 6]</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Sub-amount a = 3):</strong>
+            <ul>
+              <li>For coin 1: <code>3-1 = 2</code>. <code>dp[3] = Math.min(6, 1 + dp[2]) = 2</code>.</li>
+              <li>For coin 2: <code>3-2 = 1</code>. <code>dp[3] = Math.min(2, 1 + dp[1]) = 2</code>.</li>
+              <li>State: <code>dp = [0, 1, 1, 2, 6, 6]</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Sub-amount a = 4):</strong>
+            <ul>
+              <li>For coin 1: <code>4-1 = 3</code>. <code>dp[4] = Math.min(6, 1 + dp[3]) = 3</code>.</li>
+              <li>For coin 2: <code>4-2 = 2</code>. <code>dp[4] = Math.min(3, 1 + dp[2]) = 2</code>.</li>
+              <li>State: <code>dp = [0, 1, 1, 2, 2, 6]</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Sub-amount a = 5):</strong>
+            <ul>
+              <li>For coin 1: <code>5-1 = 4</code>. <code>dp[5] = Math.min(6, 1 + dp[4]) = 3</code>.</li>
+              <li>For coin 2: <code>5-2 = 3</code>. <code>dp[5] = Math.min(3, 1 + dp[3]) = 3</code>.</li>
+              <li>For coin 5: <code>5-5 = 0</code>. <code>dp[5] = Math.min(3, 1 + dp[0]) = 1</code>.</li>
+              <li>State: <code>dp = [0, 1, 1, 2, 2, 1]</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Result):</strong> <code>dp[5] = 1</code>. This is returned.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>Arrays.fill(dp, amount + 1);</code>: Uses a logical equivalent to infinity that fits in standard integer values and avoids overflow errors (which would occur if we used <code>Integer.MAX_VALUE</code> and then added 1 to it).</li>
+          <li><code>if (a - c &gt;= 0)</code>: Ensures we only attempt to construct target amounts using coin denominations that are less than or equal to the target value.</li>
+          <li><code>Math.min(dp[a], 1 + dp[a - c]);</code>: Compares our current best coin count for amount <code>a</code> with the option of using coin <code>c</code>, choosing the path with fewer coins.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
@@ -134,18 +205,26 @@ import java.util.Arrays;
 
 public class CoinChange {
 
-    // Bottom-Up DP - O(n * amount)
+    // Bottom-Up Dynamic Programming: Time O(N * Amount), Space O(Amount)
     public int coinChange(int[] coins, int amount) {
+        if (coins == null || coins.length == 0 || amount &lt; 0) {
+            return -1;
+        }
+
         int[] dp = new int[amount + 1];
+        // Fill with a sentinel value representing infinity
         Arrays.fill(dp, amount + 1);
-        dp[0] = 0;
+        dp[0] = 0; // Base case: 0 amount needs 0 coins
+
         for (int a = 1; a &lt;= amount; a++) {
-            for (int c : coins) {
-                if (a - c &gt;= 0) {
-                    dp[a] = Math.min(dp[a], 1 + dp[a - c]);
+            for (int coin : coins) {
+                if (a - coin &gt;= 0) {
+                    dp[a] = Math.min(dp[a], 1 + dp[a - coin]);
                 }
             }
         }
+
+        // If the target amount remains set to infinity, it cannot be reached
         return dp[amount] &gt; amount ? -1 : dp[amount];
     }
 
@@ -154,16 +233,17 @@ public class CoinChange {
         int[] coins = {1, 2, 5};
         int amount = 11;
 
-        System.out.println(&quot;--- Coin Change Demonstration ---&quot;);
-        System.out.println(&quot;Coins: &quot; + Arrays.toString(coins));
-        System.out.println(&quot;Amount: &quot; + amount);
-        System.out.println(&quot;Min coins needed: &quot; + solver.coinChange(coins, amount));
+        System.out.println("--- Coin Change Demonstration ---");
+        System.out.println("Available Coins: " + Arrays.toString(coins));
+        System.out.println("Target Amount: " + amount);
+        int result = solver.coinChange(coins, amount);
+        System.out.println("Minimum coins required: " + result); // Expected: 3 (5 + 5 + 1)
     }
 }
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Coin Change</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>The Coin Change problem shows why greedy search isn't always optimal. By adopting a dynamic programming approach, we systematically check all configurations in a bottom-up fashion, achieving a highly optimized linear <code>O(n * amount)</code> runtime.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

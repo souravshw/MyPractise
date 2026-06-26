@@ -110,19 +110,75 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to remove the N-th node from the end of a linked list in a single pass.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Remove Nth Node From End</strong> problem requires us to remove the <code>n</code>-th node from the end of a singly linked list and return its head.</p>
+        <p>For example, given the list <code>1 -> 2 -> 3 -> 4 -> 5</code> and <code>n = 2</code>, we should remove the second node from the end (which is node <code>4</code>), resulting in <code>1 -> 2 -> 3 -> 5</code>. The key constraint is to perform this operation in a single pass over the list, which requires us to find the target node without knowing the overall length of the list in advance.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: The Measuring Tape Tape Gap
+            Real-World Analogy: The Measuring Rope Walkers
           </div>
-          <p>Imagine two walkers on a path separated by a rope of length N. When the first walker reaches the end of the path (null), the second walker is exactly N steps behind. By placing a node-remover right where the second walker is, we can delete the correct node!</p>
+          <p>Imagine two people walking down a trail in single file, holding the ends of a rope of length <code>N + 1</code> steps. The leader walks ahead. When the leader reaches the very end of the trail (the <code>null</code> terminator), the follower, who is being pulled along, is exactly <code>N + 1</code> steps behind. This puts the follower standing at the node immediately *before* the one we want to delete! By standing there, the follower can simply reach out and disconnect the node right in front of them, connecting their own next link to the node after that.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. Two-Pass Approach (O(n) Time, O(1) Space)</h3>
+        <p>We first scan the entire list to compute its length <code>L</code>. Then, we perform a second pass to travel to the <code>(L - n)</code>-th node and delete the next node. While easy, this requires two passes over the list.</p>
+
+        <h3>2. One-Pass Two-Pointer Offset (O(n) Time, O(1) Space)</h3>
+        <p>By using two pointers, <code>first</code> and <code>second</code>, we can locate the node to be deleted in a single pass:
+          <ul>
+            <li>We use a dummy node at the head to elegantly handle edge cases, such as when the head node itself needs to be removed.</li>
+            <li>We advance the <code>first</code> pointer by <code>n + 1</code> steps from the dummy node. This sets a constant spacing or "gap" between our two pointers.</li>
+            <li>Then, we advance both <code>first</code> and <code>second</code> pointers at the same speed.</li>
+            <li>When the <code>first</code> pointer reaches <code>null</code> (the end of the list), the <code>second</code> pointer is standing exactly at the node prior to the target node. We remove the target node by updating: <code>second.next = second.next.next</code>.</li>
+          </ul>
+          This completes the deletion in a single pass using constant auxiliary space.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>We use two pointers 'first' and 'second'. We advance 'first' pointer by N+1 steps. Then, we advance both pointers at the same speed. When 'first' reaches null, 'second' is right before the target node. We skip the target node by setting second.next = second.next.next.</p>
+        <p>Let's trace the one-pass deletion on the linked list <code>1 -> 2 -> 3 -> 4 -> 5 -> null</code> with <code>n = 2</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong>
+            <ul>
+              <li>Create a dummy node pointing to head: <code>dummy -> 1 -> 2 -> 3 -> 4 -> 5</code>.</li>
+              <li>Initialize <code>first = dummy</code>, <code>second = dummy</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Establish Offset):</strong> We advance <code>first</code> pointer by <code>n + 1 = 3</code> steps:
+            <ul>
+              <li>Step 2a: <code>first</code> moves to node <code>1</code>.</li>
+              <li>Step 2b: <code>first</code> moves to node <code>2</code>.</li>
+              <li>Step 2c: <code>first</code> moves to node <code>3</code>.</li>
+              <li>Now, <code>first</code> is at <code>3</code>, and <code>second</code> is at <code>dummy</code>. The offset gap of 3 nodes is established.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Advance Together):</strong> We advance both pointers until <code>first</code> becomes <code>null</code>:
+            <ul>
+              <li>Step 3a: <code>first</code> moves to <code>4</code>, <code>second</code> moves to <code>1</code>.</li>
+              <li>Step 3b: <code>first</code> moves to <code>5</code>, <code>second</code> moves to <code>2</code>.</li>
+              <li>Step 3c: <code>first</code> moves to <code>null</code>, <code>second</code> moves to <code>3</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Perform Deletion):</strong> The loop terminates because <code>first</code> is <code>null</code>.
+            <ul>
+              <li><code>second</code> is at node <code>3</code>. The node to delete is <code>second.next</code> (node <code>4</code>).</li>
+              <li>We update the link: <code>second.next = second.next.next</code> (node <code>3</code> points directly to node <code>5</code>).</li>
+              <li>The list becomes: <code>dummy -> 1 -> 2 -> 3 -> 5</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Completion):</strong> The method returns <code>dummy.next</code>, which is the head of the modified list: <code>1 -> 2 -> 3 -> 5 -> null</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>ListNode dummy = new ListNode(0); dummy.next = head;</code>: Handles edge cases where <code>n</code> equals the length of the list, which means the head node itself must be deleted.</li>
+          <li><code>for (int i = 1; i <= n + 1; i++) first = first.next;</code>: Sets up the initial spacer gap between the two runners.</li>
+          <li><code>second.next = second.next.next;</code>: Deletes the target node by bypassing it and routing the pointer directly to the subsequent node.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

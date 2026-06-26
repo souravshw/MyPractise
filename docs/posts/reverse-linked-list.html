@@ -110,7 +110,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to reverse a singly linked list in O(n) time and O(1) space.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Reverse a Linked List</strong> problem is a core data structures challenge. We are given the head of a singly linked list, and we need to reverse the list so that the nodes point in the opposite direction, returning the new head of the reversed list.</p>
+        <p>For example, if the input is <code>1 -> 2 -> 3 -> 4 -> null</code>, the reversed list should be <code>4 -> 3 -> 2 -> 1 -> null</code>. The constraint is that we should perform this operation in-place using constant auxiliary space <code>O(1)</code>, which means we must carefully manipulate the existing references.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
@@ -118,11 +120,60 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Real-World Analogy: The Reversing Conga Line
           </div>
-          <p>Imagine a conga line where each person has their hands on the shoulders of the person in front of them. To reverse the direction of the line, each person must turn around and place their hands on the shoulders of the person who was previously behind them.</p>
+          <p>Imagine a conga line where each person has their hands on the shoulders of the person in front of them, pointing to the direction of travel. To reverse the direction of the line without making anyone move to a different position, each person must turn around and place their hands on the shoulders of the person who was previously *behind* them. In code, the "shoulders" are the <code>next</code> pointer references of the list nodes. Each node must swap its forward link to point to its predecessor.</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. Iterative Pointer Reordering (O(n) Time, O(1) Space)</h3>
+        <p>We traverse the list once. For each node, we redirect its <code>next</code> pointer to the previous node (<code>prev</code>). To avoid losing track of the rest of the list when we break the link, we must save the next node in a temporary variable (<code>nextNode</code>) before rewriting the pointer. We use three pointers:
+          <ul>
+            <li><code>prev</code>: Keeps track of the node that will become the new next node (starts as <code>null</code>).</li>
+            <li><code>curr</code>: The current node we are processing (starts as <code>head</code>).</li>
+            <li><code>nextNode</code>: A temporary placeholder to store <code>curr.next</code>.</li>
+          </ul>
+          This runs in linear <code>O(n)</code> time using only constant <code>O(1)</code> memory.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>We maintain pointers 'prev', 'head', and a temporary 'nextNode'. In a loop, we save head.next to nextNode, point head.next backwards to prev, shift prev to head, and shift head to nextNode.</p>
+        <p>Let's trace the iterative reversal on the list <code>1 -> 2 -> 3 -> null</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong>
+            <ul>
+              <li><code>prev = null</code></li>
+              <li><code>curr = 1</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (First Iteration, Node 1):</strong>
+            <ul>
+              <li>Save the next node: <code>nextNode = curr.next</code> (which is node <code>2</code>).</li>
+              <li>Reverse the link: <code>curr.next = prev</code> (which is <code>null</code>). Now, node 1 points to null: <code>1 -> null</code>.</li>
+              <li>Move pointers forward: <code>prev = curr (1)</code>, <code>curr = nextNode (2)</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Second Iteration, Node 2):</strong>
+            <ul>
+              <li>Save the next node: <code>nextNode = curr.next</code> (which is node <code>3</code>).</li>
+              <li>Reverse the link: <code>curr.next = prev</code> (which is node <code>1</code>). Now, node 2 points to node 1: <code>2 -> 1 -> null</code>.</li>
+              <li>Move pointers forward: <code>prev = curr (2)</code>, <code>curr = nextNode (3)</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Third Iteration, Node 3):</strong>
+            <ul>
+              <li>Save the next node: <code>nextNode = curr.next</code> (which is <code>null</code>).</li>
+              <li>Reverse the link: <code>curr.next = prev</code> (which is node <code>2</code>). Now, node 3 points to node 2: <code>3 -> 2 -> 1 -> null</code>.</li>
+              <li>Move pointers forward: <code>prev = curr (3)</code>, <code>curr = nextNode (null)</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Completion):</strong> Since <code>curr</code> is now <code>null</code>, the loop ends. We return <code>prev</code>, which is node <code>3</code>, representing the new head of the reversed list: <code>3 -> 2 -> 1 -> null</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>ListNode nextNode = curr.next;</code>: Keeps a reference to the remaining chain before we break the forward link.</li>
+          <li><code>curr.next = prev;</code>: The actual reversal step, redirecting the arrow backward to the node we just visited.</li>
+          <li><code>prev = curr; curr = nextNode;</code>: Steps the pointers forward by one node to continue the traversal.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

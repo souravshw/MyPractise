@@ -110,19 +110,81 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to merge two sorted linked lists into one sorted list iteratively.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Merge Two Sorted Lists</strong> problem asks us to merge two sorted singly linked lists into a single sorted linked list. The new list should be made by splicing together the nodes of the first two lists, keeping the elements in ascending order.</p>
+        <p>For example, if <code>list1 = 1 -> 2 -> 4</code> and <code>list2 = 1 -> 3 -> 4</code>, the merged list should be <code>1 -> 1 -> 2 -> 3 -> 4 -> 4</code>. The key constraint is that we should do this in-place by updating the existing <code>next</code> pointer references of the nodes rather than creating new node instances, which is highly efficient.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: Merging Two Lines of Cards
+            Real-World Analogy: Merging Two Sorted Card Piles
           </div>
-          <p>Imagine you have two sorted piles of playing cards face up. You compare the top cards of both piles, pick the smaller card, and place it at the end of your new pile. You repeat this until one pile is empty, then stack the remaining cards from the other pile on the end.</p>
+          <p>Imagine you have two separate piles of playing cards lying face up on the table. Both piles are already sorted in ascending order (e.g., Pile A is <code>[1, 3, 5]</code> and Pile B is <code>[2, 4, 6]</code>). To merge them into a single sorted pile, you compare the top card of Pile A with the top card of Pile B. You pick the smaller card, place it face down at the end of your new combined pile, and move to the next card in that pile. You repeat this comparison step until one of the piles is completely empty. When that happens, you simply take the remaining cards from the non-empty pile and place them at the end of your new pile all at once!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. Iterative Merge (O(n + m) Time, O(1) Space)</h3>
+        <p>We use a dummy helper node to anchor the start of our new merged list. We also maintain a pointer <code>curr</code> that starts at this dummy node.
+          <ul>
+            <li>We compare the values of the current nodes of <code>list1</code> and <code>list2</code>.</li>
+            <li>We link the node with the smaller value to <code>curr.next</code> and advance that list's pointer.</li>
+            <li>We advance the <code>curr</code> pointer.</li>
+            <li>Once the loop finishes (because one list is fully exhausted), we attach the remaining part of the other list directly to <code>curr.next</code>.</li>
+          </ul>
+          This runs in linear <code>O(n + m)</code> time (where <code>n</code> and <code>m</code> are the lengths of the two lists) using only <code>O(1)</code> auxiliary space.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Create a dummy node. Compare l1.val and l2.val. Attach the smaller node to our current pointer, then advance that list's pointer. Repeat until one list is empty, then attach the remaining part of the other list.</p>
+        <p>Let's trace the algorithm on <code>list1 = 1 -> 3</code> and <code>list2 = 2 -> 4</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Initialization):</strong> Create a dummy node <code>ListNode dummy = new ListNode(-1)</code> and set <code>curr = dummy</code>.
+            <ul>
+              <li><code>list1 = [1, 3]</code>, <code>list2 = [2, 4]</code></li>
+              <li>Merged list: <code>dummy -> null</code></li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Iteration 1):</strong> Compare <code>list1.val (1)</code> and <code>list2.val (2)</code>.
+            <ul>
+              <li>Since <code>1 &lt; 2</code>, we link <code>curr.next = list1</code>.</li>
+              <li>Advance <code>list1 = list1.next</code> (which is node <code>3</code>).</li>
+              <li>Advance <code>curr = curr.next</code> (which is node <code>1</code>).</li>
+              <li>Merged list: <code>dummy -> 1</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Iteration 2):</strong> Compare <code>list1.val (3)</code> and <code>list2.val (2)</code>.
+            <ul>
+              <li>Since <code>3 &gt;= 2</code>, we link <code>curr.next = list2</code>.</li>
+              <li>Advance <code>list2 = list2.next</code> (which is node <code>4</code>).</li>
+              <li>Advance <code>curr = curr.next</code> (which is node <code>2</code>).</li>
+              <li>Merged list: <code>dummy -> 1 -> 2</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Iteration 3):</strong> Compare <code>list1.val (3)</code> and <code>list2.val (4)</code>.
+            <ul>
+              <li>Since <code>3 &lt; 4</code>, link <code>curr.next = list1</code>.</li>
+              <li>Advance <code>list1 = list1.next</code> (which is <code>null</code>).</li>
+              <li>Advance <code>curr = curr.next</code> (which is node <code>3</code>).</li>
+              <li>Merged list: <code>dummy -> 1 -> 2 -> 3</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 5 (Exhaustion & Splicing):</strong> The loop terminates because <code>list1</code> is <code>null</code>.
+            <ul>
+              <li>We check if any list remains. Yes, <code>list2</code> has remaining nodes (node <code>4</code>).</li>
+              <li>We splice the remainder: <code>curr.next = list2</code>.</li>
+              <li>Merged list: <code>dummy -> 1 -> 2 -> 3 -> 4</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 6 (Completion):</strong> The method returns <code>dummy.next</code>, which is the head of the sorted merged list: <code>1 -> 2 -> 3 -> 4 -> null</code>.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>ListNode dummy = new ListNode(-1);</code>: Serves as a constant anchor point at the beginning, so we don't have to write complex conditional logic to set the head of the merged list.</li>
+          <li><code>curr.next = (list1 != null) ? list1 : list2;</code>: Instantly attaches the remainder of whichever list is not empty, avoiding unnecessary element-by-element copy loops.</li>
+          <li><code>return dummy.next;</code>: Returns the actual start of the sorted list, skipping the dummy node placeholder.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

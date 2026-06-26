@@ -110,19 +110,72 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Learn how to check if a linked list is a palindrome by reversing the second half.</p>
+        <h2>Introduction & Problem Explanation</h2>
+        <p>The <strong>Palindrome Linked List</strong> problem asks us to determine if a given singly linked list is a palindrome (i.e., reads the same forwards and backwards).</p>
+        <p>For example, the list <code>1 -> 2 -> 2 -> 1</code> is a palindrome, while the list <code>1 -> 2 -> 3</code> is not. The primary constraint is doing this in <code>O(n)</code> time complexity and <code>O(1)</code> space complexity. Since we cannot traverse a singly linked list backwards, this requires a clever combination of list operations.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Real-World Analogy: Folding the Word in Half
+            Real-World Analogy: Folding a Word in Half
           </div>
-          <p>To check if a word is a palindrome, you can compare the first half with the reversed second half. For a linked list, we locate the middle using fast/slow pointers, reverse the second half, and compare it step-by-step with the first half.</p>
+          <p>Imagine writing a word on a strip of paper. To check if it is a palindrome, you could fold the strip of paper exactly in half. Once folded, you compare the letter on the top page with the corresponding letter directly beneath it. For a linked list, we can perform this "fold" by finding the exact middle of the list, reversing the entire second half of the list, and then comparing the first half and the reversed second half step-by-step from their respective headers!</p>
         </div>
 
+        <h2>The Algorithmic Approach</h2>
+        <h3>1. Auxiliary Stack / List Approach (O(n) Space)</h3>
+        <p>We can copy all list values into an ArrayList or push them onto a Stack, and then check for palindrome properties using standard arrays/stack mechanisms. While straightforward, this requires <code>O(n)</code> extra storage space, which violates the strict constant space constraint.</p>
+
+        <h3>2. Middle Reversal Optimization (O(n) Time, O(1) Space)</h3>
+        <p>We can achieve the result in-place using three main steps:
+          <ol>
+            <li>Find the middle of the linked list using the two-pointer **fast and slow** technique (where <code>fast</code> moves twice as fast as <code>slow</code>).</li>
+            <li>Reverse the second half of the linked list starting from the middle node (<code>slow</code>).</li>
+            <li>Compare the values of the first half (starting at <code>head</code>) and the reversed second half (starting at the new head of the reversed portion) node by node.</li>
+          </ol>
+          After checking, we can optionally reverse the second half back to restore the original list structure. This runs in linear <code>O(n)</code> time using only <code>O(1)</code> memory.
+        </p>
+
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Use slow/fast pointers to find the middle. Reverse the list starting from slow. Compare nodes of the first half and reversed second half one-by-one. If all match, it is a palindrome.</p>
+        <p>Let's trace the algorithm on the linked list <code>1 -> 2 -> 2 -> 1 -> null</code>:</p>
+        <ol>
+          <li><strong>Step 1 (Find Middle):</strong>
+            <ul>
+              <li>Initialize <code>slow</code> and <code>fast</code> pointers at <code>head</code> (node <code>1</code>).</li>
+              <li>Iteration 1: <code>slow = 2</code> (second node), <code>fast = 2</code> (third node).</li>
+              <li>Iteration 2: <code>slow = 2</code> (third node), <code>fast = null</code>.</li>
+              <li>The loop terminates since <code>fast</code> is null. The middle of the list is at <code>slow</code> (the third node <code>2</code>).</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Reverse Second Half):</strong>
+            <ul>
+              <li>We call our reverse function on the second half starting at <code>slow</code>: <code>2 -> 1 -> null</code>.</li>
+              <li>This returns the reversed chain: <code>1 -> 2 -> null</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Compare Halves):</strong>
+            <ul>
+              <li>Initialize <code>firstHalf = head</code> (node <code>1</code>) and <code>secondHalf = reversedHead</code> (node <code>1</code>).</li>
+              <li>Compare node values:
+                <ul>
+                  <li>Step 3a: <code>firstHalf.val (1) == secondHalf.val (1)</code>. Match. Advance pointers.</li>
+                  <li>Step 3b: <code>firstHalf.val (2) == secondHalf.val (2)</code>. Match. Advance pointers.</li>
+                </ul>
+              </li>
+              <li>Since <code>secondHalf</code> reaches <code>null</code>, the comparison finishes successfully.</li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Completion):</strong> All elements matched, so the method returns <code>true</code>. The list is confirmed as a palindrome.</li>
+        </ol>
+
+        <h2>Key Code Snippets & Explanations</h2>
+        <p>Here is why the main logic in the solution is important:</p>
+        <ul>
+          <li><code>while (fast != null && fast.next != null) { slow = slow.next; fast = fast.next.next; }</code>: Classic slow/fast algorithm. When <code>fast</code> reaches the end, <code>slow</code> is guaranteed to be at the middle node of the list.</li>
+          <li><code>ListNode secondHalf = reverseList(slow);</code>: Inverts the second half, allowing us to traverse the second half forward rather than backward.</li>
+          <li><code>if (firstHalf.val != secondHalf.val) return false;</code>: Immediately rejects the list as a palindrome upon detecting the first mismatch.</li>
+        </ul>
 
         <h2>Java Implementation Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>

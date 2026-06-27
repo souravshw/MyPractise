@@ -8,7 +8,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/design-url-shortener.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/system_design_components.png"
   },
   {
     id: 166,
@@ -18,7 +18,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/design-parking-lot.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/system_design_components.png"
   },
   {
     id: 165,
@@ -28,7 +28,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/design-twitter.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/system_design_components.png"
   },
   {
     id: 164,
@@ -38,7 +38,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/design-hit-counter.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/system_design_components.png"
   },
   {
     id: 163,
@@ -48,7 +48,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/lru-cache.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/system_design_components.png"
   },
   {
     id: 162,
@@ -58,7 +58,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/palindrome-partitioning.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/backtracking_search.png"
   },
   {
     id: 161,
@@ -68,7 +68,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/n-queens.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/backtracking_search.png"
   },
   {
     id: 160,
@@ -78,7 +78,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/word-search.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/backtracking_search.png"
   },
   {
     id: 159,
@@ -88,7 +88,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/permutations.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/string_permutations.png"
   },
   {
     id: 158,
@@ -98,7 +98,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/subsets.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/backtracking_search.png"
   },
   {
     id: 157,
@@ -108,7 +108,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/assign-cookies.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/greedy_intervals.png"
   },
   {
     id: 156,
@@ -118,7 +118,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/non-overlapping-intervals.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/greedy_intervals.png"
   },
   {
     id: 155,
@@ -128,7 +128,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/merge-intervals.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/greedy_intervals.png"
   },
   {
     id: 154,
@@ -138,7 +138,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/gas-station.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/greedy_intervals.png"
   },
   {
     id: 153,
@@ -148,7 +148,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/jump-game.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/greedy_intervals.png"
   },
   {
     id: 152,
@@ -158,7 +158,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/edit-distance.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/dynamic_programming_decisions.png"
   },
   {
     id: 151,
@@ -168,7 +168,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/longest-increasing-subsequence.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/consecutive_increasing_chain.svg"
   },
   {
     id: 150,
@@ -178,7 +178,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/house-robber.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/dynamic_programming_decisions.png"
   },
   {
     id: 149,
@@ -188,7 +188,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/coin-change.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/dynamic_programming_decisions.png"
   },
   {
     id: 148,
@@ -198,7 +198,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/climbing-stairs.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/dynamic_programming_decisions.png"
   },
   {
     id: 147,
@@ -208,7 +208,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/sliding-window-maximum.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/stack_queue_operations.png"
   },
   {
     id: 146,
@@ -218,7 +218,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/implement-queue-using-stacks.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/stack_queue_operations.png"
   },
   {
     id: 145,
@@ -228,7 +228,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/evaluate-reverse-polish-notation.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/stack_queue_operations.png"
   },
   {
     id: 144,
@@ -238,7 +238,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/min-stack.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/stack_queue_operations.png"
   },
   {
     id: 143,
@@ -248,7 +248,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/valid-parentheses.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/parenthesis_checker.png"
   },
   {
     id: 142,
@@ -258,7 +258,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/symmetric-tree.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/binary_tree_illustrations.png"
   },
   {
     id: 141,
@@ -268,7 +268,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/diameter-of-binary-tree.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/binary_tree_illustrations.png"
   },
   {
     id: 140,
@@ -278,7 +278,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/lowest-common-ancestor.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/binary_tree_illustrations.png"
   },
   {
     id: 139,
@@ -288,7 +288,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/level-order-traversal.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/binary_tree_illustrations.png"
   },
   {
     id: 138,
@@ -298,7 +298,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/invert-binary-tree.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/binary_tree_illustrations.png"
   },
   {
     id: 137,
@@ -308,7 +308,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/remove-nth-node-from-end.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/linked_list_operations.png"
   },
   {
     id: 136,
@@ -318,7 +318,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/palindrome-linked-list.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/linked_list_operations.png"
   },
   {
     id: 135,
@@ -328,7 +328,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/merge-two-sorted-lists.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/linked_list_operations.png"
   },
   {
     id: 134,
@@ -338,7 +338,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/detect-cycle-linked-list.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/linked_list_loop_detector.svg"
   },
   {
     id: 133,
@@ -348,7 +348,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/reverse-linked-list.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/reversing_linked_list.svg"
   },
   {
     id: 132,
@@ -358,7 +358,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/roman-to-integer.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/string_matching_parsing.png"
   },
   {
     id: 131,
@@ -368,7 +368,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/longest-common-prefix.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/string_matching_parsing.png"
   },
   {
     id: 130,
@@ -378,7 +378,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/group-anagrams.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/string_anagram_grouping.png"
   },
   {
     id: 129,
@@ -388,7 +388,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/longest-palindromic-substring.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/string_matching_parsing.png"
   },
   {
     id: 128,
@@ -398,7 +398,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/valid-anagram.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/string_anagram_grouping.png"
   },
   {
     id: 127,
@@ -408,7 +408,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/trapping-rain-water.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/array_pointer_manipulation.png"
   },
   {
     id: 126,
@@ -418,7 +418,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/rotate-array.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/rotating_array_k_times.svg"
   },
   {
     id: 125,
@@ -428,7 +428,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/move-zeroes.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/array_pointer_manipulation.png"
   },
   {
     id: 124,
@@ -438,7 +438,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/maximum-subarray.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/array_pointer_manipulation.png"
   },
   {
     id: 123,
@@ -448,7 +448,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/two-sum.html",
-    image: "images/springboot-junit-testing.svg"
+    image: "images/two-sum.png"
   },
 
   {

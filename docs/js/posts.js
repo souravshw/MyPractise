@@ -8,7 +8,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/design-url-shortener.html",
-    image: "images/system_design_components.png"
+    image: "images/design_url_shortener.png"
   },
   {
     id: 166,
@@ -18,7 +18,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/design-parking-lot.html",
-    image: "images/system_design_components.png"
+    image: "images/design_parking_lot.png"
   },
   {
     id: 165,
@@ -28,7 +28,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/design-twitter.html",
-    image: "images/system_design_components.png"
+    image: "images/design_twitter.png"
   },
   {
     id: 164,
@@ -38,7 +38,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/design-hit-counter.html",
-    image: "images/system_design_components.png"
+    image: "images/design_hit_counter.png"
   },
   {
     id: 163,
@@ -48,7 +48,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/lru-cache.html",
-    image: "images/system_design_components.png"
+    image: "images/lru_cache.png"
   },
   {
     id: 162,
@@ -58,7 +58,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/palindrome-partitioning.html",
-    image: "images/backtracking_search.png"
+    image: "images/palindrome_partitioning.png"
   },
   {
     id: 161,
@@ -68,7 +68,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/n-queens.html",
-    image: "images/backtracking_search.png"
+    image: "images/n_queens.png"
   },
   {
     id: 160,
@@ -78,7 +78,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/word-search.html",
-    image: "images/backtracking_search.png"
+    image: "images/word_search.png"
   },
   {
     id: 159,
@@ -98,7 +98,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/subsets.html",
-    image: "images/backtracking_search.png"
+    image: "images/subsets.png"
   },
   {
     id: 157,
@@ -108,7 +108,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/assign-cookies.html",
-    image: "images/greedy_intervals.png"
+    image: "images/assign_cookies.png"
   },
   {
     id: 156,
@@ -118,7 +118,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/non-overlapping-intervals.html",
-    image: "images/greedy_intervals.png"
+    image: "images/non_overlapping_intervals.png"
   },
   {
     id: 155,
@@ -128,7 +128,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/merge-intervals.html",
-    image: "images/greedy_intervals.png"
+    image: "images/merge_intervals.png"
   },
   {
     id: 154,
@@ -138,7 +138,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/gas-station.html",
-    image: "images/greedy_intervals.png"
+    image: "images/gas_station.png"
   },
   {
     id: 153,
@@ -148,7 +148,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/jump-game.html",
-    image: "images/greedy_intervals.png"
+    image: "images/jump_game.png"
   },
   {
     id: 152,
@@ -178,7 +178,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/house-robber.html",
-    image: "images/dynamic_programming_decisions.png"
+    image: "images/house_robber.png"
   },
   {
     id: 149,
@@ -188,7 +188,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/coin-change.html",
-    image: "images/dynamic_programming_decisions.png"
+    image: "images/coin_change.png"
   },
   {
     id: 148,
@@ -198,7 +198,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/climbing-stairs.html",
-    image: "images/dynamic_programming_decisions.png"
+    image: "images/climbing_stairs.png"
   },
   {
     id: 147,

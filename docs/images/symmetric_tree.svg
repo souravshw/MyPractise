@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 350" width="100%" height="100%">
+  <!-- Background Slate -->
+  <rect width="100%" height="100%" rx="16" fill="#1e293b"/>
+  <!-- Grid overlay -->
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grid)" rx="16"/>
+
+  <text x="250" y="30" font-family="'Segoe UI', Roboto, sans-serif" font-weight="bold" font-size="16" fill="#f8fafc" text-anchor="middle">Symmetric Tree Check (Mirror Verification)</text>
+
+  <!-- Central Mirror Line -->
+  <line x1="250" y1="50" x2="250" y2="250" stroke="#f43f5e" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="250" y="270" font-family="sans-serif" font-size="11" fill="#f43f5e" font-weight="bold" text-anchor="middle">Mirror Axis</text>
+
+  <!-- Tree Structure -->
+  <g transform="translate(70, 50)">
+    <!-- Connections -->
+    <line x1="180" y1="30" x2="110" y2="90" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+    <line x1="180" y1="30" x2="250" y2="90" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+    
+    <line x1="110" y1="90" x2="70" y2="150" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+    <line x1="110" y1="90" x2="150" y2="150" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+
+    <line x1="250" y1="90" x2="210" y2="150" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+    <line x1="250" y1="90" x2="290" y2="150" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+
+    <!-- Comparison curves -->
+    <!-- left.left (70, 150) vs right.right (290, 150) -->
+    <path d="M 70 166 C 110 210, 250 210, 290 166" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="2 2"/>
+    <text x="180" y="205" font-family="sans-serif" font-size="9" fill="#10b981" text-anchor="middle">Compare (3 == 3)</text>
+
+    <!-- left.right (150, 150) vs right.left (210, 150) -->
+    <path d="M 150 166 C 165 185, 195 185, 210 166" fill="none" stroke="#14b8a6" stroke-width="1.5" stroke-dasharray="2 2"/>
+    <text x="180" y="185" font-family="sans-serif" font-size="9" fill="#14b8a6" text-anchor="middle">Compare (4 == 4)</text>
+
+    <!-- Nodes -->
+    <!-- Root: 1 -->
+    <circle cx="180" cy="30" r="16" fill="#334155" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+    <text x="180" y="34" font-family="monospace" font-weight="bold" font-size="13" fill="#f8fafc" text-anchor="middle">1</text>
+
+    <!-- Left Child: 2 -->
+    <circle cx="110" cy="90" r="16" fill="#334155" stroke="#3b82f6" stroke-width="2"/>
+    <text x="110" y="94" font-family="monospace" font-weight="bold" font-size="13" fill="#f8fafc" text-anchor="middle">2</text>
+
+    <!-- Right Child: 2 (Symmetric value) -->
+    <circle cx="250" cy="90" r="16" fill="#334155" stroke="#3b82f6" stroke-width="2"/>
+    <text x="250" y="94" font-family="monospace" font-weight="bold" font-size="13" fill="#f8fafc" text-anchor="middle">2</text>
+
+    <!-- Left Subtree Children -->
+    <circle cx="70" cy="150" r="14" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="70" y="154" font-family="monospace" font-size="12" fill="#f8fafc" text-anchor="middle">3</text>
+
+    <circle cx="150" cy="150" r="14" fill="#1e293b" stroke="#14b8a6" stroke-width="1.5"/>
+    <text x="150" y="154" font-family="monospace" font-size="12" fill="#f8fafc" text-anchor="middle">4</text>
+
+    <!-- Right Subtree Children (swapped position for symmetry!) -->
+    <circle cx="210" cy="150" r="14" fill="#1e293b" stroke="#14b8a6" stroke-width="1.5"/>
+    <text x="210" y="154" font-family="monospace" font-size="12" fill="#f8fafc" text-anchor="middle">4</text>
+
+    <circle cx="290" cy="150" r="14" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="290" y="154" font-family="monospace" font-size="12" fill="#f8fafc" text-anchor="middle">3</text>
+  </g>
+
+  <!-- Explanation footer -->
+  <g transform="translate(40, 290)" font-family="sans-serif" font-size="12" fill="#94a3b8">
+    <text x="210" y="0" text-anchor="middle">Symmetry condition: <tspan fill="#3b82f6" font-weight="bold">t1.val == t2.val</tspan></text>
+    <text x="210" y="16" text-anchor="middle">And recursively: <tspan fill="#10b981">t1.left mirrors t2.right</tspan> &amp; <tspan fill="#14b8a6">t1.right mirrors t2.left</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="100%" height="100%">
+  <!-- Background Slate -->
+  <rect width="100%" height="100%" rx="16" fill="#1e293b"/>
+  <!-- Grid overlay -->
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+    </marker>
+    <marker id="skip-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+    </marker>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grid)" rx="16"/>
+
+  <text x="250" y="30" font-family="'Segoe UI', Roboto, sans-serif" font-weight="bold" font-size="16" fill="#f8fafc" text-anchor="middle">Remove Nth Node From End (n = 2)</text>
+
+  <!-- Linked List Nodes -->
+  <g transform="translate(40, 90)" font-family="monospace" font-weight="bold" font-size="16" fill="#f8fafc">
+    
+    <!-- Node 1 -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="40" height="45" rx="6" fill="#334155" stroke="rgba(255,255,255,0.1)"/>
+      <text x="20" y="28" text-anchor="middle">1</text>
+      <line x1="40" y1="22" x2="70" y2="22" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow)"/>
+    </g>
+
+    <!-- Node 2 -->
+    <g transform="translate(75, 0)">
+      <rect x="0" y="0" width="40" height="45" rx="6" fill="#334155" stroke="rgba(255,255,255,0.1)"/>
+      <text x="20" y="28" text-anchor="middle">2</text>
+      <line x1="40" y1="22" x2="145" y2="22" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow)"/>
+    </g>
+
+    <!-- Node 3 (Slow pointer) -->
+    <g transform="translate(150, 0)">
+      <rect x="0" y="0" width="40" height="45" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="2.5"/>
+      <text x="20" y="28" fill="#10b981" text-anchor="middle">3</text>
+      
+      <!-- Skip Pointer (slow.next = slow.next.next) -->
+      <path d="M 40 10 C 90 -20, 175 -20, 225 10" fill="none" stroke="#10b981" stroke-width="2.5" marker-end="url(#skip-arrow)"/>
+      <text x="132" y="-12" font-family="sans-serif" font-size="10" fill="#10b981" text-anchor="middle">slow.next = slow.next.next</text>
+
+      <text x="20" y="70" font-family="sans-serif" font-size="11" fill="#10b981" text-anchor="middle">slow</text>
+    </g>
+
+    <!-- Node 4 (To delete) -->
+    <g transform="translate(225, 0)">
+      <rect x="0" y="0" width="40" height="45" rx="6" fill="#334155" stroke="#f43f5e" stroke-width="2"/>
+      <text x="20" y="28" fill="#f43f5e" text-anchor="middle">4</text>
+      <!-- X overlay -->
+      <line x1="5" y1="5" x2="35" y2="40" stroke="#f43f5e" stroke-width="2.5"/>
+      <line x1="35" y1="5" x2="5" y2="40" stroke="#f43f5e" stroke-width="2.5"/>
+      <line x1="40" y1="22" x2="70" y2="22" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+
+      <text x="20" y="70" font-family="sans-serif" font-size="10" fill="#f43f5e" text-anchor="middle">Delete Target</text>
+    </g>
+
+    <!-- Node 5 (Fast pointer target) -->
+    <g transform="translate(300, 0)">
+      <rect x="0" y="0" width="40" height="45" rx="6" fill="#334155" stroke="rgba(255,255,255,0.1)"/>
+      <text x="20" y="28" text-anchor="middle">5</text>
+      <line x1="40" y1="22" x2="70" y2="22" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow)"/>
+      
+      <text x="20" y="70" font-family="sans-serif" font-size="11" fill="#a855f7" text-anchor="middle">fast</text>
+    </g>
+
+    <!-- NULL -->
+    <g transform="translate(375, 10)" font-family="sans-serif" font-size="13" fill="#64748b">
+      <text x="0" y="15">null</text>
+    </g>
+  </g>
+
+  <!-- Explanation footer -->
+  <g transform="translate(40, 240)" font-family="sans-serif" font-size="12" fill="#94a3b8">
+    <text x="210" y="0" font-weight="bold" fill="#f8fafc" text-anchor="middle">Two-Pointer Gap Strategy:</text>
+    <text x="210" y="20" text-anchor="middle">1. Advance <tspan fill="#a855f7">fast</tspan> pointer <tspan font-weight="bold" fill="#f8fafc">n + 1</tspan> steps ahead first.</text>
+    <text x="210" y="36" text-anchor="middle">2. Move both together until fast hits null; <tspan fill="#10b981">slow</tspan> is now right before target.</text>
+  </g>
+</svg>

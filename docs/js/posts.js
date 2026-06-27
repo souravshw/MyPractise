@@ -158,7 +158,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/edit-distance.html",
-    image: "images/dynamic_programming_decisions.png"
+    image: "images/edit_distance.svg"
   },
   {
     id: 151,
@@ -208,7 +208,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/sliding-window-maximum.html",
-    image: "images/stack_queue_operations.png"
+    image: "images/sliding_window_maximum.svg"
   },
   {
     id: 146,
@@ -218,7 +218,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/implement-queue-using-stacks.html",
-    image: "images/stack_queue_operations.png"
+    image: "images/implement_queue_using_stacks.svg"
   },
   {
     id: 145,
@@ -228,7 +228,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/evaluate-reverse-polish-notation.html",
-    image: "images/stack_queue_operations.png"
+    image: "images/evaluate_reverse_polish_notation.svg"
   },
   {
     id: 144,
@@ -238,7 +238,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/min-stack.html",
-    image: "images/stack_queue_operations.png"
+    image: "images/min_stack.svg"
   },
   {
     id: 143,
@@ -258,7 +258,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/symmetric-tree.html",
-    image: "images/binary_tree_illustrations.png"
+    image: "images/symmetric_tree.svg"
   },
   {
     id: 141,
@@ -268,7 +268,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/diameter-of-binary-tree.html",
-    image: "images/binary_tree_illustrations.png"
+    image: "images/diameter_of_binary_tree.svg"
   },
   {
     id: 140,
@@ -278,7 +278,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/lowest-common-ancestor.html",
-    image: "images/binary_tree_illustrations.png"
+    image: "images/lowest_common_ancestor.svg"
   },
   {
     id: 139,
@@ -288,7 +288,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/level-order-traversal.html",
-    image: "images/binary_tree_illustrations.png"
+    image: "images/level_order_traversal.svg"
   },
   {
     id: 138,
@@ -298,7 +298,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/invert-binary-tree.html",
-    image: "images/binary_tree_illustrations.png"
+    image: "images/invert_binary_tree.svg"
   },
   {
     id: 137,
@@ -308,7 +308,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/remove-nth-node-from-end.html",
-    image: "images/linked_list_operations.png"
+    image: "images/remove_nth_node_from_end.svg"
   },
   {
     id: 136,
@@ -318,7 +318,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/palindrome-linked-list.html",
-    image: "images/linked_list_operations.png"
+    image: "images/palindrome_linked_list.svg"
   },
   {
     id: 135,
@@ -328,7 +328,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/merge-two-sorted-lists.html",
-    image: "images/linked_list_operations.png"
+    image: "images/merge_two_sorted_lists.svg"
   },
   {
     id: 134,
@@ -358,7 +358,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/roman-to-integer.html",
-    image: "images/string_matching_parsing.png"
+    image: "images/roman_to_integer.svg"
   },
   {
     id: 131,
@@ -368,7 +368,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/longest-common-prefix.html",
-    image: "images/string_matching_parsing.png"
+    image: "images/longest_common_prefix.svg"
   },
   {
     id: 130,
@@ -388,7 +388,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/longest-palindromic-substring.html",
-    image: "images/string_matching_parsing.png"
+    image: "images/longest_palindromic_substring.svg"
   },
   {
     id: 128,
@@ -408,7 +408,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/trapping-rain-water.html",
-    image: "images/array_pointer_manipulation.png"
+    image: "images/trapping_rain_water.svg"
   },
   {
     id: 126,
@@ -428,7 +428,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/move-zeroes.html",
-    image: "images/array_pointer_manipulation.png"
+    image: "images/move_zeroes.svg"
   },
   {
     id: 124,
@@ -438,7 +438,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/maximum-subarray.html",
-    image: "images/array_pointer_manipulation.png"
+    image: "images/maximum_subarray.svg"
   },
   {
     id: 123,

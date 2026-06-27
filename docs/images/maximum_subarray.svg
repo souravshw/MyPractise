@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="100%" height="100%">
+  <!-- Background Slate -->
+  <rect width="100%" height="100%" rx="16" fill="#1e293b"/>
+  <!-- Grid overlay -->
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grid)" rx="16"/>
+
+  <text x="250" y="30" font-family="'Segoe UI', Roboto, sans-serif" font-weight="bold" font-size="16" fill="#f8fafc" text-anchor="middle">Maximum Subarray (Kadane's Algorithm)</text>
+
+  <!-- Array visual -->
+  <g transform="translate(30, 80)" font-family="monospace" font-weight="bold" font-size="15" fill="#f8fafc">
+    <!-- Cells -->
+    <rect x="0" y="0" width="40" height="40" rx="4" fill="#334155" stroke="rgba(255,255,255,0.05)"/>
+    <text x="20" y="25" fill="#64748b" text-anchor="middle">-2</text>
+    
+    <rect x="44" y="0" width="40" height="40" rx="4" fill="#334155" stroke="rgba(255,255,255,0.05)"/>
+    <text x="20" y="25" transform="translate(44, 0)" fill="#f8fafc" text-anchor="middle">1</text>
+    
+    <rect x="88" y="0" width="40" height="40" rx="4" fill="#334155" stroke="rgba(255,255,255,0.05)"/>
+    <text x="20" y="25" transform="translate(88, 0)" fill="#64748b" text-anchor="middle">-3</text>
+    
+    <!-- Highlighted Max Subarray: [4, -1, 2, 1] -->
+    <g transform="translate(132, 0)">
+      <rect x="0" y="0" width="172" height="40" rx="4" fill="none" stroke="#10b981" stroke-width="3.5"/>
+      <text x="86" y="-10" font-family="sans-serif" font-weight="bold" font-size="10" fill="#10b981" text-anchor="middle">Max Subarray (Sum = 6)</text>
+      
+      <rect x="0" y="0" width="40" height="40" rx="4" fill="#1e293b" stroke="none"/>
+      <text x="20" y="25" text-anchor="middle">4</text>
+      
+      <rect x="44" y="0" width="40" height="40" rx="4" fill="#1e293b" stroke="none"/>
+      <text x="20" y="25" transform="translate(44, 0)" text-anchor="middle">-1</text>
+      
+      <rect x="88" y="0" width="40" height="40" rx="4" fill="#1e293b" stroke="none"/>
+      <text x="20" y="25" transform="translate(88, 0)" text-anchor="middle">2</text>
+      
+      <rect x="132" y="0" width="40" height="40" rx="4" fill="#10b981" stroke="none"/>
+      <text x="20" y="25" transform="translate(132, 0)" fill="#1e293b" text-anchor="middle">1</text>
+      <text x="152" y="55" font-family="sans-serif" font-size="10" fill="#10b981" text-anchor="middle">curr index</text>
+    </g>
+    
+    <rect x="308" y="0" width="40" height="40" rx="4" fill="#334155" stroke="rgba(255,255,255,0.05)"/>
+    <text x="20" y="25" transform="translate(308, 0)" fill="#64748b" text-anchor="middle">-5</text>
+    
+    <rect x="352" y="0" width="40" height="40" rx="4" fill="#334155" stroke="rgba(255,255,255,0.05)"/>
+    <text x="20" y="25" transform="translate(352, 0)" fill="#f8fafc" text-anchor="middle">4</text>
+  </g>
+
+  <!-- Variables box -->
+  <g transform="translate(40, 180)" font-family="sans-serif" font-size="12" fill="#94a3b8">
+    <rect x="-10" y="0" width="420" height="60" rx="8" fill="#1e293b" stroke="rgba(255,255,255,0.05)"/>
+    
+    <text x="15" y="25" font-weight="bold" fill="#f8fafc">Kadane's Transition formula:</text>
+    <text x="15" y="45" font-family="monospace" font-size="13" fill="#10b981">currentSum = Math.max(num, currentSum + num)</text>
+    <text x="250" y="25" font-family="monospace" font-size="13" fill="#14b8a6">currentSum = 5 + 1 = 6</text>
+    <text x="250" y="45" font-family="monospace" font-size="13" fill="#10b981">maxSum = Max(5, 6) = 6</text>
+  </g>
+
+  <!-- Explanation footer -->
+  <g transform="translate(40, 265)" font-family="sans-serif" font-size="12" fill="#94a3b8">
+    <text x="210" y="0" text-anchor="middle">At each element, decide whether to append it to the current subarray</text>
+    <text x="210" y="16" text-anchor="middle">or start a new subarray. Track the maximum sum found across all steps.</text>
+  </g>
+</svg>

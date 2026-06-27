@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 350" width="100%" height="100%">
+  <!-- Background Slate -->
+  <rect width="100%" height="100%" rx="16" fill="#1e293b"/>
+  <!-- Grid overlay -->
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+    </marker>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grid)" rx="16"/>
+
+  <text x="250" y="30" font-family="'Segoe UI', Roboto, sans-serif" font-weight="bold" font-size="16" fill="#f8fafc" text-anchor="middle">Palindrome Linked List (O(n) Time, O(1) Space)</text>
+
+  <!-- Step 1: Original list and middle search -->
+  <g transform="translate(40, 60)" font-family="sans-serif" font-size="11" fill="#94a3b8">
+    <text x="0" y="-10" font-weight="bold" fill="#f8fafc">1. Find Midpoint &amp; Split:</text>
+    
+    <!-- Nodes: 1 -> 2 -> 2 -> 1 -->
+    <g transform="translate(0, 5)" font-family="monospace" font-weight="bold" font-size="14" fill="#f8fafc">
+      <!-- 1 -->
+      <rect x="0" y="0" width="30" height="35" rx="4" fill="#334155"/>
+      <text x="15" y="22" text-anchor="middle">1</text>
+      <line x1="30" y1="17" x2="55" y2="17" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <!-- 2 -->
+      <rect x="60" y="0" width="30" height="35" rx="4" fill="#334155"/>
+      <text x="15" y="22" text-anchor="middle">2</text>
+      <line x1="30" y1="17" x2="55" y2="17" transform="translate(60, 0)" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)"/>
+      <text x="75" y="52" font-family="sans-serif" font-size="10" fill="#10b981" text-anchor="middle">slow (mid)</text>
+
+      <!-- 2 -->
+      <rect x="120" y="0" width="30" height="35" rx="4" fill="#334155"/>
+      <text x="15" y="22" text-anchor="middle">2</text>
+      <line x1="30" y1="17" x2="55" y2="17" transform="translate(120, 0)" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <!-- 1 -->
+      <rect x="180" y="0" width="30" height="35" rx="4" fill="#334155"/>
+      <text x="15" y="22" text-anchor="middle">1</text>
+      <line x1="30" y1="17" x2="55" y2="17" transform="translate(180, 0)" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="195" y="52" font-family="sans-serif" font-size="10" fill="#a855f7" text-anchor="middle">fast</text>
+
+      <!-- null -->
+      <text x="245" y="22" font-family="sans-serif" font-size="11" fill="#64748b">null</text>
+    </g>
+  </g>
+
+  <!-- Step 2 & 3: Reverse & Compare -->
+  <g transform="translate(40, 160)" font-family="sans-serif" font-size="11" fill="#94a3b8">
+    <text x="0" y="-10" font-weight="bold" fill="#f8fafc">2. Reverse Second Half &amp; Compare Pointers:</text>
+
+    <!-- First Half -->
+    <g transform="translate(0, 10)" font-family="monospace" font-weight="bold" font-size="14" fill="#f8fafc">
+      <!-- 1 -->
+      <rect x="0" y="0" width="30" height="35" rx="4" fill="#334155" stroke="#14b8a6" stroke-width="1.5"/>
+      <text x="15" y="22" text-anchor="middle">1</text>
+      <line x1="30" y1="17" x2="55" y2="17" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="15" y="52" font-family="sans-serif" font-size="10" fill="#14b8a6" text-anchor="middle">p1</text>
+
+      <!-- 2 -->
+      <rect x="60" y="0" width="30" height="35" rx="4" fill="#334155"/>
+      <text x="15" y="22" text-anchor="middle">2</text>
+    </g>
+
+    <!-- Comparison Indicators -->
+    <g stroke="#10b981" stroke-width="1.5" stroke-dasharray="2 2" fill="none">
+      <path d="M 55 185 C 95 160, 225 160, 265 185"/>
+      <path d="M 115 185 C 130 170, 190 170, 205 185"/>
+    </g>
+
+    <!-- Reversed Second Half -->
+    <g transform="translate(210, 10)" font-family="monospace" font-weight="bold" font-size="14" fill="#f8fafc">
+      <!-- 1 -->
+      <rect x="0" y="0" width="30" height="35" rx="4" fill="#334155" stroke="#14b8a6" stroke-width="1.5"/>
+      <text x="15" y="22" text-anchor="middle">1</text>
+      <line x1="30" y1="17" x2="55" y2="17" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="15" y="52" font-family="sans-serif" font-size="10" fill="#14b8a6" text-anchor="middle">p2</text>
+
+      <!-- 2 -->
+      <rect x="60" y="0" width="30" height="35" rx="4" fill="#334155"/>
+      <text x="15" y="22" text-anchor="middle">2</text>
+    </g>
+    <text x="175" y="90" fill="#10b981" font-weight="bold" text-anchor="middle">All values match! (True)</text>
+  </g>
+
+  <!-- Explanation footer -->
+  <g transform="translate(40, 295)" font-family="sans-serif" font-size="12" fill="#94a3b8">
+    <text x="210" y="0" text-anchor="middle">Reversing the second half allows comparing the list symmetric values in-place.</text>
+  </g>
+</svg>

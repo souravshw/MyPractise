@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 350" width="100%" height="100%">
+  <!-- Background Slate -->
+  <rect width="100%" height="100%" rx="16" fill="#1e293b"/>
+  <!-- Grid overlay -->
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grid)" rx="16"/>
+
+  <text x="250" y="30" font-family="'Segoe UI', Roboto, sans-serif" font-weight="bold" font-size="16" fill="#f8fafc" text-anchor="middle">Evaluate Postfix (RPN): ["2", "1", "+", "3", "*"]</text>
+
+  <!-- Step-by-Step Stack States -->
+  <g transform="translate(20, 60)" font-family="sans-serif" font-size="11" fill="#94a3b8">
+    
+    <!-- State 1: Pushing 2, 1 -->
+    <g transform="translate(0, 0)">
+      <text x="40" y="-10" font-weight="bold" fill="#f8fafc" text-anchor="middle">Step 1 &amp; 2: Push</text>
+      <!-- Stack -->
+      <path d="M 15 20 L 15 130 L 65 130 L 65 20" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+      <rect x="20" y="95" width="40" height="30" rx="4" fill="#334155"/>
+      <text x="40" y="115" font-family="monospace" font-weight="bold" font-size="14" fill="#f8fafc" text-anchor="middle">2</text>
+      
+      <rect x="20" y="60" width="40" height="30" rx="4" fill="#334155"/>
+      <text x="40" y="80" font-family="monospace" font-weight="bold" font-size="14" fill="#f8fafc" text-anchor="middle">1</text>
+      
+      <text x="40" y="150" text-anchor="middle">Stack: [2, 1]</text>
+    </g>
+
+    <!-- State 2: "+" Operator -->
+    <g transform="translate(110, 0)">
+      <text x="40" y="-10" font-weight="bold" fill="#14b8a6" text-anchor="middle">Step 3: Pop &amp; Add</text>
+      <!-- Stack -->
+      <path d="M 15 20 L 15 130 L 65 130 L 65 20" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+      
+      <!-- Pop Action -->
+      <path d="M 40 50 Q 80 40 70 80" fill="none" stroke="#14b8a6" stroke-width="2" stroke-dasharray="2 2"/>
+      <text x="75" y="95" fill="#14b8a6" font-size="10">2 + 1 = 3</text>
+
+      <rect x="20" y="95" width="40" height="30" rx="4" fill="#14b8a6"/>
+      <text x="40" y="115" font-family="monospace" font-weight="bold" font-size="14" fill="#f8fafc" text-anchor="middle">3</text>
+
+      <text x="40" y="150" text-anchor="middle">Stack: [3]</text>
+    </g>
+
+    <!-- State 3: Push 3 -->
+    <g transform="translate(220, 0)">
+      <text x="40" y="-10" font-weight="bold" fill="#f8fafc" text-anchor="middle">Step 4: Push 3</text>
+      <!-- Stack -->
+      <path d="M 15 20 L 15 130 L 65 130 L 65 20" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+      
+      <rect x="20" y="95" width="40" height="30" rx="4" fill="#334155"/>
+      <text x="40" y="115" font-family="monospace" font-weight="bold" font-size="14" fill="#f8fafc" text-anchor="middle">3</text>
+
+      <rect x="20" y="60" width="40" height="30" rx="4" fill="#334155"/>
+      <text x="40" y="80" font-family="monospace" font-weight="bold" font-size="14" fill="#f8fafc" text-anchor="middle">3</text>
+
+      <text x="40" y="150" text-anchor="middle">Stack: [3, 3]</text>
+    </g>
+
+    <!-- State 4: "*" Operator -->
+    <g transform="translate(330, 0)">
+      <text x="40" y="-10" font-weight="bold" fill="#8b5cf6" text-anchor="middle">Step 5: Pop &amp; Mult</text>
+      <!-- Stack -->
+      <path d="M 15 20 L 15 130 L 65 130 L 65 20" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+      
+      <path d="M 40 50 Q 80 40 70 80" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="2 2"/>
+      <text x="75" y="95" fill="#8b5cf6" font-size="10">3 * 3 = 9</text>
+
+      <rect x="20" y="95" width="40" height="30" rx="4" fill="#8b5cf6"/>
+      <text x="40" y="115" font-family="monospace" font-weight="bold" font-size="14" fill="#f8fafc" text-anchor="middle">9</text>
+
+      <text x="40" y="150" text-anchor="middle">Stack: [9]</text>
+    </g>
+
+  </g>
+
+  <!-- Explanation Footer -->
+  <g transform="translate(40, 275)" font-family="sans-serif" font-size="12" fill="#94a3b8">
+    <text x="0" y="0" font-weight="bold" fill="#f8fafc">Postfix Evaluation Algorithm:</text>
+    <text x="0" y="20">• Operands (numbers) are pushed directly onto the Stack.</text>
+    <text x="0" y="36">• Operators (+, -, *, /) pop the top two values, apply operations, and push results back.</text>
+    <text x="0" y="52">• The final remaining element on the Stack is the final expression result (<tspan fill="#8b5cf6" font-weight="bold">9</tspan>).</text>
+  </g>
+</svg>

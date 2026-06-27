@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 350" width="100%" height="100%">
+  <!-- Background Slate -->
+  <rect width="100%" height="100%" rx="16" fill="#1e293b"/>
+  <!-- Grid overlay -->
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grid)" rx="16"/>
+
+  <text x="250" y="30" font-family="'Segoe UI', Roboto, sans-serif" font-weight="bold" font-size="16" fill="#f8fafc" text-anchor="middle">Diameter of a Binary Tree</text>
+
+  <!-- Tree Structure -->
+  <g transform="translate(60, 50)">
+    <!-- Connections -->
+    <!-- Highlighted diameter path: 4 -> 2 -> 5 (passes through node 2) or 4 -> 2 -> 1 -> 3 -->
+    <!-- Let's highlight 4 -> 2 -> 5 (length 2) or 4 -> 2 -> 1 -> 3 (length 3). -->
+    <!-- Length 3 path: 4 (left child of 2) -> 2 -> 1 -> 3 (right child of 1) -->
+    <line x1="180" y1="30" x2="100" y2="90" stroke="#f43f5e" stroke-width="4"/> <!-- Highlighted -->
+    <line x1="180" y1="30" x2="260" y2="90" stroke="#f43f5e" stroke-width="4"/> <!-- Highlighted -->
+    
+    <line x1="100" y1="90" x2="60" y2="150" stroke="#f43f5e" stroke-width="4"/> <!-- Highlighted -->
+    <line x1="100" y1="90" x2="140" y2="150" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+
+    <!-- Root: 1 -->
+    <circle cx="180" cy="30" r="16" fill="#1e293b" stroke="#f43f5e" stroke-width="3"/>
+    <text x="180" y="34" font-family="monospace" font-weight="bold" font-size="13" fill="#f8fafc" text-anchor="middle">1</text>
+    <text x="180" y="-5" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">depth = 2</text>
+
+    <!-- Node 2 -->
+    <circle cx="100" cy="90" r="16" fill="#1e293b" stroke="#f43f5e" stroke-width="3"/>
+    <text x="100" y="94" font-family="monospace" font-weight="bold" font-size="13" fill="#f8fafc" text-anchor="middle">2</text>
+    <text x="55" y="94" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">depth = 1</text>
+
+    <!-- Node 3 -->
+    <circle cx="260" cy="90" r="16" fill="#1e293b" stroke="#f43f5e" stroke-width="3"/>
+    <text x="260" y="94" font-family="monospace" font-weight="bold" font-size="13" fill="#f8fafc" text-anchor="middle">3</text>
+
+    <!-- Under 2 -->
+    <circle cx="60" cy="150" r="14" fill="#1e293b" stroke="#f43f5e" stroke-width="3.5"/>
+    <text x="60" y="154" font-family="monospace" font-weight="bold" font-size="12" fill="#f8fafc" text-anchor="middle">4</text>
+    <text x="20" y="154" font-family="sans-serif" font-size="10" fill="#14b8a6" font-weight="bold" text-anchor="middle">Start</text>
+
+    <circle cx="140" cy="150" r="14" fill="#334155" stroke="rgba(255,255,255,0.1)"/>
+    <text x="140" y="154" font-family="monospace" font-size="12" fill="#e2e8f0" text-anchor="middle">5</text>
+
+    <text x="300" y="94" font-family="sans-serif" font-size="10" fill="#14b8a6" font-weight="bold" text-anchor="middle">End</text>
+  </g>
+
+  <!-- Highlight Line Legend -->
+  <g transform="translate(320, 160)" font-family="sans-serif" font-size="11">
+    <rect x="-10" y="-10" width="130" height="90" rx="6" fill="#1e293b" stroke="rgba(255,255,255,0.05)"/>
+    <text x="50" y="10" fill="#94a3b8" font-weight="bold" text-anchor="middle">Path Statistics</text>
+    
+    <line x1="5" y1="35" x2="35" y2="35" stroke="#f43f5e" stroke-width="3"/>
+    <text x="45" y="39" fill="#e2e8f0" font-weight="bold">Longest Path</text>
+
+    <text x="5" y="65" fill="#f43f5e" font-size="12" font-weight="bold">Diameter = 3 edges</text>
+    <text x="5" y="77" fill="#64748b" font-size="10">(4 → 2 → 1 → 3)</text>
+  </g>
+
+  <!-- Explanation footer -->
+  <g transform="translate(40, 290)" font-family="sans-serif" font-size="12" fill="#94a3b8">
+    <text x="210" y="0" text-anchor="middle">At each node, the max path passing through it is: <tspan fill="#f43f5e" font-weight="bold">left_depth + right_depth</tspan></text>
+    <text x="210" y="18" text-anchor="middle">The overall diameter is the maximum path found at any node in the tree.</text>
+  </g>
+</svg>

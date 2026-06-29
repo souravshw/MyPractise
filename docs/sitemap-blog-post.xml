@@ -1,1028 +1,1028 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://enggnotes.com/index.html</loc>
+        <loc>https://www.enggnotes.com/index.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/articles.html</loc>
+        <loc>https://www.enggnotes.com/articles.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/meet-sourav.html</loc>
+        <loc>https://www.enggnotes.com/meet-sourav.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/about.html</loc>
+        <loc>https://www.enggnotes.com/about.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/contact.html</loc>
+        <loc>https://www.enggnotes.com/contact.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/privacy.html</loc>
+        <loc>https://www.enggnotes.com/privacy.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     <!-- Blog Posts -->
     <url>
-        <loc>https://enggnotes.com/posts/design-url-shortener.html</loc>
+        <loc>https://www.enggnotes.com/posts/design-url-shortener.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/design-parking-lot.html</loc>
+        <loc>https://www.enggnotes.com/posts/design-parking-lot.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/design-twitter.html</loc>
+        <loc>https://www.enggnotes.com/posts/design-twitter.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/design-hit-counter.html</loc>
+        <loc>https://www.enggnotes.com/posts/design-hit-counter.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/lru-cache.html</loc>
+        <loc>https://www.enggnotes.com/posts/lru-cache.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/palindrome-partitioning.html</loc>
+        <loc>https://www.enggnotes.com/posts/palindrome-partitioning.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/n-queens.html</loc>
+        <loc>https://www.enggnotes.com/posts/n-queens.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/word-search.html</loc>
+        <loc>https://www.enggnotes.com/posts/word-search.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/permutations.html</loc>
+        <loc>https://www.enggnotes.com/posts/permutations.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/subsets.html</loc>
+        <loc>https://www.enggnotes.com/posts/subsets.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/assign-cookies.html</loc>
+        <loc>https://www.enggnotes.com/posts/assign-cookies.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/non-overlapping-intervals.html</loc>
+        <loc>https://www.enggnotes.com/posts/non-overlapping-intervals.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/merge-intervals.html</loc>
+        <loc>https://www.enggnotes.com/posts/merge-intervals.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/gas-station.html</loc>
+        <loc>https://www.enggnotes.com/posts/gas-station.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/jump-game.html</loc>
+        <loc>https://www.enggnotes.com/posts/jump-game.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/edit-distance.html</loc>
+        <loc>https://www.enggnotes.com/posts/edit-distance.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/longest-increasing-subsequence.html</loc>
+        <loc>https://www.enggnotes.com/posts/longest-increasing-subsequence.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/house-robber.html</loc>
+        <loc>https://www.enggnotes.com/posts/house-robber.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/coin-change.html</loc>
+        <loc>https://www.enggnotes.com/posts/coin-change.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/climbing-stairs.html</loc>
+        <loc>https://www.enggnotes.com/posts/climbing-stairs.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/sliding-window-maximum.html</loc>
+        <loc>https://www.enggnotes.com/posts/sliding-window-maximum.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/implement-queue-using-stacks.html</loc>
+        <loc>https://www.enggnotes.com/posts/implement-queue-using-stacks.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/evaluate-reverse-polish-notation.html</loc>
+        <loc>https://www.enggnotes.com/posts/evaluate-reverse-polish-notation.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/min-stack.html</loc>
+        <loc>https://www.enggnotes.com/posts/min-stack.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/valid-parentheses.html</loc>
+        <loc>https://www.enggnotes.com/posts/valid-parentheses.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/symmetric-tree.html</loc>
+        <loc>https://www.enggnotes.com/posts/symmetric-tree.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/diameter-of-binary-tree.html</loc>
+        <loc>https://www.enggnotes.com/posts/diameter-of-binary-tree.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/lowest-common-ancestor.html</loc>
+        <loc>https://www.enggnotes.com/posts/lowest-common-ancestor.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/level-order-traversal.html</loc>
+        <loc>https://www.enggnotes.com/posts/level-order-traversal.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/invert-binary-tree.html</loc>
+        <loc>https://www.enggnotes.com/posts/invert-binary-tree.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/remove-nth-node-from-end.html</loc>
+        <loc>https://www.enggnotes.com/posts/remove-nth-node-from-end.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/palindrome-linked-list.html</loc>
+        <loc>https://www.enggnotes.com/posts/palindrome-linked-list.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/merge-two-sorted-lists.html</loc>
+        <loc>https://www.enggnotes.com/posts/merge-two-sorted-lists.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/detect-cycle-linked-list.html</loc>
+        <loc>https://www.enggnotes.com/posts/detect-cycle-linked-list.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/reverse-linked-list.html</loc>
+        <loc>https://www.enggnotes.com/posts/reverse-linked-list.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/roman-to-integer.html</loc>
+        <loc>https://www.enggnotes.com/posts/roman-to-integer.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/longest-common-prefix.html</loc>
+        <loc>https://www.enggnotes.com/posts/longest-common-prefix.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/group-anagrams.html</loc>
+        <loc>https://www.enggnotes.com/posts/group-anagrams.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/longest-palindromic-substring.html</loc>
+        <loc>https://www.enggnotes.com/posts/longest-palindromic-substring.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/valid-anagram.html</loc>
+        <loc>https://www.enggnotes.com/posts/valid-anagram.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/trapping-rain-water.html</loc>
+        <loc>https://www.enggnotes.com/posts/trapping-rain-water.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/rotate-array.html</loc>
+        <loc>https://www.enggnotes.com/posts/rotate-array.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/move-zeroes.html</loc>
+        <loc>https://www.enggnotes.com/posts/move-zeroes.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/maximum-subarray.html</loc>
+        <loc>https://www.enggnotes.com/posts/maximum-subarray.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/two-sum.html</loc>
+        <loc>https://www.enggnotes.com/posts/two-sum.html</loc>
         <lastmod>2026-06-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://enggnotes.com/posts/understanding-java-executor-service-vs-completable-future.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-java-executor-service-vs-completable-future.html</loc>
         <lastmod>2026-06-25</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://enggnotes.com/posts/understanding-java-locks-synchronized-reentrant-stamped.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-java-locks-synchronized-reentrant-stamped.html</loc>
         <lastmod>2026-06-25</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://enggnotes.com/posts/understanding-java-duplicate-strings-heap.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-java-duplicate-strings-heap.html</loc>
         <lastmod>2026-06-25</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://enggnotes.com/posts/spam-link-analyzer-simply.html</loc>
+        <loc>https://www.enggnotes.com/posts/spam-link-analyzer-simply.html</loc>
         <lastmod>2026-06-25</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-jvm-heap-dumps-hprof.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-jvm-heap-dumps-hprof.html</loc>
         <lastmod>2026-06-25</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://enggnotes.com/posts/jvm-hung-production-troubleshooting-guide.html</loc>
+        <loc>https://www.enggnotes.com/posts/jvm-hung-production-troubleshooting-guide.html</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/spring-boot-junit-testing.html</loc>
+        <loc>https://www.enggnotes.com/posts/spring-boot-junit-testing.html</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-memory-management-garbage-collection.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-memory-management-garbage-collection.html</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/sorting-maps-streams-simply.html</loc>
+        <loc>https://www.enggnotes.com/posts/sorting-maps-streams-simply.html</loc>
         <lastmod>2026-06-22</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-polymorphism-inheritance-simply.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-polymorphism-inheritance-simply.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-blank-final-variables.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-blank-final-variables.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://enggnotes.com/posts/java-collections-shuffling.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-collections-shuffling.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/spam-link-analyzer.html</loc>
+        <loc>https://www.enggnotes.com/posts/spam-link-analyzer.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-serialization-inheritance.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-serialization-inheritance.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/consecutive-increasing-chains.html</loc>
+        <loc>https://www.enggnotes.com/posts/consecutive-increasing-chains.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-serialization-transient.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-serialization-transient.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-advanced-enum-class-bodies.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-advanced-enum-class-bodies.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-thread-creation-mechanisms.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-thread-creation-mechanisms.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-semaphores-rate-limiting.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-semaphores-rate-limiting.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/printing-odd-even-executor-service.html</loc>
+        <loc>https://www.enggnotes.com/posts/printing-odd-even-executor-service.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/minimum-possible-number.html</loc>
+        <loc>https://www.enggnotes.com/posts/minimum-possible-number.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-jdbc-database-connectivity.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-jdbc-database-connectivity.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-custom-iterator-iterable.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-custom-iterator-iterable.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-bigdecimal-vs-double.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-bigdecimal-vs-double.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/frequent-ip-address-counter.html</loc>
+        <loc>https://www.enggnotes.com/posts/frequent-ip-address-counter.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/tape-equilibrium-algorithm.html</loc>
+        <loc>https://www.enggnotes.com/posts/tape-equilibrium-algorithm.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/binary-gap-algorithm.html</loc>
+        <loc>https://www.enggnotes.com/posts/binary-gap-algorithm.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-zero-data-loss-configuration.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-zero-data-loss-configuration.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-message-ordering-partitions.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-message-ordering-partitions.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-order-processing-system-design.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-order-processing-system-design.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-dead-letter-queue-pattern.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-dead-letter-queue-pattern.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-common-pitfalls.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-common-pitfalls.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-architecture-design-patterns.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-architecture-design-patterns.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-monitoring-critical-metrics.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-monitoring-critical-metrics.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-security-mechanisms.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-security-mechanisms.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-schema-evolution-registry.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-schema-evolution-registry.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-delivery-semantics-guarantees.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-delivery-semantics-guarantees.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-kraft-mode-vs-zookeeper.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-kraft-mode-vs-zookeeper.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-log-compaction.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-log-compaction.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-connect-source-sink.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-connect-source-sink.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-streams-state-store.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-streams-state-store.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-kstream-vs-ktable.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-kstream-vs-ktable.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-streams-vs-consumer.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-streams-vs-consumer.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-why-is-kafka-so-fast.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-why-is-kafka-so-fast.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-consumer-high-throughput.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-consumer-high-throughput.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-producer-high-throughput.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-producer-high-throughput.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-broker-failure-scenario.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-broker-failure-scenario.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-min-insync-replicas.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-min-insync-replicas.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-replication-mechanics.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-replication-mechanics.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-commitsync-vs-commitasync.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-commitsync-vs-commitasync.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-auto-offset-reset.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-auto-offset-reset.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-consumer-rebalancing.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-consumer-rebalancing.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-what-is-kafka.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-what-is-kafka.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-core-components.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-core-components.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-vs-rabbitmq-message-queues.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-vs-rabbitmq-message-queues.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-topics-partitions-explained.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-topics-partitions-explained.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-offsets-management.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-offsets-management.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-choosing-partition-count.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-choosing-partition-count.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-producer-internal-architecture.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-producer-internal-architecture.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-producer-acks-settings.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-producer-acks-settings.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-idempotent-producer-exactly-once.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-idempotent-producer-exactly-once.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/kafka-consumer-groups-basics.html</loc>
+        <loc>https://www.enggnotes.com/posts/kafka-consumer-groups-basics.html</loc>
         <lastmod>2026-06-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-inner-classes-member-local-anonymous.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-inner-classes-member-local-anonymous.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-static-nested-classes-interfaces.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-static-nested-classes-interfaces.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-class-initialization-blocks-inheritance.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-class-initialization-blocks-inheritance.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-mutating-map-keys-set-removal.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-mutating-map-keys-set-removal.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-map-sorting-values-stream.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-map-sorting-values-stream.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-sorted-sets-treeset-comparator-gotchas.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-sorted-sets-treeset-comparator-gotchas.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/leetcode-reversing-integer-overflow.html</loc>
+        <loc>https://www.enggnotes.com/posts/leetcode-reversing-integer-overflow.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/leetcode-sorting-list-by-max-occurrences.html</loc>
+        <loc>https://www.enggnotes.com/posts/leetcode-sorting-list-by-max-occurrences.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/hackerrank-min-max-sum-challenge.html</loc>
+        <loc>https://www.enggnotes.com/posts/hackerrank-min-max-sum-challenge.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/hackerrank-plus-minus-ratio-challenge.html</loc>
+        <loc>https://www.enggnotes.com/posts/hackerrank-plus-minus-ratio-challenge.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/hackerrank-find-target-sum-pairs.html</loc>
+        <loc>https://www.enggnotes.com/posts/hackerrank-find-target-sum-pairs.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-java-exception-propagation.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-java-exception-propagation.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-throw-throws-custom-exceptions.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-throw-throws-custom-exceptions.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-multiple-catch-finally-execution.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-multiple-catch-finally-execution.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-exception-rules-method-overriding.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-exception-rules-method-overriding.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-classic-io-read-write-files.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-classic-io-read-write-files.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-custom-bufferedReader-decorator.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-custom-bufferedReader-decorator.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-nio-file-manipulation.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-nio-file-manipulation.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java8-streams-common-tasks-recipes.html</loc>
+        <loc>https://www.enggnotes.com/posts/java8-streams-common-tasks-recipes.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java8-method-references-guide.html</loc>
+        <loc>https://www.enggnotes.com/posts/java8-method-references-guide.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-java-generic-classes-methods.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-java-generic-classes-methods.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/java-generics-wildcards-bounded-types.html</loc>
+        <loc>https://www.enggnotes.com/posts/java-generics-wildcards-bounded-types.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-java-builtin-annotations.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-java-builtin-annotations.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/creating-custom-annotations-java.html</loc>
+        <loc>https://www.enggnotes.com/posts/creating-custom-annotations-java.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-java-enums-basics.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-java-enums-basics.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-advanced-java-enums.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-advanced-java-enums.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-string-equality.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-string-equality.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-equals-hashcode-contract.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-equals-hashcode-contract.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-class-initialization-blocks.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-class-initialization-blocks.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/consecutive-increasing-chains.html</loc>
+        <loc>https://www.enggnotes.com/posts/consecutive-increasing-chains.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/summing-up-to-ten.html</loc>
+        <loc>https://www.enggnotes.com/posts/summing-up-to-ten.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-custom-arraylist.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-custom-arraylist.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/rotating-arrays.html</loc>
+        <loc>https://www.enggnotes.com/posts/rotating-arrays.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/finding-top-k-elements.html</loc>
+        <loc>https://www.enggnotes.com/posts/finding-top-k-elements.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/maximizing-stock-profits.html</loc>
+        <loc>https://www.enggnotes.com/posts/maximizing-stock-profits.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/detecting-linked-list-loops.html</loc>
+        <loc>https://www.enggnotes.com/posts/detecting-linked-list-loops.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/reversing-linked-list.html</loc>
+        <loc>https://www.enggnotes.com/posts/reversing-linked-list.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-balanced-parentheses.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-balanced-parentheses.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/flatmapping-min-max-interfaces.html</loc>
+        <loc>https://www.enggnotes.com/posts/flatmapping-min-max-interfaces.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/flattening-two-dimensional-arrays.html</loc>
+        <loc>https://www.enggnotes.com/posts/flattening-two-dimensional-arrays.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/sorting-multiple-fields-streams.html</loc>
+        <loc>https://www.enggnotes.com/posts/sorting-multiple-fields-streams.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-anagram-grouping.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-anagram-grouping.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-string-map-keys.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-string-map-keys.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-hashmap-equals-hashcode.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-hashmap-equals-hashcode.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-synchronized-keyword.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-synchronized-keyword.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/printing-odd-even-threads.html</loc>
+        <loc>https://www.enggnotes.com/posts/printing-odd-even-threads.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-deadlock-synchronized.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-deadlock-synchronized.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-deadlock-checker.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-deadlock-checker.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-builder-design-pattern.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-builder-design-pattern.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-string-permutations.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-string-permutations.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/reversing-words-preserving-spaces.html</loc>
+        <loc>https://www.enggnotes.com/posts/reversing-words-preserving-spaces.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-producer-consumer-wait-notify.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-producer-consumer-wait-notify.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-producer-consumer.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-producer-consumer.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-completablefuture.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-completablefuture.html</loc>
         <lastmod>2026-06-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-forkjoin-pool.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-forkjoin-pool.html</loc>
         <lastmod>2026-06-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/bridge-and-torch-problem.html</loc>
+        <loc>https://www.enggnotes.com/posts/bridge-and-torch-problem.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://enggnotes.com/posts/understanding-thread-pool.html</loc>
+        <loc>https://www.enggnotes.com/posts/understanding-thread-pool.html</loc>
         <lastmod>2026-06-19</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>

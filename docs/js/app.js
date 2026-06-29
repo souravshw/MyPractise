@@ -47,6 +47,12 @@ function renderPosts(category = 'all', limit = 10) {
     ? postsData 
     : postsData.filter(post => post.category === category);
     
+  // Exclude the featured (hero) post from the grid to avoid duplication
+  if (postsData.length > 0) {
+    const featuredId = postsData[0].id;
+    filteredPosts = filteredPosts.filter(post => post.id !== featuredId);
+  }
+    
   if (limit) {
     filteredPosts = filteredPosts.slice(0, limit);
   }

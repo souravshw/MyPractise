@@ -1,6 +1,16 @@
 // Blog Posts Data Source
 const postsData = [
   {
+    id: 168,
+    title: "Under the Hood: Building a Custom HashMap in Java",
+    excerpt: "A step-by-step guide explaining how Java's HashMap works under the hood by building a custom HashMap from scratch, using simple analogies.",
+    category: "Data Structures",
+    date: "June 29, 2026",
+    readTime: "5 min read",
+    url: "posts/custom-hashmap.html",
+    image: "images/custom_hashmap.png"
+  },
+  {
     id: 167,
     title: "Understanding Design URL Shortener in Java",
     excerpt: "Learn how to build a URL Shortener using maps and unique Base36 index conversion.",

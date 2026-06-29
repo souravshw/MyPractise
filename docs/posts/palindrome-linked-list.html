@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Palindrome Linked List in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/palindrome-linked-list.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/palindrome-linked-list.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,28 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Palindrome Linked List",
-      "item": "https://enggnotes.com/posts/palindrome-linked-list.html"
+      "item": "https://www.enggnotes.com/posts/palindrome-linked-list.html"
     }]
   }
   </script>
   <meta name="description" content="Learn how to check if a linked list is a palindrome by reversing the second half.">
-  <meta name="keywords" content="palindrome linked list java, java palindrome linked list tutorial, optimized palindrome linked list solution, how to solve palindrome linked list, palindrome linked list leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, palindrome linked list example, hashmap palindrome linked list java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="keywords"
+    content="palindrome linked list java, java palindrome linked list tutorial, optimized palindrome linked list solution, how to solve palindrome linked list, palindrome linked list leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, palindrome linked list example, hashmap palindrome linked list java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Palindrome Linked List in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to check if a linked list is a palindrome by reversing the second half.">
+  <meta property="og:description"
+    content="Learn how to check if a linked list is a palindrome by reversing the second half.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +43,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +127,7 @@
           <li aria-current="page">Palindrome Linked List</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,35 +142,54 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Palindrome Linked List</strong> problem asks us to determine if a given singly linked list is a palindrome (i.e., reads the same forwards and backwards).</p>
-        <p>For example, the list <code>1 -> 2 -> 2 -> 1</code> is a palindrome, while the list <code>1 -> 2 -> 3</code> is not. The primary constraint is doing this in <code>O(n)</code> time complexity and <code>O(1)</code> space complexity. Since we cannot traverse a singly linked list backwards, this requires a clever combination of list operations.</p>
+        <p>The <strong>Palindrome Linked List</strong> problem asks us to determine if a given singly linked list is a
+          palindrome (i.e., reads the same forwards and backwards).</p>
+        <p>For example, the list <code>1 -> 2 -> 2 -> 1</code> is a palindrome, while the list <code>1 -> 2 -> 3</code>
+          is not. The primary constraint is doing this in <code>O(n)</code> time complexity and <code>O(1)</code> space
+          complexity. Since we cannot traverse a singly linked list backwards, this requires a clever combination of
+          list operations.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/palindrome_linked_list.svg" alt="Illustration of checking Palindrome Linked List using middle reversal in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/palindrome_linked_list.svg"
+            alt="Illustration of checking Palindrome Linked List using middle reversal in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: Folding a Word in Half
           </div>
-          <p>Imagine writing a word on a strip of paper. To check if it is a palindrome, you could fold the strip of paper exactly in half. Once folded, you compare the letter on the top page with the corresponding letter directly beneath it. For a linked list, we can perform this "fold" by finding the exact middle of the list, reversing the entire second half of the list, and then comparing the first half and the reversed second half step-by-step from their respective headers!</p>
+          <p>Imagine writing a word on a strip of paper. To check if it is a palindrome, you could fold the strip of
+            paper exactly in half. Once folded, you compare the letter on the top page with the corresponding letter
+            directly beneath it. For a linked list, we can perform this "fold" by finding the exact middle of the list,
+            reversing the entire second half of the list, and then comparing the first half and the reversed second half
+            step-by-step from their respective headers!</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>1. Auxiliary Stack / List Approach (O(n) Space)</h3>
-        <p>We can copy all list values into an ArrayList or push them onto a Stack, and then check for palindrome properties using standard arrays/stack mechanisms. While straightforward, this requires <code>O(n)</code> extra storage space, which violates the strict constant space constraint.</p>
+        <p>We can copy all list values into an ArrayList or push them onto a Stack, and then check for palindrome
+          properties using standard arrays/stack mechanisms. While straightforward, this requires <code>O(n)</code>
+          extra storage space, which violates the strict constant space constraint.</p>
 
         <h3>2. Middle Reversal Optimization (O(n) Time, O(1) Space)</h3>
         <p>We can achieve the result in-place using three main steps:
-          <ol>
-            <li>Find the middle of the linked list using the two-pointer **fast and slow** technique (where <code>fast</code> moves twice as fast as <code>slow</code>).</li>
-            <li>Reverse the second half of the linked list starting from the middle node (<code>slow</code>).</li>
-            <li>Compare the values of the first half (starting at <code>head</code>) and the reversed second half (starting at the new head of the reversed portion) node by node.</li>
-          </ol>
-          After checking, we can optionally reverse the second half back to restore the original list structure. This runs in linear <code>O(n)</code> time using only <code>O(1)</code> memory.
+        <ol>
+          <li>Find the middle of the linked list using the two-pointer **fast and slow** technique (where
+            <code>fast</code> moves twice as fast as <code>slow</code>).</li>
+          <li>Reverse the second half of the linked list starting from the middle node (<code>slow</code>).</li>
+          <li>Compare the values of the first half (starting at <code>head</code>) and the reversed second half
+            (starting at the new head of the reversed portion) node by node.</li>
+        </ol>
+        After checking, we can optionally reverse the second half back to restore the original list structure. This runs
+        in linear <code>O(n)</code> time using only <code>O(1)</code> memory.
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
@@ -147,21 +197,25 @@
         <ol>
           <li><strong>Step 1 (Find Middle):</strong>
             <ul>
-              <li>Initialize <code>slow</code> and <code>fast</code> pointers at <code>head</code> (node <code>1</code>).</li>
+              <li>Initialize <code>slow</code> and <code>fast</code> pointers at <code>head</code> (node
+                <code>1</code>).</li>
               <li>Iteration 1: <code>slow = 2</code> (second node), <code>fast = 2</code> (third node).</li>
               <li>Iteration 2: <code>slow = 2</code> (third node), <code>fast = null</code>.</li>
-              <li>The loop terminates since <code>fast</code> is null. The middle of the list is at <code>slow</code> (the third node <code>2</code>).</li>
+              <li>The loop terminates since <code>fast</code> is null. The middle of the list is at <code>slow</code>
+                (the third node <code>2</code>).</li>
             </ul>
           </li>
           <li><strong>Step 2 (Reverse Second Half):</strong>
             <ul>
-              <li>We call our reverse function on the second half starting at <code>slow</code>: <code>2 -> 1 -> null</code>.</li>
+              <li>We call our reverse function on the second half starting at <code>slow</code>:
+                <code>2 -> 1 -> null</code>.</li>
               <li>This returns the reversed chain: <code>1 -> 2 -> null</code>.</li>
             </ul>
           </li>
           <li><strong>Step 3 (Compare Halves):</strong>
             <ul>
-              <li>Initialize <code>firstHalf = head</code> (node <code>1</code>) and <code>secondHalf = reversedHead</code> (node <code>1</code>).</li>
+              <li>Initialize <code>firstHalf = head</code> (node <code>1</code>) and
+                <code>secondHalf = reversedHead</code> (node <code>1</code>).</li>
               <li>Compare node values:
                 <ul>
                   <li>Step 3a: <code>firstHalf.val (1) == secondHalf.val (1)</code>. Match. Advance pointers.</li>
@@ -171,19 +225,25 @@
               <li>Since <code>secondHalf</code> reaches <code>null</code>, the comparison finishes successfully.</li>
             </ul>
           </li>
-          <li><strong>Step 4 (Completion):</strong> All elements matched, so the method returns <code>true</code>. The list is confirmed as a palindrome.</li>
+          <li><strong>Step 4 (Completion):</strong> All elements matched, so the method returns <code>true</code>. The
+            list is confirmed as a palindrome.</li>
         </ol>
 
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>while (fast != null && fast.next != null) { slow = slow.next; fast = fast.next.next; }</code>: Classic slow/fast algorithm. When <code>fast</code> reaches the end, <code>slow</code> is guaranteed to be at the middle node of the list.</li>
-          <li><code>ListNode secondHalf = reverseList(slow);</code>: Inverts the second half, allowing us to traverse the second half forward rather than backward.</li>
-          <li><code>if (firstHalf.val != secondHalf.val) return false;</code>: Immediately rejects the list as a palindrome upon detecting the first mismatch.</li>
+          <li><code>while (fast != null && fast.next != null) { slow = slow.next; fast = fast.next.next; }</code>:
+            Classic slow/fast algorithm. When <code>fast</code> reaches the end, <code>slow</code> is guaranteed to be
+            at the middle node of the list.</li>
+          <li><code>ListNode secondHalf = reverseList(slow);</code>: Inverts the second half, allowing us to traverse
+            the second half forward rather than backward.</li>
+          <li><code>if (firstHalf.val != secondHalf.val) return false;</code>: Immediately rejects the list as a
+            palindrome upon detecting the first mismatch.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -245,25 +305,35 @@ public class PalindromeLinkedList {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Palindrome Linked List</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Solving the <strong>Palindrome Linked List</strong> problem highlights how we can leverage key data
+          structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly
+          optimize runtime and simplify code complexity.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/merge-two-sorted-lists.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Merge Two Sorted Lists in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/remove-nth-node-from-end.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -271,44 +341,47 @@ public class PalindromeLinkedList {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -317,18 +390,18 @@ public class PalindromeLinkedList {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -337,4 +410,5 @@ public class PalindromeLinkedList {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

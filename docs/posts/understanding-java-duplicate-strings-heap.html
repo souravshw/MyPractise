@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-java-duplicate-strings-heap.html">
+  <link class="canonical" rel="canonical"
+    href="https://www.enggnotes.com/posts/understanding-java-duplicate-strings-heap.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +15,30 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Java Core & OOP",
-      "item": "https://enggnotes.com/index.html?category=Java%20Core%20%26%20OOP"
+      "item": "https://www.enggnotes.com/index.html?category=Java%20Core%20%26%20OOP"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Duplicate Strings in Java Heap",
-      "item": "https://enggnotes.com/posts/understanding-java-duplicate-strings-heap.html"
+      "item": "https://www.enggnotes.com/posts/understanding-java-duplicate-strings-heap.html"
     }]
   }
   </script>
-  <meta name="description" content="Why does Java heap memory have identical Strings if they are immutable? Learn the difference between immutability and uniqueness, and how to optimize duplicate strings.">
-  <meta name="keywords" content="duplicate strings java, string pool java, immutable strings heap, string immutability java, string deduplication jvm, string intern method, java heap dump strings, memory leak strings, understanding duplicate, duplicate strings, understanding java, duplicate java, strings java, java java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
+  <meta name="description"
+    content="Why does Java heap memory have identical Strings if they are immutable? Learn the difference between immutability and uniqueness, and how to optimize duplicate strings.">
+  <meta name="keywords"
+    content="duplicate strings java, string pool java, immutable strings heap, string immutability java, string deduplication jvm, string intern method, java heap dump strings, memory leak strings, understanding duplicate, duplicate strings, understanding java, duplicate java, strings java, java java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
 
   <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness | Engineering Notes">
-  <meta property="og:description" content="Why does Java heap memory have identical Strings if they are immutable? Learn the difference between immutability and uniqueness, and how to optimize duplicate strings.">
+  <meta property="og:title"
+    content="Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness | Engineering Notes">
+  <meta property="og:description"
+    content="Why does Java heap memory have identical Strings if they are immutable? Learn the difference between immutability and uniqueness, and how to optimize duplicate strings.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,64 +46,92 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
 
-</header>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
-         <ol>
-           <li><a href="../index.html">Home</a></li>
-           <li><a href="../index.html?category=Java Core & OOP">Java Core & OOP</a></li>
-           <li aria-current="page">Memory & OOP</li>
-         </ol>
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java Core & OOP">Java Core & OOP</a></li>
+          <li aria-current="page">Memory & OOP</li>
+        </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,54 +145,81 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>If you've ever analyzed a Java heap dump using Eclipse MAT or JProfiler, you've probably encountered a shocking statistic: <strong>duplicate strings taking up 15% to 30% of your entire heap memory</strong>. Dozens of identical strings containing values like <code>"USER"</code>, <code>"SUCCESS"</code>, or identical database columns are scattered all over the heap.</p>
-        
-        <p>This triggers a very logical question: <em>"Wait, aren't Java Strings immutable? If they cannot be changed, why doesn't Java just reuse a single instance of them? How can duplicate, identical Strings even exist in the heap?"</em></p>
-        
-        <p>In this post, we'll demystify this behavior in plain layman terms and show the code patterns that cause it, along with options to resolve it.</p>
+        <p>If you've ever analyzed a Java heap dump using Eclipse MAT or JProfiler, you've probably encountered a
+          shocking statistic: <strong>duplicate strings taking up 15% to 30% of your entire heap memory</strong>. Dozens
+          of identical strings containing values like <code>"USER"</code>, <code>"SUCCESS"</code>, or identical database
+          columns are scattered all over the heap.</p>
+
+        <p>This triggers a very logical question: <em>"Wait, aren't Java Strings immutable? If they cannot be changed,
+            why doesn't Java just reuse a single instance of them? How can duplicate, identical Strings even exist in
+            the heap?"</em></p>
+
+        <p>In this post, we'll demystify this behavior in plain layman terms and show the code patterns that cause it,
+          along with options to resolve it.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/duplicate-strings-heap.svg" alt="Diagram showing differences between String pool and Heap duplicate allocations" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/duplicate-strings-heap.svg"
+            alt="Diagram showing differences between String pool and Heap duplicate allocations"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Analogy: The Wax-Sealed Letters
           </div>
           <p>Imagine writing letters on paper and sealing them inside envelopes with hot wax:</p>
           <ul>
-            <li><strong>Immutability (The Wax Seal):</strong> Once a letter is sealed, its text cannot be changed. If you want to modify a detail in the letter, you must write a brand-new letter from scratch. The original remains unchanged.</li>
-            <li><strong>Uniqueness (The Master Archive):</strong> Just because a wax-sealed letter is immutable doesn't mean there is only one copy of it. If you write the exact sentence "PAY $50" on 10 separate pieces of paper, you have 10 identical, wax-sealed letters. They are all immutable, but they still take up 10 slots of physical drawer space on your desk!</li>
+            <li><strong>Immutability (The Wax Seal):</strong> Once a letter is sealed, its text cannot be changed. If
+              you want to modify a detail in the letter, you must write a brand-new letter from scratch. The original
+              remains unchanged.</li>
+            <li><strong>Uniqueness (The Master Archive):</strong> Just because a wax-sealed letter is immutable doesn't
+              mean there is only one copy of it. If you write the exact sentence "PAY $50" on 10 separate pieces of
+              paper, you have 10 identical, wax-sealed letters. They are all immutable, but they still take up 10 slots
+              of physical drawer space on your desk!</li>
           </ul>
         </div>
 
         <h2>Why Doesn't the String Constant Pool Save Us?</h2>
-        <p>Java has a built-in mechanism called the <strong>String Constant Pool</strong> to optimize memory. However, it only works automatically on <strong>String Literals</strong> (hardcoded strings in your Java source files) that are known at compile time.</p>
-        
+        <p>Java has a built-in mechanism called the <strong>String Constant Pool</strong> to optimize memory. However,
+          it only works automatically on <strong>String Literals</strong> (hardcoded strings in your Java source files)
+          that are known at compile time.</p>
+
         <p>When you write:</p>
         <pre><code class="language-java">String s1 = "hello";
 String s2 = "hello";</code></pre>
-        <p>The compiler knows both strings have the exact same value. It places one copy of <code>"hello"</code> in the String Constant Pool, and makes both <code>s1</code> and <code>s2</code> point to the same memory address. This is the **Master Archive** saving space.</p>
-        
-        <p>But when strings are created **dynamically at runtime**, they bypass this compile-time library optimization completely.</p>
+        <p>The compiler knows both strings have the exact same value. It places one copy of <code>"hello"</code> in the
+          String Constant Pool, and makes both <code>s1</code> and <code>s2</code> point to the same memory address.
+          This is the **Master Archive** saving space.</p>
+
+        <p>But when strings are created **dynamically at runtime**, they bypass this compile-time library optimization
+          completely.</p>
 
         <h2>How Duplicate Strings are Born (Code Patterns)</h2>
 
         <h3>Pattern 1: The JDBC Driver & JSON Deserializer</h3>
-        <p>This is the most common cause of duplicate strings in enterprise apps. When a database query returns 10,000 rows, or a JSON payload lists 500 orders, the parser extracts raw character data from the socket stream and calls a constructor to build string objects:</p>
-        
+        <p>This is the most common cause of duplicate strings in enterprise apps. When a database query returns 10,000
+          rows, or a JSON payload lists 500 orders, the parser extracts raw character data from the socket stream and
+          calls a constructor to build string objects:</p>
+
         <pre><code class="language-java">// Under the hood, parsers call the String constructor for every record:
 String role1 = new String(charBuffer, 0, 4); // "USER"
 String role2 = new String(charBuffer, 0, 4); // "USER"</code></pre>
-        
-        <p>Even though the strings represent the exact same characters, the <code>new String()</code> constructor allocates a brand-new object on the heap, bypassing the String Pool entirely. Now you have two distinct objects at different memory addresses, wasting twice the memory.</p>
+
+        <p>Even though the strings represent the exact same characters, the <code>new String()</code> constructor
+          allocates a brand-new object on the heap, bypassing the String Pool entirely. Now you have two distinct
+          objects at different memory addresses, wasting twice the memory.</p>
 
         <h3>Pattern 2: Dynamic Runtime Modifications</h3>
-        <p>When you modify, format, or concatenate strings at runtime, Java creates new String instances on the heap:</p>
-        
+        <p>When you modify, format, or concatenate strings at runtime, Java creates new String instances on the heap:
+        </p>
+
         <pre><code class="language-java">String path = "/api/v1/users/" + userId; 
 // Created on the heap dynamically. If called 1,000 times, 
 // 1,000 different heap objects are generated.</code></pre>
@@ -166,21 +227,30 @@ String role2 = new String(charBuffer, 0, 4); // "USER"</code></pre>
         <h2>How to Fight Duplicate Strings</h2>
 
         <h3>Solution 1: Explicitly Calling <code>String.intern()</code></h3>
-        <p>You can manually instruct Java to use the String Pool at runtime using the <code>.intern()</code> method. This checks if an identical string already exists in the pool; if it does, it returns the pooled instance and discards the new one:</p>
-        
+        <p>You can manually instruct Java to use the String Pool at runtime using the <code>.intern()</code> method.
+          This checks if an identical string already exists in the pool; if it does, it returns the pooled instance and
+          discards the new one:</p>
+
         <pre><code class="language-java">// Manually pooling database values
 String role = dbResult.getString("role").intern();</code></pre>
-        
+
         <blockquote>
-          <p><strong>Warning:</strong> Use <code>intern()</code> with caution. The String Pool is managed inside a lookup table. If you intern millions of unique strings (like user IDs), checking the pool introduces CPU overhead, and the table itself can run out of memory (Metaspace/PermGen).</p>
+          <p><strong>Warning:</strong> Use <code>intern()</code> with caution. The String Pool is managed inside a
+            lookup table. If you intern millions of unique strings (like user IDs), checking the pool introduces CPU
+            overhead, and the table itself can run out of memory (Metaspace/PermGen).</p>
         </blockquote>
 
         <h3>Solution 2: G1 GC String Deduplication (Highly Recommended)</h3>
-        <p>If you are using the G1 Garbage Collector (Java 8 Update 20 and higher), you can enable automatic deduplication at the JVM startup level using this parameter:</p>
-        
+        <p>If you are using the G1 Garbage Collector (Java 8 Update 20 and higher), you can enable automatic
+          deduplication at the JVM startup level using this parameter:</p>
+
         <pre><code class="language-bash">-XX:+UseG1GC -XX:+UseStringDeduplication</code></pre>
-        
-        <p><strong>How it works:</strong> The Garbage Collector silently scans the heap during its idle phases. When it finds two separate String objects containing identical character arrays (e.g. <code>byte[]</code> or <code>char[]</code>), it modifies the second String object to point to the first String's character array, and deletes the duplicate array. This removes the heaviest part of the duplicate strings from memory without any application code changes!</p>
+
+        <p><strong>How it works:</strong> The Garbage Collector silently scans the heap during its idle phases. When it
+          finds two separate String objects containing identical character arrays (e.g. <code>byte[]</code> or
+          <code>char[]</code>), it modifies the second String object to point to the first String's character array, and
+          deletes the duplicate array. This removes the heaviest part of the duplicate strings from memory without any
+          application code changes!</p>
 
         <h2>Immutability vs Uniqueness Summary</h2>
         <table>
@@ -213,65 +283,80 @@ String role = dbResult.getString("role").intern();</code></pre>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/understanding-jvm-heap-dumps-hprof.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding JVM Heap Dumps: A Layman's Guide to HPROF Files</span>
             </div>
           </a>
-          
+
           <a href="../posts/understanding-java-locks-synchronized-reentrant-stamped.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
-              <span class="nav-card-title">Choosing the Right Java Lock: Synchronized, ReentrantLock, ReadWriteLock, and StampedLock</span>
+              <span class="nav-card-title">Choosing the Right Java Lock: Synchronized, ReentrantLock, ReadWriteLock, and
+                StampedLock</span>
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/java-serialization-transient.html" class="related-card-img">
-              <img src="../images/serialization-basic.svg" alt="Understanding Java Serialization & the Transient Keyword">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+
+            <div class="related-card">
+              <a href="../posts/java-serialization-transient.html" class="related-card-img">
+                <img src="../images/serialization-basic.svg"
+                  alt="Understanding Java Serialization & the Transient Keyword">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/java-serialization-transient.html">Understanding Java
+                    Serialization & the Transient Keyword</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/java-serialization-transient.html">Understanding Java Serialization & the Transient Keyword</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/understanding-string-equality.html" class="related-card-img">
-              <img src="../images/string_equality_java.png" alt="Understanding String Equality in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+            <div class="related-card">
+              <a href="../posts/understanding-string-equality.html" class="related-card-img">
+                <img src="../images/string_equality_java.png" alt="Understanding String Equality in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/understanding-string-equality.html">Understanding
+                    String Equality in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-string-equality.html">Understanding String Equality in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/understanding-class-initialization-blocks.html" class="related-card-img">
-              <img src="../images/java_initialization_blocks.png" alt="Understanding Java Class Initialization Order and Blocks">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+            <div class="related-card">
+              <a href="../posts/understanding-class-initialization-blocks.html" class="related-card-img">
+                <img src="../images/java_initialization_blocks.png"
+                  alt="Understanding Java Class Initialization Order and Blocks">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a
+                    href="../posts/understanding-class-initialization-blocks.html">Understanding Java Class
+                    Initialization Order and Blocks</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-class-initialization-blocks.html">Understanding Java Class Initialization Order and Blocks</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -281,19 +366,19 @@ String role = dbResult.getString("role").intern();</code></pre>
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
 
-</footer>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -302,4 +387,5 @@ String role = dbResult.getString("role").intern();</code></pre>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

@@ -1,10 +1,11 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Anagram Grouping | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-anagram-grouping.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/understanding-anagram-grouping.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Anagram Grouping",
-      "item": "https://enggnotes.com/posts/understanding-anagram-grouping.html"
+      "item": "https://www.enggnotes.com/posts/understanding-anagram-grouping.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to group anagrams in Java using HashMap and Stream collector grouping, explained simply with a fridge magnet sorting analogy.">
-  <meta name="keywords" content="anagram grouping java, group anagrams java, java string grouping tutorial, sort characters word java, java stream groupingby, understanding anagram, anagram grouping, understanding java, anagram java, grouping java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
+  <meta name="description"
+    content="Learn how to group anagrams in Java using HashMap and Stream collector grouping, explained simply with a fridge magnet sorting analogy.">
+  <meta name="keywords"
+    content="anagram grouping java, group anagrams java, java string grouping tutorial, sort characters word java, java stream groupingby, understanding anagram, anagram grouping, understanding java, anagram java, grouping java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Anagram Grouping | Engineering Notes">
-  <meta property="og:description" content="Learn how to group anagrams in Java using HashMap and Stream collector grouping, explained simply with a fridge magnet sorting analogy.">
+  <meta property="og:description"
+    content="Learn how to group anagrams in Java using HashMap and Stream collector grouping, explained simply with a fridge magnet sorting analogy.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,55 +44,83 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
 
-</header>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -97,7 +129,7 @@
           <li aria-current="page">Anagram Grouping</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,27 +143,42 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In software puzzles, grouping words that contain the exact same letters in different orders (known as <strong>anagrams</strong>) is a classic problem. By sorting the characters of each word alphabetically, you can generate a unique signature or "fingerprint" for that letter combination, allowing you to group matching anagrams easily using a map structure.</p>
-        
-        <p>In this guide, we will explain this algorithm using a fridge magnet sorting analogy and walk through its trace in Java.</p>
+        <p>In software puzzles, grouping words that contain the exact same letters in different orders (known as
+          <strong>anagrams</strong>) is a classic problem. By sorting the characters of each word alphabetically, you
+          can generate a unique signature or "fingerprint" for that letter combination, allowing you to group matching
+          anagrams easily using a map structure.</p>
+
+        <p>In this guide, we will explain this algorithm using a fridge magnet sorting analogy and walk through its
+          trace in Java.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/string_anagram_grouping.png" alt="Illustration of letters being sorted and placed in matching slots to group anagrams" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/string_anagram_grouping.png"
+            alt="Illustration of letters being sorted and placed in matching slots to group anagrams"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: Sorting Fridge Magnets
           </div>
-          <p>Imagine you have a pile of scrambled word cards on the fridge, like <code>"tlebee"</code>, <code>"beeetl"</code>, and <code>"beetle"</code>. You want to group all the word cards that share the exact same letters together.</p>
+          <p>Imagine you have a pile of scrambled word cards on the fridge, like <code>"tlebee"</code>,
+            <code>"beeetl"</code>, and <code>"beetle"</code>. You want to group all the word cards that share the exact
+            same letters together.</p>
           <p>To do this systematically, you establish a sorting rule:</p>
           <ol>
-            <li><strong>Sort the letters alphabetically:</strong> Pick up the letters of <code>"tlebee"</code> and line them up: <code>[b, e, e, e, l, t]</code>. This sorted key is the word's fingerprint.</li>
-            <li><strong>Put them in labeled boxes:</strong> Place the original card <code>"tlebee"</code> in a box labeled <strong>"beeelt"</strong>.</li>
-            <li><strong>Group:</strong> Repeat the process for <code>"beeetl"</code>. Its letters also sort to <code>[b, e, e, e, l, t]</code>, so it goes in the same box.</li>
+            <li><strong>Sort the letters alphabetically:</strong> Pick up the letters of <code>"tlebee"</code> and line
+              them up: <code>[b, e, e, e, l, t]</code>. This sorted key is the word's fingerprint.</li>
+            <li><strong>Put them in labeled boxes:</strong> Place the original card <code>"tlebee"</code> in a box
+              labeled <strong>"beeelt"</strong>.</li>
+            <li><strong>Group:</strong> Repeat the process for <code>"beeetl"</code>. Its letters also sort to
+              <code>[b, e, e, e, l, t]</code>, so it goes in the same box.</li>
           </ol>
           <p>By the end, the box labeled "beeelt" contains all matching anagrams: "tlebee", "beeetl", and "beetle"!</p>
         </div>
@@ -145,7 +192,8 @@
           </div>
           <p>The program defines a list of words containing various anagram families:</p>
           <pre><code class="language-java">List&lt;String&gt; list = List.of("apple", "pineapple", "appleinep", "beetle", "tlebee", "beeetl", "lapep", "atyeti");</code></pre>
-          <p>For example, <code>"apple"</code> and <code>"lapep"</code> belong to the same anagram family, while <code>"beetle"</code>, <code>"tlebee"</code>, and <code>"beeetl"</code> belong to another.</p>
+          <p>For example, <code>"apple"</code> and <code>"lapep"</code> belong to the same anagram family, while
+            <code>"beetle"</code>, <code>"tlebee"</code>, and <code>"beeetl"</code> belong to another.</p>
         </div>
 
         <div class="analogy-box" style="border-left-color: var(--accent-color);">
@@ -164,7 +212,9 @@
         map.put(finalValue, ++count);
     }
 });</code></pre>
-          <p>For <code>"apple"</code>, the sorted characters are <code>"aelpp"</code>. It is added to the map with count 1. When <code>"lapep"</code> is processed, it also sorts to <code>"aelpp"</code>, and its count is incremented to 2.</p>
+          <p>For <code>"apple"</code>, the sorted characters are <code>"aelpp"</code>. It is added to the map with count
+            1. When <code>"lapep"</code> is processed, it also sorts to <code>"aelpp"</code>, and its count is
+            incremented to 2.</p>
         </div>
 
         <div class="analogy-box" style="border-left-color: var(--accent-color);">
@@ -185,14 +235,17 @@
     .get();</code></pre>
           <ol>
             <li><strong>Map:</strong> Converts all words to their sorted forms (e.g. "apple" -> "aelpp").</li>
-            <li><strong>groupingBy:</strong> Groups identical sorted strings and counts them: <code>{beeelt=3, aelpp=2, ...}</code>.</li>
+            <li><strong>groupingBy:</strong> Groups identical sorted strings and counts them:
+              <code>{beeelt=3, aelpp=2, ...}</code>.</li>
             <li><strong>Sort:</strong> Sorts the map entries by count descending.</li>
-            <li><strong>findFirst:</strong> Retrieves the entry with the highest frequency, which is <code>beeelt=3</code>.</li>
+            <li><strong>findFirst:</strong> Retrieves the entry with the highest frequency, which is
+              <code>beeelt=3</code>.</li>
           </ol>
         </div>
 
         <h2>Java Implementation</h2>
-        <p>Below is the complete Java code demonstrating character-sorting and stream-based grouping for anagram frequency collection:</p>
+        <p>Below is the complete Java code demonstrating character-sorting and stream-based grouping for anagram
+          frequency collection:</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.accolite;
@@ -242,25 +295,35 @@ public class StringGrouping {
 }</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Grouping anagrams is highly efficient when you convert scrambled strings to a common sorted representation. This sorted signature acts as the primary key in your grouping logic. Using Java Streams makes the process of mapping, grouping, and sorting collections of data expressive and clean.</p>
+        <p>Grouping anagrams is highly efficient when you convert scrambled strings to a common sorted representation.
+          This sorted signature acts as the primary key in your grouping logic. Using Java Streams makes the process of
+          mapping, grouping, and sorting collections of data expressive and clean.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/understanding-string-map-keys.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Strings as HashMap Keys</span>
             </div>
           </a>
-          
+
           <a href="../posts/sorting-multiple-fields-streams.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -268,44 +331,48 @@ public class StringGrouping {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/understanding-balanced-parentheses.html" class="related-card-img">
-              <img src="../images/parenthesis_checker.png" alt="Understanding Balanced Parentheses">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/understanding-balanced-parentheses.html" class="related-card-img">
+                <img src="../images/parenthesis_checker.png" alt="Understanding Balanced Parentheses">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/understanding-balanced-parentheses.html">Understanding
+                    Balanced Parentheses</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-balanced-parentheses.html">Understanding Balanced Parentheses</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/group-anagrams.html" class="related-card-img">
-              <img src="../images/string_anagram_grouping.png" alt="Understanding Group Anagrams in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/group-anagrams.html" class="related-card-img">
+                <img src="../images/string_anagram_grouping.png" alt="Understanding Group Anagrams in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/group-anagrams.html">Understanding Group Anagrams in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/group-anagrams.html">Understanding Group Anagrams in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/minimum-possible-number.html" class="related-card-img">
-              <img src="../images/minimum-number.svg" alt="Constructing the Minimum Possible Number using Counting Sort">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/minimum-possible-number.html" class="related-card-img">
+                <img src="../images/minimum-number.svg"
+                  alt="Constructing the Minimum Possible Number using Counting Sort">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/minimum-possible-number.html">Constructing the Minimum
+                    Possible Number using Counting Sort</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/minimum-possible-number.html">Constructing the Minimum Possible Number using Counting Sort</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -314,19 +381,19 @@ public class StringGrouping {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
 
-</footer>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -335,4 +402,5 @@ public class StringGrouping {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

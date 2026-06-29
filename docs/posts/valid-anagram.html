@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Valid Anagram in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/valid-anagram.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/valid-anagram.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Valid Anagram",
-      "item": "https://enggnotes.com/posts/valid-anagram.html"
+      "item": "https://www.enggnotes.com/posts/valid-anagram.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to check if two strings are anagrams of each other using sorting and frequency counting.">
-  <meta name="keywords" content="valid anagram java, java valid anagram tutorial, optimized valid anagram solution, how to solve valid anagram, valid anagram leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, valid anagram example, hashmap valid anagram java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description"
+    content="Learn how to check if two strings are anagrams of each other using sorting and frequency counting.">
+  <meta name="keywords"
+    content="valid anagram java, java valid anagram tutorial, optimized valid anagram solution, how to solve valid anagram, valid anagram leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, valid anagram example, hashmap valid anagram java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Valid Anagram in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to check if two strings are anagrams of each other using sorting and frequency counting.">
+  <meta property="og:description"
+    content="Learn how to check if two strings are anagrams of each other using sorting and frequency counting.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +44,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +128,7 @@
           <li aria-current="page">Valid Anagram</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,67 +143,105 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Valid Anagram</strong> problem asks us to determine if two given strings, <code>s</code> and <code>t</code>, are anagrams of each other.</p>
-        <p>An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once. For example, <code>s = "anagram"</code> and <code>t = "nagaram"</code> are anagrams because they have the exact same character frequencies. On the other hand, <code>s = "rat"</code> and <code>t = "car"</code> are not anagrams. Identifying matches like this is a core technique in search indexing, text parsing, and cryptography.</p>
+        <p>The <strong>Valid Anagram</strong> problem asks us to determine if two given strings, <code>s</code> and
+          <code>t</code>, are anagrams of each other.</p>
+        <p>An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically
+          using all the original letters exactly once. For example, <code>s = "anagram"</code> and
+          <code>t = "nagaram"</code> are anagrams because they have the exact same character frequencies. On the other
+          hand, <code>s = "rat"</code> and <code>t = "car"</code> are not anagrams. Identifying matches like this is a
+          core technique in search indexing, text parsing, and cryptography.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/string_anagram_grouping.png" alt="Illustration of Valid Anagram checking character frequencies in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/string_anagram_grouping.png"
+            alt="Illustration of Valid Anagram checking character frequencies in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Scrabble Letter Checker
           </div>
-          <p>Imagine you are playing Scrabble. You are given a tray containing a set of letter tiles spelling "listen". A friend challenges you to check if another word, "silent", can be made using exactly the same tiles. To verify this, you count the quantity of each letter tile in "listen" (e.g., 1 'l', 1 'i', 1 's', 1 't', 1 'e', 1 'n') and write them down. Then, you look at "silent" and subtract the letters one by one from your list. If you end up with exactly zero counts for all letters, you have verified that they are perfect anagrams! If you are short of a letter or have any tiles left over, they are not anagrams.</p>
+          <p>Imagine you are playing Scrabble. You are given a tray containing a set of letter tiles spelling "listen".
+            A friend challenges you to check if another word, "silent", can be made using exactly the same tiles. To
+            verify this, you count the quantity of each letter tile in "listen" (e.g., 1 'l', 1 'i', 1 's', 1 't', 1
+            'e', 1 'n') and write them down. Then, you look at "silent" and subtract the letters one by one from your
+            list. If you end up with exactly zero counts for all letters, you have verified that they are perfect
+            anagrams! If you are short of a letter or have any tiles left over, they are not anagrams.</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>1. The Sorting Approach (O(n log n) Time, O(n) Space)</h3>
-        <p>If we sort the characters of both strings alphabetically, any two anagrams will yield identical sorted strings. We can simply convert the strings to char arrays, sort them, and check if they are equal. While simple, this takes <code>O(n log n)</code> time due to sorting, which is less than optimal for long strings.</p>
+        <p>If we sort the characters of both strings alphabetically, any two anagrams will yield identical sorted
+          strings. We can simply convert the strings to char arrays, sort them, and check if they are equal. While
+          simple, this takes <code>O(n log n)</code> time due to sorting, which is less than optimal for long strings.
+        </p>
 
         <h3>2. The Frequency Counting Approach (O(n) Time, O(1) Space)</h3>
-        <p>Since the input strings consist only of lowercase English alphabets, we can count the frequency of each character using an integer array of size <code>26</code>. We iterate through the strings: incrementing the count for characters in <code>s</code> and decrementing the count for characters in <code>t</code>. If the two strings are anagrams, every single slot in the frequency array must balance out to exactly <code>0</code>. This runs in optimal <code>O(n)</code> linear time.</p>
+        <p>Since the input strings consist only of lowercase English alphabets, we can count the frequency of each
+          character using an integer array of size <code>26</code>. We iterate through the strings: incrementing the
+          count for characters in <code>s</code> and decrementing the count for characters in <code>t</code>. If the two
+          strings are anagrams, every single slot in the frequency array must balance out to exactly <code>0</code>.
+          This runs in optimal <code>O(n)</code> linear time.</p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Let's trace the frequency counting algorithm on strings <code>s = "anagram"</code> and <code>t = "nagaram"</code>:</p>
+        <p>Let's trace the frequency counting algorithm on strings <code>s = "anagram"</code> and
+          <code>t = "nagaram"</code>:</p>
         <ol>
-          <li><strong>Step 1 (Length Check):</strong> We check if <code>s.length() != t.length()</code>. Both are length <code>7</code>. We proceed.</li>
-          <li><strong>Step 2 (Initialization):</strong> We create an integer array of size 26 to store character counts: <code>count = [0, 0, ..., 0]</code>.</li>
+          <li><strong>Step 1 (Length Check):</strong> We check if <code>s.length() != t.length()</code>. Both are length
+            <code>7</code>. We proceed.</li>
+          <li><strong>Step 2 (Initialization):</strong> We create an integer array of size 26 to store character counts:
+            <code>count = [0, 0, ..., 0]</code>.</li>
           <li><strong>Step 3 (Iteration i = 0):</strong>
             <ul>
-              <li>Character in <code>s</code> is <code>'a'</code>. We increment: <code>count['a' - 'a'] = count[0]++</code> &rarr; <code>count[0] = 1</code>.</li>
-              <li>Character in <code>t</code> is <code>'n'</code>. We decrement: <code>count['n' - 'a'] = count[13]--</code> &rarr; <code>count[13] = -1</code>.</li>
+              <li>Character in <code>s</code> is <code>'a'</code>. We increment:
+                <code>count['a' - 'a'] = count[0]++</code> &rarr; <code>count[0] = 1</code>.</li>
+              <li>Character in <code>t</code> is <code>'n'</code>. We decrement:
+                <code>count['n' - 'a'] = count[13]--</code> &rarr; <code>count[13] = -1</code>.</li>
             </ul>
           </li>
           <li><strong>Step 4 (Iteration i = 1):</strong>
             <ul>
-              <li>Character in <code>s</code> is <code>'n'</code>. We increment: <code>count[13]++</code> &rarr; <code>count[13] = 0</code>.</li>
-              <li>Character in <code>t</code> is <code>'a'</code>. We decrement: <code>count[0]--</code> &rarr; <code>count[0] = 0</code>.</li>
+              <li>Character in <code>s</code> is <code>'n'</code>. We increment: <code>count[13]++</code> &rarr;
+                <code>count[13] = 0</code>.</li>
+              <li>Character in <code>t</code> is <code>'a'</code>. We decrement: <code>count[0]--</code> &rarr;
+                <code>count[0] = 0</code>.</li>
             </ul>
           </li>
           <li><strong>Step 5 (Iteration i = 2):</strong>
             <ul>
-              <li>Character in <code>s</code> is <code>'a'</code>. Increment <code>count[0]</code> to <code>1</code>.</li>
-              <li>Character in <code>t</code> is <code>'g'</code>. Decrement <code>count[6]</code> to <code>-1</code>.</li>
+              <li>Character in <code>s</code> is <code>'a'</code>. Increment <code>count[0]</code> to <code>1</code>.
+              </li>
+              <li>Character in <code>t</code> is <code>'g'</code>. Decrement <code>count[6]</code> to <code>-1</code>.
+              </li>
             </ul>
           </li>
-          <li><strong>Step 6 (Trace continues):</strong> We repeat this for all remaining characters. At the end of the loop, the incrementing from <code>s</code> and decrementing from <code>t</code> completely balance out.</li>
-          <li><strong>Step 7 (Final Check):</strong> We check if all elements in the <code>count</code> array are <code>0</code>. Since they are all <code>0</code>, the method returns <code>true</code>.</li>
+          <li><strong>Step 6 (Trace continues):</strong> We repeat this for all remaining characters. At the end of the
+            loop, the incrementing from <code>s</code> and decrementing from <code>t</code> completely balance out.</li>
+          <li><strong>Step 7 (Final Check):</strong> We check if all elements in the <code>count</code> array are
+            <code>0</code>. Since they are all <code>0</code>, the method returns <code>true</code>.</li>
         </ol>
 
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>if (s.length() != t.length()) return false;</code>: An immediate check. Strings of different lengths can never be anagrams.</li>
-          <li><code>count[s.charAt(i) - 'a']++</code> and <code>count[t.charAt(i) - 'a']--</code>: Using the ASCII offset <code>-'a'</code> maps the characters <code>'a'-'z'</code> to array indices <code>0-25</code>, allowing fast operations.</li>
+          <li><code>if (s.length() != t.length()) return false;</code>: An immediate check. Strings of different lengths
+            can never be anagrams.</li>
+          <li><code>count[s.charAt(i) - 'a']++</code> and <code>count[t.charAt(i) - 'a']--</code>: Using the ASCII
+            offset <code>-'a'</code> maps the characters <code>'a'-'z'</code> to array indices <code>0-25</code>,
+            allowing fast operations.</li>
           <li><code>if (i != 0) return false;</code>: Ensures that the letter frequencies balance out perfectly.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -220,25 +290,35 @@ public class ValidAnagram {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Valid Anagram</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Solving the <strong>Valid Anagram</strong> problem highlights how we can leverage key data structures and
+          algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime
+          and simplify code complexity.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/trapping-rain-water.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Trapping Rain Water in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/longest-palindromic-substring.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -246,44 +326,47 @@ public class ValidAnagram {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -292,18 +375,18 @@ public class ValidAnagram {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -312,4 +395,5 @@ public class ValidAnagram {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

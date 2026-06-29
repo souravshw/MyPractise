@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Choosing the Right Java Lock: Synchronized, ReentrantLock, ReadWriteLock, and StampedLock | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-java-locks-synchronized-reentrant-stamped.html">
+  <title>Choosing the Right Java Lock: Synchronized, ReentrantLock, ReadWriteLock, and StampedLock | Engineering Notes
+  </title>
+  <link class="canonical" rel="canonical"
+    href="https://www.enggnotes.com/posts/understanding-java-locks-synchronized-reentrant-stamped.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +16,30 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Java Concurrency",
-      "item": "https://enggnotes.com/index.html?category=Java%20Concurrency"
+      "item": "https://www.enggnotes.com/index.html?category=Java%20Concurrency"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Choosing the Right Java Lock",
-      "item": "https://enggnotes.com/posts/understanding-java-locks-synchronized-reentrant-stamped.html"
+      "item": "https://www.enggnotes.com/posts/understanding-java-locks-synchronized-reentrant-stamped.html"
     }]
   }
   </script>
-  <meta name="description" content="A comprehensive layman's guide comparing Java locking mechanisms. Understand when to use synchronized, ReentrantLock, ReadWriteLock, and StampedLock with code examples.">
-  <meta name="keywords" content="synchronized vs reentrantlock, readwritelock java, stampedlock java, java locks comparison, java concurrency locks, multi-threading java locks, optimistic reading java, choosing right, right java, choosing java, java java, lock java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java concurrency, multithreading java, asynchronous programming, thread pool java, java parallel processing">
+  <meta name="description"
+    content="A comprehensive layman's guide comparing Java locking mechanisms. Understand when to use synchronized, ReentrantLock, ReadWriteLock, and StampedLock with code examples.">
+  <meta name="keywords"
+    content="synchronized vs reentrantlock, readwritelock java, stampedlock java, java locks comparison, java concurrency locks, multi-threading java locks, optimistic reading java, choosing right, right java, choosing java, java java, lock java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java concurrency, multithreading java, asynchronous programming, thread pool java, java parallel processing">
 
   <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="Choosing the Right Java Lock: Synchronized, ReentrantLock, ReadWriteLock, and StampedLock | Engineering Notes">
-  <meta property="og:description" content="A comprehensive layman's guide comparing Java locking mechanisms. Understand when to use synchronized, ReentrantLock, ReadWriteLock, and StampedLock with code examples.">
+  <meta property="og:title"
+    content="Choosing the Right Java Lock: Synchronized, ReentrantLock, ReadWriteLock, and StampedLock | Engineering Notes">
+  <meta property="og:description"
+    content="A comprehensive layman's guide comparing Java locking mechanisms. Understand when to use synchronized, ReentrantLock, ReadWriteLock, and StampedLock with code examples.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,64 +47,92 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
 
-</header>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
-         <ol>
-           <li><a href="../index.html">Home</a></li>
-           <li><a href="../index.html?category=Java Concurrency">Java Concurrency</a></li>
-           <li aria-current="page">Concurrency</li>
-         </ol>
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java Concurrency">Java Concurrency</a></li>
+          <li aria-current="page">Concurrency</li>
+        </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -106,22 +141,31 @@
           <span>•</span>
           <span class="post-read-time">5 min read</span>
         </div>
-        <h1 class="article-title">Choosing the Right Java Lock: Synchronized, ReentrantLock, ReadWriteLock, and StampedLock</h1>
+        <h1 class="article-title">Choosing the Right Java Lock: Synchronized, ReentrantLock, ReadWriteLock, and
+          StampedLock</h1>
       </header>
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In multi-threaded Java applications, synchronization is the traffic controller. When multiple threads try to update the same variable or write to the same file simultaneously, it leads to data corruption (race conditions). To prevent this, Java uses locks.</p>
-        
-        <p>But Java doesn't give you just one lock; it gives you a whole tool belt. If you pick the wrong lock, your application could run slow, freeze up under pressure (deadlock), or exhaust system memory. In this guide, we will compare <strong>synchronized</strong>, <strong>ReentrantLock</strong>, <strong>ReadWriteLock</strong>, and <strong>StampedLock</strong> in layman terms, with code snippets showing exactly when to use each.</p>
+        <p>In multi-threaded Java applications, synchronization is the traffic controller. When multiple threads try to
+          update the same variable or write to the same file simultaneously, it leads to data corruption (race
+          conditions). To prevent this, Java uses locks.</p>
+
+        <p>But Java doesn't give you just one lock; it gives you a whole tool belt. If you pick the wrong lock, your
+          application could run slow, freeze up under pressure (deadlock), or exhaust system memory. In this guide, we
+          will compare <strong>synchronized</strong>, <strong>ReentrantLock</strong>, <strong>ReadWriteLock</strong>,
+          and <strong>StampedLock</strong> in layman terms, with code snippets showing exactly when to use each.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/java-locks-comparison.svg" alt="Overview of Java Concurrency Locking Mechanisms" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/java-locks-comparison.svg" alt="Overview of Java Concurrency Locking Mechanisms"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <h2>1. <code>synchronized</code>: The Guarded Bathroom</h2>
-        <p>This is the built-in, language-level lock. Think of it as a single-person bathroom at a cafe. There is one key hanging on the wall. When a thread enters, it takes the key and locks the door. Other threads must queue up in a line outside until the first thread exits and puts the key back.</p>
+        <p>This is the built-in, language-level lock. Think of it as a single-person bathroom at a cafe. There is one
+          key hanging on the wall. When a thread enters, it takes the key and locks the door. Other threads must queue
+          up in a line outside until the first thread exits and puts the key back.</p>
 
         <h4 style="color:var(--accent-color);">Code Justification:</h4>
         <pre><code class="language-java">public class CafeCounter {
@@ -133,10 +177,14 @@
     } 
 }</code></pre>
 
-        <p><strong>When to use:</strong> Use this as your default choice. It is simple, readable, and **foolproof**—because the JVM automatically unlocks the door even if the thread crashes or throws an exception inside.</p>
+        <p><strong>When to use:</strong> Use this as your default choice. It is simple, readable, and
+          **foolproof**—because the JVM automatically unlocks the door even if the thread crashes or throws an exception
+          inside.</p>
 
         <h2>2. <code>ReentrantLock</code>: The Smart Keycard Door</h2>
-        <p>This is a programmatic explicit lock. Think of it as a high-tech secure door. Instead of waiting forever in line, a thread can check: <em>"I will try to open the door. If it is locked, I'll wait exactly 3 seconds. If it's still locked, I will walk away and do other work instead of waiting forever."</em></p>
+        <p>This is a programmatic explicit lock. Think of it as a high-tech secure door. Instead of waiting forever in
+          line, a thread can check: <em>"I will try to open the door. If it is locked, I'll wait exactly 3 seconds. If
+            it's still locked, I will walk away and do other work instead of waiting forever."</em></p>
 
         <h4 style="color:var(--accent-color);">Code Justification:</h4>
         <pre><code class="language-java">import java.util.concurrent.locks.ReentrantLock;
@@ -160,10 +208,15 @@ public class HighTrafficService {
     }
 }</code></pre>
 
-        <p><strong>When to use:</strong> Use this when you are building responsive systems (like API endpoints) where you cannot afford to have threads block indefinitely. The timeout prevents thread pile-up under heavy production spikes.</p>
+        <p><strong>When to use:</strong> Use this when you are building responsive systems (like API endpoints) where
+          you cannot afford to have threads block indefinitely. The timeout prevents thread pile-up under heavy
+          production spikes.</p>
 
         <h2>3. <code>ReadWriteLock</code>: The Library Reading Room</h2>
-        <p>A standard lock (like synchronized or ReentrantLock) blocks everyone. But what if threads only want to read data? Reading doesn't corrupt data; only writing does. Think of this as a library reading room. 100 students can enter and read books at the same time (shared read lock). But if a painter wants to paint the walls (exclusive write lock), everyone must exit until the painting is done.</p>
+        <p>A standard lock (like synchronized or ReentrantLock) blocks everyone. But what if threads only want to read
+          data? Reading doesn't corrupt data; only writing does. Think of this as a library reading room. 100 students
+          can enter and read books at the same time (shared read lock). But if a painter wants to paint the walls
+          (exclusive write lock), everyone must exit until the painting is done.</p>
 
         <h4 style="color:var(--accent-color);">Code Justification:</h4>
         <pre><code class="language-java">import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -193,10 +246,15 @@ public class SharedMemoryCache {
     }
 }</code></pre>
 
-        <p><strong>When to use:</strong> Use this for data structures that are **read-heavy but write-rare** (e.g., configurations, cache maps, catalog items). Do not use this if you write frequently, as coordinating read/write state counts has its own CPU overhead.</p>
+        <p><strong>When to use:</strong> Use this for data structures that are **read-heavy but write-rare** (e.g.,
+          configurations, cache maps, catalog items). Do not use this if you write frequently, as coordinating
+          read/write state counts has its own CPU overhead.</p>
 
         <h2>4. <code>StampedLock</code>: The Digital Version Stamp</h2>
-        <p>Even `ReadWriteLock` has a bottleneck: readers still block writers. `StampedLock` introduces an **Optimistic Read Mode**. Think of this as taking a digital ticket version. You read the data immediately *without* acquiring any lock. Right before using the data, you check: <em>"Has the version ticket changed since I read it?"</em> If a writer has updated the version, you fall back to a traditional, heavy read lock.</p>
+        <p>Even `ReadWriteLock` has a bottleneck: readers still block writers. `StampedLock` introduces an **Optimistic
+          Read Mode**. Think of this as taking a digital ticket version. You read the data immediately *without*
+          acquiring any lock. Right before using the data, you check: <em>"Has the version ticket changed since I read
+            it?"</em> If a writer has updated the version, you fall back to a traditional, heavy read lock.</p>
 
         <h4 style="color:var(--accent-color);">Code Justification:</h4>
         <pre><code class="language-java">import java.util.concurrent.locks.StampedLock;
@@ -225,7 +283,9 @@ public class HighPerformanceCoordinate {
     }
 }</code></pre>
 
-        <p><strong>When to use:</strong> Use this when you have extreme read contention on small data blocks and need maximum performance. **Warning:** `StampedLock` is **non-reentrant** (a thread cannot call it recursively, or it will self-deadlock) and is complex to write, so reserve it for highly tuned systems.</p>
+        <p><strong>When to use:</strong> Use this when you have extreme read contention on small data blocks and need
+          maximum performance. **Warning:** `StampedLock` is **non-reentrant** (a thread cannot call it recursively, or
+          it will self-deadlock) and is complex to write, so reserve it for highly tuned systems.</p>
 
         <h2>Summary Matrix</h2>
         <table>
@@ -263,20 +323,29 @@ public class HighPerformanceCoordinate {
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/understanding-java-duplicate-strings-heap.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
-              <span class="nav-card-title">Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness</span>
+              <span class="nav-card-title">Understanding Duplicate Strings in Java Heap: Immutability vs.
+                Uniqueness</span>
             </div>
           </a>
-          
+
           <a href="../posts/understanding-java-executor-service-vs-completable-future.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -284,44 +353,51 @@ public class HighPerformanceCoordinate {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/understanding-java-executor-service-vs-completable-future.html" class="related-card-img">
-              <img src="../images/executor-vs-completable-future.svg" alt="ExecutorService vs. CompletableFuture in Java: A Layman's Guide">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Concurrency</span>
+
+            <div class="related-card">
+              <a href="../posts/understanding-java-executor-service-vs-completable-future.html"
+                class="related-card-img">
+                <img src="../images/executor-vs-completable-future.svg"
+                  alt="ExecutorService vs. CompletableFuture in Java: A Layman's Guide">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Concurrency</span>
+                </div>
+                <h4 class="related-card-title"><a
+                    href="../posts/understanding-java-executor-service-vs-completable-future.html">ExecutorService vs.
+                    CompletableFuture in Java: A Layman's Guide</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-java-executor-service-vs-completable-future.html">ExecutorService vs. CompletableFuture in Java: A Layman's Guide</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/java-thread-creation-mechanisms.html" class="related-card-img">
-              <img src="../images/thread-creation.svg" alt="How to Create Threads in Java: Extending Thread vs. Implementing Runnable">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Concurrency</span>
+            <div class="related-card">
+              <a href="../posts/java-thread-creation-mechanisms.html" class="related-card-img">
+                <img src="../images/thread-creation.svg"
+                  alt="How to Create Threads in Java: Extending Thread vs. Implementing Runnable">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Concurrency</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/java-thread-creation-mechanisms.html">How to Create
+                    Threads in Java: Extending Thread vs. Implementing Runnable</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/java-thread-creation-mechanisms.html">How to Create Threads in Java: Extending Thread vs. Implementing Runnable</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/understanding-completablefuture.html" class="related-card-img">
-              <img src="../images/completable_future.svg" alt="Understanding Java's CompletableFuture">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Concurrency</span>
+            <div class="related-card">
+              <a href="../posts/understanding-completablefuture.html" class="related-card-img">
+                <img src="../images/completable_future.svg" alt="Understanding Java's CompletableFuture">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Concurrency</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/understanding-completablefuture.html">Understanding
+                    Java's CompletableFuture</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-completablefuture.html">Understanding Java's CompletableFuture</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -331,19 +407,19 @@ public class HighPerformanceCoordinate {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
 
-</footer>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -352,4 +428,5 @@ public class HighPerformanceCoordinate {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

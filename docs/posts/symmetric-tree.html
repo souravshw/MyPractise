@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Symmetric Tree in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/symmetric-tree.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/symmetric-tree.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,28 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Symmetric Tree",
-      "item": "https://enggnotes.com/posts/symmetric-tree.html"
+      "item": "https://www.enggnotes.com/posts/symmetric-tree.html"
     }]
   }
   </script>
   <meta name="description" content="Learn how to check if a binary tree is symmetric around its center recursively.">
-  <meta name="keywords" content="symmetric tree java, java symmetric tree tutorial, optimized symmetric tree solution, how to solve symmetric tree, symmetric tree leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, symmetric tree example, hashmap symmetric tree java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="keywords"
+    content="symmetric tree java, java symmetric tree tutorial, optimized symmetric tree solution, how to solve symmetric tree, symmetric tree leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, symmetric tree example, hashmap symmetric tree java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Symmetric Tree in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to check if a binary tree is symmetric around its center recursively.">
+  <meta property="og:description"
+    content="Learn how to check if a binary tree is symmetric around its center recursively.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +43,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +127,7 @@
           <li aria-current="page">Symmetric Tree</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,53 +142,68 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Symmetric Tree</strong> problem asks us to check whether a binary tree is a mirror of itself (i.e., symmetric around its center).</p>
+        <p>The <strong>Symmetric Tree</strong> problem asks us to check whether a binary tree is a mirror of itself
+          (i.e., symmetric around its center).</p>
         <p>For example, the tree:
-          <pre>
+        <pre>
               1
              / \
             2   2
            / \ / \
           3  4 4  3
           </pre>
-          is symmetric. However, the tree:
-          <pre>
+        is symmetric. However, the tree:
+        <pre>
               1
              / \
             2   2
              \   \
              3    3
           </pre>
-          is not symmetric. This problem checks understanding of structural symmetry and simultaneous traversal of multiple subtrees.</p>
+        is not symmetric. This problem checks understanding of structural symmetry and simultaneous traversal of
+        multiple subtrees.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/symmetric_tree.svg" alt="Illustration of checking Symmetric Tree via mirror path comparison in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/symmetric_tree.svg"
+            alt="Illustration of checking Symmetric Tree via mirror path comparison in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Butterfly Wings Match
           </div>
-          <p>Imagine looking at a butterfly's wings. For the butterfly to be symmetric, every pattern on the outer edge of the left wing must match the pattern on the outer edge of the right wing, and every pattern on the inner edge of the left wing must match the pattern on the inner edge of the right wing. In terms of a binary tree, this means the left child of the left node must match the right child of the right node, and the right child of the left node must match the left child of the right node. By checking these corresponding mirror paths, we can determine symmetry!</p>
+          <p>Imagine looking at a butterfly's wings. For the butterfly to be symmetric, every pattern on the outer edge
+            of the left wing must match the pattern on the outer edge of the right wing, and every pattern on the inner
+            edge of the left wing must match the pattern on the inner edge of the right wing. In terms of a binary tree,
+            this means the left child of the left node must match the right child of the right node, and the right child
+            of the left node must match the left child of the right node. By checking these corresponding mirror paths,
+            we can determine symmetry!</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>1. Recursive Mirror Check (O(n) Time, O(h) Space)</h3>
         <p>We write a helper function <code>isMirror(TreeNode t1, TreeNode t2)</code> that compares two subtrees.
-          <ul>
-            <li>If both nodes are <code>null</code>, they are symmetric mirrors. We return <code>true</code>.</li>
-            <li>If only one of them is <code>null</code> (or if their values are different), they are not symmetric. We return <code>false</code>.</li>
-            <li>Otherwise, we recursively check:
-              <ol>
-                <li>If the outer children are mirrors: <code>isMirror(t1.left, t2.right)</code>.</li>
-                <li>If the inner children are mirrors: <code>isMirror(t1.right, t2.left)</code>.</li>
-              </ol>
-            </li>
-          </ul>
-          This visits each node once, resulting in <code>O(n)</code> time complexity. The space complexity is <code>O(h)</code> due to the call stack size.
+        <ul>
+          <li>If both nodes are <code>null</code>, they are symmetric mirrors. We return <code>true</code>.</li>
+          <li>If only one of them is <code>null</code> (or if their values are different), they are not symmetric. We
+            return <code>false</code>.</li>
+          <li>Otherwise, we recursively check:
+            <ol>
+              <li>If the outer children are mirrors: <code>isMirror(t1.left, t2.right)</code>.</li>
+              <li>If the inner children are mirrors: <code>isMirror(t1.right, t2.left)</code>.</li>
+            </ol>
+          </li>
+        </ul>
+        This visits each node once, resulting in <code>O(n)</code> time complexity. The space complexity is
+        <code>O(h)</code> due to the call stack size.
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
@@ -166,19 +212,23 @@
           <li><strong>Step 1 (Root call):</strong>
             <ul>
               <li>If the root is null, we return true. It is not.</li>
-              <li>We call the helper: <code>isMirror(root.left, root.right)</code>, which is <code>isMirror(node2_left, node2_right)</code>.</li>
+              <li>We call the helper: <code>isMirror(root.left, root.right)</code>, which is
+                <code>isMirror(node2_left, node2_right)</code>.</li>
             </ul>
           </li>
           <li><strong>Step 2 (Compare Left & Right subtrees):</strong>
             <ul>
               <li>Both nodes have value <code>2</code>. We proceed.</li>
-              <li>We must check the outer children: <code>isMirror(node2_left.left, node2_right.right)</code> which compares node <code>3 (left)</code> and node <code>3 (right)</code>.</li>
-              <li>We must check the inner children: <code>isMirror(node2_left.right, node2_right.left)</code> which compares node <code>4 (left)</code> and node <code>4 (right)</code>.</li>
+              <li>We must check the outer children: <code>isMirror(node2_left.left, node2_right.right)</code> which
+                compares node <code>3 (left)</code> and node <code>3 (right)</code>.</li>
+              <li>We must check the inner children: <code>isMirror(node2_left.right, node2_right.left)</code> which
+                compares node <code>4 (left)</code> and node <code>4 (right)</code>.</li>
             </ul>
           </li>
           <li><strong>Step 3 (Check Outer matches):</strong> We evaluate <code>isMirror(node3_left, node3_right)</code>:
             <ul>
-              <li>Both are leaf nodes with value <code>3</code>. Their recursive sub-calls return <code>true</code>.</li>
+              <li>Both are leaf nodes with value <code>3</code>. Their recursive sub-calls return <code>true</code>.
+              </li>
               <li>So outer check returns <code>true</code>.</li>
             </ul>
           </li>
@@ -188,19 +238,24 @@
               <li>So inner check returns <code>true</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 5 (Completion):</strong> Since both checks return <code>true</code>, the tree is successfully verified as symmetric around its center. We return <code>true</code>.</li>
+          <li><strong>Step 5 (Completion):</strong> Since both checks return <code>true</code>, the tree is successfully
+            verified as symmetric around its center. We return <code>true</code>.</li>
         </ol>
 
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>if (t1 == null && t2 == null) return true;</code>: The base case representing two matched empty subtrees.</li>
-          <li><code>if (t1 == null || t2 == null) return false;</code>: Catches structural mismatches where one side has a node and the other does not.</li>
-          <li><code>isMirror(t1.left, t2.right) && isMirror(t1.right, t2.left)</code>: The core mirror comparison logic, matching outer elements and inner elements of the subtrees recursively.</li>
+          <li><code>if (t1 == null && t2 == null) return true;</code>: The base case representing two matched empty
+            subtrees.</li>
+          <li><code>if (t1 == null || t2 == null) return false;</code>: Catches structural mismatches where one side has
+            a node and the other does not.</li>
+          <li><code>isMirror(t1.left, t2.right) && isMirror(t1.right, t2.left)</code>: The core mirror comparison logic,
+            matching outer elements and inner elements of the subtrees recursively.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -240,25 +295,35 @@ public class SymmetricTree {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Symmetric Tree</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Solving the <strong>Symmetric Tree</strong> problem highlights how we can leverage key data structures and
+          algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime
+          and simplify code complexity.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/diameter-of-binary-tree.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Diameter of Binary Tree in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/valid-parentheses.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -266,44 +331,47 @@ public class SymmetricTree {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -312,18 +380,18 @@ public class SymmetricTree {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -332,4 +400,5 @@ public class SymmetricTree {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

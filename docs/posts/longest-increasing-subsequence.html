@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Longest Increasing Subsequence in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/longest-increasing-subsequence.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/longest-increasing-subsequence.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Longest Increasing Subsequence",
-      "item": "https://enggnotes.com/posts/longest-increasing-subsequence.html"
+      "item": "https://www.enggnotes.com/posts/longest-increasing-subsequence.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to find the length of the longest increasing subsequence in O(n log n) time using binary search.">
-  <meta name="keywords" content="longest increasing subsequence java, java longest increasing subsequence tutorial, optimized longest increasing subsequence solution, how to solve longest increasing subsequence, longest increasing subsequence leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, longest increasing subsequence example, hashmap longest increasing subsequence java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description"
+    content="Learn how to find the length of the longest increasing subsequence in O(n log n) time using binary search.">
+  <meta name="keywords"
+    content="longest increasing subsequence java, java longest increasing subsequence tutorial, optimized longest increasing subsequence solution, how to solve longest increasing subsequence, longest increasing subsequence leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, longest increasing subsequence example, hashmap longest increasing subsequence java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Longest Increasing Subsequence in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to find the length of the longest increasing subsequence in O(n log n) time using binary search.">
+  <meta property="og:description"
+    content="Learn how to find the length of the longest increasing subsequence in O(n log n) time using binary search.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +44,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +128,7 @@
           <li aria-current="page">Longest Increasing Subsequence</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,35 +143,59 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Longest Increasing Subsequence (LIS)</strong> problem asks us to find the length of the longest subsequence of a given array of integers such that all elements of the subsequence are sorted in strictly increasing order.</p>
-        <p>A <strong>subsequence</strong> is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, given the array <code>[10, 9, 2, 5, 3, 7, 101, 18]</code>, the LIS is <code>[2, 3, 7, 101]</code> or <code>[2, 3, 7, 18]</code>, both having a length of <code>4</code>.
-          A standard dynamic programming approach solves this problem in <code>O(n<sup>2</sup>)</code> time. However, we can optimize this to <code>O(n log n)</code> time by combining dynamic programming with binary search (a technique related to Patience Sorting).
+        <p>The <strong>Longest Increasing Subsequence (LIS)</strong> problem asks us to find the length of the longest
+          subsequence of a given array of integers such that all elements of the subsequence are sorted in strictly
+          increasing order.</p>
+        <p>A <strong>subsequence</strong> is a sequence that can be derived from an array by deleting some or no
+          elements without changing the order of the remaining elements. For example, given the array
+          <code>[10, 9, 2, 5, 3, 7, 101, 18]</code>, the LIS is <code>[2, 3, 7, 101]</code> or
+          <code>[2, 3, 7, 18]</code>, both having a length of <code>4</code>.
+          A standard dynamic programming approach solves this problem in <code>O(n<sup>2</sup>)</code> time. However, we
+          can optimize this to <code>O(n log n)</code> time by combining dynamic programming with binary search (a
+          technique related to Patience Sorting).
         </p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/consecutive_increasing_chain.svg" alt="Illustration of Longest Increasing Subsequence patience sorting binary search in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/consecutive_increasing_chain.svg"
+            alt="Illustration of Longest Increasing Subsequence patience sorting binary search in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Patience Sorting Card Game
           </div>
-          <p>Imagine dealing cards face up in piles from left to right. When a new card is drawn, you place it on the leftmost pile whose top card is greater than or equal to the new card. If no such pile exists, you create a new pile to the right of all existing piles. For example, if you draw a 5, then a 3, the 3 goes on top of the 5. If you then draw a 7, it's larger than both, so you start a new pile to the right. By the time all cards are placed, the total number of piles is exactly the length of the longest increasing subsequence you can construct!</p>
+          <p>Imagine dealing cards face up in piles from left to right. When a new card is drawn, you place it on the
+            leftmost pile whose top card is greater than or equal to the new card. If no such pile exists, you create a
+            new pile to the right of all existing piles. For example, if you draw a 5, then a 3, the 3 goes on top of
+            the 5. If you then draw a 7, it's larger than both, so you start a new pile to the right. By the time all
+            cards are placed, the total number of piles is exactly the length of the longest increasing subsequence you
+            can construct!</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>DP with Binary Search (O(n log n) Time, O(n) Space)</h3>
-        <p>We maintain an active list (or array) <code>sub</code> that represents the smallest tail of all increasing subsequences of various lengths found so far.
+        <p>We maintain an active list (or array) <code>sub</code> that represents the smallest tail of all increasing
+          subsequences of various lengths found so far.
           As we iterate through each number <code>num</code> in the input array:
-          <ul>
-            <li>We use binary search to find the insertion position of <code>num</code> in <code>sub</code>.</li>
-            <li>If <code>num</code> is larger than all elements in <code>sub</code>, it means we can extend our longest increasing subsequence. We append <code>num</code> to the end of <code>sub</code>.</li>
-            <li>Otherwise, we find the first element in <code>sub</code> that is greater than or equal to <code>num</code> and replace it with <code>num</code>. This swap optimizes future possibilities by reducing the tail value of that subsequence length, making it easier to append subsequent numbers.</li>
-          </ul>
-          At the end of the array traversal, the size of the <code>sub</code> list is the length of the LIS. <em>Note: The elements in <code>sub</code> do not necessarily form the actual LIS, but its size is guaranteed to be correct.</em>
+        <ul>
+          <li>We use binary search to find the insertion position of <code>num</code> in <code>sub</code>.</li>
+          <li>If <code>num</code> is larger than all elements in <code>sub</code>, it means we can extend our longest
+            increasing subsequence. We append <code>num</code> to the end of <code>sub</code>.</li>
+          <li>Otherwise, we find the first element in <code>sub</code> that is greater than or equal to <code>num</code>
+            and replace it with <code>num</code>. This swap optimizes future possibilities by reducing the tail value of
+            that subsequence length, making it easier to append subsequent numbers.</li>
+        </ul>
+        At the end of the array traversal, the size of the <code>sub</code> list is the length of the LIS. <em>Note: The
+          elements in <code>sub</code> do not necessarily form the actual LIS, but its size is guaranteed to be
+          correct.</em>
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
@@ -156,7 +212,8 @@
           <li><strong>Step 3 (Element: 9):</strong>
             <ul>
               <li>Binary search for 9 in <code>[10]</code> yields insertion index 0.</li>
-              <li>We replace the element at index 0 (10) with 9. (A sequence of length 1 ending in 9 is better than ending in 10).</li>
+              <li>We replace the element at index 0 (10) with 9. (A sequence of length 1 ending in 9 is better than
+                ending in 10).</li>
               <li>State: <code>sub = [9]</code></li>
             </ul>
           </li>
@@ -177,7 +234,8 @@
           <li><strong>Step 6 (Element: 3):</strong>
             <ul>
               <li>Binary search for 3 in <code>[2, 5]</code> yields insertion index 1.</li>
-              <li>We replace the element at index 1 (5) with 3. (A subsequence of length 2 ending in 3 is better than ending in 5).</li>
+              <li>We replace the element at index 1 (5) with 3. (A subsequence of length 2 ending in 3 is better than
+                ending in 5).</li>
               <li>State: <code>sub = [2, 3]</code></li>
             </ul>
           </li>
@@ -187,13 +245,17 @@
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>int i = Collections.binarySearch(sub, num);</code>: Searches the list in <code>O(log n)</code> time. If the element is not found, it returns <code>-(insertion_point + 1)</code>.</li>
-          <li><code>if (i &lt; 0) i = -(i + 1);</code>: Converts a negative search result into the correct insertion point where the element should reside.</li>
-          <li><code>sub.set(i, num);</code>: The greedy replacement step. Lowering the tail element values increases our options for future numbers.</li>
+          <li><code>int i = Collections.binarySearch(sub, num);</code>: Searches the list in <code>O(log n)</code> time.
+            If the element is not found, it returns <code>-(insertion_point + 1)</code>.</li>
+          <li><code>if (i &lt; 0) i = -(i + 1);</code>: Converts a negative search result into the correct insertion
+            point where the element should reside.</li>
+          <li><code>sub.set(i, num);</code>: The greedy replacement step. Lowering the tail element values increases our
+            options for future numbers.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -247,25 +309,35 @@ public class LongestIncreasingSubsequence {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Dynamic programming alone solves the LIS problem in quadratic time. By combining subproblem storage with binary search, we optimize search operations, achieving a highly efficient <code>O(n log n)</code> solution.</p>
+        <p>Dynamic programming alone solves the LIS problem in quadratic time. By combining subproblem storage with
+          binary search, we optimize search operations, achieving a highly efficient <code>O(n log n)</code> solution.
+        </p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/house-robber.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding House Robber in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/edit-distance.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -273,44 +345,47 @@ public class LongestIncreasingSubsequence {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -319,18 +394,18 @@ public class LongestIncreasingSubsequence {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -339,4 +414,5 @@ public class LongestIncreasingSubsequence {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

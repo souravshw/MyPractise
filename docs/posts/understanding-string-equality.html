@@ -1,10 +1,11 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding String Equality in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-string-equality.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/understanding-string-equality.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Java",
-      "item": "https://enggnotes.com/index.html?category=Java"
+      "item": "https://www.enggnotes.com/index.html?category=Java"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding String Equality in Java",
-      "item": "https://enggnotes.com/posts/understanding-string-equality.html"
+      "item": "https://www.enggnotes.com/posts/understanding-string-equality.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn the difference between == and .equals() for String comparison in Java, explained simply with a smartphone analogy and a step-by-step code trace.">
-  <meta name="keywords" content="java string equality, string double equals vs equals, reference equality vs value equality, java string pool, understanding string, string equality, understanding java, string java, equality java, java java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
+  <meta name="description"
+    content="Learn the difference between == and .equals() for String comparison in Java, explained simply with a smartphone analogy and a step-by-step code trace.">
+  <meta name="keywords"
+    content="java string equality, string double equals vs equals, reference equality vs value equality, java string pool, understanding string, string equality, understanding java, string java, equality java, java java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding String Equality in Java | Engineering Notes">
-  <meta property="og:description" content="Learn the difference between == and .equals() for String comparison in Java, explained simply with a smartphone analogy.">
+  <meta property="og:description"
+    content="Learn the difference between == and .equals() for String comparison in Java, explained simply with a smartphone analogy.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,55 +44,83 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
 
-</header>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -97,7 +129,7 @@
           <li aria-current="page">String Equality</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,27 +143,41 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In Java, strings are objects. Because of this, comparing them is not as straightforward as comparing primitive values like numbers. Many beginners trip over comparing strings using <code>==</code>, leading to silent bugs that are hard to catch.</p>
-        
-        <p>In this guide, we will look at how Java handles string comparison under the hood and trace the execution of reference equality vs. value equality.</p>
+        <p>In Java, strings are objects. Because of this, comparing them is not as straightforward as comparing
+          primitive values like numbers. Many beginners trip over comparing strings using <code>==</code>, leading to
+          silent bugs that are hard to catch.</p>
+
+        <p>In this guide, we will look at how Java handles string comparison under the hood and trace the execution of
+          reference equality vs. value equality.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/string_equality_java.png" alt="Illustration of two identical smartphones compared under a magnifying glass, showing identity vs equality" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/string_equality_java.png"
+            alt="Illustration of two identical smartphones compared under a magnifying glass, showing identity vs equality"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: Identical Smartphones
           </div>
-          <p>Imagine you and your friend own the exact same model of a smartphone, in the same color, with the same configurations:</p>
+          <p>Imagine you and your friend own the exact same model of a smartphone, in the same color, with the same
+            configurations:</p>
           <ul>
-            <li><strong>Value Equality (<code>.equals()</code>):</strong> If you compare the features, specifications, and files on the two phones, they are equal. They contain the same data.</li>
-            <li><strong>Reference Equality (<code>==</code>):</strong> If you check if they are the <em>exact same physical phone</em>, they are not. They are two separate physical objects sitting in different places in your hands.</li>
+            <li><strong>Value Equality (<code>.equals()</code>):</strong> If you compare the features, specifications,
+              and files on the two phones, they are equal. They contain the same data.</li>
+            <li><strong>Reference Equality (<code>==</code>):</strong> If you check if they are the <em>exact same
+                physical phone</em>, they are not. They are two separate physical objects sitting in different places in
+              your hands.</li>
           </ul>
-          <p>In Java, <code>==</code> checks if the variables point to the same location in memory (the exact same physical object). <code>.equals()</code> compares the contents within the objects.</p>
+          <p>In Java, <code>==</code> checks if the variables point to the same location in memory (the exact same
+            physical object). <code>.equals()</code> compares the contents within the objects.</p>
         </div>
 
         <h2>Walkthrough of the Main Method Scenario</h2>
@@ -144,8 +190,9 @@
           <pre><code class="language-java">String s1 = "sourav";
 String s2 = new String(s1);</code></pre>
           <p>
-            Here, <code>s1</code> points to a string literal in Java's String Constant Pool. 
-            When we run <code>new String(s1)</code>, Java is forced to construct a completely new <code>String</code> object on the heap memory. 
+            Here, <code>s1</code> points to a string literal in Java's String Constant Pool.
+            When we run <code>new String(s1)</code>, Java is forced to construct a completely new <code>String</code>
+            object on the heap memory.
             They hold the same text, but occupy different locations in memory.
           </p>
         </div>
@@ -157,8 +204,8 @@ String s2 = new String(s1);</code></pre>
           <pre><code class="language-java">if (s1 == s2)
     System.out.println("s1 == s2");</code></pre>
           <p>
-            The JVM checks if the reference pointer of <code>s1</code> matches the reference pointer of <code>s2</code>. 
-            Since one is in the constant pool and the other is a heap object, the addresses are different. 
+            The JVM checks if the reference pointer of <code>s1</code> matches the reference pointer of <code>s2</code>.
+            Since one is in the constant pool and the other is a heap object, the addresses are different.
             The expression evaluates to <code>false</code>, and nothing is printed.
           </p>
         </div>
@@ -170,8 +217,9 @@ String s2 = new String(s1);</code></pre>
           <pre><code class="language-java">if (s1.equals(s2))
     System.out.println("s1.equals(s2)");</code></pre>
           <p>
-            The <code>.equals()</code> method in the <code>String</code> class is overridden to compare character-by-character. 
-            It walks through both strings, sees that both contain <code>"sourav"</code>, and returns <code>true</code>. 
+            The <code>.equals()</code> method in the <code>String</code> class is overridden to compare
+            character-by-character.
+            It walks through both strings, sees that both contain <code>"sourav"</code>, and returns <code>true</code>.
             The program prints: <code>s1.equals(s2)</code>.
           </p>
         </div>
@@ -196,25 +244,35 @@ public class StringEqulals {
 }</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Always use <code>.equals()</code> to compare strings when you care about their values (i.e. if the text is the same). Only use <code>==</code> if you specifically want to check if they are the exact same instance in memory.</p>
+        <p>Always use <code>.equals()</code> to compare strings when you care about their values (i.e. if the text is
+          the same). Only use <code>==</code> if you specifically want to check if they are the exact same instance in
+          memory.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/understanding-equals-hashcode-contract.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Demystifying the equals() and hashCode() Contract in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/understanding-advanced-java-enums.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -222,44 +280,52 @@ public class StringEqulals {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/understanding-java-duplicate-strings-heap.html" class="related-card-img">
-              <img src="../images/duplicate-strings-heap.svg" alt="Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+
+            <div class="related-card">
+              <a href="../posts/understanding-java-duplicate-strings-heap.html" class="related-card-img">
+                <img src="../images/duplicate-strings-heap.svg"
+                  alt="Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a
+                    href="../posts/understanding-java-duplicate-strings-heap.html">Understanding Duplicate Strings in
+                    Java Heap: Immutability vs. Uniqueness</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-java-duplicate-strings-heap.html">Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/java-serialization-transient.html" class="related-card-img">
-              <img src="../images/serialization-basic.svg" alt="Understanding Java Serialization & the Transient Keyword">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+            <div class="related-card">
+              <a href="../posts/java-serialization-transient.html" class="related-card-img">
+                <img src="../images/serialization-basic.svg"
+                  alt="Understanding Java Serialization & the Transient Keyword">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/java-serialization-transient.html">Understanding Java
+                    Serialization & the Transient Keyword</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/java-serialization-transient.html">Understanding Java Serialization & the Transient Keyword</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/understanding-class-initialization-blocks.html" class="related-card-img">
-              <img src="../images/java_initialization_blocks.png" alt="Understanding Java Class Initialization Order and Blocks">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+            <div class="related-card">
+              <a href="../posts/understanding-class-initialization-blocks.html" class="related-card-img">
+                <img src="../images/java_initialization_blocks.png"
+                  alt="Understanding Java Class Initialization Order and Blocks">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a
+                    href="../posts/understanding-class-initialization-blocks.html">Understanding Java Class
+                    Initialization Order and Blocks</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-class-initialization-blocks.html">Understanding Java Class Initialization Order and Blocks</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -268,19 +334,19 @@ public class StringEqulals {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
 
-</footer>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -289,4 +355,5 @@ public class StringEqulals {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

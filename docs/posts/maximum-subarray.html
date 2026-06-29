@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Maximum Subarray (Kadane's Algorithm) in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/maximum-subarray.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/maximum-subarray.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Maximum Subarray (Kadane's Algorithm)",
-      "item": "https://enggnotes.com/posts/maximum-subarray.html"
+      "item": "https://www.enggnotes.com/posts/maximum-subarray.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn Kadane's algorithm to find the contiguous subarray with the largest sum in O(n) time.">
-  <meta name="keywords" content="maximum subarray (kadane's algorithm) java, java maximum subarray (kadane's algorithm) tutorial, optimized maximum subarray (kadane's algorithm) solution, how to solve maximum subarray (kadane's algorithm), maximum subarray (kadane's algorithm) leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, maximum subarray (kadane's algorithm) example, hashmap maximum subarray (kadane's algorithm) java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description"
+    content="Learn Kadane's algorithm to find the contiguous subarray with the largest sum in O(n) time.">
+  <meta name="keywords"
+    content="maximum subarray (kadane's algorithm) java, java maximum subarray (kadane's algorithm) tutorial, optimized maximum subarray (kadane's algorithm) solution, how to solve maximum subarray (kadane's algorithm), maximum subarray (kadane's algorithm) leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, maximum subarray (kadane's algorithm) example, hashmap maximum subarray (kadane's algorithm) java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Maximum Subarray (Kadane's Algorithm) in Java | Engineering Notes">
-  <meta property="og:description" content="Learn Kadane's algorithm to find the contiguous subarray with the largest sum in O(n) time.">
+  <meta property="og:description"
+    content="Learn Kadane's algorithm to find the contiguous subarray with the largest sum in O(n) time.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +44,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +128,7 @@
           <li aria-current="page">Maximum Subarray (Kadane's Algorithm)</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,34 +143,57 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Maximum Subarray</strong> problem asks us to find a contiguous subarray within a one-dimensional array of numbers (which contains at least one positive number) that has the largest sum.</p>
-        <p>For example, in the array <code>[-2, 1, -3, 4, -1, 2, 1, -5, 4]</code>, the contiguous subarray with the largest sum is <code>[4, -1, 2, 1]</code>, which sums up to <code>6</code>. Finding this efficiently is critical because contiguous sequence maximization is a common subproblem in data analysis and signal processing.</p>
+        <p>The <strong>Maximum Subarray</strong> problem asks us to find a contiguous subarray within a one-dimensional
+          array of numbers (which contains at least one positive number) that has the largest sum.</p>
+        <p>For example, in the array <code>[-2, 1, -3, 4, -1, 2, 1, -5, 4]</code>, the contiguous subarray with the
+          largest sum is <code>[4, -1, 2, 1]</code>, which sums up to <code>6</code>. Finding this efficiently is
+          critical because contiguous sequence maximization is a common subproblem in data analysis and signal
+          processing.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/maximum_subarray.svg" alt="Illustration of Kadane's Algorithm finding Maximum Subarray in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/maximum_subarray.svg"
+            alt="Illustration of Kadane's Algorithm finding Maximum Subarray in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Rollercoaster Happiness Tracker
           </div>
-          <p>Imagine riding a rollercoaster with positive highs (thrill) and negative drops (fear/boredom). You want to identify the single continuous segment of the ride that gave you the absolute highest aggregate happiness. As you traverse the track, you keep track of your running streak of happiness. If your cumulative happiness drops below zero, it means the sequence is actually dragging you down; so you discard it, reset your running streak, and start tracking a new streak from the next point. Throughout the entire ride, you note down the highest happiness score your streak ever reached. That peak score is the maximum subarray sum!</p>
+          <p>Imagine riding a rollercoaster with positive highs (thrill) and negative drops (fear/boredom). You want to
+            identify the single continuous segment of the ride that gave you the absolute highest aggregate happiness.
+            As you traverse the track, you keep track of your running streak of happiness. If your cumulative happiness
+            drops below zero, it means the sequence is actually dragging you down; so you discard it, reset your running
+            streak, and start tracking a new streak from the next point. Throughout the entire ride, you note down the
+            highest happiness score your streak ever reached. That peak score is the maximum subarray sum!</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>1. The Naive Approach (O(n²))</h3>
-        <p>We can check every possible starting and ending index for all subarrays, sum their elements, and record the maximum. This requires two nested loops, yielding a time complexity of <code>O(n²)</code>. For large datasets, this approach is extremely slow and impractical.</p>
+        <p>We can check every possible starting and ending index for all subarrays, sum their elements, and record the
+          maximum. This requires two nested loops, yielding a time complexity of <code>O(n²)</code>. For large datasets,
+          this approach is extremely slow and impractical.</p>
 
         <h3>2. Kadane's Algorithm (O(n) Time, O(1) Space)</h3>
-        <p>Kadane's algorithm is a classic dynamic programming technique that solves the problem in a single pass. At each index, we make a local greedy decision: Is it better to add the current element to our existing running sum, or should we discard the current sum and start a brand-new subarray starting exactly at the current element? By taking <code>Math.max(nums[i], currSum + nums[i])</code>, we dynamically build the optimal subarray sum in <code>O(n)</code> time using only <code>O(1)</code> extra space.</p>
+        <p>Kadane's algorithm is a classic dynamic programming technique that solves the problem in a single pass. At
+          each index, we make a local greedy decision: Is it better to add the current element to our existing running
+          sum, or should we discard the current sum and start a brand-new subarray starting exactly at the current
+          element? By taking <code>Math.max(nums[i], currSum + nums[i])</code>, we dynamically build the optimal
+          subarray sum in <code>O(n)</code> time using only <code>O(1)</code> extra space.</p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
         <p>Let's trace Kadane's algorithm on the input array <code>nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]</code>:</p>
         <ol>
-          <li><strong>Step 1 (Initialization):</strong> We initialize two variables: <code>currSum</code> (current running subarray sum) and <code>maxSum</code> (global maximum subarray sum seen so far). We set both to the first element of the array:
+          <li><strong>Step 1 (Initialization):</strong> We initialize two variables: <code>currSum</code> (current
+            running subarray sum) and <code>maxSum</code> (global maximum subarray sum seen so far). We set both to the
+            first element of the array:
             <ul>
               <li><code>currSum = -2</code></li>
               <li><code>maxSum = -2</code></li>
@@ -146,7 +201,8 @@
           </li>
           <li><strong>Step 2 (Index i = 1, Value = 1):</strong>
             <ul>
-              <li>We compare the current element <code>1</code> against the sum of the element and the previous running sum: <code>Math.max(1, currSum + 1) = Math.max(1, -2 + 1) = 1</code>.</li>
+              <li>We compare the current element <code>1</code> against the sum of the element and the previous running
+                sum: <code>Math.max(1, currSum + 1) = Math.max(1, -2 + 1) = 1</code>.</li>
               <li>So, <code>currSum = 1</code> (we discard the negative history and start a new subarray here).</li>
               <li>Update global maximum: <code>maxSum = Math.max(maxSum, currSum) = Math.max(-2, 1) = 1</code>.</li>
             </ul>
@@ -154,14 +210,16 @@
           <li><strong>Step 3 (Index i = 2, Value = -3):</strong>
             <ul>
               <li>Calculate new running sum: <code>Math.max(-3, currSum + (-3)) = Math.max(-3, 1 - 3) = -2</code>.</li>
-              <li>So, <code>currSum = -2</code> (we continue the subarray because <code>-2</code> is better than starting fresh with <code>-3</code>).</li>
+              <li>So, <code>currSum = -2</code> (we continue the subarray because <code>-2</code> is better than
+                starting fresh with <code>-3</code>).</li>
               <li>Update global maximum: <code>maxSum = Math.max(1, -2) = 1</code>.</li>
             </ul>
           </li>
           <li><strong>Step 4 (Index i = 3, Value = 4):</strong>
             <ul>
               <li>Calculate new running sum: <code>Math.max(4, currSum + 4) = Math.max(4, -2 + 4) = 4</code>.</li>
-              <li>So, <code>currSum = 4</code> (we start a new subarray since <code>4</code> is greater than the accumulated <code>2</code>).</li>
+              <li>So, <code>currSum = 4</code> (we start a new subarray since <code>4</code> is greater than the
+                accumulated <code>2</code>).</li>
               <li>Update global maximum: <code>maxSum = Math.max(1, 4) = 4</code>.</li>
             </ul>
           </li>
@@ -195,18 +253,23 @@
               <li>Update global maximum: <code>maxSum = Math.max(6, 5) = 6</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 10 (Completion):</strong> The iteration completes, and the maximum subarray sum recorded is <code>6</code> (corresponding to the segment <code>[4, -1, 2, 1]</code>).</li>
+          <li><strong>Step 10 (Completion):</strong> The iteration completes, and the maximum subarray sum recorded is
+            <code>6</code> (corresponding to the segment <code>[4, -1, 2, 1]</code>).</li>
         </ol>
 
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>currSum = Math.max(nums[i], currSum + nums[i])</code>: This is the core dynamic programming state transition. It decides whether the current element should extend the previous subarray or start a new one.</li>
-          <li><code>maxSum = Math.max(maxSum, currSum)</code>: This ensures we capture the peak value of <code>currSum</code> at any point during the single-pass traversal.</li>
+          <li><code>currSum = Math.max(nums[i], currSum + nums[i])</code>: This is the core dynamic programming state
+            transition. It decides whether the current element should extend the previous subarray or start a new one.
+          </li>
+          <li><code>maxSum = Math.max(maxSum, currSum)</code>: This ensures we capture the peak value of
+            <code>currSum</code> at any point during the single-pass traversal.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -261,25 +324,35 @@ public class MaximumSubarray {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Maximum Subarray (Kadane's Algorithm)</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Solving the <strong>Maximum Subarray (Kadane's Algorithm)</strong> problem highlights how we can leverage key
+          data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to
+          significantly optimize runtime and simplify code complexity.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/two-sum.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Two Sum in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/move-zeroes.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -287,44 +360,47 @@ public class MaximumSubarray {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -333,18 +409,18 @@ public class MaximumSubarray {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -353,4 +429,5 @@ public class MaximumSubarray {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

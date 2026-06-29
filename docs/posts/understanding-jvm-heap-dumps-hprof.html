@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding JVM Heap Dumps: A Layman's Guide to HPROF Files | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-jvm-heap-dumps-hprof.html">
+  <link class="canonical" rel="canonical"
+    href="https://www.enggnotes.com/posts/understanding-jvm-heap-dumps-hprof.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +15,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Java Concurrency",
-      "item": "https://enggnotes.com/index.html?category=Java%20Concurrency"
+      "item": "https://www.enggnotes.com/index.html?category=Java%20Concurrency"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding JVM Heap Dumps: A Layman's Guide to HPROF Files",
-      "item": "https://enggnotes.com/posts/understanding-jvm-heap-dumps-hprof.html"
+      "item": "https://www.enggnotes.com/posts/understanding-jvm-heap-dumps-hprof.html"
     }]
   }
   </script>
-  <meta name="description" content="Demystify JVM heap dumps and HPROF files. Learn what they contain, how to analyze them, and how to spot common memory leaks and pitfalls using simple analogies.">
-  <meta name="keywords" content="jvm heap dump, hprof file, memory leak java, shallow size retained size, eclipse mat analysis, java heap dump analysis, layman java memory, java garbage collection, heap analysis, static map leak, threadlocal leak, understanding jvm, jvm heap, understanding java, jvm java, heap java, dumps java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
+  <meta name="description"
+    content="Demystify JVM heap dumps and HPROF files. Learn what they contain, how to analyze them, and how to spot common memory leaks and pitfalls using simple analogies.">
+  <meta name="keywords"
+    content="jvm heap dump, hprof file, memory leak java, shallow size retained size, eclipse mat analysis, java heap dump analysis, layman java memory, java garbage collection, heap analysis, static map leak, threadlocal leak, understanding jvm, jvm heap, understanding java, jvm java, heap java, dumps java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding JVM Heap Dumps: A Layman's Guide to HPROF Files | Engineering Notes">
-  <meta property="og:description" content="Demystify JVM heap dumps and HPROF files. Learn what they contain, how to analyze them, and how to spot common memory leaks and pitfalls using simple analogies.">
+  <meta property="og:description"
+    content="Demystify JVM heap dumps and HPROF files. Learn what they contain, how to analyze them, and how to spot common memory leaks and pitfalls using simple analogies.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,64 +45,92 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
 
-</header>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
-         <ol>
-           <li><a href="../index.html">Home</a></li>
-           <li><a href="../index.html?category=Java Concurrency">Java Concurrency</a></li>
-           <li aria-current="page">Troubleshooting</li>
-         </ol>
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java Concurrency">Java Concurrency</a></li>
+          <li aria-current="page">Troubleshooting</li>
+        </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,66 +144,103 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Imagine your Java application is a busy restaurant kitchen. Ingredients are arriving, chefs are cooking, and plates are going out to tables. But slowly, the kitchen runs out of workspace. Plates of half-eaten food are stacking up, and eventually, the entire operation grinds to a halt with an <code>OutOfMemoryError</code>. If you want to know why this happened, you need to take a snapshot of the kitchen at that exact moment. <strong>In the Java world, that snapshot is a Heap Dump, stored as an HPROF file.</strong></p>
-        
-        <p>In this guide, we will break down what an HPROF file is, how to read it without getting lost in the binary weeds, and how to spot common memory issues using simple, real-world analogies.</p>
+        <p>Imagine your Java application is a busy restaurant kitchen. Ingredients are arriving, chefs are cooking, and
+          plates are going out to tables. But slowly, the kitchen runs out of workspace. Plates of half-eaten food are
+          stacking up, and eventually, the entire operation grinds to a halt with an <code>OutOfMemoryError</code>. If
+          you want to know why this happened, you need to take a snapshot of the kitchen at that exact moment.
+          <strong>In the Java world, that snapshot is a Heap Dump, stored as an HPROF file.</strong></p>
+
+        <p>In this guide, we will break down what an HPROF file is, how to read it without getting lost in the binary
+          weeds, and how to spot common memory issues using simple, real-world analogies.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/jvm-heap-dump-analysis.svg" alt="Anatomy of a JVM Heap Dump diagram" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/jvm-heap-dump-analysis.svg" alt="Anatomy of a JVM Heap Dump diagram"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Analogy: The Warehouse Audit
           </div>
-          <p>If looking at application logs or metrics is like watching a live security camera feed of a warehouse, taking a <strong>heap dump</strong> is like stopping time, freezing all the workers, and writing down an exhaustive inventory list of every single box, its weight, where it sits, and who owns it. The <strong>HPROF (.hprof) file</strong> is the resulting inventory catalog sheet.</p>
+          <p>If looking at application logs or metrics is like watching a live security camera feed of a warehouse,
+            taking a <strong>heap dump</strong> is like stopping time, freezing all the workers, and writing down an
+            exhaustive inventory list of every single box, its weight, where it sits, and who owns it. The <strong>HPROF
+              (.hprof) file</strong> is the resulting inventory catalog sheet.</p>
         </div>
 
         <h2>What Does the HPROF File Actually Contain?</h2>
-        <p>Because there could be millions of objects in a Java program, storing this inventory sheet as plain text would produce massive files. That's why the HPROF file is saved in a compressed binary format. Inside it, you will find:</p>
+        <p>Because there could be millions of objects in a Java program, storing this inventory sheet as plain text
+          would produce massive files. That's why the HPROF file is saved in a compressed binary format. Inside it, you
+          will find:</p>
         <ul>
-          <li><strong>Every Active Object:</strong> Its class type (e.g., String, HashMap, custom User class), its location in memory (address), and the values of its fields.</li>
+          <li><strong>Every Active Object:</strong> Its class type (e.g., String, HashMap, custom User class), its
+            location in memory (address), and the values of its fields.</li>
           <li><strong>All Loaded Classes:</strong> The template rules used to build those objects.</li>
-          <li><strong>Thread Stacks (GC Roots):</strong> The active execution lines. Think of these as "anchors" holding onto items. If an item is anchored, the Garbage Collector cannot sweep it away.</li>
+          <li><strong>Thread Stacks (GC Roots):</strong> The active execution lines. Think of these as "anchors" holding
+            onto items. If an item is anchored, the Garbage Collector cannot sweep it away.</li>
         </ul>
 
         <h2>Understanding the Key Metrics</h2>
-        <p>When you open a heap dump in a tool like <strong>Eclipse Memory Analyzer (MAT)</strong>, you will immediately see two metrics for every object. Understanding the difference between them is the key to finding memory leaks.</p>
+        <p>When you open a heap dump in a tool like <strong>Eclipse Memory Analyzer (MAT)</strong>, you will immediately
+          see two metrics for every object. Understanding the difference between them is the key to finding memory
+          leaks.</p>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
-          <div style="background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
+          <div
+            style="background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
             <h3 style="margin-top: 0; color: var(--accent-color);">1. Shallow Size</h3>
-            <p><strong>The empty backpack weight.</strong> This is the memory consumed by the object itself (typically its headers and placeholder variable slots). It does not include the weight of items inside the backpack.</p>
+            <p><strong>The empty backpack weight.</strong> This is the memory consumed by the object itself (typically
+              its headers and placeholder variable slots). It does not include the weight of items inside the backpack.
+            </p>
           </div>
-          <div style="background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
+          <div
+            style="background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
             <h3 style="margin-top: 0; color: #fbbf24;">2. Retained Size</h3>
-            <p><strong>The total backpack package weight.</strong> This is the memory that would be freed if this object were garbage collected. It includes the object's shallow size plus everything it holds that is <em>exclusively</em> reachable through it.</p>
+            <p><strong>The total backpack package weight.</strong> This is the memory that would be freed if this object
+              were garbage collected. It includes the object's shallow size plus everything it holds that is
+              <em>exclusively</em> reachable through it.</p>
           </div>
         </div>
 
         <blockquote>
-          <p><strong>The Exclusive Rule:</strong> If you discard a backpack, you also discard the sandwich inside it—so the sandwich's weight counts towards the backpack's <em>Retained Size</em>. But if someone else is holding a string tied to the sandwich, discarding the backpack won't free the sandwich. Therefore, the sandwich's weight does not count towards that backpack's retained size.</p>
+          <p><strong>The Exclusive Rule:</strong> If you discard a backpack, you also discard the sandwich inside it—so
+            the sandwich's weight counts towards the backpack's <em>Retained Size</em>. But if someone else is holding a
+            string tied to the sandwich, discarding the backpack won't free the sandwich. Therefore, the sandwich's
+            weight does not count towards that backpack's retained size.</p>
         </blockquote>
 
         <h2>How to Analyze the HPROF File (Step-by-Step)</h2>
-        
+
         <h4 style="color:var(--accent-color);">Step A: Run the Auto-Detective (Leak Suspects)</h4>
-        <p>Open Eclipse MAT and load your `.hprof` file. MAT will ask you if you want to run the <strong>Leak Suspects Report</strong>. Always say yes. MAT automatically looks for objects whose retained size is disproportionately large (e.g., one class holding 80% of the entire heap) and prints a pie chart highlighting the suspect.</p>
+        <p>Open Eclipse MAT and load your `.hprof` file. MAT will ask you if you want to run the <strong>Leak Suspects
+            Report</strong>. Always say yes. MAT automatically looks for objects whose retained size is
+          disproportionately large (e.g., one class holding 80% of the entire heap) and prints a pie chart highlighting
+          the suspect.</p>
 
         <h4 style="color:var(--accent-color);">Step B: Check the Dominator Tree</h4>
-        <p>If the auto-report doesn't give you a clear answer, open the <strong>Dominator Tree</strong> view. This lists all objects sorted by their Retained Size in descending order. It works like a corporate hierarchy chart: the object at the top dominates (holds references to) all the objects underneath it.</p>
+        <p>If the auto-report doesn't give you a clear answer, open the <strong>Dominator Tree</strong> view. This lists
+          all objects sorted by their Retained Size in descending order. It works like a corporate hierarchy chart: the
+          object at the top dominates (holds references to) all the objects underneath it.</p>
 
         <h4 style="color:var(--accent-color);">Step C: Trace the "Path to GC Roots"</h4>
-        <p>Once you find a suspect object that is taking up too much memory, right-click it and choose <strong>Path to GC Roots ➔ exclude all phantom/weak/soft references</strong>. This traces the reference chain back to the active thread or static variable holding onto the object. Your bug lies where this reference chain intersects with your custom code.</p>
+        <p>Once you find a suspect object that is taking up too much memory, right-click it and choose <strong>Path to
+            GC Roots ➔ exclude all phantom/weak/soft references</strong>. This traces the reference chain back to the
+          active thread or static variable holding onto the object. Your bug lies where this reference chain intersects
+          with your custom code.</p>
 
         <h2>Common Production Pitfalls & Memory Concerns</h2>
         <p>Most Java memory issues boil down to three common patterns. Here is how to recognize and fix them:</p>
 
         <h3>1. The "Receipt Drawer" (Static Collection Leak)</h3>
-        <p><strong>The Code Pattern:</strong> An object keeps storing entries in a static map or list, but never deletes old records.</p>
+        <p><strong>The Code Pattern:</strong> An object keeps storing entries in a static map or list, but never deletes
+          old records.</p>
         <pre><code class="language-java">public class TransactionRegistry {
     // This collection lives forever because it is static
     private static final Map<String, Transaction> cache = new HashMap<>();
@@ -179,11 +249,14 @@
         cache.put(tx.getId(), tx); // We add, but never call cache.remove()!
     }
 }</code></pre>
-        <p><strong>How it looks in HPROF:</strong> A single <code>java.util.HashMap</code> object with a massive Retained Size, holding millions of <code>HashMap$Node</code> instances.</p>
-        <p><strong>The Fix:</strong> Use a bounded cache with eviction policies (e.g. Caffeine or Guava Cache) or use weak references so the JVM can reclaim elements when memory is tight.</p>
+        <p><strong>How it looks in HPROF:</strong> A single <code>java.util.HashMap</code> object with a massive
+          Retained Size, holding millions of <code>HashMap$Node</code> instances.</p>
+        <p><strong>The Fix:</strong> Use a bounded cache with eviction policies (e.g. Caffeine or Guava Cache) or use
+          weak references so the JVM can reclaim elements when memory is tight.</p>
 
         <h3>2. The "Dirty Towel" (ThreadLocal Leak)</h3>
-        <p><strong>The Code Pattern:</strong> Storing variables in a <code>ThreadLocal</code> container but failing to clean them up when a request finishes.</p>
+        <p><strong>The Code Pattern:</strong> Storing variables in a <code>ThreadLocal</code> container but failing to
+          clean them up when a request finishes.</p>
         <pre><code class="language-java">public class UserContextFilter implements Filter {
     private static final ThreadLocal<UserContext> context = new ThreadLocal<>();
 
@@ -193,7 +266,9 @@
         // PITFALL: Missing context.remove()!
     }
 }</code></pre>
-        <p><strong>How it looks in HPROF:</strong> Expand the application server threads (e.g., Tomcat HTTP threads) in the dominator tree. You will see <code>java.lang.ThreadLocal$ThreadLocalMap</code> taking up megabytes of memory for each thread.</p>
+        <p><strong>How it looks in HPROF:</strong> Expand the application server threads (e.g., Tomcat HTTP threads) in
+          the dominator tree. You will see <code>java.lang.ThreadLocal$ThreadLocalMap</code> taking up megabytes of
+          memory for each thread.</p>
         <p><strong>The Fix:</strong> Always clear the thread local reference in a <code>finally</code> block:</p>
         <pre><code class="language-java">try {
     context.set(new UserContext(req));
@@ -203,11 +278,15 @@
 }</code></pre>
 
         <h3>3. The "Encyclopedia Fetch" (Oversized Query Leak)</h3>
-        <p><strong>The Code Pattern:</strong> Querying the database for all records at once instead of paginating results.</p>
+        <p><strong>The Code Pattern:</strong> Querying the database for all records at once instead of paginating
+          results.</p>
         <pre><code class="language-java">// Querying 1,000,000 rows into memory
 List<Product> products = productRepository.findAll(); </code></pre>
-        <p><strong>How it looks in HPROF:</strong> You will see a thread stack frame holding a massive list of database row representations (e.g., <code>byte[][]</code> or <code>Object[]</code> rows inside a JDBC driver instance).</p>
-        <p><strong>The Fix:</strong> Implement database-level pagination using <code>Limit</code>/<code>Offset</code>, or stream results using database cursors rather than loading the entire collection into the heap at once.</p>
+        <p><strong>How it looks in HPROF:</strong> You will see a thread stack frame holding a massive list of database
+          row representations (e.g., <code>byte[][]</code> or <code>Object[]</code> rows inside a JDBC driver instance).
+        </p>
+        <p><strong>The Fix:</strong> Implement database-level pagination using <code>Limit</code>/<code>Offset</code>,
+          or stream results using database cursors rather than loading the entire collection into the heap at once.</p>
 
         <h2>Summary Checklist</h2>
         <table>
@@ -245,65 +324,79 @@ List<Product> products = productRepository.findAll(); </code></pre>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/jvm-hung-production-troubleshooting-guide.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">JVM is Hung in Production: Step-by-Step Troubleshooting Guide</span>
             </div>
           </a>
-          
+
           <a href="../posts/understanding-java-duplicate-strings-heap.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
-              <span class="nav-card-title">Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness</span>
+              <span class="nav-card-title">Understanding Duplicate Strings in Java Heap: Immutability vs.
+                Uniqueness</span>
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/jvm-hung-production-troubleshooting-guide.html" class="related-card-img">
-              <img src="../images/jvm-hung-troubleshooting.svg" alt="JVM is Hung in Production: Step-by-Step Troubleshooting Guide">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Concurrency</span>
+
+            <div class="related-card">
+              <a href="../posts/jvm-hung-production-troubleshooting-guide.html" class="related-card-img">
+                <img src="../images/jvm-hung-troubleshooting.svg"
+                  alt="JVM is Hung in Production: Step-by-Step Troubleshooting Guide">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Concurrency</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/jvm-hung-production-troubleshooting-guide.html">JVM is
+                    Hung in Production: Step-by-Step Troubleshooting Guide</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/jvm-hung-production-troubleshooting-guide.html">JVM is Hung in Production: Step-by-Step Troubleshooting Guide</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/java-semaphores-rate-limiting.html" class="related-card-img">
-              <img src="../images/java-semaphores.svg" alt="Understanding Java Semaphores: Rate Limiting & Concurrency Control">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Concurrency</span>
+            <div class="related-card">
+              <a href="../posts/java-semaphores-rate-limiting.html" class="related-card-img">
+                <img src="../images/java-semaphores.svg"
+                  alt="Understanding Java Semaphores: Rate Limiting & Concurrency Control">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Concurrency</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/java-semaphores-rate-limiting.html">Understanding Java
+                    Semaphores: Rate Limiting & Concurrency Control</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/java-semaphores-rate-limiting.html">Understanding Java Semaphores: Rate Limiting & Concurrency Control</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/understanding-deadlock-synchronized.html" class="related-card-img">
-              <img src="../images/deadlock_synchronized.png" alt="Understanding Java's Synchronized Deadlocks">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Concurrency</span>
+            <div class="related-card">
+              <a href="../posts/understanding-deadlock-synchronized.html" class="related-card-img">
+                <img src="../images/deadlock_synchronized.png" alt="Understanding Java's Synchronized Deadlocks">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Concurrency</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/understanding-deadlock-synchronized.html">Understanding
+                    Java's Synchronized Deadlocks</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-deadlock-synchronized.html">Understanding Java's Synchronized Deadlocks</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -313,19 +406,19 @@ List<Product> products = productRepository.findAll(); </code></pre>
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
 
-</footer>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -334,4 +427,5 @@ List<Product> products = productRepository.findAll(); </code></pre>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

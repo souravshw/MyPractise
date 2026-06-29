@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Handling Message Ordering in Kafka Across Partitions | Engineering Notes</title>
-  <link rel="canonical" href="https://enggnotes.com/posts/kafka-message-ordering-partitions.html">
+  <link rel="canonical" href="https://www.enggnotes.com/posts/kafka-message-ordering-partitions.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Kafka & Distributed Systems",
-      "item": "https://enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
+      "item": "https://www.enggnotes.com/index.html?category=Kafka%20%26%20Distributed%20Systems"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Kafka Message Ordering",
-      "item": "https://enggnotes.com/posts/kafka-message-ordering-partitions.html"
+      "item": "https://www.enggnotes.com/posts/kafka-message-ordering-partitions.html"
     }]
   }
   </script>
-  <meta name="description" content="Discover how to maintain event ordering in Apache Kafka. Compare single partition topics, key-based routing, and consumer-side resequencing techniques.">
-  <meta name="keywords" content="message ordering partitions, partition key routing, custom partitioner, sequence numbers, event sequencing, handling message, message ordering, handling java, message java, ordering java, kafka java, apache kafka, event streaming, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture">
+  <meta name="description"
+    content="Discover how to maintain event ordering in Apache Kafka. Compare single partition topics, key-based routing, and consumer-side resequencing techniques.">
+  <meta name="keywords"
+    content="message ordering partitions, partition key routing, custom partitioner, sequence numbers, event sequencing, handling message, message ordering, handling java, message java, ordering java, kafka java, apache kafka, event streaming, message broker, distributed systems, real-time data pipelines, kafka tutorial, event-driven architecture, backend engineering, system design, software architecture">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Handling Message Ordering in Kafka Across Partitions | Engineering Notes">
-  <meta property="og:description" content="Explore Kafka's per-partition ordering guarantees and learn how to implement key-based routing to ensure sequential event processing.">
+  <meta property="og:description"
+    content="Explore Kafka's per-partition ordering guarantees and learn how to implement key-based routing to ensure sequential event processing.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,55 +44,83 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
 
-</header>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -97,7 +129,7 @@
           <li aria-current="page">Message Ordering</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,42 +143,61 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>A fundamental rule of Apache Kafka is that <strong>message order is guaranteed only within a single partition</strong>. There is no global ordering across different partitions in a topic.</p>
-        
-        <p>If you have an application where events must be processed in the exact order they occurred (like user profile updates, or financial deposit/withdrawal sequences), you must design your architecture to preserve this order.</p>
+        <p>A fundamental rule of Apache Kafka is that <strong>message order is guaranteed only within a single
+            partition</strong>. There is no global ordering across different partitions in a topic.</p>
+
+        <p>If you have an application where events must be processed in the exact order they occurred (like user profile
+          updates, or financial deposit/withdrawal sequences), you must design your architecture to preserve this order.
+        </p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/kafka-ordering.svg" alt="Visualizing per-partition message ordering and routing in Kafka" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/kafka-ordering.svg" alt="Visualizing per-partition message ordering and routing in Kafka"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: Courier Delivery Trucks
           </div>
-          <p>Imagine you run a retail delivery company. A customer orders a table in parts: <strong>Part A (table legs)</strong> and <strong>Part B (table top)</strong>.</p>
-          <p>If you load Part A onto Truck 1 (Partition 1) and Part B onto Truck 2 (Partition 2), the trucks will take different routes. Truck 2 might arrive first, leaving the customer with a table top but no legs. </p>
-          <p>To ensure Part A is received before Part B, you must load <strong>both packages onto the exact same truck (Partition)</strong> in the correct sequence. The driver will then deliver them in the exact order they were loaded.</p>
+          <p>Imagine you run a retail delivery company. A customer orders a table in parts: <strong>Part A (table
+              legs)</strong> and <strong>Part B (table top)</strong>.</p>
+          <p>If you load Part A onto Truck 1 (Partition 1) and Part B onto Truck 2 (Partition 2), the trucks will take
+            different routes. Truck 2 might arrive first, leaving the customer with a table top but no legs. </p>
+          <p>To ensure Part A is received before Part B, you must load <strong>both packages onto the exact same truck
+              (Partition)</strong> in the correct sequence. The driver will then deliver them in the exact order they
+            were loaded.</p>
         </div>
 
         <h2>Strategies to Handle Ordering in Kafka</h2>
-        
+
         <h3>1. Single-Partition Topic (Total Ordering)</h3>
         <p>The simplest way to guarantee global order is to create a topic with only <strong>one partition</strong>.</p>
         <ul>
-          <li><strong>How it works:</strong> All records are sent to Partition 0. Only one consumer thread in a group can read from it, guaranteeing absolute sequential processing.</li>
-          <li><strong>Trade-off:</strong> It completely eliminates horizontal scalability. Your throughput is bottlenecked by the speed of a single consumer thread. Use this only for low-throughput configuration topics.</li>
+          <li><strong>How it works:</strong> All records are sent to Partition 0. Only one consumer thread in a group
+            can read from it, guaranteeing absolute sequential processing.</li>
+          <li><strong>Trade-off:</strong> It completely eliminates horizontal scalability. Your throughput is
+            bottlenecked by the speed of a single consumer thread. Use this only for low-throughput configuration
+            topics.</li>
         </ul>
 
         <h3>2. Key-Based Routing (Per-Entity Ordering)</h3>
-        <p>In most real-world scenarios, you do not need global topic-wide ordering. You only need ordering <strong>for a specific user, transaction, or device</strong>.</p>
+        <p>In most real-world scenarios, you do not need global topic-wide ordering. You only need ordering <strong>for
+            a specific user, transaction, or device</strong>.</p>
         <ul>
-          <li><strong>How it works:</strong> Assign a logical key (such as <code>userId</code> or <code>orderId</code>) to your messages. Kafka hashes the key (using the Murmur2 algorithm by default) and routes all messages with that same key to the exact same partition.</li>
-          <li><strong>Benefit:</strong> Different users' events are processed in parallel across multiple partitions, but any single user's events are processed in the exact sequence they were produced.</li>
+          <li><strong>How it works:</strong> Assign a logical key (such as <code>userId</code> or <code>orderId</code>)
+            to your messages. Kafka hashes the key (using the Murmur2 algorithm by default) and routes all messages with
+            that same key to the exact same partition.</li>
+          <li><strong>Benefit:</strong> Different users' events are processed in parallel across multiple partitions,
+            but any single user's events are processed in the exact sequence they were produced.</li>
         </ul>
-        
+
         <pre><code class="language-java">// Producing with a key to guarantee partition routing
 String key = "user-id-54321";
 String eventPayload = "{\"action\":\"ADD_TO_CART\",\"item\":\"laptop\"}";
@@ -159,35 +210,51 @@ ProducerRecord&lt;String, String&gt; record = new ProducerRecord&gt;&lt;(
 producer.send(record);</code></pre>
 
         <h3>3. Producer Client Configuration</h3>
-        <p>Even with key-based routing, network retries can scramble message order. If the producer sends message 1, it fails, then it sends message 2 successfully, and then retries message 1 successfully, the broker stores them as `[Message 2, Message 1]`.</p>
-        <p>To prevent this, configure the producer with <strong>idempotence enabled</strong> or restrict flight requests:</p>
+        <p>Even with key-based routing, network retries can scramble message order. If the producer sends message 1, it
+          fails, then it sends message 2 successfully, and then retries message 1 successfully, the broker stores them
+          as `[Message 2, Message 1]`.</p>
+        <p>To prevent this, configure the producer with <strong>idempotence enabled</strong> or restrict flight
+          requests:</p>
         <pre><code class="language-properties"># Prevent retry ordering inversion
 enable.idempotence=true
 max.in.flight.requests.per.connection=5</code></pre>
 
         <h3>4. Application-Level Resequencing</h3>
-        <p>If you must read from multiple partitions and sort them, embed a <strong>sequence number</strong> or <strong>timestamp</strong> in the payload. The consumer can buffer incoming messages in a local window (using a tool like Kafka Streams or an in-memory priority queue) and sort them before triggering the database updates.</p>
+        <p>If you must read from multiple partitions and sort them, embed a <strong>sequence number</strong> or
+          <strong>timestamp</strong> in the payload. The consumer can buffer incoming messages in a local window (using
+          a tool like Kafka Streams or an in-memory priority queue) and sort them before triggering the database
+          updates.</p>
 
         <h2>Conclusion</h2>
-        <p>For high-throughput systems, use <strong>Key-Based Routing</strong> with a unique entity ID as the message key. Combine this with an <strong>Idempotent Producer</strong> configuration to guarantee that network retries never shuffle your event sequences.</p>
+        <p>For high-throughput systems, use <strong>Key-Based Routing</strong> with a unique entity ID as the message
+          key. Combine this with an <strong>Idempotent Producer</strong> configuration to guarantee that network retries
+          never shuffle your event sequences.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/kafka-order-processing-system-design.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Designing a Kafka-Based Order Processing System</span>
             </div>
           </a>
-          
+
           <a href="../posts/kafka-zero-data-loss-configuration.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -195,44 +262,48 @@ max.in.flight.requests.per.connection=5</code></pre>
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/kafka-schema-evolution-registry.html" class="related-card-img">
-              <img src="../images/kafka-schema-registry.svg" alt="Handling Schema Evolution in Kafka with Schema Registry">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Kafka & Distributed Systems</span>
+
+            <div class="related-card">
+              <a href="../posts/kafka-schema-evolution-registry.html" class="related-card-img">
+                <img src="../images/kafka-schema-registry.svg"
+                  alt="Handling Schema Evolution in Kafka with Schema Registry">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Kafka & Distributed Systems</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/kafka-schema-evolution-registry.html">Handling Schema
+                    Evolution in Kafka with Schema Registry</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/kafka-schema-evolution-registry.html">Handling Schema Evolution in Kafka with Schema Registry</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/kafka-topics-partitions-explained.html" class="related-card-img">
-              <img src="../images/kafka_partitions.png" alt="Understanding Kafka Topics and Partitioning Mechanics">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Kafka & Distributed Systems</span>
+            <div class="related-card">
+              <a href="../posts/kafka-topics-partitions-explained.html" class="related-card-img">
+                <img src="../images/kafka_partitions.png" alt="Understanding Kafka Topics and Partitioning Mechanics">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Kafka & Distributed Systems</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/kafka-topics-partitions-explained.html">Understanding
+                    Kafka Topics and Partitioning Mechanics</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/kafka-topics-partitions-explained.html">Understanding Kafka Topics and Partitioning Mechanics</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/kafka-common-pitfalls.html" class="related-card-img">
-              <img src="../images/kafka-pitfalls.svg" alt="Common Apache Kafka Pitfalls and How to Avoid Them">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Kafka & Distributed Systems</span>
+            <div class="related-card">
+              <a href="../posts/kafka-common-pitfalls.html" class="related-card-img">
+                <img src="../images/kafka-pitfalls.svg" alt="Common Apache Kafka Pitfalls and How to Avoid Them">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Kafka & Distributed Systems</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/kafka-common-pitfalls.html">Common Apache Kafka
+                    Pitfalls and How to Avoid Them</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/kafka-common-pitfalls.html">Common Apache Kafka Pitfalls and How to Avoid Them</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -241,19 +312,19 @@ max.in.flight.requests.per.connection=5</code></pre>
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
 
-</footer>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -261,4 +332,5 @@ max.in.flight.requests.per.connection=5</code></pre>
   <!-- Prism.js Script for Highlight Execution -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 </body>
+
 </html>

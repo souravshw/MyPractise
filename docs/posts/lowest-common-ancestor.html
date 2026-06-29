@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Lowest Common Ancestor (LCA) in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/lowest-common-ancestor.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/lowest-common-ancestor.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Lowest Common Ancestor (LCA)",
-      "item": "https://enggnotes.com/posts/lowest-common-ancestor.html"
+      "item": "https://www.enggnotes.com/posts/lowest-common-ancestor.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to find the lowest common ancestor of two nodes in a binary tree recursively.">
-  <meta name="keywords" content="lowest common ancestor (lca) java, java lowest common ancestor (lca) tutorial, optimized lowest common ancestor (lca) solution, how to solve lowest common ancestor (lca), lowest common ancestor (lca) leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, lowest common ancestor (lca) example, hashmap lowest common ancestor (lca) java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description"
+    content="Learn how to find the lowest common ancestor of two nodes in a binary tree recursively.">
+  <meta name="keywords"
+    content="lowest common ancestor (lca) java, java lowest common ancestor (lca) tutorial, optimized lowest common ancestor (lca) solution, how to solve lowest common ancestor (lca), lowest common ancestor (lca) leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, lowest common ancestor (lca) example, hashmap lowest common ancestor (lca) java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Lowest Common Ancestor (LCA) in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to find the lowest common ancestor of two nodes in a binary tree recursively.">
+  <meta property="og:description"
+    content="Learn how to find the lowest common ancestor of two nodes in a binary tree recursively.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +44,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +128,7 @@
           <li aria-current="page">Lowest Common Ancestor (LCA)</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,38 +143,63 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Lowest Common Ancestor (LCA)</strong> of two nodes <code>p</code> and <code>q</code> in a binary tree is defined as the lowest node in the tree that has both <code>p</code> and <code>q</code> as descendants (where we allow a node to be a descendant of itself).</p>
-        <p>For example, in a tree with root <code>3</code>, and child nodes <code>p = 5</code> and <code>q = 1</code>, the LCA is the root <code>3</code> itself because both nodes diverge from it. If <code>p = 5</code> and <code>q = 4</code> (where 4 is a child of 5), the LCA is <code>5</code>. This algorithm is widely used in relational databases, organization chart software, and inheritance mapping compilers.</p>
+        <p>The <strong>Lowest Common Ancestor (LCA)</strong> of two nodes <code>p</code> and <code>q</code> in a binary
+          tree is defined as the lowest node in the tree that has both <code>p</code> and <code>q</code> as descendants
+          (where we allow a node to be a descendant of itself).</p>
+        <p>For example, in a tree with root <code>3</code>, and child nodes <code>p = 5</code> and <code>q = 1</code>,
+          the LCA is the root <code>3</code> itself because both nodes diverge from it. If <code>p = 5</code> and
+          <code>q = 4</code> (where 4 is a child of 5), the LCA is <code>5</code>. This algorithm is widely used in
+          relational databases, organization chart software, and inheritance mapping compilers.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/lowest_common_ancestor.svg" alt="Illustration of Lowest Common Ancestor recursive search in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/lowest_common_ancestor.svg"
+            alt="Illustration of Lowest Common Ancestor recursive search in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Nearest Common Manager
           </div>
-          <p>Imagine a company org chart, which is structured like a tree. You have two employees, Alice (p) and Bob (q). You want to find their Lowest Common Ancestor, which represents their nearest shared manager who has authority over both of them. If Alice and Bob work in completely different departments (e.g., Engineering and Marketing), their nearest common manager is the CEO at the top split point. However, if Alice is a Senior Engineer and Bob is a Junior Engineer reporting directly to Alice, then Alice herself is their nearest common manager, as she has authority over Bob and is a descendant of herself in the org chart hierarchy!</p>
+          <p>Imagine a company org chart, which is structured like a tree. You have two employees, Alice (p) and Bob
+            (q). You want to find their Lowest Common Ancestor, which represents their nearest shared manager who has
+            authority over both of them. If Alice and Bob work in completely different departments (e.g., Engineering
+            and Marketing), their nearest common manager is the CEO at the top split point. However, if Alice is a
+            Senior Engineer and Bob is a Junior Engineer reporting directly to Alice, then Alice herself is their
+            nearest common manager, as she has authority over Bob and is a descendant of herself in the org chart
+            hierarchy!</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>1. Post-Order Recursive DFS Search (O(n) Time, O(h) Space)</h3>
         <p>We traverse the tree recursively. For any given node:
-          <ul>
-            <li>If the current node is <code>null</code>, or equals either <code>p</code> or <code>q</code>, we return the current node. This represents finding one of our target nodes or hitting a leaf boundary.</li>
-            <li>We recursively search the left subtree: <code>TreeNode left = lowestCommonAncestor(root.left, p, q)</code>.</li>
-            <li>We recursively search the right subtree: <code>TreeNode right = lowestCommonAncestor(root.right, p, q)</code>.</li>
-            <li>If both <code>left</code> and <code>right</code> search results are non-null, it means one target node was found in the left subtree and the other was found in the right subtree. Therefore, the current node is their split point, which makes it the LCA.</li>
-            <li>If only one of them is non-null, it means both target nodes reside in that non-null subtree, so we pass that result up to the parent caller.</li>
-          </ul>
-          This traverses each node once, giving <code>O(n)</code> time complexity. The space complexity is <code>O(h)</code> due to the recursion call stack.
+        <ul>
+          <li>If the current node is <code>null</code>, or equals either <code>p</code> or <code>q</code>, we return the
+            current node. This represents finding one of our target nodes or hitting a leaf boundary.</li>
+          <li>We recursively search the left subtree:
+            <code>TreeNode left = lowestCommonAncestor(root.left, p, q)</code>.</li>
+          <li>We recursively search the right subtree:
+            <code>TreeNode right = lowestCommonAncestor(root.right, p, q)</code>.</li>
+          <li>If both <code>left</code> and <code>right</code> search results are non-null, it means one target node was
+            found in the left subtree and the other was found in the right subtree. Therefore, the current node is their
+            split point, which makes it the LCA.</li>
+          <li>If only one of them is non-null, it means both target nodes reside in that non-null subtree, so we pass
+            that result up to the parent caller.</li>
+        </ul>
+        This traverses each node once, giving <code>O(n)</code> time complexity. The space complexity is
+        <code>O(h)</code> due to the recursion call stack.
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Let's trace the recursive LCA algorithm on a tree with root <code>3</code>, left child <code>5</code>, right child <code>1</code>. We want to find the LCA of <code>p = 5</code> and <code>q = 1</code>:</p>
+        <p>Let's trace the recursive LCA algorithm on a tree with root <code>3</code>, left child <code>5</code>, right
+          child <code>1</code>. We want to find the LCA of <code>p = 5</code> and <code>q = 1</code>:</p>
         <ol>
           <li><strong>Step 1 (Root call):</strong> Start at root node <code>3</code>.
             <ul>
@@ -150,13 +207,15 @@
               <li>Since 3 is not null, and doesn't equal p (5) or q (1), we proceed to search left and right.</li>
             </ul>
           </li>
-          <li><strong>Step 2 (Search Left Subtree of 3):</strong> We call <code>lowestCommonAncestor(3.left, 5, 1)</code> which is <code>lowestCommonAncestor(5, 5, 1)</code>.
+          <li><strong>Step 2 (Search Left Subtree of 3):</strong> We call
+            <code>lowestCommonAncestor(3.left, 5, 1)</code> which is <code>lowestCommonAncestor(5, 5, 1)</code>.
             <ul>
               <li>Since the node is <code>5</code>, which matches <code>p = 5</code>, the base case triggers!</li>
               <li>The method immediately returns node <code>5</code> to the root caller.</li>
             </ul>
           </li>
-          <li><strong>Step 3 (Search Right Subtree of 3):</strong> We call <code>lowestCommonAncestor(3.right, 5, 1)</code> which is <code>lowestCommonAncestor(1, 5, 1)</code>.
+          <li><strong>Step 3 (Search Right Subtree of 3):</strong> We call
+            <code>lowestCommonAncestor(3.right, 5, 1)</code> which is <code>lowestCommonAncestor(1, 5, 1)</code>.
             <ul>
               <li>Since the node is <code>1</code>, which matches <code>q = 1</code>, the base case triggers!</li>
               <li>The method immediately returns node <code>1</code> to the root caller.</li>
@@ -165,23 +224,30 @@
           <li><strong>Step 4 (Resolve at Root 3):</strong>
             <ul>
               <li>We receive <code>left = 5</code> and <code>right = 1</code>.</li>
-              <li>Since both <code>left</code> and <code>right</code> are non-null, the split point condition matches: <code>if (left != null && right != null) return root;</code>.</li>
+              <li>Since both <code>left</code> and <code>right</code> are non-null, the split point condition matches:
+                <code>if (left != null && right != null) return root;</code>.</li>
               <li>The root node <code>3</code> is returned as the LCA.</li>
             </ul>
           </li>
-          <li><strong>Step 5 (Completion):</strong> The algorithm completes and correctly returns node <code>3</code>.</li>
+          <li><strong>Step 5 (Completion):</strong> The algorithm completes and correctly returns node <code>3</code>.
+          </li>
         </ol>
 
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>if (root == null || root == p || root == q) return root;</code>: The recursive base case. It stops the search and returns the node as soon as we find either <code>p</code> or <code>q</code>, or hit a leaf.</li>
-          <li><code>if (left != null && right != null) return root;</code>: The core split condition. If both subtrees returned a match, the current node is the lowest common ancestor of the two targets.</li>
-          <li><code>return left != null ? left : right;</code>: If only one subtree returned a match, it means both nodes are on that side, so we bubble that match up.</li>
+          <li><code>if (root == null || root == p || root == q) return root;</code>: The recursive base case. It stops
+            the search and returns the node as soon as we find either <code>p</code> or <code>q</code>, or hit a leaf.
+          </li>
+          <li><code>if (left != null && right != null) return root;</code>: The core split condition. If both subtrees
+            returned a match, the current node is the lowest common ancestor of the two targets.</li>
+          <li><code>return left != null ? left : right;</code>: If only one subtree returned a match, it means both
+            nodes are on that side, so we bubble that match up.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -219,25 +285,35 @@ public class LowestCommonAncestor {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Lowest Common Ancestor (LCA)</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Solving the <strong>Lowest Common Ancestor (LCA)</strong> problem highlights how we can leverage key data
+          structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly
+          optimize runtime and simplify code complexity.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/level-order-traversal.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Level Order Traversal in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/diameter-of-binary-tree.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -245,44 +321,47 @@ public class LowestCommonAncestor {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -291,18 +370,18 @@ public class LowestCommonAncestor {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -311,4 +390,5 @@ public class LowestCommonAncestor {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

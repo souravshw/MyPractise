@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Level Order Traversal in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/level-order-traversal.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/level-order-traversal.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,28 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Level Order Traversal",
-      "item": "https://enggnotes.com/posts/level-order-traversal.html"
+      "item": "https://www.enggnotes.com/posts/level-order-traversal.html"
     }]
   }
   </script>
   <meta name="description" content="Learn how to perform BFS level-by-level traversal of a binary tree using a Queue.">
-  <meta name="keywords" content="level order traversal java, java level order traversal tutorial, optimized level order traversal solution, how to solve level order traversal, level order traversal leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, level order traversal example, hashmap level order traversal java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="keywords"
+    content="level order traversal java, java level order traversal tutorial, optimized level order traversal solution, how to solve level order traversal, level order traversal leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, level order traversal example, hashmap level order traversal java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Level Order Traversal in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to perform BFS level-by-level traversal of a binary tree using a Queue.">
+  <meta property="og:description"
+    content="Learn how to perform BFS level-by-level traversal of a binary tree using a Queue.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +43,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +127,7 @@
           <li aria-current="page">Level Order Traversal</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,46 +142,64 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Level Order Traversal</strong> problem (also known as Breadth-First Search on a tree) requires us to traverse a binary tree level-by-level, from left to right, returning a list of list of integers representing the values of nodes at each height level.</p>
+        <p>The <strong>Level Order Traversal</strong> problem (also known as Breadth-First Search on a tree) requires us
+          to traverse a binary tree level-by-level, from left to right, returning a list of list of integers
+          representing the values of nodes at each height level.</p>
         <p>For example, if the input tree is:
-          <pre>
+        <pre>
              3
             / \
            9  20
              /  \
             15   7
           </pre>
-          The output list of lists should be: <code>[[3], [9, 20], [15, 7]]</code>. This traversal is essential for hierarchical structure processing, network packet broadcasting, and calculating the minimum depth of a tree.
+        The output list of lists should be: <code>[[3], [9, 20], [15, 7]]</code>. This traversal is essential for
+        hierarchical structure processing, network packet broadcasting, and calculating the minimum depth of a tree.
         </p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/level_order_traversal.svg" alt="Illustration of Level Order Traversal BFS using a Queue in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/level_order_traversal.svg"
+            alt="Illustration of Level Order Traversal BFS using a Queue in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Family Tree Generation Walk
           </div>
-          <p>Imagine you are cataloging a family tree. Instead of following a single branch down to the modern day (Depth-First Search), you want to write down family members generation-by-generation. First, you record the grandparents (Level 0). Next, you record all of their children (Level 1). Finally, you record all of the grandchildren (Level 2). To do this in an orderly fashion, you set up a waiting line (Queue). You call in one generation, note down their names, and as you do so, you ask them to send their children to wait at the back of the line. This ensures nobody gets mixed up between generations!</p>
+          <p>Imagine you are cataloging a family tree. Instead of following a single branch down to the modern day
+            (Depth-First Search), you want to write down family members generation-by-generation. First, you record the
+            grandparents (Level 0). Next, you record all of their children (Level 1). Finally, you record all of the
+            grandchildren (Level 2). To do this in an orderly fashion, you set up a waiting line (Queue). You call in
+            one generation, note down their names, and as you do so, you ask them to send their children to wait at the
+            back of the line. This ensures nobody gets mixed up between generations!</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>1. Breadth-First Search (BFS) using a Queue (O(n) Time, O(n) Space)</h3>
         <p>A standard queue (FIFO - First In, First Out) is perfect for BFS. To separate the levels:
-          <ul>
-            <li>We initialize a queue and add the root node.</li>
-            <li>While the queue is not empty, we read its size: <code>int levelSize = queue.size()</code>. This tells us exactly how many nodes are at the current level.</li>
-            <li>We loop <code>levelSize</code> times to dequeue these nodes, add their values to a list representing the current level, and enqueue their non-null left and right children.</li>
-            <li>Once the inner loop finishes, we add the level list to our main results list.</li>
-          </ul>
-          This runs in <code>O(n)</code> time since we visit every node exactly once. The space complexity is <code>O(w)</code> (where <code>w</code> is the maximum width of the tree) to hold queue elements.
+        <ul>
+          <li>We initialize a queue and add the root node.</li>
+          <li>While the queue is not empty, we read its size: <code>int levelSize = queue.size()</code>. This tells us
+            exactly how many nodes are at the current level.</li>
+          <li>We loop <code>levelSize</code> times to dequeue these nodes, add their values to a list representing the
+            current level, and enqueue their non-null left and right children.</li>
+          <li>Once the inner loop finishes, we add the level list to our main results list.</li>
+        </ul>
+        This runs in <code>O(n)</code> time since we visit every node exactly once. The space complexity is
+        <code>O(w)</code> (where <code>w</code> is the maximum width of the tree) to hold queue elements.
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Let's trace the level order traversal on the tree: <code>3</code> (root), left <code>9</code>, right <code>20</code> (with children <code>15</code> and <code>7</code>):</p>
+        <p>Let's trace the level order traversal on the tree: <code>3</code> (root), left <code>9</code>, right
+          <code>20</code> (with children <code>15</code> and <code>7</code>):</p>
         <ol>
           <li><strong>Step 1 (Initialization):</strong>
             <ul>
@@ -168,34 +217,44 @@
           </li>
           <li><strong>Step 3 (Level 1):</strong>
             <ul>
-              <li>The queue size is <code>2</code>. We must process exactly 2 nodes (node <code>9</code> and node <code>20</code>).</li>
-              <li>Dequeue node <code>9</code>. Add value <code>9</code> to level list: <code>level = [9]</code>. Node 9 has no children.</li>
-              <li>Dequeue node <code>20</code>. Add value <code>20</code> to level list: <code>level = [9, 20]</code>.</li>
+              <li>The queue size is <code>2</code>. We must process exactly 2 nodes (node <code>9</code> and node
+                <code>20</code>).</li>
+              <li>Dequeue node <code>9</code>. Add value <code>9</code> to level list: <code>level = [9]</code>. Node 9
+                has no children.</li>
+              <li>Dequeue node <code>20</code>. Add value <code>20</code> to level list: <code>level = [9, 20]</code>.
+              </li>
               <li>Enqueue children of 20: left child <code>15</code> and right child <code>7</code>.</li>
               <li>Queue is now: <code>[15, 7]</code>. Add level to results: <code>res = [[3], [9, 20]]</code>.</li>
             </ul>
           </li>
           <li><strong>Step 4 (Level 2):</strong>
             <ul>
-              <li>The queue size is <code>2</code>. We process 2 nodes (node <code>15</code> and node <code>7</code>).</li>
+              <li>The queue size is <code>2</code>. We process 2 nodes (node <code>15</code> and node <code>7</code>).
+              </li>
               <li>Dequeue node <code>15</code>. Add to level: <code>level = [15]</code>. No children.</li>
               <li>Dequeue node <code>7</code>. Add to level: <code>level = [15, 7]</code>. No children.</li>
-              <li>Queue is now empty: <code>[]</code>. Add level to results: <code>res = [[3], [9, 20], [15, 7]]</code>.</li>
+              <li>Queue is now empty: <code>[]</code>. Add level to results: <code>res = [[3], [9, 20], [15, 7]]</code>.
+              </li>
             </ul>
           </li>
-          <li><strong>Step 5 (Completion):</strong> The queue is empty, so the loop ends. The method returns <code>res</code>: <code>[[3], [9, 20], [15, 7]]</code>.</li>
+          <li><strong>Step 5 (Completion):</strong> The queue is empty, so the loop ends. The method returns
+            <code>res</code>: <code>[[3], [9, 20], [15, 7]]</code>.</li>
         </ol>
 
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>int size = queue.size();</code>: Captures the number of elements at the current level. Crucial because it prevents child nodes added during iteration from being processed in the current level's list.</li>
+          <li><code>int size = queue.size();</code>: Captures the number of elements at the current level. Crucial
+            because it prevents child nodes added during iteration from being processed in the current level's list.
+          </li>
           <li><code>queue.offer(root);</code>: Adds the starting element to the queue.</li>
-          <li><code>if (curr.left != null) queue.offer(curr.left);</code>: Conditionally adds child nodes to the queue to be processed at the next generation level.</li>
+          <li><code>if (curr.left != null) queue.offer(curr.left);</code>: Conditionally adds child nodes to the queue
+            to be processed at the next generation level.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -246,25 +305,35 @@ public class LevelOrderTraversal {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Level Order Traversal</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Solving the <strong>Level Order Traversal</strong> problem highlights how we can leverage key data structures
+          and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize
+          runtime and simplify code complexity.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/invert-binary-tree.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Invert Binary Tree in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/lowest-common-ancestor.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -272,44 +341,47 @@ public class LevelOrderTraversal {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -318,18 +390,18 @@ public class LevelOrderTraversal {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -338,4 +410,5 @@ public class LevelOrderTraversal {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

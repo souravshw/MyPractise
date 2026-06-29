@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Roman to Integer in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/roman-to-integer.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/roman-to-integer.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Roman to Integer",
-      "item": "https://enggnotes.com/posts/roman-to-integer.html"
+      "item": "https://www.enggnotes.com/posts/roman-to-integer.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to convert Roman numerals to integers by processing symbols left-to-right.">
-  <meta name="keywords" content="roman to integer java, java roman to integer tutorial, optimized roman to integer solution, how to solve roman to integer, roman to integer leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, roman to integer example, hashmap roman to integer java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description"
+    content="Learn how to convert Roman numerals to integers by processing symbols left-to-right.">
+  <meta name="keywords"
+    content="roman to integer java, java roman to integer tutorial, optimized roman to integer solution, how to solve roman to integer, roman to integer leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, roman to integer example, hashmap roman to integer java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Roman to Integer in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to convert Roman numerals to integers by processing symbols left-to-right.">
+  <meta property="og:description"
+    content="Learn how to convert Roman numerals to integers by processing symbols left-to-right.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +44,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +128,7 @@
           <li aria-current="page">Roman to Integer</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,46 +143,65 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Roman to Integer</strong> problem asks us to convert a given Roman numeral string into its corresponding integer representation.</p>
-        <p>Roman numerals are represented by seven different symbols: <code>I (1), V (5), X (10), L (50), C (100), D (500), M (1000)</code>. They are written from largest to smallest, left to right. However, there are six subtraction cases:
-          <ul>
-            <li><code>I</code> placed before <code>V</code> (4) or <code>X</code> (9).</li>
-            <li><code>X</code> placed before <code>L</code> (40) or <code>C</code> (90).</li>
-            <li><code>C</code> placed before <code>D</code> (400) or <code>M</code> (900).</li>
-          </ul>
-          The challenge is converting these cases correctly during a single pass.
+        <p>The <strong>Roman to Integer</strong> problem asks us to convert a given Roman numeral string into its
+          corresponding integer representation.</p>
+        <p>Roman numerals are represented by seven different symbols:
+          <code>I (1), V (5), X (10), L (50), C (100), D (500), M (1000)</code>. They are written from largest to
+          smallest, left to right. However, there are six subtraction cases:
+        <ul>
+          <li><code>I</code> placed before <code>V</code> (4) or <code>X</code> (9).</li>
+          <li><code>X</code> placed before <code>L</code> (40) or <code>C</code> (90).</li>
+          <li><code>C</code> placed before <code>D</code> (400) or <code>M</code> (900).</li>
+        </ul>
+        The challenge is converting these cases correctly during a single pass.
         </p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/roman_to_integer.svg" alt="Illustration of Roman to Integer conversion looking ahead in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/roman_to_integer.svg"
+            alt="Illustration of Roman to Integer conversion looking ahead in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Look-Ahead Accountant
           </div>
-          <p>Imagine reading an old transaction ledger where values are entered. Usually, you just add each value you read to your total sum. However, there is a special rule: if you see a smaller amount listed right before a larger amount (such as a $1 service fee followed immediately by a $10 refund, labeled "IX"), it means subtraction. To account for this, as you read left to right, you look ahead to the next entry. If the next entry is larger than the current one, you subtract the current entry from your ledger. Otherwise, you add it. By applying this simple rule, you get the correct net total instantly!</p>
+          <p>Imagine reading an old transaction ledger where values are entered. Usually, you just add each value you
+            read to your total sum. However, there is a special rule: if you see a smaller amount listed right before a
+            larger amount (such as a $1 service fee followed immediately by a $10 refund, labeled "IX"), it means
+            subtraction. To account for this, as you read left to right, you look ahead to the next entry. If the next
+            entry is larger than the current one, you subtract the current entry from your ledger. Otherwise, you add
+            it. By applying this simple rule, you get the correct net total instantly!</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>1. Map-Based Translation with Look-Ahead (O(n) Time, O(1) Space)</h3>
         <p>We use a HashMap to store the symbol-to-value associations. We iterate through the string from left to right:
-          <ul>
-            <li>For each character at index <code>i</code>, we fetch its value: <code>currentValue</code>.</li>
-            <li>If <code>i + 1 &lt; stringLength</code>, we also fetch the next character's value: <code>nextValue</code>.</li>
-            <li>If <code>currentValue &lt; nextValue</code>, it means we are encountering a subtractive combination (e.g. <code>IV</code> or <code>IX</code>). We subtract <code>currentValue</code> from our sum.</li>
-            <li>Otherwise, we add <code>currentValue</code> to our sum.</li>
-          </ul>
-          This runs in linear <code>O(n)</code> time using constant <code>O(1)</code> auxiliary space since the map is of a fixed size of 7 elements.
+        <ul>
+          <li>For each character at index <code>i</code>, we fetch its value: <code>currentValue</code>.</li>
+          <li>If <code>i + 1 &lt; stringLength</code>, we also fetch the next character's value: <code>nextValue</code>.
+          </li>
+          <li>If <code>currentValue &lt; nextValue</code>, it means we are encountering a subtractive combination (e.g.
+            <code>IV</code> or <code>IX</code>). We subtract <code>currentValue</code> from our sum.</li>
+          <li>Otherwise, we add <code>currentValue</code> to our sum.</li>
+        </ul>
+        This runs in linear <code>O(n)</code> time using constant <code>O(1)</code> auxiliary space since the map is of
+        a fixed size of 7 elements.
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Let's trace the look-ahead algorithm on the Roman numeral string <code>s = "MCMXCIV"</code> (which represents 1994):</p>
+        <p>Let's trace the look-ahead algorithm on the Roman numeral string <code>s = "MCMXCIV"</code> (which represents
+          1994):</p>
         <ol>
-          <li><strong>Step 1 (Initialization):</strong> Initialize <code>sum = 0</code>. Length of string is <code>7</code>.</li>
+          <li><strong>Step 1 (Initialization):</strong> Initialize <code>sum = 0</code>. Length of string is
+            <code>7</code>.</li>
           <li><strong>Step 2 (Index i = 0, Character 'M'):</strong>
             <ul>
               <li>Value of 'M' = <code>1000</code>. Next is 'C' = <code>100</code>.</li>
@@ -160,7 +211,8 @@
           <li><strong>Step 3 (Index i = 1, Character 'C'):</strong>
             <ul>
               <li>Value of 'C' = <code>100</code>. Next is 'M' = <code>1000</code>.</li>
-              <li>Since <code>100 &lt; 1000</code>, this is a subtractive combination. We subtract 100: <code>sum = 1000 - 100 = 900</code>.</li>
+              <li>Since <code>100 &lt; 1000</code>, this is a subtractive combination. We subtract 100:
+                <code>sum = 1000 - 100 = 900</code>.</li>
             </ul>
           </li>
           <li><strong>Step 4 (Index i = 2, Character 'M'):</strong>
@@ -189,22 +241,28 @@
           </li>
           <li><strong>Step 8 (Index i = 6, Character 'V'):</strong>
             <ul>
-              <li>Value of 'V' = <code>5</code>. This is the last character. We add 5: <code>sum = 1989 + 5 = 1994</code>.</li>
+              <li>Value of 'V' = <code>5</code>. This is the last character. We add 5:
+                <code>sum = 1989 + 5 = 1994</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 9 (Completion):</strong> The iteration completes. We return the final value <code>1994</code>.</li>
+          <li><strong>Step 9 (Completion):</strong> The iteration completes. We return the final value
+            <code>1994</code>.</li>
         </ol>
 
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>if (i < s.length() - 1 && map.get(s.charAt(i)) < map.get(s.charAt(i + 1)))</code>: Detects if the current Roman numeral has a smaller value than the one following it, indicating a subtraction rule.</li>
-          <li><code>sum -= map.get(s.charAt(i));</code>: Correctly decrements the running total for subtractive cases like IV (5-1) or IX (10-1).</li>
-          <li><code>sum += map.get(s.charAt(i));</code>: Handles the standard additive case where values monotonically decrease or stay equal.</li>
+          <li><code>if (i < s.length() - 1 && map.get(s.charAt(i)) < map.get(s.charAt(i + 1)))</code>: Detects if the
+            current Roman numeral has a smaller value than the one following it, indicating a subtraction rule.</li>
+          <li><code>sum -= map.get(s.charAt(i));</code>: Correctly decrements the running total for subtractive cases
+            like IV (5-1) or IX (10-1).</li>
+          <li><code>sum += map.get(s.charAt(i));</code>: Handles the standard additive case where values monotonically
+            decrease or stay equal.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -243,25 +301,35 @@ public class RomanToInteger {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Roman to Integer</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Solving the <strong>Roman to Integer</strong> problem highlights how we can leverage key data structures and
+          algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime
+          and simplify code complexity.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/longest-common-prefix.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Longest Common Prefix in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/reverse-linked-list.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -269,44 +337,47 @@ public class RomanToInteger {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -315,18 +386,18 @@ public class RomanToInteger {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -335,4 +406,5 @@ public class RomanToInteger {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

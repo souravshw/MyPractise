@@ -1,10 +1,11 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flattening 2D Arrays in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/flattening-two-dimensional-arrays.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/flattening-two-dimensional-arrays.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Flattening 2D Arrays in Java",
-      "item": "https://enggnotes.com/posts/flattening-two-dimensional-arrays.html"
+      "item": "https://www.enggnotes.com/posts/flattening-two-dimensional-arrays.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to flatten and sort 2D jagged arrays in Java using Stream's flatMapToInt, explained simply with a dresser drawer analogy and trace.">
-  <meta name="keywords" content="flatten 2d array java, flatmaptoint arrays stream, java flatmap 2d array, sort jagged array streams, java stream flatmap tutorial, flattening 2d, 2d arrays, flattening java, 2d java, arrays java, java java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java nio, file manipulation java, java io streams, java 8 streams">
+  <meta name="description"
+    content="Learn how to flatten and sort 2D jagged arrays in Java using Stream's flatMapToInt, explained simply with a dresser drawer analogy and trace.">
+  <meta name="keywords"
+    content="flatten 2d array java, flatmaptoint arrays stream, java flatmap 2d array, sort jagged array streams, java stream flatmap tutorial, flattening 2d, 2d arrays, flattening java, 2d java, arrays java, java java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java nio, file manipulation java, java io streams, java 8 streams">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Flattening 2D Arrays in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to flatten and sort 2D jagged arrays in Java using Stream's flatMapToInt, explained simply with a dresser drawer analogy.">
+  <meta property="og:description"
+    content="Learn how to flatten and sort 2D jagged arrays in Java using Stream's flatMapToInt, explained simply with a dresser drawer analogy.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,55 +44,83 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
 
-</header>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -97,7 +129,7 @@
           <li aria-current="page">Flattening 2D Arrays</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,28 +143,43 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>A multi-dimensional array (like a 2D array) organizes data in rows and columns. While this is great for representing grids, it makes searching, filtering, and sorting all the elements together complex. In Java, <strong>flatMap</strong> is an elegant functional operation that "flattens" multiple arrays nested inside a container into a single continuous stream of data.</p>
-        
-        <p>In this guide, we will explain how 2D array flattening works using a simple dresser-drawers analogy and trace the execution path in Java.</p>
+        <p>A multi-dimensional array (like a 2D array) organizes data in rows and columns. While this is great for
+          representing grids, it makes searching, filtering, and sorting all the elements together complex. In Java,
+          <strong>flatMap</strong> is an elegant functional operation that "flattens" multiple arrays nested inside a
+          container into a single continuous stream of data.</p>
+
+        <p>In this guide, we will explain how 2D array flattening works using a simple dresser-drawers analogy and trace
+          the execution path in Java.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/flattening_2d_arrays.png" alt="Illustration of elements inside multiple boxes being poured onto a single flat conveyor belt" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/flattening_2d_arrays.png"
+            alt="Illustration of elements inside multiple boxes being poured onto a single flat conveyor belt"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: Sorting Dresser Drawers
           </div>
-          <p>Imagine you have a dresser with <strong>three drawers</strong> (representing a 2D array). Each drawer holds various numbers of toys marked with numbers. If you want to sort all these toys sequentially, you cannot easily do it while they are divided into separate drawers.</p>
+          <p>Imagine you have a dresser with <strong>three drawers</strong> (representing a 2D array). Each drawer holds
+            various numbers of toys marked with numbers. If you want to sort all these toys sequentially, you cannot
+            easily do it while they are divided into separate drawers.</p>
           <p>To sort them, you do this:</p>
           <ol>
-            <li><strong>Dumping (`flatMap`):</strong> You pull open all three drawers and pour all the toys onto a <strong>single long table</strong> (a flat 1D stream).</li>
-            <li><strong>Sorting (`sorted`):</strong> Now that all the toys are lying on the same flat surface, you line them up from smallest to largest.</li>
+            <li><strong>Dumping (`flatMap`):</strong> You pull open all three drawers and pour all the toys onto a
+              <strong>single long table</strong> (a flat 1D stream).</li>
+            <li><strong>Sorting (`sorted`):</strong> Now that all the toys are lying on the same flat surface, you line
+              them up from smallest to largest.</li>
           </ol>
-          <p>The act of pouring the nested contents out onto a single flat table is exactly what <strong>flatMap</strong> does!</p>
+          <p>The act of pouring the nested contents out onto a single flat table is exactly what
+            <strong>flatMap</strong> does!</p>
         </div>
 
         <h2>Walkthrough of the Main Method Scenario</h2>
@@ -160,9 +207,13 @@
                          .flatMapToInt(Arrays::stream)
                          .sorted();</code></pre>
           <ul>
-            <li><code>Stream.of(arr)</code> creates a stream of type <code>Stream&lt;int[]&gt;</code> containing 3 array references (one for each row).</li>
-            <li><code>flatMapToInt(Arrays::stream)</code> processes each array row, converts it into a primitive <code>IntStream</code>, and merges them. The output is a single flat stream: <code>[1, 2, 3, -2, 0, 5, 7, -3, 4, 6, 8, 9]</code>.</li>
-            <li><code>.sorted()</code> sorts this single stream in natural ordering: <code>[-3, -2, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code>.</li>
+            <li><code>Stream.of(arr)</code> creates a stream of type <code>Stream&lt;int[]&gt;</code> containing 3 array
+              references (one for each row).</li>
+            <li><code>flatMapToInt(Arrays::stream)</code> processes each array row, converts it into a primitive
+              <code>IntStream</code>, and merges them. The output is a single flat stream:
+              <code>[1, 2, 3, -2, 0, 5, 7, -3, 4, 6, 8, 9]</code>.</li>
+            <li><code>.sorted()</code> sorts this single stream in natural ordering:
+              <code>[-3, -2, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code>.</li>
           </ul>
         </div>
 
@@ -203,25 +254,36 @@ public class FlatteningTwoDimentionalArray {
 }</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Java's <code>flatMapToInt()</code> is a powerful method for processing multi-dimensional arrays. By using <code>Arrays::stream</code> inside the flatmap call, we cleanly transform nested groupings of primitive integers into a single, flat stream. This allows us to perform collection-wide operations like sorting, filtering, or reduction efficiently without nested loops.</p>
+        <p>Java's <code>flatMapToInt()</code> is a powerful method for processing multi-dimensional arrays. By using
+          <code>Arrays::stream</code> inside the flatmap call, we cleanly transform nested groupings of primitive
+          integers into a single, flat stream. This allows us to perform collection-wide operations like sorting,
+          filtering, or reduction efficiently without nested loops.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/sorting-multiple-fields-streams.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Sorting by Multiple Fields</span>
             </div>
           </a>
-          
+
           <a href="../posts/flatmapping-min-max-interfaces.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -229,44 +291,49 @@ public class FlatteningTwoDimentionalArray {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/java8-streams-common-tasks-recipes.html" class="related-card-img">
-              <img src="../images/java8_streams_recipes.png" alt="Java 8 Streams Recipes for Common Programming Tasks">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Streams & Functional</span>
+
+            <div class="related-card">
+              <a href="../posts/java8-streams-common-tasks-recipes.html" class="related-card-img">
+                <img src="../images/java8_streams_recipes.png"
+                  alt="Java 8 Streams Recipes for Common Programming Tasks">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Streams & Functional</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/java8-streams-common-tasks-recipes.html">Java 8 Streams
+                    Recipes for Common Programming Tasks</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/java8-streams-common-tasks-recipes.html">Java 8 Streams Recipes for Common Programming Tasks</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/java8-method-references-guide.html" class="related-card-img">
-              <img src="../images/java8_method_references.png" alt="Deep Dive into Java 8 Method References">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Streams & Functional</span>
+            <div class="related-card">
+              <a href="../posts/java8-method-references-guide.html" class="related-card-img">
+                <img src="../images/java8_method_references.png" alt="Deep Dive into Java 8 Method References">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Streams & Functional</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/java8-method-references-guide.html">Deep Dive into Java
+                    8 Method References</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/java8-method-references-guide.html">Deep Dive into Java 8 Method References</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/java-memory-management-garbage-collection.html" class="related-card-img">
-              <img src="../images/java-memory-gc.svg" alt="Java Memory Management and Garbage Collection: A Simple Guide">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+            <div class="related-card">
+              <a href="../posts/java-memory-management-garbage-collection.html" class="related-card-img">
+                <img src="../images/java-memory-gc.svg"
+                  alt="Java Memory Management and Garbage Collection: A Simple Guide">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/java-memory-management-garbage-collection.html">Java
+                    Memory Management and Garbage Collection: A Simple Guide</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/java-memory-management-garbage-collection.html">Java Memory Management and Garbage Collection: A Simple Guide</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -275,19 +342,19 @@ public class FlatteningTwoDimentionalArray {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
 
-</footer>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -296,4 +363,5 @@ public class FlatteningTwoDimentionalArray {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

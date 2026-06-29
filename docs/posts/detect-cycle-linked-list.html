@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Detect Cycle in Linked List in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/detect-cycle-linked-list.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/detect-cycle-linked-list.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Detect Cycle in Linked List",
-      "item": "https://enggnotes.com/posts/detect-cycle-linked-list.html"
+      "item": "https://www.enggnotes.com/posts/detect-cycle-linked-list.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn Floyd's Cycle Detection algorithm (Tortoise and Hare) to check if a linked list contains a cycle.">
-  <meta name="keywords" content="detect cycle in linked list java, java detect cycle in linked list tutorial, optimized detect cycle in linked list solution, how to solve detect cycle in linked list, detect cycle in linked list leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, detect cycle in linked list example, hashmap detect cycle in linked list java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description"
+    content="Learn Floyd's Cycle Detection algorithm (Tortoise and Hare) to check if a linked list contains a cycle.">
+  <meta name="keywords"
+    content="detect cycle in linked list java, java detect cycle in linked list tutorial, optimized detect cycle in linked list solution, how to solve detect cycle in linked list, detect cycle in linked list leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, detect cycle in linked list example, hashmap detect cycle in linked list java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Detect Cycle in Linked List in Java | Engineering Notes">
-  <meta property="og:description" content="Learn Floyd's Cycle Detection algorithm (Tortoise and Hare) to check if a linked list contains a cycle.">
+  <meta property="og:description"
+    content="Learn Floyd's Cycle Detection algorithm (Tortoise and Hare) to check if a linked list contains a cycle.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +44,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +128,7 @@
           <li aria-current="page">Detect Cycle in Linked List</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,40 +143,61 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Detect Cycle in a Linked List</strong> problem asks us to determine if a given linked list contains a cycle. A cycle exists if there is some node in the list that can be reached again by continuously following the <code>next</code> pointer.</p>
-        <p>For example, if the list is <code>3 -> 2 -> 0 -> -4</code> where <code>-4</code> points back to <code>2</code>, a cycle exists. If it terminates at <code>null</code>, there is no cycle. Reaching the end of a list without infinite loops is critical for memory safety and pointer traversal.</p>
+        <p>The <strong>Detect Cycle in a Linked List</strong> problem asks us to determine if a given linked list
+          contains a cycle. A cycle exists if there is some node in the list that can be reached again by continuously
+          following the <code>next</code> pointer.</p>
+        <p>For example, if the list is <code>3 -> 2 -> 0 -> -4</code> where <code>-4</code> points back to
+          <code>2</code>, a cycle exists. If it terminates at <code>null</code>, there is no cycle. Reaching the end of
+          a list without infinite loops is critical for memory safety and pointer traversal.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/linked_list_loop_detector.svg" alt="Illustration of Floyd's Cycle Detection algorithm (Tortoise and Hare) in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/linked_list_loop_detector.svg"
+            alt="Illustration of Floyd's Cycle Detection algorithm (Tortoise and Hare) in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Circular Race Track
           </div>
-          <p>Imagine two runners—a Tortoise and a Hare—on a race track. The Tortoise runs slowly, taking 1 step at a time. The Hare runs fast, taking 2 steps at a time. If the track is a straight path with a dead end, the Hare will quickly reach the end and wait. However, if the track forms a loop, the Hare will go round and round. Eventually, because the Hare is faster, they will enter the loop and lap the Tortoise, meeting at the exact same location! By checking if they ever meet, we can prove if a loop exists.</p>
+          <p>Imagine two runners—a Tortoise and a Hare—on a race track. The Tortoise runs slowly, taking 1 step at a
+            time. The Hare runs fast, taking 2 steps at a time. If the track is a straight path with a dead end, the
+            Hare will quickly reach the end and wait. However, if the track forms a loop, the Hare will go round and
+            round. Eventually, because the Hare is faster, they will enter the loop and lap the Tortoise, meeting at the
+            exact same location! By checking if they ever meet, we can prove if a loop exists.</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>1. HashSet Visited Tracker (O(n) Time, O(n) Space)</h3>
-        <p>We can traverse the linked list and store the reference of each visited node in a HashSet. If we encounter a node that is already present in the set, we know there is a cycle. While simple, this requires <code>O(n)</code> extra memory to store node references.</p>
+        <p>We can traverse the linked list and store the reference of each visited node in a HashSet. If we encounter a
+          node that is already present in the set, we know there is a cycle. While simple, this requires
+          <code>O(n)</code> extra memory to store node references.</p>
 
         <h3>2. Floyd's Cycle Detection Algorithm (O(n) Time, O(1) Space)</h3>
-        <p>Also known as the **Tortoise and Hare** algorithm, this approach uses two pointers moving at different speeds:
-          <ul>
-            <li><code>slow</code>: Moves 1 node at a time (<code>slow = slow.next</code>).</li>
-            <li><code>fast</code>: Moves 2 nodes at a time (<code>fast = fast.next.next</code>).</li>
-          </ul>
-          If there is no cycle, the <code>fast</code> pointer will reach the end of the list (<code>null</code>). If there is a cycle, the <code>fast</code> pointer will enter the cycle and catch up to the <code>slow</code> pointer. When <code>slow == fast</code>, a cycle is detected. This is optimal because it uses constant memory.
+        <p>Also known as the **Tortoise and Hare** algorithm, this approach uses two pointers moving at different
+          speeds:
+        <ul>
+          <li><code>slow</code>: Moves 1 node at a time (<code>slow = slow.next</code>).</li>
+          <li><code>fast</code>: Moves 2 nodes at a time (<code>fast = fast.next.next</code>).</li>
+        </ul>
+        If there is no cycle, the <code>fast</code> pointer will reach the end of the list (<code>null</code>). If there
+        is a cycle, the <code>fast</code> pointer will enter the cycle and catch up to the <code>slow</code> pointer.
+        When <code>slow == fast</code>, a cycle is detected. This is optimal because it uses constant memory.
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Let's trace the algorithm on the list <code>3 -> 2 -> 0 -> -4</code> where <code>-4</code> points back to <code>2</code>:</p>
+        <p>Let's trace the algorithm on the list <code>3 -> 2 -> 0 -> -4</code> where <code>-4</code> points back to
+          <code>2</code>:</p>
         <ol>
-          <li><strong>Step 1 (Initialization):</strong> Both <code>slow</code> and <code>fast</code> pointers are set to the <code>head</code> node (node <code>3</code>).
+          <li><strong>Step 1 (Initialization):</strong> Both <code>slow</code> and <code>fast</code> pointers are set to
+            the <code>head</code> node (node <code>3</code>).
             <ul>
               <li><code>slow = 3</code>, <code>fast = 3</code></li>
             </ul>
@@ -159,30 +212,38 @@
           <li><strong>Step 3 (Iteration 2):</strong>
             <ul>
               <li><code>slow</code> moves 1 step to node <code>0</code>.</li>
-              <li><code>fast</code> moves 2 steps (from <code>0</code> to <code>-4</code> and then back to <code>2</code>). <code>fast = 2</code>.</li>
+              <li><code>fast</code> moves 2 steps (from <code>0</code> to <code>-4</code> and then back to
+                <code>2</code>). <code>fast = 2</code>.</li>
               <li>Compare pointers: <code>slow (0) != fast (2)</code>. We continue.</li>
             </ul>
           </li>
           <li><strong>Step 4 (Iteration 3):</strong>
             <ul>
               <li><code>slow</code> moves 1 step to node <code>-4</code>.</li>
-              <li><code>fast</code> moves 2 steps (from <code>2</code> to <code>0</code> and then to <code>-4</code>). <code>fast = -4</code>.</li>
+              <li><code>fast</code> moves 2 steps (from <code>2</code> to <code>0</code> and then to <code>-4</code>).
+                <code>fast = -4</code>.</li>
               <li>Compare pointers: <code>slow (-4) == fast (-4)</code>. The pointers have met!</li>
             </ul>
           </li>
-          <li><strong>Step 5 (Completion):</strong> Since <code>slow == fast</code>, the loop ends and the method immediately returns <code>true</code>, confirming the presence of a cycle.</li>
+          <li><strong>Step 5 (Completion):</strong> Since <code>slow == fast</code>, the loop ends and the method
+            immediately returns <code>true</code>, confirming the presence of a cycle.</li>
         </ol>
 
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>while (fast != null && fast.next != null)</code>: Ensures we do not encounter a NullPointerException when checking the fast runner's future steps. If either is null, we reached the end of a straight list, meaning no cycle exists.</li>
-          <li><code>slow = slow.next; fast = fast.next.next;</code>: Advances the pointers at different speeds, allowing the Hare to lap the Tortoise mathematically within a cycle.</li>
-          <li><code>if (slow == fast) return true;</code>: The definitive meeting condition proving the cycle's existence.</li>
+          <li><code>while (fast != null && fast.next != null)</code>: Ensures we do not encounter a NullPointerException
+            when checking the fast runner's future steps. If either is null, we reached the end of a straight list,
+            meaning no cycle exists.</li>
+          <li><code>slow = slow.next; fast = fast.next.next;</code>: Advances the pointers at different speeds, allowing
+            the Hare to lap the Tortoise mathematically within a cycle.</li>
+          <li><code>if (slow == fast) return true;</code>: The definitive meeting condition proving the cycle's
+            existence.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -223,25 +284,35 @@ public class DetectCycleLinkedList {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Detect Cycle in Linked List</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Solving the <strong>Detect Cycle in Linked List</strong> problem highlights how we can leverage key data
+          structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly
+          optimize runtime and simplify code complexity.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/reverse-linked-list.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Reverse a Linked List in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/merge-two-sorted-lists.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -249,44 +320,47 @@ public class DetectCycleLinkedList {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -295,18 +369,18 @@ public class DetectCycleLinkedList {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -315,4 +389,5 @@ public class DetectCycleLinkedList {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

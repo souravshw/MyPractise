@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Sliding Window Maximum in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/sliding-window-maximum.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/sliding-window-maximum.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Sliding Window Maximum",
-      "item": "https://enggnotes.com/posts/sliding-window-maximum.html"
+      "item": "https://www.enggnotes.com/posts/sliding-window-maximum.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to find the maximum in each sliding window of size k using a monotonic Deque.">
-  <meta name="keywords" content="sliding window maximum java, java sliding window maximum tutorial, optimized sliding window maximum solution, how to solve sliding window maximum, sliding window maximum leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, sliding window maximum example, hashmap sliding window maximum java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description"
+    content="Learn how to find the maximum in each sliding window of size k using a monotonic Deque.">
+  <meta name="keywords"
+    content="sliding window maximum java, java sliding window maximum tutorial, optimized sliding window maximum solution, how to solve sliding window maximum, sliding window maximum leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, sliding window maximum example, hashmap sliding window maximum java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Sliding Window Maximum in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to find the maximum in each sliding window of size k using a monotonic Deque.">
+  <meta property="og:description"
+    content="Learn how to find the maximum in each sliding window of size k using a monotonic Deque.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +44,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +128,7 @@
           <li aria-current="page">Sliding Window Maximum</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,51 +143,79 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Sliding Window Maximum</strong> problem is a classic hard problem that asks us to find the maximum value in each sliding window of size <code>k</code> moving across an array of integers <code>nums</code>.</p>
-        <p>Imagine we have an array <code>nums = [1, 3, -1, -3, 5, 3, 6, 7]</code> and a window size <code>k = 3</code>. The window slides from left to right, one element at a time:
-          <ul>
-            <li><code>[1, 3, -1]</code> -> Max is <code>3</code></li>
-            <li><code>[3, -1, -3]</code> -> Max is <code>3</code></li>
-            <li><code>[-1, -3, 5]</code> -> Max is <code>5</code></li>
-            <li><code>[-3, 5, 3]</code> -> Max is <code>5</code></li>
-            <li><code>[5, 3, 6]</code> -> Max is <code>6</code></li>
-            <li><code>[3, 6, 7]</code> -> Max is <code>7</code></li>
-          </ul>
-          Our result array is <code>[3, 3, 5, 5, 6, 7]</code>.
-          Solving this problem naively takes <code>O(n * k)</code> by checking all <code>k</code> elements for each of the <code>n - k + 1</code> window positions. We want to find an optimized, linear <code>O(n)</code> time complexity solution using a double-ended queue (Deque).
+        <p>The <strong>Sliding Window Maximum</strong> problem is a classic hard problem that asks us to find the
+          maximum value in each sliding window of size <code>k</code> moving across an array of integers
+          <code>nums</code>.</p>
+        <p>Imagine we have an array <code>nums = [1, 3, -1, -3, 5, 3, 6, 7]</code> and a window size <code>k = 3</code>.
+          The window slides from left to right, one element at a time:
+        <ul>
+          <li><code>[1, 3, -1]</code> -> Max is <code>3</code></li>
+          <li><code>[3, -1, -3]</code> -> Max is <code>3</code></li>
+          <li><code>[-1, -3, 5]</code> -> Max is <code>5</code></li>
+          <li><code>[-3, 5, 3]</code> -> Max is <code>5</code></li>
+          <li><code>[5, 3, 6]</code> -> Max is <code>6</code></li>
+          <li><code>[3, 6, 7]</code> -> Max is <code>7</code></li>
+        </ul>
+        Our result array is <code>[3, 3, 5, 5, 6, 7]</code>.
+        Solving this problem naively takes <code>O(n * k)</code> by checking all <code>k</code> elements for each of the
+        <code>n - k + 1</code> window positions. We want to find an optimized, linear <code>O(n)</code> time complexity
+        solution using a double-ended queue (Deque).
         </p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/sliding_window_maximum.svg" alt="Illustration of Sliding Window Maximum using a monotonic Deque in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/sliding_window_maximum.svg"
+            alt="Illustration of Sliding Window Maximum using a monotonic Deque in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Hype-Cycle and Older Competitors
           </div>
-          <p>Imagine a recruiting window for a sports team. Competitors enter a waiting line one by one. If a new, incredibly strong player arrives, any weaker players who arrived before them are immediately disqualified from ever being the "best candidate" because they are both weaker *and* will retire (slide out of the window) sooner. Thus, we discard weaker candidates from the back of our list. Additionally, when a player gets too old (out-of-bounds from the sliding window), they are removed from the front of the list. At any given moment, the absolute best player in the window is always the one sitting at the front of the list.</p>
+          <p>Imagine a recruiting window for a sports team. Competitors enter a waiting line one by one. If a new,
+            incredibly strong player arrives, any weaker players who arrived before them are immediately disqualified
+            from ever being the "best candidate" because they are both weaker *and* will retire (slide out of the
+            window) sooner. Thus, we discard weaker candidates from the back of our list. Additionally, when a player
+            gets too old (out-of-bounds from the sliding window), they are removed from the front of the list. At any
+            given moment, the absolute best player in the window is always the one sitting at the front of the list.</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>Monotonic Deque Optimization (O(n) Time, O(k) Space)</h3>
-        <p>A double-ended queue (Deque) allows us to add or remove elements from both the front and the back in <code>O(1)</code> time. We store indices of elements in the Deque, maintaining them in a <strong>monotonically decreasing order</strong> of their values.
+        <p>A double-ended queue (Deque) allows us to add or remove elements from both the front and the back in
+          <code>O(1)</code> time. We store indices of elements in the Deque, maintaining them in a <strong>monotonically
+            decreasing order</strong> of their values.
           Here is our step-by-step process for each index <code>i</code> in the array:
-          <ul>
-            <li><strong>Remove Out-of-Bounds Indices:</strong> If the index at the front of the Deque is less than <code>i - k + 1</code>, it lies outside the current sliding window, so we remove it from the front.</li>
-            <li><strong>Maintain Monotonic Order:</strong> Before inserting the current index <code>i</code>, we look at the back of the Deque. If the value at the back index is smaller than the current value <code>nums[i]</code>, that back index can never be the maximum in this window or any future window. We pop it from the back. We repeat this until the Deque is empty or the back element is greater than or equal to <code>nums[i]</code>.</li>
-            <li><strong>Add Current Index:</strong> We push the current index <code>i</code> onto the back of the Deque.</li>
-            <li><strong>Record Maximum:</strong> Once our loop counter <code>i</code> reaches at least <code>k - 1</code> (meaning we have processed a full window size), the front of the Deque contains the index of the maximum element for the current window. We record <code>nums[deque.peekFirst()]</code>.</li>
-          </ul>
-          Since each index is added to and removed from the Deque at most once, the total operations are bounded by <code>2 * n</code>, resulting in a linear <code>O(n)</code> time complexity.
+        <ul>
+          <li><strong>Remove Out-of-Bounds Indices:</strong> If the index at the front of the Deque is less than
+            <code>i - k + 1</code>, it lies outside the current sliding window, so we remove it from the front.</li>
+          <li><strong>Maintain Monotonic Order:</strong> Before inserting the current index <code>i</code>, we look at
+            the back of the Deque. If the value at the back index is smaller than the current value
+            <code>nums[i]</code>, that back index can never be the maximum in this window or any future window. We pop
+            it from the back. We repeat this until the Deque is empty or the back element is greater than or equal to
+            <code>nums[i]</code>.</li>
+          <li><strong>Add Current Index:</strong> We push the current index <code>i</code> onto the back of the Deque.
+          </li>
+          <li><strong>Record Maximum:</strong> Once our loop counter <code>i</code> reaches at least <code>k - 1</code>
+            (meaning we have processed a full window size), the front of the Deque contains the index of the maximum
+            element for the current window. We record <code>nums[deque.peekFirst()]</code>.</li>
+        </ul>
+        Since each index is added to and removed from the Deque at most once, the total operations are bounded by
+        <code>2 * n</code>, resulting in a linear <code>O(n)</code> time complexity.
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
         <p>Let's trace the algorithm on <code>nums = [1, 3, -1, -3, 5]</code> with <code>k = 3</code>:</p>
         <ol>
-          <li><strong>Step 1 (Initialization):</strong> Empty Deque: <code>dq = []</code>, output array: <code>res = new int[3]</code>.</li>
+          <li><strong>Step 1 (Initialization):</strong> Empty Deque: <code>dq = []</code>, output array:
+            <code>res = new int[3]</code>.</li>
           <li><strong>Step 2 (Index 0: val = 1):</strong>
             <ul>
               <li>Deque is empty. Offer index 0.</li>
@@ -164,7 +224,8 @@
           </li>
           <li><strong>Step 3 (Index 1: val = 3):</strong>
             <ul>
-              <li>Value at back index (<code>nums[0] = 1</code>) is less than current <code>3</code>. Pop index 0 from back.</li>
+              <li>Value at back index (<code>nums[0] = 1</code>) is less than current <code>3</code>. Pop index 0 from
+                back.</li>
               <li>Deque is now empty. Offer index 1.</li>
               <li>Deque state: <code>[1]</code> (values: <code>[3]</code>)</li>
             </ul>
@@ -180,7 +241,8 @@
           </li>
           <li><strong>Step 5 (Index 3: val = -3):</strong>
             <ul>
-              <li>Remove out-of-bounds front: index 1 is at <code>i-k+1 = 3-3+1 = 1</code>, which is in bounds. No removal.</li>
+              <li>Remove out-of-bounds front: index 1 is at <code>i-k+1 = 3-3+1 = 1</code>, which is in bounds. No
+                removal.</li>
               <li>Value at back index (<code>nums[2] = -1</code>) is greater than <code>-3</code>. No pop.</li>
               <li>Offer index 3.</li>
               <li>Deque state: <code>[1, 2, 3]</code> (values: <code>[3, -1, -3]</code>)</li>
@@ -190,7 +252,8 @@
           </li>
           <li><strong>Step 6 (Index 4: val = 5):</strong>
             <ul>
-              <li>Remove out-of-bounds front: front index is 1. Since <code>1 < 4 - 3 + 1 = 2</code>, it is out of bounds. Pop 1 from front. Deque is now <code>[2, 3]</code>.</li>
+              <li>Remove out-of-bounds front: front index is 1. Since <code>1 < 4 - 3 + 1 = 2</code>, it is out of
+                bounds. Pop 1 from front. Deque is now <code>[2, 3]</code>.</li>
               <li>Value at back index (<code>nums[3] = -3</code>) is less than 5. Pop 3.</li>
               <li>Value at next back index (<code>nums[2] = -1</code>) is less than 5. Pop 2.</li>
               <li>Deque is now empty. Offer index 4.</li>
@@ -204,13 +267,17 @@
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>dq.peekFirst() &lt;= i - k</code>: Keeps the sliding window in bounds by discarding elements that have slid out of range.</li>
-          <li><code>nums[dq.peekLast()] &lt; nums[i]</code>: Discards smaller elements from the back because they can never become the maximum in a window where a larger, newer element is present.</li>
-          <li><code>nums[dq.peekFirst()]</code>: The front of the queue is always maintained as the index of the maximum element for the current window.</li>
+          <li><code>dq.peekFirst() &lt;= i - k</code>: Keeps the sliding window in bounds by discarding elements that
+            have slid out of range.</li>
+          <li><code>nums[dq.peekLast()] &lt; nums[i]</code>: Discards smaller elements from the back because they can
+            never become the maximum in a window where a larger, newer element is present.</li>
+          <li><code>nums[dq.peekFirst()]</code>: The front of the queue is always maintained as the index of the maximum
+            element for the current window.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -270,25 +337,35 @@ public class SlidingWindowMaximum {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Using a double-ended queue to maintain a monotonic sequence allows us to solve the Sliding Window Maximum problem in linear <code>O(n)</code> time. This technique is highly effective for sliding window problems requiring dynamic range query updates.</p>
+        <p>Using a double-ended queue to maintain a monotonic sequence allows us to solve the Sliding Window Maximum
+          problem in linear <code>O(n)</code> time. This technique is highly effective for sliding window problems
+          requiring dynamic range query updates.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/implement-queue-using-stacks.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Implement Queue using Stacks in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/climbing-stairs.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -296,44 +373,47 @@ public class SlidingWindowMaximum {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -342,18 +422,18 @@ public class SlidingWindowMaximum {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -362,4 +442,5 @@ public class SlidingWindowMaximum {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

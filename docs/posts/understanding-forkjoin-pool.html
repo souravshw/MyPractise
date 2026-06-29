@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Java ForkJoinPool Simply | Engineering Notes</title>
-  <link rel="canonical" href="https://enggnotes.com/posts/understanding-forkjoin-pool.html">
+  <link rel="canonical" href="https://www.enggnotes.com/posts/understanding-forkjoin-pool.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Java Parallelism",
-      "item": "https://enggnotes.com/index.html?category=Java%20Parallelism"
+      "item": "https://www.enggnotes.com/index.html?category=Java%20Parallelism"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Demystifying Java's ForkJoinPool",
-      "item": "https://enggnotes.com/posts/understanding-forkjoin-pool.html"
+      "item": "https://www.enggnotes.com/posts/understanding-forkjoin-pool.html"
     }]
   }
   </script>
-  <meta name="description" content="A beginner-friendly explanation of Java's ForkJoinPool and RecursiveTask. Learn how parallel processing works using a sandwich catering analogy.">
-  <meta name="keywords" content="java forkjoinpool, recursivetask java, multithreading java, parallel processing, fork and join, concurrency tutorial, understanding java, java java, forkjoinpool java, simply java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java concurrency, asynchronous programming, thread pool java, java parallel processing">
+  <meta name="description"
+    content="A beginner-friendly explanation of Java's ForkJoinPool and RecursiveTask. Learn how parallel processing works using a sandwich catering analogy.">
+  <meta name="keywords"
+    content="java forkjoinpool, recursivetask java, multithreading java, parallel processing, fork and join, concurrency tutorial, understanding java, java java, forkjoinpool java, simply java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java concurrency, asynchronous programming, thread pool java, java parallel processing">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Java ForkJoinPool Simply | Engineering Notes">
-  <meta property="og:description" content="Learn Java's ForkJoinPool and RecursiveTask using simple, real-world analogies (like a sandwich catering kitchen) so you can understand parallel multithreading.">
+  <meta property="og:description"
+    content="Learn Java's ForkJoinPool and RecursiveTask using simple, real-world analogies (like a sandwich catering kitchen) so you can understand parallel multithreading.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,55 +44,83 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
 
-</header>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -97,7 +129,7 @@
           <li aria-current="page">Demystifying Java's ForkJoinPool</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -106,43 +138,61 @@
           <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
-          <h1 class="article-title">Demystifying Java's ForkJoinPool</h1>
+        <h1 class="article-title">Demystifying Java's ForkJoinPool</h1>
       </header>
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In modern software development, computers come equipped with multi-core processors. However, writing programs that efficiently utilize all these cores at the same time can be incredibly challenging. That is where Java's <strong>ForkJoinPool</strong> framework comes in. It helps us break down a large, slow task into smaller, faster tasks that run in parallel across multiple processor cores.</p>
-        
-        <p>But how does it work under the hood, and what do <code>fork</code> and <code>join</code> actually mean? Let's translate these technical concepts into plain English using a simple kitchen analogy.</p>
+        <p>In modern software development, computers come equipped with multi-core processors. However, writing programs
+          that efficiently utilize all these cores at the same time can be incredibly challenging. That is where Java's
+          <strong>ForkJoinPool</strong> framework comes in. It helps us break down a large, slow task into smaller,
+          faster tasks that run in parallel across multiple processor cores.</p>
+
+        <p>But how does it work under the hood, and what do <code>fork</code> and <code>join</code> actually mean? Let's
+          translate these technical concepts into plain English using a simple kitchen analogy.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/fork_join_pool.svg" alt="Illustration of Java ForkJoinPool framework with Fork and Join stages" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/fork_join_pool.svg"
+            alt="Illustration of Java ForkJoinPool framework with Fork and Join stages"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Sandwich Catering Analogy
           </div>
           <p>Imagine you run a catering business and receive a massive order for <strong>1,000 sandwiches</strong>.
-          If you (the main chef) try to make all 1,000 sandwiches by yourself, you will get exhausted and it will take all day. 
-          Instead, you decide to delegate. You check your rulebook: <em>"If the order is larger than 16 sandwiches, split the order and pass it to helper chefs."</em>
+            If you (the main chef) try to make all 1,000 sandwiches by yourself, you will get exhausted and it will take
+            all day.
+            Instead, you decide to delegate. You check your rulebook: <em>"If the order is larger than 16 sandwiches,
+              split the order and pass it to helper chefs."</em>
           </p>
           <p>
-          Since 1,000 is way larger than 16, you split the order in half: 500 sandwiches go to Chef A, and 500 go to Chef B (this is <strong>Forking</strong>).
-          Chef A and Chef B look at their 500-sandwich orders, see they are still larger than 16, and split them again (250 each).
-          This splitting continues until a chef is handed 16 or fewer sandwiches. At that point, the chef says, <em>"I can do this myself!"</em> and makes them.
+            Since 1,000 is way larger than 16, you split the order in half: 500 sandwiches go to Chef A, and 500 go to
+            Chef B (this is <strong>Forking</strong>).
+            Chef A and Chef B look at their 500-sandwich orders, see they are still larger than 16, and split them again
+            (250 each).
+            This splitting continues until a chef is handed 16 or fewer sandwiches. At that point, the chef says, <em>"I
+              can do this myself!"</em> and makes them.
           </p>
           <p>
-          Once all the helper chefs finish their small batches, they bring their trays back to the main table and combine them (this is <strong>Joining</strong>).
-          In the end, you get your 1,000 sandwiches done in record time by working together!
+            Once all the helper chefs finish their small batches, they bring their trays back to the main table and
+            combine them (this is <strong>Joining</strong>).
+            In the end, you get your 1,000 sandwiches done in record time by working together!
           </p>
         </div>
 
         <h2>How This Looks in Java Code</h2>
-        <p>In Java, we can implement this exact logic by extending the <code>RecursiveTask</code> class. The <code>compute()</code> method contains our logic for deciding when to split (fork) the work and when to do the work ourselves.</p>
+        <p>In Java, we can implement this exact logic by extending the <code>RecursiveTask</code> class. The
+          <code>compute()</code> method contains our logic for deciding when to split (fork) the work and when to do the
+          work ourselves.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.threads;
@@ -191,35 +241,50 @@ public class ForkJoinPoolTest extends RecursiveTask&lt;Long&gt; {
         <h2>Breaking Down the Key Concepts</h2>
         <p>Let's map our sandwich catering analogy directly to the core parts of the Java code:</p>
         <ul>
-          <li><strong>RecursiveTask&lt;Long&gt;:</strong> A task that returns a value (in this case, a <code>Long</code> number). Think of this as the order ticket that must produce a result (the finished sandwiches).</li>
-          <li><strong>Threshold (this.number &gt; 16):</strong> The maximum amount of work one chef is allowed to do alone before they must split it.</li>
-          <li><strong>fork():</strong> Sending a subtask to the ForkJoinPool queue so another thread (helper chef) can pick it up and run it.</li>
+          <li><strong>RecursiveTask&lt;Long&gt;:</strong> A task that returns a value (in this case, a <code>Long</code>
+            number). Think of this as the order ticket that must produce a result (the finished sandwiches).</li>
+          <li><strong>Threshold (this.number &gt; 16):</strong> The maximum amount of work one chef is allowed to do
+            alone before they must split it.</li>
+          <li><strong>fork():</strong> Sending a subtask to the ForkJoinPool queue so another thread (helper chef) can
+            pick it up and run it.</li>
           <li><strong>join():</strong> Waiting for a subtask to finish execution and returning its computed value.</li>
         </ul>
 
         <!-- Another Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             What is Work-Stealing?
           </div>
           <p>ForkJoinPool implements a brilliant algorithm called <strong>Work-Stealing</strong>.
-          Imagine Chef A finishes their pile of sandwiches early, while Chef B is still struggling with a large queue. 
-          Instead of standing around idle, Chef A will automatically go over and "steal" some work from the back of Chef B's queue.
-          This ensures all processor cores stay busy and no resource goes to waste!</p>
+            Imagine Chef A finishes their pile of sandwiches early, while Chef B is still struggling with a large queue.
+            Instead of standing around idle, Chef A will automatically go over and "steal" some work from the back of
+            Chef B's queue.
+            This ensures all processor cores stay busy and no resource goes to waste!</p>
         </div>
 
         <h2>Conclusion</h2>
-        <p>The Fork-Join framework is an incredibly powerful tool in Java for divide-and-conquer style parallel processing. By automatically handling thread management and utilizing work-stealing, it takes the pain out of multi-core optimization, allowing you to write highly performant, scalable applications with clean recursive logic.</p>
+        <p>The Fork-Join framework is an incredibly powerful tool in Java for divide-and-conquer style parallel
+          processing. By automatically handling thread management and utilizing work-stealing, it takes the pain out of
+          multi-core optimization, allowing you to write highly performant, scalable applications with clean recursive
+          logic.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
-          
+
+
           <a href="../posts/understanding-completablefuture.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -227,44 +292,52 @@ public class ForkJoinPoolTest extends RecursiveTask&lt;Long&gt; {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/understanding-completablefuture.html" class="related-card-img">
-              <img src="../images/completable_future.svg" alt="Understanding Java's CompletableFuture">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Concurrency</span>
+
+            <div class="related-card">
+              <a href="../posts/understanding-completablefuture.html" class="related-card-img">
+                <img src="../images/completable_future.svg" alt="Understanding Java's CompletableFuture">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Concurrency</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/understanding-completablefuture.html">Understanding
+                    Java's CompletableFuture</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-completablefuture.html">Understanding Java's CompletableFuture</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/understanding-java-executor-service-vs-completable-future.html" class="related-card-img">
-              <img src="../images/executor-vs-completable-future.svg" alt="ExecutorService vs. CompletableFuture in Java: A Layman's Guide">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Concurrency</span>
+            <div class="related-card">
+              <a href="../posts/understanding-java-executor-service-vs-completable-future.html"
+                class="related-card-img">
+                <img src="../images/executor-vs-completable-future.svg"
+                  alt="ExecutorService vs. CompletableFuture in Java: A Layman's Guide">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Concurrency</span>
+                </div>
+                <h4 class="related-card-title"><a
+                    href="../posts/understanding-java-executor-service-vs-completable-future.html">ExecutorService vs.
+                    CompletableFuture in Java: A Layman's Guide</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-java-executor-service-vs-completable-future.html">ExecutorService vs. CompletableFuture in Java: A Layman's Guide</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/understanding-java-locks-synchronized-reentrant-stamped.html" class="related-card-img">
-              <img src="../images/java-locks-comparison.svg" alt="Choosing the Right Java Lock: Synchronized, ReentrantLock, ReadWriteLock, and StampedLock">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Concurrency</span>
+            <div class="related-card">
+              <a href="../posts/understanding-java-locks-synchronized-reentrant-stamped.html" class="related-card-img">
+                <img src="../images/java-locks-comparison.svg"
+                  alt="Choosing the Right Java Lock: Synchronized, ReentrantLock, ReadWriteLock, and StampedLock">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Concurrency</span>
+                </div>
+                <h4 class="related-card-title"><a
+                    href="../posts/understanding-java-locks-synchronized-reentrant-stamped.html">Choosing the Right Java
+                    Lock: Synchronized, ReentrantLock, ReadWriteLock, and StampedLock</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-java-locks-synchronized-reentrant-stamped.html">Choosing the Right Java Lock: Synchronized, ReentrantLock, ReadWriteLock, and StampedLock</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -273,19 +346,19 @@ public class ForkJoinPoolTest extends RecursiveTask&lt;Long&gt; {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
 
-</footer>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -294,4 +367,5 @@ public class ForkJoinPoolTest extends RecursiveTask&lt;Long&gt; {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

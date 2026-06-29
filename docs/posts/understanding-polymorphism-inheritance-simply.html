@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Polymorphism and Method Overriding: A Simple Guide | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-polymorphism-inheritance-simply.html">
+  <link class="canonical" rel="canonical"
+    href="https://www.enggnotes.com/posts/understanding-polymorphism-inheritance-simply.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +15,30 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Java",
-      "item": "https://enggnotes.com/index.html?category=Java"
+      "item": "https://www.enggnotes.com/index.html?category=Java"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Polymorphism and Method Overriding: A Simple Guide",
-      "item": "https://enggnotes.com/posts/understanding-polymorphism-inheritance-simply.html"
+      "item": "https://www.enggnotes.com/posts/understanding-polymorphism-inheritance-simply.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how JVM resolves polymorphic method overriding dynamically in class hierarchies simply, using a theater actor analogy and a line-by-line main method trace.">
-  <meta name="keywords" content="java polymorphism, method overriding java tutorial, dynamic method dispatch jvm, parent child class inheritance java, understanding polymorphism, polymorphism method, understanding java, polymorphism java, method java, overriding java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
+  <meta name="description"
+    content="Learn how JVM resolves polymorphic method overriding dynamically in class hierarchies simply, using a theater actor analogy and a line-by-line main method trace.">
+  <meta name="keywords"
+    content="java polymorphism, method overriding java tutorial, dynamic method dispatch jvm, parent child class inheritance java, understanding polymorphism, polymorphism method, understanding java, polymorphism java, method java, overriding java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
 
   <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="Understanding Polymorphism and Method Overriding: A Simple Guide | Engineering Notes">
-  <meta property="og:description" content="Learn how JVM resolves polymorphic method overriding dynamically in class hierarchies simply, using a theater actor analogy.">
+  <meta property="og:title"
+    content="Understanding Polymorphism and Method Overriding: A Simple Guide | Engineering Notes">
+  <meta property="og:description"
+    content="Learn how JVM resolves polymorphic method overriding dynamically in class hierarchies simply, using a theater actor analogy.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,64 +46,92 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
 
-</header>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
-         <ol>
-           <li><a href="../index.html">Home</a></li>
-           <li><a href="../index.html?category=Java">Java</a></li>
-           <li aria-current="page">Polymorphism</li>
-         </ol>
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Java">Java</a></li>
+          <li aria-current="page">Polymorphism</li>
+        </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,27 +145,44 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p><strong>Polymorphism</strong> (from the Greek words for "many shapes") is one of the pillars of Object-Oriented Programming (OOP). It allows us to treat objects of different child classes as if they were objects of their shared parent class, while still letting each object behave in its own unique way at runtime.</p>
-        
+        <p><strong>Polymorphism</strong> (from the Greek words for "many shapes") is one of the pillars of
+          Object-Oriented Programming (OOP). It allows us to treat objects of different child classes as if they were
+          objects of their shared parent class, while still letting each object behave in its own unique way at runtime.
+        </p>
+
         <p>Let's look at how Java handles polymorphic method dispatch using a simple theater actor analogy.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/inheritance_checker.svg" alt="Illustration of dynamic method lookup for parent A and child B classes" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/inheritance_checker.svg"
+            alt="Illustration of dynamic method lookup for parent A and child B classes"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Theater Actor
           </div>
-          <p>Imagine a director writing a theater script. The script has a role called <strong>"Actor"</strong> (the Parent Class A) with directions like <strong>"give speech"</strong> (method <code>m1()</code>) and <strong>"take a bow"</strong> (method <code>m2()</code>).</p>
-          <p>When the play begins, the director hires a specific actor named <strong>"Bob"</strong> (the Child Class B) to play the role. The play unfolds like this:</p>
+          <p>Imagine a director writing a theater script. The script has a role called <strong>"Actor"</strong> (the
+            Parent Class A) with directions like <strong>"give speech"</strong> (method <code>m1()</code>) and
+            <strong>"take a bow"</strong> (method <code>m2()</code>).</p>
+          <p>When the play begins, the director hires a specific actor named <strong>"Bob"</strong> (the Child Class B)
+            to play the role. The play unfolds like this:</p>
           <ul>
-            <li>The script says: <code>Actor a = new Bob();</code> (The director refers to Bob simply as "the actor" on stage).</li>
-            <li>The script commands the actor to: <code>a.m1();</code> ("give speech"). Even though the script is written for a generic Actor, Bob delivers his own custom lines that he rehearsed (B's overridden method <code>m1()</code> executes).</li>
-            <li>The script commands the actor to: <code>a.m2();</code> ("take a bow"). Since Bob didn't prepare a custom bow, he performs the standard bow that all actors are trained to do (A's inherited method <code>m2()</code> executes).</li>
+            <li>The script says: <code>Actor a = new Bob();</code> (The director refers to Bob simply as "the actor" on
+              stage).</li>
+            <li>The script commands the actor to: <code>a.m1();</code> ("give speech"). Even though the script is
+              written for a generic Actor, Bob delivers his own custom lines that he rehearsed (B's overridden method
+              <code>m1()</code> executes).</li>
+            <li>The script commands the actor to: <code>a.m2();</code> ("take a bow"). Since Bob didn't prepare a custom
+              bow, he performs the standard bow that all actors are trained to do (A's inherited method
+              <code>m2()</code> executes).</li>
           </ul>
         </div>
 
@@ -142,9 +193,11 @@
           <div class="analogy-box-title" style="color: var(--accent-color);">
             Step 1: Declaration with Reference Type vs. Object Type
           </div>
-          <p>The program declares a reference variable <code>a</code> of type <code>A</code>, but points it to an instance of class <code>B</code> on the heap:</p>
+          <p>The program declares a reference variable <code>a</code> of type <code>A</code>, but points it to an
+            instance of class <code>B</code> on the heap:</p>
           <pre><code class="language-java">A a = new B();</code></pre>
-          <p>At compile time, the compiler only checks if class <code>A</code> has the method we want to call. Since class <code>A</code> has <code>m1()</code>, the code compiles successfully.</p>
+          <p>At compile time, the compiler only checks if class <code>A</code> has the method we want to call. Since
+            class <code>A</code> has <code>m1()</code>, the code compiles successfully.</p>
         </div>
 
         <div class="analogy-box" style="border-left-color: var(--accent-color);">
@@ -153,7 +206,8 @@
           </div>
           <p>Next, the program calls <code>a.m1()</code>:</p>
           <ul>
-            <li>At runtime, the JVM looks at the <strong>actual object</strong> on the heap, which is of type <code>B</code>.</li>
+            <li>At runtime, the JVM looks at the <strong>actual object</strong> on the heap, which is of type
+              <code>B</code>.</li>
             <li>It checks if class <code>B</code> overrides <code>m1()</code>. It does!</li>
             <li>Thus, it invokes <code>B</code>'s version of the method, printing: **<code>B m1()</code>**.</li>
           </ul>
@@ -166,14 +220,19 @@
           <p>Then, the program declares a reference and object both of child type <code>B</code>:</p>
           <pre><code class="language-java">B b = new B();
 b.m1();</code></pre>
-          <p>Since both the reference and the object are of type <code>B</code>, the JVM directly calls <code>B</code>'s <code>m1()</code> method, printing: **<code>B m1()</code>**.</p>
+          <p>Since both the reference and the object are of type <code>B</code>, the JVM directly calls <code>B</code>'s
+            <code>m1()</code> method, printing: **<code>B m1()</code>**.</p>
         </div>
 
         <div class="analogy-box">
           <div class="analogy-box-title" style="color: var(--accent-color);">
             Important Concept: Variables are NOT Polymorphic!
           </div>
-          <p>Notice that Parent Class <code>A</code> declares <code>protected int x = 10;</code>. If Child Class <code>B</code> were to declare its own <code>int x = 20;</code>, variables do not override each other (this is called <strong>variable hiding</strong>). If we access <code>a.x</code>, it would print <code>10</code> because field access is resolved at compile time based on the <strong>reference type</strong> (A), not the actual object type!</p>
+          <p>Notice that Parent Class <code>A</code> declares <code>protected int x = 10;</code>. If Child Class
+            <code>B</code> were to declare its own <code>int x = 20;</code>, variables do not override each other (this
+            is called <strong>variable hiding</strong>). If we access <code>a.x</code>, it would print <code>10</code>
+            because field access is resolved at compile time based on the <strong>reference type</strong> (A), not the
+            actual object type!</p>
         </div>
 
         <h2>Java Implementation</h2>
@@ -213,25 +272,35 @@ class B extends A {
 }</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Polymorphism allows our code to be flexible and extensible. By writing code that references the parent class, we can easily swap in new child classes in the future without changing our main logic. The JVM will automatically look up the correct overridden method implementation at runtime!</p>
+        <p>Polymorphism allows our code to be flexible and extensible. By writing code that references the parent class,
+          we can easily swap in new child classes in the future without changing our main logic. The JVM will
+          automatically look up the correct overridden method implementation at runtime!</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/spam-link-analyzer-simply.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Building a Web Link Spam Analyzer in Java: A Simple Guide</span>
             </div>
           </a>
-          
+
           <a href="../posts/sorting-maps-streams-simply.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -239,44 +308,49 @@ class B extends A {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/sorting-maps-streams-simply.html" class="related-card-img">
-              <img src="../images/stream_map_sorting.svg" alt="Sorting Maps by Value in Java Streams: A Simple Guide">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java</span>
+
+            <div class="related-card">
+              <a href="../posts/sorting-maps-streams-simply.html" class="related-card-img">
+                <img src="../images/stream_map_sorting.svg" alt="Sorting Maps by Value in Java Streams: A Simple Guide">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/sorting-maps-streams-simply.html">Sorting Maps by Value
+                    in Java Streams: A Simple Guide</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/sorting-maps-streams-simply.html">Sorting Maps by Value in Java Streams: A Simple Guide</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/spam-link-analyzer-simply.html" class="related-card-img">
-              <img src="../images/link_analyzer.svg" alt="Building a Web Link Spam Analyzer in Java: A Simple Guide">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java</span>
+            <div class="related-card">
+              <a href="../posts/spam-link-analyzer-simply.html" class="related-card-img">
+                <img src="../images/link_analyzer.svg" alt="Building a Web Link Spam Analyzer in Java: A Simple Guide">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/spam-link-analyzer-simply.html">Building a Web Link
+                    Spam Analyzer in Java: A Simple Guide</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/spam-link-analyzer-simply.html">Building a Web Link Spam Analyzer in Java: A Simple Guide</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/understanding-java-duplicate-strings-heap.html" class="related-card-img">
-              <img src="../images/duplicate-strings-heap.svg" alt="Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+            <div class="related-card">
+              <a href="../posts/understanding-java-duplicate-strings-heap.html" class="related-card-img">
+                <img src="../images/duplicate-strings-heap.svg"
+                  alt="Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a
+                    href="../posts/understanding-java-duplicate-strings-heap.html">Understanding Duplicate Strings in
+                    Java Heap: Immutability vs. Uniqueness</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-java-duplicate-strings-heap.html">Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -285,19 +359,19 @@ class B extends A {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
 
-</footer>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -306,4 +380,5 @@ class B extends A {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

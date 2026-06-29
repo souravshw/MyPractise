@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Design Parking Lot in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/design-parking-lot.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/design-parking-lot.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Design Parking Lot",
-      "item": "https://enggnotes.com/posts/design-parking-lot.html"
+      "item": "https://www.enggnotes.com/posts/design-parking-lot.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to model a parking lot system using Object-Oriented Programming (OOP) and polymorphism.">
-  <meta name="keywords" content="design parking lot java, java design parking lot tutorial, optimized design parking lot solution, how to solve design parking lot, design parking lot leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, design parking lot example, hashmap design parking lot java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description"
+    content="Learn how to model a parking lot system using Object-Oriented Programming (OOP) and polymorphism.">
+  <meta name="keywords"
+    content="design parking lot java, java design parking lot tutorial, optimized design parking lot solution, how to solve design parking lot, design parking lot leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, design parking lot example, hashmap design parking lot java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Design Parking Lot in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to model a parking lot system using Object-Oriented Programming (OOP) and polymorphism.">
+  <meta property="og:description"
+    content="Learn how to model a parking lot system using Object-Oriented Programming (OOP) and polymorphism.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +44,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +128,7 @@
           <li aria-current="page">Design Parking Lot</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,39 +143,61 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>Designing a <strong>Parking Lot</strong> is a classic Object-Oriented Design (OOD) interview question. It assesses your ability to break down a physical, real-world system into logical software abstractions using fundamental OOP principles: <strong>Inheritance</strong>, <strong>Encapsulation</strong>, and <strong>Polymorphism</strong>.</p>
-        <p>A parking lot contains various parking spots of different sizes, and accommodates vehicles of matching sizes. To build a robust model, we must design:
-          <ul>
-            <li><strong>Vehicle Types:</strong> Support multiple classes of vehicles, such as Bikes, Cars, and Trucks.</li>
-            <li><strong>ParkingSpot Constraints:</strong> Spots are typed to match vehicle classes. A vehicle can only park in a spot of the same type.</li>
-            <li><strong>Parking Lot Management:</strong> A controller class that automates allocating available spots for incoming vehicles and vacating them upon departure.</li>
-          </ul>
+        <p>Designing a <strong>Parking Lot</strong> is a classic Object-Oriented Design (OOD) interview question. It
+          assesses your ability to break down a physical, real-world system into logical software abstractions using
+          fundamental OOP principles: <strong>Inheritance</strong>, <strong>Encapsulation</strong>, and
+          <strong>Polymorphism</strong>.</p>
+        <p>A parking lot contains various parking spots of different sizes, and accommodates vehicles of matching sizes.
+          To build a robust model, we must design:
+        <ul>
+          <li><strong>Vehicle Types:</strong> Support multiple classes of vehicles, such as Bikes, Cars, and Trucks.
+          </li>
+          <li><strong>ParkingSpot Constraints:</strong> Spots are typed to match vehicle classes. A vehicle can only
+            park in a spot of the same type.</li>
+          <li><strong>Parking Lot Management:</strong> A controller class that automates allocating available spots for
+            incoming vehicles and vacating them upon departure.</li>
+        </ul>
         </p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/design_parking_lot.png" alt="Illustration of Object-Oriented Parking Lot design in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/design_parking_lot.png" alt="Illustration of Object-Oriented Parking Lot design in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: Labeled Mail Slots
           </div>
-          <p>Imagine you run a mailroom that receives packages of three different sizes: letters (bikes), boxes (cars), and large crates (trucks). To store them, you have shelves with compartments of corresponding sizes: small slots, medium slots, and large shelves. When a package arrives, you look at its size and search for the first empty compartment that matches that size. You cannot place a large crate on a letter slot, nor do you want to waste a large shelf on a single letter. In software, the packages are <code>Vehicle</code> objects, the compartments are <code>ParkingSpot</code> objects, and the mailroom manager who assigns packages to spots is the <code>ParkingLot</code> coordinator.</p>
+          <p>Imagine you run a mailroom that receives packages of three different sizes: letters (bikes), boxes (cars),
+            and large crates (trucks). To store them, you have shelves with compartments of corresponding sizes: small
+            slots, medium slots, and large shelves. When a package arrives, you look at its size and search for the
+            first empty compartment that matches that size. You cannot place a large crate on a letter slot, nor do you
+            want to waste a large shelf on a single letter. In software, the packages are <code>Vehicle</code> objects,
+            the compartments are <code>ParkingSpot</code> objects, and the mailroom manager who assigns packages to
+            spots is the <code>ParkingLot</code> coordinator.</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>Polymorphic Class Hierarchies</h3>
         <p>We leverage object-oriented principles to build a clean model:
-          <ul>
-            <li><strong>Polymorphism:</strong> We define a base abstract <code>Vehicle</code> class. Specific vehicle types (like <code>Car</code>) inherit from it, defining their own default <code>VehicleType</code>.</li>
-            <li><strong>Encapsulation:</strong> The <code>ParkingSpot</code> class manages its own state, exposing a <code>park(Vehicle v)</code> method that evaluates safety constraints internally:
-              <br><code>if (isFree && v.type == type)</code>.
-            </li>
-            <li><strong>Delegation:</strong> The <code>ParkingLot</code> class holds a collection of spots. When parking a vehicle, it loops through the spots and delegates the parking operation to each spot until one accepts the vehicle.</li>
-          </ul>
+        <ul>
+          <li><strong>Polymorphism:</strong> We define a base abstract <code>Vehicle</code> class. Specific vehicle
+            types (like <code>Car</code>) inherit from it, defining their own default <code>VehicleType</code>.</li>
+          <li><strong>Encapsulation:</strong> The <code>ParkingSpot</code> class manages its own state, exposing a
+            <code>park(Vehicle v)</code> method that evaluates safety constraints internally:
+            <br><code>if (isFree && v.type == type)</code>.
+          </li>
+          <li><strong>Delegation:</strong> The <code>ParkingLot</code> class holds a collection of spots. When parking a
+            vehicle, it loops through the spots and delegates the parking operation to each spot until one accepts the
+            vehicle.</li>
+        </ul>
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
@@ -157,10 +211,13 @@
           </li>
           <li><strong>Step 2 (Park Car):</strong>
             <ul>
-              <li>A <code>Car</code> object with license <code>"MH12-1234"</code> arrives. We call <code>lot.parkVehicle(car)</code>.</li>
+              <li>A <code>Car</code> object with license <code>"MH12-1234"</code> arrives. We call
+                <code>lot.parkVehicle(car)</code>.</li>
               <li>The loop scans spots. It invokes <code>spot1.park(car)</code>.</li>
-              <li><code>spot1</code> checks constraints: Is it free? Yes. Does vehicle type <code>CAR</code> match spot type <code>CAR</code>? Yes.</li>
-              <li>The spot is marked as occupied (<code>isFree = false</code>, <code>vehicle = car</code>). Returns <code>true</code>.</li>
+              <li><code>spot1</code> checks constraints: Is it free? Yes. Does vehicle type <code>CAR</code> match spot
+                type <code>CAR</code>? Yes.</li>
+              <li>The spot is marked as occupied (<code>isFree = false</code>, <code>vehicle = car</code>). Returns
+                <code>true</code>.</li>
             </ul>
           </li>
           <li><strong>Step 3 (Park Another Car):</strong>
@@ -173,8 +230,10 @@
           <li><strong>Step 4 (Unpark Car):</strong>
             <ul>
               <li>The first car leaves. We call <code>lot.unparkVehicle(car)</code>.</li>
-              <li>The loop searches spots for the one holding <code>car</code>. It finds <code>spot1</code> and invokes <code>spot1.leave()</code>.</li>
-              <li><code>spot1</code> clears its reference (<code>vehicle = null</code>) and sets <code>isFree = true</code>.</li>
+              <li>The loop searches spots for the one holding <code>car</code>. It finds <code>spot1</code> and invokes
+                <code>spot1.leave()</code>.</li>
+              <li><code>spot1</code> clears its reference (<code>vehicle = null</code>) and sets
+                <code>isFree = true</code>.</li>
             </ul>
           </li>
         </ol>
@@ -182,13 +241,17 @@
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>public abstract static class Vehicle</code>: Enforces inheritance. By declaring this abstract, we ensure no generic "Vehicle" can be instantiated directly; it must be a concrete type like Car or Bike.</li>
-          <li><code>if (isFree && v.type == type)</code>: Enforces type-safety. Prevents a Truck from parking in a Motorcycle spot.</li>
-          <li><code>s.park(v)</code>: The delegation step. The lot itself doesn't modify the spot's attributes directly; it requests the spot to execute the action, respecting encapsulation.</li>
+          <li><code>public abstract static class Vehicle</code>: Enforces inheritance. By declaring this abstract, we
+            ensure no generic "Vehicle" can be instantiated directly; it must be a concrete type like Car or Bike.</li>
+          <li><code>if (isFree && v.type == type)</code>: Enforces type-safety. Prevents a Truck from parking in a
+            Motorcycle spot.</li>
+          <li><code>s.park(v)</code>: The delegation step. The lot itself doesn't modify the spot's attributes directly;
+            it requests the spot to execute the action, respecting encapsulation.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -311,25 +374,35 @@ public class DesignParkingLot {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Designing a Parking Lot highlights the elegance of object-oriented modeling. By distributing logic into separate components (Vehicle subclasses, ParkingSpot verifiers, and ParkingLot coordinators), we build an extensible system capable of growing to support new vehicle classes effortlessly.</p>
+        <p>Designing a Parking Lot highlights the elegance of object-oriented modeling. By distributing logic into
+          separate components (Vehicle subclasses, ParkingSpot verifiers, and ParkingLot coordinators), we build an
+          extensible system capable of growing to support new vehicle classes effortlessly.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/design-twitter.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Design Twitter in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/design-url-shortener.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -337,44 +410,47 @@ public class DesignParkingLot {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-hit-counter.html" class="related-card-img">
-              <img src="../images/design_hit_counter.png" alt="Understanding Design Hit Counter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-hit-counter.html" class="related-card-img">
+                <img src="../images/design_hit_counter.png" alt="Understanding Design Hit Counter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-hit-counter.html">Understanding Design Hit
+                    Counter in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-hit-counter.html">Understanding Design Hit Counter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -383,18 +459,18 @@ public class DesignParkingLot {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -403,4 +479,5 @@ public class DesignParkingLot {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

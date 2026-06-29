@@ -1,10 +1,11 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finding the Longest Consecutive Increasing Chain in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/consecutive-increasing-chains.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/consecutive-increasing-chains.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Finding the Longest Consecutive Increasing Chain in Java",
-      "item": "https://enggnotes.com/posts/consecutive-increasing-chains.html"
+      "item": "https://www.enggnotes.com/posts/consecutive-increasing-chains.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to find the longest increasing chain of numbers in an array simply, using a card-run table analogy and step-by-step trace of nested loops.">
-  <meta name="keywords" content="java longest increasing chain, consecutive numbers subsequence java, java array search increasing order, subsequence difference one java tutorial, finding longest, longest consecutive, finding java, longest java, consecutive java, increasing java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
+  <meta name="description"
+    content="Learn how to find the longest increasing chain of numbers in an array simply, using a card-run table analogy and step-by-step trace of nested loops.">
+  <meta name="keywords"
+    content="java longest increasing chain, consecutive numbers subsequence java, java array search increasing order, subsequence difference one java tutorial, finding longest, longest consecutive, finding java, longest java, consecutive java, increasing java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Finding the Longest Consecutive Increasing Chain in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to find the longest increasing chain of numbers in an array simply, using a card-run table analogy.">
+  <meta property="og:description"
+    content="Learn how to find the longest increasing chain of numbers in an array simply, using a card-run table analogy.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,55 +44,83 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
 
-</header>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -97,7 +129,7 @@
           <li aria-current="page">Increasing Chain</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,28 +143,40 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>An interesting coding problem is to find the <strong>longest chain of numbers</strong> in an array where each number in the chain is exactly 1 larger than the one before it, and we must preserve the array order (we can only search forward, skipping elements that don't fit).</p>
-        
+        <p>An interesting coding problem is to find the <strong>longest chain of numbers</strong> in an array where each
+          number in the chain is exactly 1 larger than the one before it, and we must preserve the array order (we can
+          only search forward, skipping elements that don't fit).</p>
+
         <p>Let's understand how we search for these runs using a simple card-stacking game analogy.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/consecutive_increasing_chain.svg" alt="Illustration of matching card links forming a consecutive chain" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/consecutive_increasing_chain.svg"
+            alt="Illustration of matching card links forming a consecutive chain"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Left-To-Right Card Run
           </div>
-          <p>Imagine you have cards spread out in a row on a table. You want to construct the longest possible sequence of cards that increase by exactly 1 (like <code>0 → 1 → 2 → 3 → 4</code>).</p>
-          <p>However, you must follow a strict rule: <strong>you can only pick cards from left to right</strong> (no backtracking!).</p>
+          <p>Imagine you have cards spread out in a row on a table. You want to construct the longest possible sequence
+            of cards that increase by exactly 1 (like <code>0 → 1 → 2 → 3 → 4</code>).</p>
+          <p>However, you must follow a strict rule: <strong>you can only pick cards from left to right</strong> (no
+            backtracking!).</p>
           <ul>
             <li>You start with the first card (e.g. <code>0</code>).</li>
             <li>You scan the table to the right looking for a card that is exactly <code>1</code>.</li>
-            <li>Once you find <code>1</code>, you continue scanning to the right from that spot looking for a <code>2</code>.</li>
-            <li>You skip unrelated cards (like <code>26</code> or <code>8</code>) that lie in between because they don't help build the run.</li>
+            <li>Once you find <code>1</code>, you continue scanning to the right from that spot looking for a
+              <code>2</code>.</li>
+            <li>You skip unrelated cards (like <code>26</code> or <code>8</code>) that lie in between because they don't
+              help build the run.</li>
             <li>After trying every card as a starting point, the longest card run wins!</li>
           </ul>
         </div>
@@ -154,14 +198,19 @@ int maxCount = 0;</code></pre>
           <div class="analogy-box-title" style="color: var(--accent-color);">
             Step 2: Tracing the first loop run (starting at index 0)
           </div>
-          <p>The loop starts at <code>i = 0</code> (value <code>0</code>). We look forward in the array for <code>previous + 1</code>:</p>
+          <p>The loop starts at <code>i = 0</code> (value <code>0</code>). We look forward in the array for
+            <code>previous + 1</code>:</p>
           <ul>
-            <li><strong>Index 1:</strong> Value is <code>1</code>. <code>1 - 0 = 1</code>. Matches! Count increases to 1, previous becomes 1.</li>
+            <li><strong>Index 1:</strong> Value is <code>1</code>. <code>1 - 0 = 1</code>. Matches! Count increases to
+              1, previous becomes 1.</li>
             <li><strong>Indices 2, 3, 4:</strong> Values are 26, 8, 9. Difference is not 1. Skipped.</li>
-            <li><strong>Index 5:</strong> Value is <code>2</code>. <code>2 - 1 = 1</code>. Matches! Count increases to 2, previous becomes 2.</li>
-            <li><strong>Index 6:</strong> Value is <code>3</code>. <code>3 - 2 = 1</code>. Matches! Count increases to 3, previous becomes 3.</li>
+            <li><strong>Index 5:</strong> Value is <code>2</code>. <code>2 - 1 = 1</code>. Matches! Count increases to
+              2, previous becomes 2.</li>
+            <li><strong>Index 6:</strong> Value is <code>3</code>. <code>3 - 2 = 1</code>. Matches! Count increases to
+              3, previous becomes 3.</li>
             <li><strong>Indices 7, 8, 9:</strong> Skipped.</li>
-            <li><strong>Index 10:</strong> Value is <code>4</code>. <code>4 - 3 = 1</code>. Matches! Count increases to 4, previous becomes 4.</li>
+            <li><strong>Index 10:</strong> Value is <code>4</code>. <code>4 - 3 = 1</code>. Matches! Count increases to
+              4, previous becomes 4.</li>
           </ul>
           <p>At the end of the scan, the program updates the scoreboard: <code>maxCount = max(0, 4 + 1) = 5</code>.</p>
         </div>
@@ -170,7 +219,9 @@ int maxCount = 0;</code></pre>
           <div class="analogy-box-title" style="color: var(--accent-color);">
             Step 3: Checking subsequent starting points
           </div>
-          <p>The outer loop moves to index 1 (starting at value <code>1</code>), index 2 (starting at <code>26</code>), and so on. None of these runs can reach a length of 5. The program prints the winning run length: <strong>5</strong>.</p>
+          <p>The outer loop moves to index 1 (starting at value <code>1</code>), index 2 (starting at <code>26</code>),
+            and so on. None of these runs can reach a length of 5. The program prints the winning run length:
+            <strong>5</strong>.</p>
         </div>
 
         <h2>Java Implementation</h2>
@@ -208,25 +259,35 @@ public class TestSecondProblem {
 }</code></pre>
 
         <h2>Conclusion</h2>
-        <p>By using nested loops, we can track the progress of runs starting at every index position in our array. Keeping a <code>maxCount</code> variable allows us to record and update the longest run found, ensuring we get the correct output without losing our cards!</p>
+        <p>By using nested loops, we can track the progress of runs starting at every index position in our array.
+          Keeping a <code>maxCount</code> variable allows us to record and update the longest run found, ensuring we get
+          the correct output without losing our cards!</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/summing-up-to-ten.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Summing Up to a Target Sum in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/understanding-class-initialization-blocks.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -234,44 +295,48 @@ public class TestSecondProblem {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/binary-gap-algorithm.html" class="related-card-img">
-              <img src="../images/binary-gap.svg" alt="Finding the Longest Binary Gap in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/binary-gap-algorithm.html" class="related-card-img">
+                <img src="../images/binary-gap.svg" alt="Finding the Longest Binary Gap in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/binary-gap-algorithm.html">Finding the Longest Binary
+                    Gap in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/binary-gap-algorithm.html">Finding the Longest Binary Gap in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/frequent-ip-address-counter.html" class="related-card-img">
-              <img src="../images/frequent-ip.svg" alt="Finding the Most Frequent IP Address in Log Files">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/frequent-ip-address-counter.html" class="related-card-img">
+                <img src="../images/frequent-ip.svg" alt="Finding the Most Frequent IP Address in Log Files">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/frequent-ip-address-counter.html">Finding the Most
+                    Frequent IP Address in Log Files</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/frequent-ip-address-counter.html">Finding the Most Frequent IP Address in Log Files</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/hackerrank-find-target-sum-pairs.html" class="related-card-img">
-              <img src="../images/summing_up_to_n.svg" alt="Finding Target Sum Pairs Using Complements HashSet in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/hackerrank-find-target-sum-pairs.html" class="related-card-img">
+                <img src="../images/summing_up_to_n.svg"
+                  alt="Finding Target Sum Pairs Using Complements HashSet in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/hackerrank-find-target-sum-pairs.html">Finding Target
+                    Sum Pairs Using Complements HashSet in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/hackerrank-find-target-sum-pairs.html">Finding Target Sum Pairs Using Complements HashSet in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -280,19 +345,19 @@ public class TestSecondProblem {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
 
-</footer>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -301,4 +366,5 @@ public class TestSecondProblem {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

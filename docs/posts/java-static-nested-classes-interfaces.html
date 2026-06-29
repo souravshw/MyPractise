@@ -1,10 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Java Static Nested Classes and Nested Interfaces | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/java-static-nested-classes-interfaces.html">
+  <link class="canonical" rel="canonical"
+    href="https://www.enggnotes.com/posts/java-static-nested-classes-interfaces.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,22 +15,24 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Java",
-      "item": "https://enggnotes.com/index.html?category=Java"
+      "item": "https://www.enggnotes.com/index.html?category=Java"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Java Static Nested Classes and Nested Interfaces",
-      "item": "https://enggnotes.com/posts/java-static-nested-classes-interfaces.html"
+      "item": "https://www.enggnotes.com/posts/java-static-nested-classes-interfaces.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how Java static nested classes and nested interfaces work, their access rules, and how to instantiate them. Explained simply.">
-  <meta name="keywords" content="java static nested class, nested interface java, nested interface in class, java inner class static keyword, java static, static nested, java java, static java, nested java, classes java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
+  <meta name="description"
+    content="Learn how Java static nested classes and nested interfaces work, their access rules, and how to instantiate them. Explained simply.">
+  <meta name="keywords"
+    content="java static nested class, nested interface java, nested interface in class, java inner class static keyword, java static, static nested, java java, static java, nested java, classes java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Java Static Nested Classes and Nested Interfaces | Engineering Notes">
@@ -40,55 +44,83 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
 
-</header>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -97,7 +129,7 @@
           <li aria-current="page">Static Nested Classes</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,30 +143,44 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In Java, nested classes can be declared with the <code>static</code> keyword. Unlike member inner classes, a <strong>static nested class</strong> behaves like any outer class, meaning it cannot access non-static instance variables of its parent directly. Similarly, Java supports <strong>nested interfaces</strong> declared inside other interfaces or classes.</p>
-        
-        <p>In this guide, we will trace the access rules of static nested classes and how to implement nested interfaces.</p>
+        <p>In Java, nested classes can be declared with the <code>static</code> keyword. Unlike member inner classes, a
+          <strong>static nested class</strong> behaves like any outer class, meaning it cannot access non-static
+          instance variables of its parent directly. Similarly, Java supports <strong>nested interfaces</strong>
+          declared inside other interfaces or classes.</p>
+
+        <p>In this guide, we will trace the access rules of static nested classes and how to implement nested
+          interfaces.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/string_identity_map.png" alt="Illustration representing class relationships and static boundaries" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/string_identity_map.png"
+            alt="Illustration representing class relationships and static boundaries"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: Independent Subdivisions
           </div>
           <p>Imagine a corporate company headquarters building:</p>
           <ul>
-            <li><strong>Member Inner Class:</strong> An department desk inside the office. It needs an employee badge and can access the private water coolers.</li>
-            <li><strong>Static Nested Class:</strong> A separate retail coffee shop renting space in the ground floor lobby. It is physically inside the building, but operates independently. It cannot look at internal company employee profiles.</li>
+            <li><strong>Member Inner Class:</strong> An department desk inside the office. It needs an employee badge
+              and can access the private water coolers.</li>
+            <li><strong>Static Nested Class:</strong> A separate retail coffee shop renting space in the ground floor
+              lobby. It is physically inside the building, but operates independently. It cannot look at internal
+              company employee profiles.</li>
           </ul>
         </div>
 
         <h2>1. Static Nested Classes</h2>
-        <p>A static nested class can only access static fields of the outer class. You do not need an instance of the outer class to instantiate it:</p>
+        <p>A static nested class can only access static fields of the outer class. You do not need an instance of the
+          outer class to instantiate it:</p>
 
         <pre><code class="language-java">class StaticNestedClass {
     static int data = 30; // Must be static
@@ -155,7 +201,8 @@
 }</code></pre>
 
         <h2>2. Static Methods inside Static Nested Classes</h2>
-        <p>If your static nested class contains static methods, you don't even need to instantiate the nested class itself:</p>
+        <p>If your static nested class contains static methods, you don't even need to instantiate the nested class
+          itself:</p>
         <pre><code class="language-java">class StaticNestedClassWithStaticMethod {
     static int data = 30;
 
@@ -172,7 +219,8 @@
 }</code></pre>
 
         <h2>3. Nested Interfaces</h2>
-        <p>An interface can be declared inside another interface or class. These are implicit static members, used to group related interfaces:</p>
+        <p>An interface can be declared inside another interface or class. These are implicit static members, used to
+          group related interfaces:</p>
         <pre><code class="language-java">// Declared inside an interface
 interface Showable {
     void show();
@@ -194,25 +242,34 @@ class TestNestedInterface1 implements Showable.Message {
 }</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Use static nested classes when the inner class does not depend on instance states of the outer class. Similarly, use nested interfaces to structure tight contracts that are logically grouped together.</p>
+        <p>Use static nested classes when the inner class does not depend on instance states of the outer class.
+          Similarly, use nested interfaces to structure tight contracts that are logically grouped together.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/java-class-initialization-blocks-inheritance.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Class Initialization Sequences in Java Inheritance</span>
             </div>
           </a>
-          
+
           <a href="../posts/java-inner-classes-member-local-anonymous.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -220,44 +277,52 @@ class TestNestedInterface1 implements Showable.Message {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/java-inner-classes-member-local-anonymous.html" class="related-card-img">
-              <img src="../images/coffee_shop_kitchen.png" alt="Understanding Java Inner Classes: Member, Local, and Anonymous">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+
+            <div class="related-card">
+              <a href="../posts/java-inner-classes-member-local-anonymous.html" class="related-card-img">
+                <img src="../images/coffee_shop_kitchen.png"
+                  alt="Understanding Java Inner Classes: Member, Local, and Anonymous">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a
+                    href="../posts/java-inner-classes-member-local-anonymous.html">Understanding Java Inner Classes:
+                    Member, Local, and Anonymous</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/java-inner-classes-member-local-anonymous.html">Understanding Java Inner Classes: Member, Local, and Anonymous</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/understanding-java-duplicate-strings-heap.html" class="related-card-img">
-              <img src="../images/duplicate-strings-heap.svg" alt="Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+            <div class="related-card">
+              <a href="../posts/understanding-java-duplicate-strings-heap.html" class="related-card-img">
+                <img src="../images/duplicate-strings-heap.svg"
+                  alt="Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a
+                    href="../posts/understanding-java-duplicate-strings-heap.html">Understanding Duplicate Strings in
+                    Java Heap: Immutability vs. Uniqueness</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-java-duplicate-strings-heap.html">Understanding Duplicate Strings in Java Heap: Immutability vs. Uniqueness</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/java-memory-management-garbage-collection.html" class="related-card-img">
-              <img src="../images/java-memory-gc.svg" alt="Java Memory Management and Garbage Collection: A Simple Guide">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+            <div class="related-card">
+              <a href="../posts/java-memory-management-garbage-collection.html" class="related-card-img">
+                <img src="../images/java-memory-gc.svg"
+                  alt="Java Memory Management and Garbage Collection: A Simple Guide">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/java-memory-management-garbage-collection.html">Java
+                    Memory Management and Garbage Collection: A Simple Guide</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/java-memory-management-garbage-collection.html">Java Memory Management and Garbage Collection: A Simple Guide</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -266,19 +331,19 @@ class TestNestedInterface1 implements Showable.Message {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
 
-</footer>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -287,4 +352,5 @@ class TestNestedInterface1 implements Showable.Message {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

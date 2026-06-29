@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Permutations in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/permutations.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/permutations.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,22 +14,23 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Permutations",
-      "item": "https://enggnotes.com/posts/permutations.html"
+      "item": "https://www.enggnotes.com/posts/permutations.html"
     }]
   }
   </script>
   <meta name="description" content="Learn how to generate all permutations of an array using backtracking.">
-  <meta name="keywords" content="permutations java, java permutations tutorial, optimized permutations solution, how to solve permutations, permutations leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, permutations example, hashmap permutations java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="keywords"
+    content="permutations java, java permutations tutorial, optimized permutations solution, how to solve permutations, permutations leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, permutations example, hashmap permutations java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Permutations in Java | Engineering Notes">
@@ -40,54 +42,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +126,7 @@
           <li aria-current="page">Permutations</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,40 +141,66 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Permutations</strong> problem asks us to generate all possible permutations (different arrangements or orderings) of an array of distinct integers, <code>nums</code>.</p>
-        <p>A <strong>permutation</strong> is an arrangement of all members of a set into some sequence or linear order. For a set of size <code>n</code>, the total number of unique permutations is exactly <code>n!</code> (n factorial). For instance, if <code>nums = [1, 2, 3]</code>, the output contains <code>3! = 6</code> combinations:
+        <p>The <strong>Permutations</strong> problem asks us to generate all possible permutations (different
+          arrangements or orderings) of an array of distinct integers, <code>nums</code>.</p>
+        <p>A <strong>permutation</strong> is an arrangement of all members of a set into some sequence or linear order.
+          For a set of size <code>n</code>, the total number of unique permutations is exactly <code>n!</code> (n
+          factorial). For instance, if <code>nums = [1, 2, 3]</code>, the output contains <code>3! = 6</code>
+          combinations:
           <br><code>[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]</code>.
-          Generating all permutations requires us to explore all branches of a state space tree of size <code>O(n!)</code>. Backtracking combined with a fast lookup buffer (like a boolean array or a set) is the standard method for this task.
+          Generating all permutations requires us to explore all branches of a state space tree of size
+          <code>O(n!)</code>. Backtracking combined with a fast lookup buffer (like a boolean array or a set) is the
+          standard method for this task.
         </p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/string_permutations.png" alt="Illustration of generating all Permutations using backtracking in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/string_permutations.png"
+            alt="Illustration of generating all Permutations using backtracking in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: Spelling Words from Letter Tiles
           </div>
-          <p>Imagine you have three letter tiles on a desk: <strong>A</strong>, <strong>B</strong>, and <strong>C</strong>. You want to write down all possible 3-letter combinations you can make using each tile exactly once. You start with an empty spelling tray. For the first slot, you have 3 choices: A, B, or C. If you choose A, it goes in the tray. For the second slot, you only have tiles B and C left. If you choose B, you place it down. For the third slot, you only have tile C left, which completes the word "ABC". You write it down. To find other combinations starting with A, you pick up C, then pick up B (backtrack), and place C in the second slot instead, eventually completing "ACB". Repeating this systematic choice and retrieval explores every anagram possible.</p>
+          <p>Imagine you have three letter tiles on a desk: <strong>A</strong>, <strong>B</strong>, and
+            <strong>C</strong>. You want to write down all possible 3-letter combinations you can make using each tile
+            exactly once. You start with an empty spelling tray. For the first slot, you have 3 choices: A, B, or C. If
+            you choose A, it goes in the tray. For the second slot, you only have tiles B and C left. If you choose B,
+            you place it down. For the third slot, you only have tile C left, which completes the word "ABC". You write
+            it down. To find other combinations starting with A, you pick up C, then pick up B (backtrack), and place C
+            in the second slot instead, eventually completing "ACB". Repeating this systematic choice and retrieval
+            explores every anagram possible.</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>Backtracking Search with Used Buffer (O(n * n!) Time, O(n) Space)</h3>
-        <p>We build our permutations recursively, building a single permutation list <code>path</code> of length <code>n</code> step-by-step.
-          <ul>
-            <li><strong>Base Case:</strong> If the size of <code>path</code> equals <code>nums.length</code>, we have formed a complete permutation. We make a copy of <code>path</code> and add it to our results list.</li>
-            <li><strong>Recursive Exploration:</strong> We loop through all numbers in <code>nums</code>. For each number <code>num</code>:
-              <ul>
-                <li>If the number is already used in our current path, we skip it to prevent reusing elements. To do this efficiently, we can use a boolean array <code>used</code> where <code>used[i]</code> tracks whether <code>nums[i]</code> is currently in our path. This lookup is <code>O(1)</code>, which is much faster than calling <code>path.contains(num)</code>, which takes <code>O(n)</code>.</li>
-                <li>Otherwise, we mark the number as used, append it to <code>path</code>, and recurse forward.</li>
-                <li>When the recursive call returns, we backtrack by removing the number from the end of <code>path</code> and marking it as unused.</li>
-              </ul>
-            </li>
-          </ul>
-          The auxiliary space complexity is <code>O(n)</code> due to the recursion stack and the state arrays.
+        <p>We build our permutations recursively, building a single permutation list <code>path</code> of length
+          <code>n</code> step-by-step.
+        <ul>
+          <li><strong>Base Case:</strong> If the size of <code>path</code> equals <code>nums.length</code>, we have
+            formed a complete permutation. We make a copy of <code>path</code> and add it to our results list.</li>
+          <li><strong>Recursive Exploration:</strong> We loop through all numbers in <code>nums</code>. For each number
+            <code>num</code>:
+            <ul>
+              <li>If the number is already used in our current path, we skip it to prevent reusing elements. To do this
+                efficiently, we can use a boolean array <code>used</code> where <code>used[i]</code> tracks whether
+                <code>nums[i]</code> is currently in our path. This lookup is <code>O(1)</code>, which is much faster
+                than calling <code>path.contains(num)</code>, which takes <code>O(n)</code>.</li>
+              <li>Otherwise, we mark the number as used, append it to <code>path</code>, and recurse forward.</li>
+              <li>When the recursive call returns, we backtrack by removing the number from the end of <code>path</code>
+                and marking it as unused.</li>
+            </ul>
+          </li>
+        </ul>
+        The auxiliary space complexity is <code>O(n)</code> due to the recursion stack and the state arrays.
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
@@ -152,19 +208,22 @@
         <ol>
           <li><strong>Step 1 (Root Call):</strong> <code>backtrack(path=[], used=[false, false, false])</code>.
             <ul>
-              <li>Iteration <code>i = 0</code>: <code>nums[0] (1)</code> is unused. Mark <code>used[0] = true</code>, path is <code>[1]</code>. Recurse!</li>
+              <li>Iteration <code>i = 0</code>: <code>nums[0] (1)</code> is unused. Mark <code>used[0] = true</code>,
+                path is <code>[1]</code>. Recurse!</li>
             </ul>
           </li>
           <li><strong>Step 2 (Recurse Level 1):</strong> <code>backtrack(path=[1], used=[true, false, false])</code>.
             <ul>
               <li>Iteration <code>i = 0</code>: Already used. Skip.</li>
-              <li>Iteration <code>i = 1</code>: <code>nums[1] (2)</code> is unused. Mark <code>used[1] = true</code>, path is <code>[1, 2]</code>. Recurse!</li>
+              <li>Iteration <code>i = 1</code>: <code>nums[1] (2)</code> is unused. Mark <code>used[1] = true</code>,
+                path is <code>[1, 2]</code>. Recurse!</li>
             </ul>
           </li>
           <li><strong>Step 3 (Recurse Level 2):</strong> <code>backtrack(path=[1, 2], used=[true, true, false])</code>.
             <ul>
               <li>Iteration <code>i = 0, 1</code>: Already used. Skip.</li>
-              <li>Iteration <code>i = 2</code>: <code>nums[2] (3)</code> is unused. Mark <code>used[2] = true</code>, path is <code>[1, 2, 3]</code>. Recurse!</li>
+              <li>Iteration <code>i = 2</code>: <code>nums[2] (3)</code> is unused. Mark <code>used[2] = true</code>,
+                path is <code>[1, 2, 3]</code>. Recurse!</li>
             </ul>
           </li>
           <li><strong>Step 4 (Base Case reached):</strong> <code>backtrack(path=[1, 2, 3])</code>.
@@ -172,26 +231,34 @@
               <li><code>path.size() == 3</code>. Save copy to result. Return.</li>
             </ul>
           </li>
-          <li><strong>Step 5 (Backtrack from level 2):</strong> In Step 3, we unmark <code>used[2] = false</code>, pop 3. Path becomes <code>[1, 2]</code>. Loop ends. Return.</li>
-          <li><strong>Step 6 (Backtrack from level 1):</strong> In Step 2, we unmark <code>used[1] = false</code>, pop 2. Path becomes <code>[1]</code>.
+          <li><strong>Step 5 (Backtrack from level 2):</strong> In Step 3, we unmark <code>used[2] = false</code>, pop
+            3. Path becomes <code>[1, 2]</code>. Loop ends. Return.</li>
+          <li><strong>Step 6 (Backtrack from level 1):</strong> In Step 2, we unmark <code>used[1] = false</code>, pop
+            2. Path becomes <code>[1]</code>.
             <ul>
-              <li>Loop in Step 2 continues to <code>i = 2</code>. <code>nums[2] (3)</code> is unused. Mark <code>used[2] = true</code>, path becomes <code>[1, 3]</code>. Recurse!</li>
+              <li>Loop in Step 2 continues to <code>i = 2</code>. <code>nums[2] (3)</code> is unused. Mark
+                <code>used[2] = true</code>, path becomes <code>[1, 3]</code>. Recurse!</li>
               <li>This path will eventually complete to <code>[1, 3, 2]</code>, save it, and backtrack.</li>
             </ul>
           </li>
-          <li><strong>Step 7 (Explore other roots):</strong> The algorithm backtracks to the root and initiates scans starting with 2 and 3, exploring all paths.</li>
+          <li><strong>Step 7 (Explore other roots):</strong> The algorithm backtracks to the root and initiates scans
+            starting with 2 and 3, exploring all paths.</li>
         </ol>
 
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>boolean[] used</code>: A high-performance lookup state. Using a boolean array reduces lookup time to <code>O(1)</code>, optimizing the overall runtime.</li>
-          <li><code>if (used[i]) continue;</code>: The pruning check. Skips characters that are already active in the current path.</li>
-          <li><code>used[i] = true; path.add(nums[i]); ... used[i] = false; path.remove(path.size() - 1);</code>: The classic choose-explore-unchoose cycle, restoring state for adjacent branches.</li>
+          <li><code>boolean[] used</code>: A high-performance lookup state. Using a boolean array reduces lookup time to
+            <code>O(1)</code>, optimizing the overall runtime.</li>
+          <li><code>if (used[i]) continue;</code>: The pruning check. Skips characters that are already active in the
+            current path.</li>
+          <li><code>used[i] = true; path.add(nums[i]); ... used[i] = false; path.remove(path.size() - 1);</code>: The
+            classic choose-explore-unchoose cycle, restoring state for adjacent branches.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -253,25 +320,35 @@ public class Permutations {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Generating permutations requires exploring all possible orderings of a set. By utilizing backtracking and optimizing lookup operations with a <code>used</code> state array, we navigate the state space tree with maximum execution speed and minimum memory overhead.</p>
+        <p>Generating permutations requires exploring all possible orderings of a set. By utilizing backtracking and
+          optimizing lookup operations with a <code>used</code> state array, we navigate the state space tree with
+          maximum execution speed and minimum memory overhead.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/subsets.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Subsets in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/word-search.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -279,44 +356,47 @@ public class Permutations {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -325,18 +405,18 @@ public class Permutations {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -345,4 +425,5 @@ public class Permutations {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

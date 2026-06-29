@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Non-overlapping Intervals in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/non-overlapping-intervals.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/non-overlapping-intervals.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Non-overlapping Intervals",
-      "item": "https://enggnotes.com/posts/non-overlapping-intervals.html"
+      "item": "https://www.enggnotes.com/posts/non-overlapping-intervals.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to find the minimum intervals to remove to make the rest non-overlapping by sorting by end times.">
-  <meta name="keywords" content="non-overlapping intervals java, java non-overlapping intervals tutorial, optimized non-overlapping intervals solution, how to solve non-overlapping intervals, non-overlapping intervals leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, non-overlapping intervals example, hashmap non-overlapping intervals java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description"
+    content="Learn how to find the minimum intervals to remove to make the rest non-overlapping by sorting by end times.">
+  <meta name="keywords"
+    content="non-overlapping intervals java, java non-overlapping intervals tutorial, optimized non-overlapping intervals solution, how to solve non-overlapping intervals, non-overlapping intervals leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, non-overlapping intervals example, hashmap non-overlapping intervals java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Non-overlapping Intervals in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to find the minimum intervals to remove to make the rest non-overlapping by sorting by end times.">
+  <meta property="og:description"
+    content="Learn how to find the minimum intervals to remove to make the rest non-overlapping by sorting by end times.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +44,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +128,7 @@
           <li aria-current="page">Non-overlapping Intervals</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,45 +143,68 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Non-overlapping Intervals</strong> problem asks us to find the minimum number of intervals we need to remove from a given collection of intervals so that the remaining intervals do not overlap.</p>
-        <p>An interval is represented as a pair <code>[start, end]</code>. For example, if the input is <code>[[1, 2], [2, 3], [3, 4], [1, 3]]</code>:
-          <ul>
-            <li>Intervals <code>[1, 2]</code>, <code>[2, 3]</code>, and <code>[3, 4]</code> do not overlap at their boundaries.</li>
-            <li>Interval <code>[1, 3]</code> overlaps with both <code>[1, 2]</code> and <code>[2, 3]</code>.</li>
-            <li>By removing <code>[1, 3]</code>, we are left with 3 non-overlapping intervals. This is the minimum possible number of removals, so we return <code>1</code>.</li>
-          </ul>
-          This problem is equivalent to the classic <strong>Interval Scheduling Maximization Problem (ISMP)</strong>, where we want to schedule the maximum number of mutually compatible events. By finding the maximum number of non-overlapping intervals we can keep (let this be <code>K</code>), the minimum number of removals is simply <code>Total Intervals - K</code>.
+        <p>The <strong>Non-overlapping Intervals</strong> problem asks us to find the minimum number of intervals we
+          need to remove from a given collection of intervals so that the remaining intervals do not overlap.</p>
+        <p>An interval is represented as a pair <code>[start, end]</code>. For example, if the input is
+          <code>[[1, 2], [2, 3], [3, 4], [1, 3]]</code>:
+        <ul>
+          <li>Intervals <code>[1, 2]</code>, <code>[2, 3]</code>, and <code>[3, 4]</code> do not overlap at their
+            boundaries.</li>
+          <li>Interval <code>[1, 3]</code> overlaps with both <code>[1, 2]</code> and <code>[2, 3]</code>.</li>
+          <li>By removing <code>[1, 3]</code>, we are left with 3 non-overlapping intervals. This is the minimum
+            possible number of removals, so we return <code>1</code>.</li>
+        </ul>
+        This problem is equivalent to the classic <strong>Interval Scheduling Maximization Problem (ISMP)</strong>,
+        where we want to schedule the maximum number of mutually compatible events. By finding the maximum number of
+        non-overlapping intervals we can keep (let this be <code>K</code>), the minimum number of removals is simply
+        <code>Total Intervals - K</code>.
         </p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/non_overlapping_intervals.png" alt="Illustration of Non-overlapping Intervals greedy selection by end time in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/non_overlapping_intervals.png"
+            alt="Illustration of Non-overlapping Intervals greedy selection by end time in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Greedy Classroom Scheduler
           </div>
-          <p>Imagine you are scheduling classes in a single classroom to fit as many classes as possible. If Class A ends at 2:00 PM and Class B ends at 5:00 PM, which one should you schedule first? You should greedily choose Class A (the one that ends earliest) because finishing early frees up the classroom as quickly as possible, leaving the maximum room for other classes later in the day. Any class that starts before Class A finishes cannot be scheduled and must be removed.</p>
+          <p>Imagine you are scheduling classes in a single classroom to fit as many classes as possible. If Class A
+            ends at 2:00 PM and Class B ends at 5:00 PM, which one should you schedule first? You should greedily choose
+            Class A (the one that ends earliest) because finishing early frees up the classroom as quickly as possible,
+            leaving the maximum room for other classes later in the day. Any class that starts before Class A finishes
+            cannot be scheduled and must be removed.</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>Greedy Sorting by End Time (O(n) Time, O(1) Space)</h3>
         <p>The greedy rule for maximizing independent intervals is to **always select the interval that ends earliest**.
           Here is our approach:
-          <ol>
-            <li><strong>Sort:</strong> We sort the intervals based on their end times: <code>a[1] - b[1]</code>.</li>
-            <li><strong>Track End Boundary:</strong> We maintain a variable <code>end</code> representing the end time of the last successfully scheduled interval, initialized to the end time of the first sorted interval. We also maintain a counter <code>removals = 0</code>.</li>
-            <li><strong>Scan and Count:</strong> For each subsequent interval <code>i</code>:
-              <ul>
-                <li>If the start time of interval <code>i</code> is less than our active <code>end</code> boundary (<code>intervals[i][0] &lt; end</code>), they overlap. Since we are greedily keeping the interval that ends earlier, we choose to remove this current interval. We increment <code>removals++</code>.</li>
-                <li>Otherwise, they do not overlap. We successfully schedule interval <code>i</code> by updating our active boundary: <code>end = intervals[i][1]</code>.</li>
-              </ul>
-            </li>
-          </ol>
-          Sorting takes <code>O(n log n)</code> time, and the linear sweep takes <code>O(n)</code>. Space complexity is <code>O(1)</code> if we sort the input array in place.
+        <ol>
+          <li><strong>Sort:</strong> We sort the intervals based on their end times: <code>a[1] - b[1]</code>.</li>
+          <li><strong>Track End Boundary:</strong> We maintain a variable <code>end</code> representing the end time of
+            the last successfully scheduled interval, initialized to the end time of the first sorted interval. We also
+            maintain a counter <code>removals = 0</code>.</li>
+          <li><strong>Scan and Count:</strong> For each subsequent interval <code>i</code>:
+            <ul>
+              <li>If the start time of interval <code>i</code> is less than our active <code>end</code> boundary
+                (<code>intervals[i][0] &lt; end</code>), they overlap. Since we are greedily keeping the interval that
+                ends earlier, we choose to remove this current interval. We increment <code>removals++</code>.</li>
+              <li>Otherwise, they do not overlap. We successfully schedule interval <code>i</code> by updating our
+                active boundary: <code>end = intervals[i][1]</code>.</li>
+            </ul>
+          </li>
+        </ol>
+        Sorting takes <code>O(n log n)</code> time, and the linear sweep takes <code>O(n)</code>. Space complexity is
+        <code>O(1)</code> if we sort the input array in place.
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
@@ -168,7 +223,8 @@
           </li>
           <li><strong>Step 3 (Interval 1: [2, 3]):</strong>
             <ul>
-              <li>Compare start: <code>intervals[1][0] = 2</code>. Since <code>2 &gt;= end (2)</code>, there is no overlap.</li>
+              <li>Compare start: <code>intervals[1][0] = 2</code>. Since <code>2 &gt;= end (2)</code>, there is no
+                overlap.</li>
               <li>Schedule it: Update <code>end = 3</code>.</li>
               <li>State: <code>end = 3</code>, <code>removals = 0</code>.</li>
             </ul>
@@ -182,7 +238,8 @@
           </li>
           <li><strong>Step 5 (Interval 3: [3, 4]):</strong>
             <ul>
-              <li>Compare start: <code>intervals[3][0] = 3</code>. Since <code>3 &gt;= end (3)</code>, there is no overlap.</li>
+              <li>Compare start: <code>intervals[3][0] = 3</code>. Since <code>3 &gt;= end (3)</code>, there is no
+                overlap.</li>
               <li>Schedule it: Update <code>end = 4</code>.</li>
               <li>State: <code>end = 4</code>, <code>removals = 1</code>.</li>
             </ul>
@@ -193,12 +250,17 @@
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>Arrays.sort(intervals, (a, b) -&gt; Integer.compare(a[1], b[1]));</code>: The foundation of the greedy strategy. Sorting by end time ensures that we always evaluate options that vacate our resource earliest.</li>
-          <li><code>if (intervals[i][0] &lt; end) removals++;</code>: Identifies an overlap. Since the current interval ends later than or equal to our active boundary (due to sorting), we greedily discard the current interval to keep the smaller end boundary.</li>
+          <li><code>Arrays.sort(intervals, (a, b) -&gt; Integer.compare(a[1], b[1]));</code>: The foundation of the
+            greedy strategy. Sorting by end time ensures that we always evaluate options that vacate our resource
+            earliest.</li>
+          <li><code>if (intervals[i][0] &lt; end) removals++;</code>: Identifies an overlap. Since the current interval
+            ends later than or equal to our active boundary (due to sorting), we greedily discard the current interval
+            to keep the smaller end boundary.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -245,25 +307,35 @@ public class NonOverlappingIntervals {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>The Non-overlapping Intervals problem highlights how a change of perspective (sorting by end time instead of start time) simplifies a scheduling problem. With this greedy choice, we solve the problem optimally in <code>O(n log n)</code> time.</p>
+        <p>The Non-overlapping Intervals problem highlights how a change of perspective (sorting by end time instead of
+          start time) simplifies a scheduling problem. With this greedy choice, we solve the problem optimally in
+          <code>O(n log n)</code> time.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/merge-intervals.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Merge Intervals in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/assign-cookies.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -271,44 +343,47 @@ public class NonOverlappingIntervals {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -317,18 +392,18 @@ public class NonOverlappingIntervals {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -337,4 +412,5 @@ public class NonOverlappingIntervals {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

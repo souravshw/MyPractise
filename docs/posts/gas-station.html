@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Gas Station in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/gas-station.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/gas-station.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Gas Station",
-      "item": "https://enggnotes.com/posts/gas-station.html"
+      "item": "https://www.enggnotes.com/posts/gas-station.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to find the starting gas station to complete a circular circuit in O(n) time.">
-  <meta name="keywords" content="gas station java, java gas station tutorial, optimized gas station solution, how to solve gas station, gas station leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, gas station example, hashmap gas station java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description"
+    content="Learn how to find the starting gas station to complete a circular circuit in O(n) time.">
+  <meta name="keywords"
+    content="gas station java, java gas station tutorial, optimized gas station solution, how to solve gas station, gas station leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, gas station example, hashmap gas station java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Gas Station in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to find the starting gas station to complete a circular circuit in O(n) time.">
+  <meta property="og:description"
+    content="Learn how to find the starting gas station to complete a circular circuit in O(n) time.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +44,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +128,7 @@
           <li aria-current="page">Gas Station</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,64 +143,96 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Gas Station</strong> problem describes a circular route containing <code>n</code> gas stations. Each gas station <code>i</code> provides a certain amount of gas: <code>gas[i]</code>. You have a car with an unlimited gas tank, and it costs <code>cost[i]</code> of gas to travel from station <code>i</code> to its next neighbor station <code>(i + 1)</code>.</p>
-        <p>We start the journey with an empty tank at one of the gas stations. Our goal is to find the starting gas station's index if we can travel around the circuit once in the clockwise direction, otherwise return <code>-1</code>. If a solution exists, it is guaranteed to be unique.
+        <p>The <strong>Gas Station</strong> problem describes a circular route containing <code>n</code> gas stations.
+          Each gas station <code>i</code> provides a certain amount of gas: <code>gas[i]</code>. You have a car with an
+          unlimited gas tank, and it costs <code>cost[i]</code> of gas to travel from station <code>i</code> to its next
+          neighbor station <code>(i + 1)</code>.</p>
+        <p>We start the journey with an empty tank at one of the gas stations. Our goal is to find the starting gas
+          station's index if we can travel around the circuit once in the clockwise direction, otherwise return
+          <code>-1</code>. If a solution exists, it is guaranteed to be unique.
           For example:
-          <ul>
-            <li><code>gas = [1, 2, 3, 4, 5]</code></li>
-            <li><code>cost = [3, 4, 5, 1, 2]</code></li>
-          </ul>
-          The total gas is <code>1+2+3+4+5 = 15</code>, and the total cost is <code>3+4+5+1+2 = 15</code>. Since total gas is equal to total cost, a solution is possible. By starting at index 3 (gas value 4), we accumulate enough fuel to navigate the route.
-          If we check all starting stations naively, it takes <code>O(n<sup>2</sup>)</code>. We want to find an optimized, single-pass <code>O(n)</code> greedy solution.
+        <ul>
+          <li><code>gas = [1, 2, 3, 4, 5]</code></li>
+          <li><code>cost = [3, 4, 5, 1, 2]</code></li>
+        </ul>
+        The total gas is <code>1+2+3+4+5 = 15</code>, and the total cost is <code>3+4+5+1+2 = 15</code>. Since total gas
+        is equal to total cost, a solution is possible. By starting at index 3 (gas value 4), we accumulate enough fuel
+        to navigate the route.
+        If we check all starting stations naively, it takes <code>O(n<sup>2</sup>)</code>. We want to find an optimized,
+        single-pass <code>O(n)</code> greedy solution.
         </p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/gas_station.png" alt="Illustration of Gas Station circular route greedy algorithm in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/gas_station.png" alt="Illustration of Gas Station circular route greedy algorithm in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Circular Fuel Run
           </div>
-          <p>Imagine running a circular race track with checkpoints. Each checkpoint gives you energy bars, and traveling to the next checkpoint burns calories. First, if the total calories provided by all checkpoints is less than the total calories burned to run the entire track, you can never finish—no matter where you start. Second, if you start at checkpoint A and run out of energy at checkpoint B, it means any checkpoint between A and B is also a failing starting point (since you would have arrived at those intermediate checkpoints with a surplus of energy from A, and still failed). Thus, you can skip all checkpoints between A and B and set your next trial start point to B + 1.</p>
+          <p>Imagine running a circular race track with checkpoints. Each checkpoint gives you energy bars, and
+            traveling to the next checkpoint burns calories. First, if the total calories provided by all checkpoints is
+            less than the total calories burned to run the entire track, you can never finish—no matter where you start.
+            Second, if you start at checkpoint A and run out of energy at checkpoint B, it means any checkpoint between
+            A and B is also a failing starting point (since you would have arrived at those intermediate checkpoints
+            with a surplus of energy from A, and still failed). Thus, you can skip all checkpoints between A and B and
+            set your next trial start point to B + 1.</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>Greedy Gas Tank Tracking (O(n) Time, O(1) Space)</h3>
         <p>We use two observations to solve this in a single loop:
-          <ol>
-            <li><strong>Total Net Gas Check:</strong> If the sum of all elements in <code>gas</code> is less than the sum of all elements in <code>cost</code>, the car can never complete the circuit. We return <code>-1</code>.</li>
-            <li><strong>Resetting the Starting Station:</strong> We start driving from station 0 with a current tank of 0. At each station <code>i</code>, we add the net gas <code>gas[i] - cost[i]</code> to our tank. If our tank drops below 0 at station <code>i</code>, it means we cannot start at our chosen <code>start</code> index and reach <code>i + 1</code>. In fact, we cannot start at <em>any</em> station between <code>start</code> and <code>i</code> either. So, we set the new potential starting station to <code>i + 1</code> and reset our tank to 0.</li>
-          </ol>
-          If we complete a full loop through the stations and the total net gas is non-negative, the last recorded <code>start</code> index is guaranteed to be the correct starting position.
+        <ol>
+          <li><strong>Total Net Gas Check:</strong> If the sum of all elements in <code>gas</code> is less than the sum
+            of all elements in <code>cost</code>, the car can never complete the circuit. We return <code>-1</code>.
+          </li>
+          <li><strong>Resetting the Starting Station:</strong> We start driving from station 0 with a current tank of 0.
+            At each station <code>i</code>, we add the net gas <code>gas[i] - cost[i]</code> to our tank. If our tank
+            drops below 0 at station <code>i</code>, it means we cannot start at our chosen <code>start</code> index and
+            reach <code>i + 1</code>. In fact, we cannot start at <em>any</em> station between <code>start</code> and
+            <code>i</code> either. So, we set the new potential starting station to <code>i + 1</code> and reset our
+            tank to 0.</li>
+        </ol>
+        If we complete a full loop through the stations and the total net gas is non-negative, the last recorded
+        <code>start</code> index is guaranteed to be the correct starting position.
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Let's trace the algorithm with <code>gas = [1, 2, 3, 4, 5]</code> and <code>cost = [3, 4, 5, 1, 2]</code>:</p>
+        <p>Let's trace the algorithm with <code>gas = [1, 2, 3, 4, 5]</code> and <code>cost = [3, 4, 5, 1, 2]</code>:
+        </p>
         <ol>
-          <li><strong>Step 1 (Initialization):</strong> Set <code>totalSurplus = 0</code>, <code>currentTank = 0</code>, <code>start = 0</code>.</li>
+          <li><strong>Step 1 (Initialization):</strong> Set <code>totalSurplus = 0</code>, <code>currentTank = 0</code>,
+            <code>start = 0</code>.</li>
           <li><strong>Step 2 (Index 0: gas = 1, cost = 3):</strong>
             <ul>
               <li>Net: <code>1 - 3 = -2</code>.</li>
               <li>Accumulate: <code>totalSurplus = -2</code>, <code>currentTank = -2</code>.</li>
-              <li>Since <code>currentTank < 0</code>, we reset! We set <code>start = 1</code> and <code>currentTank = 0</code>.</li>
+              <li>Since <code>currentTank < 0</code>, we reset! We set <code>start = 1</code> and
+                <code>currentTank = 0</code>.</li>
             </ul>
           </li>
           <li><strong>Step 3 (Index 1: gas = 2, cost = 4):</strong>
             <ul>
               <li>Net: <code>2 - 4 = -2</code>.</li>
               <li>Accumulate: <code>totalSurplus = -4</code>, <code>currentTank = -2</code>.</li>
-              <li>Since <code>currentTank < 0</code>, reset! Set <code>start = 2</code> and <code>currentTank = 0</code>.</li>
+              <li>Since <code>currentTank < 0</code>, reset! Set <code>start = 2</code> and
+                <code>currentTank = 0</code>.</li>
             </ul>
           </li>
           <li><strong>Step 4 (Index 2: gas = 3, cost = 5):</strong>
             <ul>
               <li>Net: <code>3 - 5 = -2</code>.</li>
               <li>Accumulate: <code>totalSurplus = -6</code>, <code>currentTank = -2</code>.</li>
-              <li>Since <code>currentTank < 0</code>, reset! Set <code>start = 3</code> and <code>currentTank = 0</code>.</li>
+              <li>Since <code>currentTank < 0</code>, reset! Set <code>start = 3</code> and
+                <code>currentTank = 0</code>.</li>
             </ul>
           </li>
           <li><strong>Step 5 (Index 3: gas = 4, cost = 1):</strong>
@@ -185,18 +249,23 @@
               <li>Since <code>currentTank >= 0</code>, we proceed.</li>
             </ul>
           </li>
-          <li><strong>Step 7 (Final Check):</strong> The loop ends. Since <code>totalSurplus = 0</code> (non-negative), the tour is possible. We return <code>start = 3</code>.</li>
+          <li><strong>Step 7 (Final Check):</strong> The loop ends. Since <code>totalSurplus = 0</code> (non-negative),
+            the tour is possible. We return <code>start = 3</code>.</li>
         </ol>
 
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>totalSurplus += gas[i] - cost[i];</code>: Keeps track of the global energy balance. If it ends up negative, a full cycle is mathematically impossible.</li>
-          <li><code>if (currentTank &lt; 0) { start = i + 1; currentTank = 0; }</code>: The greedy state transition. When the fuel tank goes dry, it proves all previous nodes are invalid starting candidates, so we jump our starting guess forward to the next index.</li>
+          <li><code>totalSurplus += gas[i] - cost[i];</code>: Keeps track of the global energy balance. If it ends up
+            negative, a full cycle is mathematically impossible.</li>
+          <li><code>if (currentTank &lt; 0) { start = i + 1; currentTank = 0; }</code>: The greedy state transition.
+            When the fuel tank goes dry, it proves all previous nodes are invalid starting candidates, so we jump our
+            starting guess forward to the next index.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -246,25 +315,35 @@ public class GasStation {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>The Gas Station problem is a beautiful example of using mathematical properties to cut search complexity. By realizing that failing at station B invalidates all stations between B and the starting candidate, we collapse a nested loop search into a single O(n) sweep.</p>
+        <p>The Gas Station problem is a beautiful example of using mathematical properties to cut search complexity. By
+          realizing that failing at station B invalidates all stations between B and the starting candidate, we collapse
+          a nested loop search into a single O(n) sweep.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/jump-game.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Jump Game in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/merge-intervals.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -272,44 +351,47 @@ public class GasStation {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -318,18 +400,18 @@ public class GasStation {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -338,4 +420,5 @@ public class GasStation {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

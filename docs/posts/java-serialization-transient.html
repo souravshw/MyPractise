@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Java Serialization &amp; the Transient Keyword | Engineering Notes</title>
-  <link rel="canonical" href="https://enggnotes.com/posts/java-serialization-transient.html">
+  <link rel="canonical" href="https://www.enggnotes.com/posts/java-serialization-transient.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Java Concurrency",
-      "item": "https://enggnotes.com/index.html?category=Java%20Concurrency"
+      "item": "https://www.enggnotes.com/index.html?category=Java%20Concurrency"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Java Serialization",
-      "item": "https://enggnotes.com/posts/java-serialization-transient.html"
+      "item": "https://www.enggnotes.com/posts/java-serialization-transient.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how Java Serialization writes object states to streams and how the transient keyword excludes sensitive data fields from being saved, explained simply.">
-  <meta name="keywords" content="understanding java, java serialization, java java, serialization java, amp java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java nio, file manipulation java, java io streams, java 8 streams">
+  <meta name="description"
+    content="Learn how Java Serialization writes object states to streams and how the transient keyword excludes sensitive data fields from being saved, explained simply.">
+  <meta name="keywords"
+    content="understanding java, java serialization, java java, serialization java, amp java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java nio, file manipulation java, java io streams, java 8 streams">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Java Serialization &amp; the Transient Keyword | Engineering Notes">
-  <meta property="og:description" content="Learn how Java Serialization writes object states to streams and how transient excludes fields, explained simply.">
+  <meta property="og:description"
+    content="Learn how Java Serialization writes object states to streams and how transient excludes fields, explained simply.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,53 +44,81 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
 
-</header>
+  </header>
 
   <main class="container">
     <article class="article-container">
-      
+
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
           <li><a href="../index.html">Home</a></li>
@@ -94,7 +126,7 @@
           <li aria-current="page">Serialization</li>
         </ol>
       </nav>
-      
+
       <header class="article-header">
         <div class="post-meta">
           <span class="post-category">Java Concurrency</span>
@@ -106,28 +138,47 @@
       </header>
 
       <div class="article-body">
-        <p><strong>Serialization</strong> is a mechanism in Java that lets you save the current state of an object as a sequence of bytes. You can write these bytes to a file on disk or send them over a network. <strong>Deserialization</strong> is the reverse process, taking the byte stream and rebuilding the live Java object in memory.</p>
+        <p><strong>Serialization</strong> is a mechanism in Java that lets you save the current state of an object as a
+          sequence of bytes. You can write these bytes to a file on disk or send them over a network.
+          <strong>Deserialization</strong> is the reverse process, taking the byte stream and rebuilding the live Java
+          object in memory.</p>
 
-        <p>If an object contains sensitive fields (like credit card numbers or passwords) that should not be saved or transmitted, Java provides the **<code>transient</code>** keyword to exclude those specific fields from serialization.</p>
+        <p>If an object contains sensitive fields (like credit card numbers or passwords) that should not be saved or
+          transmitted, Java provides the **<code>transient</code>** keyword to exclude those specific fields from
+          serialization.</p>
 
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/serialization-basic.svg" alt="Visualizing Serialization and Transient field exclusion" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/serialization-basic.svg" alt="Visualizing Serialization and Transient field exclusion"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: Mailing a Flat Dollhouse
           </div>
-          <p>Imagine you built a beautiful 3D plastic toy dollhouse (a live object in memory) and want to mail it to a friend:</p>
+          <p>Imagine you built a beautiful 3D plastic toy dollhouse (a live object in memory) and want to mail it to a
+            friend:</p>
           <ul>
-            <li><strong>Serialization:</strong> You fold the dollhouse flat, pack the pieces in an envelope, and mail it (the byte stream). Your friend receives the envelope and pops the pieces back up to recreate the exact 3D house (deserialization).</li>
-            <li><strong>Transient:</strong> The dollhouse has a secret drawer containing real gold coins. Before flattening and mailing the house, you write <strong>"transient"</strong> on the drawer. The post office machine sees this tag and automatically <strong>discards the coins</strong> (excludes them from the package) to keep it safe. When your friend rebuilds the house, the secret drawer is present but empty (reverts to its default state, e.g. 0 or null).</li>
+            <li><strong>Serialization:</strong> You fold the dollhouse flat, pack the pieces in an envelope, and mail it
+              (the byte stream). Your friend receives the envelope and pops the pieces back up to recreate the exact 3D
+              house (deserialization).</li>
+            <li><strong>Transient:</strong> The dollhouse has a secret drawer containing real gold coins. Before
+              flattening and mailing the house, you write <strong>"transient"</strong> on the drawer. The post office
+              machine sees this tag and automatically <strong>discards the coins</strong> (excludes them from the
+              package) to keep it safe. When your friend rebuilds the house, the secret drawer is present but empty
+              (reverts to its default state, e.g. 0 or null).</li>
           </ul>
         </div>
 
         <h2>Java Implementation</h2>
-        <p>In this code, we serialize a student record. The <code>id</code> field is marked as <code>transient</code>, so it gets skipped during serialization and prints its default integer value <code>0</code> upon deserialization:</p>
+        <p>In this code, we serialize a student record. The <code>id</code> field is marked as <code>transient</code>,
+          so it gets skipped during serialization and prints its default integer value <code>0</code> upon
+          deserialization:</p>
 
         <pre><code class="language-java">package io.practise;
  
@@ -168,25 +219,34 @@ class TStudent implements Serializable {
 }</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Use the `transient` keyword to secure sensitive data fields, exclude loggers, or optimize performance by skipping large, temporary cache fields during object persistence operations.</p>
+        <p>Use the `transient` keyword to secure sensitive data fields, exclude loggers, or optimize performance by
+          skipping large, temporary cache fields during object persistence operations.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/java-advanced-enum-class-bodies.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Advanced Java Enums: Constant-Specific Class Bodies & Overrides</span>
             </div>
           </a>
-          
+
           <a href="../posts/java-serialization-inheritance.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -194,44 +254,50 @@ class TStudent implements Serializable {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/java-serialization-inheritance.html" class="related-card-img">
-              <img src="../images/serialization-inheritance.svg" alt="Serialization and Class Inheritance in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+
+            <div class="related-card">
+              <a href="../posts/java-serialization-inheritance.html" class="related-card-img">
+                <img src="../images/serialization-inheritance.svg" alt="Serialization and Class Inheritance in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/java-serialization-inheritance.html">Serialization and
+                    Class Inheritance in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/java-serialization-inheritance.html">Serialization and Class Inheritance in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/understanding-class-initialization-blocks.html" class="related-card-img">
-              <img src="../images/java_initialization_blocks.png" alt="Understanding Java Class Initialization Order and Blocks">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+            <div class="related-card">
+              <a href="../posts/understanding-class-initialization-blocks.html" class="related-card-img">
+                <img src="../images/java_initialization_blocks.png"
+                  alt="Understanding Java Class Initialization Order and Blocks">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a
+                    href="../posts/understanding-class-initialization-blocks.html">Understanding Java Class
+                    Initialization Order and Blocks</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-class-initialization-blocks.html">Understanding Java Class Initialization Order and Blocks</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/java-memory-management-garbage-collection.html" class="related-card-img">
-              <img src="../images/java-memory-gc.svg" alt="Java Memory Management and Garbage Collection: A Simple Guide">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Core & OOP</span>
+            <div class="related-card">
+              <a href="../posts/java-memory-management-garbage-collection.html" class="related-card-img">
+                <img src="../images/java-memory-gc.svg"
+                  alt="Java Memory Management and Garbage Collection: A Simple Guide">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Core & OOP</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/java-memory-management-garbage-collection.html">Java
+                    Memory Management and Garbage Collection: A Simple Guide</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/java-memory-management-garbage-collection.html">Java Memory Management and Garbage Collection: A Simple Guide</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -239,22 +305,23 @@ class TStudent implements Serializable {
   </main>
 
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
 
-</footer>
+  </footer>
 
   <script src="../js/fragments.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

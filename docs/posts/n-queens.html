@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding N-Queens in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/n-queens.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/n-queens.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding N-Queens",
-      "item": "https://enggnotes.com/posts/n-queens.html"
+      "item": "https://www.enggnotes.com/posts/n-queens.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to solve the classic N-Queens puzzle on an N x N chessboard using backtracking.">
-  <meta name="keywords" content="n-queens java, java n-queens tutorial, optimized n-queens solution, how to solve n-queens, n-queens leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, n-queens example, hashmap n-queens java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description"
+    content="Learn how to solve the classic N-Queens puzzle on an N x N chessboard using backtracking.">
+  <meta name="keywords"
+    content="n-queens java, java n-queens tutorial, optimized n-queens solution, how to solve n-queens, n-queens leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, n-queens example, hashmap n-queens java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding N-Queens in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to solve the classic N-Queens puzzle on an N x N chessboard using backtracking.">
+  <meta property="og:description"
+    content="Learn how to solve the classic N-Queens puzzle on an N x N chessboard using backtracking.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +44,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +128,7 @@
           <li aria-current="page">N-Queens</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,40 +143,64 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>N-Queens</strong> puzzle is a classic constraint satisfaction problem in computer science. The goal is to place <code>N</code> chess queens on an <code>N &times; N</code> chessboard such that no two queens can attack each other. </p>
-        <p>In chess, a queen is the most powerful piece; it can attack any other piece located in the same <strong>row</strong>, <strong>column</strong>, or along either of its two <strong>diagonals</strong> (primary and secondary). To solve this puzzle, we must find all unique grid layouts where <code>N</code> queens coexist in absolute peace. 
-           For example, for a <code>4 &times; 4</code> board, there are exactly 2 unique solutions.
+        <p>The <strong>N-Queens</strong> puzzle is a classic constraint satisfaction problem in computer science. The
+          goal is to place <code>N</code> chess queens on an <code>N &times; N</code> chessboard such that no two queens
+          can attack each other. </p>
+        <p>In chess, a queen is the most powerful piece; it can attack any other piece located in the same
+          <strong>row</strong>, <strong>column</strong>, or along either of its two <strong>diagonals</strong> (primary
+          and secondary). To solve this puzzle, we must find all unique grid layouts where <code>N</code> queens coexist
+          in absolute peace.
+          For example, for a <code>4 &times; 4</code> board, there are exactly 2 unique solutions.
         </p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/n_queens.png" alt="Illustration of N-Queens recursive backtracking constraint solver in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/n_queens.png"
+            alt="Illustration of N-Queens recursive backtracking constraint solver in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: Placing Volatile Diplomats
           </div>
-          <p>Imagine you are hosting a peace summit with <code>N</code> highly volatile diplomats. If any two diplomats are placed in the same line of sight (horizontally, vertically, or diagonally), they will break out into an argument. You have <code>N</code> rows of office spaces to place them. You start by placing the first diplomat in row 1, column 1. You then look for a safe office in row 2. If you find one, you place the second diplomat and proceed to row 3. If you reach row 3 and find that no office is safe, you realize your earlier placement in row 2 was a mistake. You must retreat (backtrack) to row 2, move that diplomat to their next option, and try again. By systematically making a choice, moving forward, and retreating when hitting a dead-end, you find a peaceful arrangement for all diplomats.</p>
+          <p>Imagine you are hosting a peace summit with <code>N</code> highly volatile diplomats. If any two diplomats
+            are placed in the same line of sight (horizontally, vertically, or diagonally), they will break out into an
+            argument. You have <code>N</code> rows of office spaces to place them. You start by placing the first
+            diplomat in row 1, column 1. You then look for a safe office in row 2. If you find one, you place the second
+            diplomat and proceed to row 3. If you reach row 3 and find that no office is safe, you realize your earlier
+            placement in row 2 was a mistake. You must retreat (backtrack) to row 2, move that diplomat to their next
+            option, and try again. By systematically making a choice, moving forward, and retreating when hitting a
+            dead-end, you find a peaceful arrangement for all diplomats.</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>Recursive Backtracking with Pruning (Time O(N!), Space O(N))</h3>
-        <p>Since we must place exactly one queen per row, we can simplify our search space by traversing the board row-by-row. Starting at row 0:
-          <ul>
-            <li><strong>Base Case:</strong> If the current <code>row</code> matches <code>N</code>, we have placed all queens successfully. We copy the current board state and add it to our results list.</li>
-            <li><strong>Column Iteration:</strong> For the current <code>row</code>, we try to place a queen in each column <code>col</code> from <code>0</code> to <code>N - 1</code>.</li>
-            <li><strong>Safety Check:</strong> Before placing a queen at <code>board[row][col]</code>, we check if it is safe. Since we build the board top-to-bottom, we only check for threats above:
-              <ol>
-                <li>Vertically upwards in the same column <code>col</code>.</li>
-                <li>Diagonally upwards to the left (primary diagonal direction).</li>
-                <li>Diagonally upwards to the right (secondary diagonal direction).</li>
-              </ol>
-            </li>
-            <li><strong>Explore and Backtrack:</strong> If safe, we place the queen (<code>board[row][col] = 'Q'</code>), recurse to <code>row + 1</code>, and then backtrack by removing the queen (<code>board[row][col] = '.'</code>) before trying the next column.</li>
-          </ul>
+        <p>Since we must place exactly one queen per row, we can simplify our search space by traversing the board
+          row-by-row. Starting at row 0:
+        <ul>
+          <li><strong>Base Case:</strong> If the current <code>row</code> matches <code>N</code>, we have placed all
+            queens successfully. We copy the current board state and add it to our results list.</li>
+          <li><strong>Column Iteration:</strong> For the current <code>row</code>, we try to place a queen in each
+            column <code>col</code> from <code>0</code> to <code>N - 1</code>.</li>
+          <li><strong>Safety Check:</strong> Before placing a queen at <code>board[row][col]</code>, we check if it is
+            safe. Since we build the board top-to-bottom, we only check for threats above:
+            <ol>
+              <li>Vertically upwards in the same column <code>col</code>.</li>
+              <li>Diagonally upwards to the left (primary diagonal direction).</li>
+              <li>Diagonally upwards to the right (secondary diagonal direction).</li>
+            </ol>
+          </li>
+          <li><strong>Explore and Backtrack:</strong> If safe, we place the queen (<code>board[row][col] = 'Q'</code>),
+            recurse to <code>row + 1</code>, and then backtrack by removing the queen
+            (<code>board[row][col] = '.'</code>) before trying the next column.</li>
+        </ul>
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
@@ -173,7 +229,8 @@
           </li>
           <li><strong>Step 4 (Backtrack to Row 1):</strong>
             <ul>
-              <li>Remove queen from <code>col = 2</code>. Try <code>col = 3</code> (safe!). Row 1: <code>[., ., ., Q]</code>. Recurse to row 2.</li>
+              <li>Remove queen from <code>col = 2</code>. Try <code>col = 3</code> (safe!). Row 1:
+                <code>[., ., ., Q]</code>. Recurse to row 2.</li>
             </ul>
           </li>
           <li><strong>Step 5 (Row 2):</strong>
@@ -183,14 +240,18 @@
           </li>
           <li><strong>Step 6 (Row 3):</strong>
             <ul>
-              <li>All columns are under attack! <code>col = 0</code>, <code>1</code>, <code>2</code>, <code>3</code> are invalid. Backtrack to Row 2.</li>
+              <li>All columns are under attack! <code>col = 0</code>, <code>1</code>, <code>2</code>, <code>3</code> are
+                invalid. Backtrack to Row 2.</li>
             </ul>
           </li>
           <li><strong>Step 7 (Backtrack recursively):</strong>
             <ul>
-              <li>Remove queen from Row 2, <code>col = 1</code>. Backtrack to Row 1. Remove queen from Row 1, <code>col = 3</code>. Backtrack to Row 0.</li>
-              <li>Move Row 0 queen to <code>col = 1</code>: Row 0: <code>[., Q, ., .]</code>. This branch eventually finds a valid solution:
-                <br>Row 0: <code>[., Q, ., .]</code>, Row 1: <code>[., ., ., Q]</code>, Row 2: <code>[Q, ., ., .]</code>, Row 3: <code>[., ., Q, .]</code>.
+              <li>Remove queen from Row 2, <code>col = 1</code>. Backtrack to Row 1. Remove queen from Row 1,
+                <code>col = 3</code>. Backtrack to Row 0.</li>
+              <li>Move Row 0 queen to <code>col = 1</code>: Row 0: <code>[., Q, ., .]</code>. This branch eventually
+                finds a valid solution:
+                <br>Row 0: <code>[., Q, ., .]</code>, Row 1: <code>[., ., ., Q]</code>, Row 2:
+                <code>[Q, ., ., .]</code>, Row 3: <code>[., ., Q, .]</code>.
               </li>
             </ul>
           </li>
@@ -199,13 +260,18 @@
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>if (row == board.length)</code>: The base case confirming a complete board solution. We build a list of strings representing the board and add it to our answers.</li>
-          <li><code>if (isSafe(board, row, col))</code>: The pruning helper that stops recursion on invalid paths early, preventing unnecessary operations.</li>
-          <li><code>board[row][col] = 'Q'; backtrack(row + 1, ...); board[row][col] = '.';</code>: The choose-explore-unchoose backtracking pattern. Setting the cell back to <code>'.'</code> is crucial so that adjacent column scans starting at this row see an empty board.</li>
+          <li><code>if (row == board.length)</code>: The base case confirming a complete board solution. We build a list
+            of strings representing the board and add it to our answers.</li>
+          <li><code>if (isSafe(board, row, col))</code>: The pruning helper that stops recursion on invalid paths early,
+            preventing unnecessary operations.</li>
+          <li><code>board[row][col] = 'Q'; backtrack(row + 1, ...); board[row][col] = '.';</code>: The
+            choose-explore-unchoose backtracking pattern. Setting the cell back to <code>'.'</code> is crucial so that
+            adjacent column scans starting at this row see an empty board.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -298,25 +364,35 @@ public class NQueens {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>The N-Queens problem is a beautiful showcase of the power of backtracking. By recursively placing queens row by row and checking constraints on the fly, we skip millions of invalid chess layouts, finding the valid layouts efficiently.</p>
+        <p>The N-Queens problem is a beautiful showcase of the power of backtracking. By recursively placing queens row
+          by row and checking constraints on the fly, we skip millions of invalid chess layouts, finding the valid
+          layouts efficiently.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/word-search.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Word Search in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/palindrome-partitioning.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -324,44 +400,47 @@ public class NQueens {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -370,18 +449,18 @@ public class NQueens {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -390,4 +469,5 @@ public class NQueens {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

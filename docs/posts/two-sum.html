@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Two Sum in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/two-sum.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/two-sum.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Two Sum",
-      "item": "https://enggnotes.com/posts/two-sum.html"
+      "item": "https://www.enggnotes.com/posts/two-sum.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to find indices of two numbers that add up to a target using brute force and an optimized HashMap in Java.">
-  <meta name="keywords" content="two sum java, java two sum tutorial, optimized two sum solution, how to solve two sum, two sum leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, two sum example, hashmap two sum java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description"
+    content="Learn how to find indices of two numbers that add up to a target using brute force and an optimized HashMap in Java.">
+  <meta name="keywords"
+    content="two sum java, java two sum tutorial, optimized two sum solution, how to solve two sum, two sum leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, two sum example, hashmap two sum java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Two Sum in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to find indices of two numbers that add up to a target using brute force and an optimized HashMap in Java.">
+  <meta property="og:description"
+    content="Learn how to find indices of two numbers that add up to a target using brute force and an optimized HashMap in Java.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +44,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +128,7 @@
           <li aria-current="page">Two Sum</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,61 +143,92 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Two Sum</strong> problem is a fundamental coding question. We are given an array of integers <code>nums</code> and a single integer value <code>target</code>. Our goal is to find the indices of two distinct numbers in the array that sum up to exactly the <code>target</code> value.</p>
-        <p>This problem is commonly used to test understanding of basic data structures. The key challenges include handling potentially large arrays, avoiding using the same element twice, and finding a solution in optimal time rather than resorting to checking every possible combination.</p>
+        <p>The <strong>Two Sum</strong> problem is a fundamental coding question. We are given an array of integers
+          <code>nums</code> and a single integer value <code>target</code>. Our goal is to find the indices of two
+          distinct numbers in the array that sum up to exactly the <code>target</code> value.</p>
+        <p>This problem is commonly used to test understanding of basic data structures. The key challenges include
+          handling potentially large arrays, avoiding using the same element twice, and finding a solution in optimal
+          time rather than resorting to checking every possible combination.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/two-sum.png" alt="Illustration of Two Sum algorithm and HashMap search in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/two-sum.png" alt="Illustration of Two Sum algorithm and HashMap search in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Dinner Party Guest Matcher
           </div>
-          <p>Imagine you are hosting a dinner party. You want to find if any two guests' numbers add up to a secret target value, say <code>9</code>. Instead of walking around and asking every single guest to pair up with every other guest (which takes a lot of time, equivalent to an <code>O(n²)</code> brute force scan), you keep a guest logbook at the entrance. When a guest with badge <code>7</code> arrives, you check if <code>9 - 7 = 2</code> is already written in your logbook. If yes, you have found the matching pair immediately! If not, you write down the current guest's badge <code>7</code> and their arrival order (index) in your logbook, then continue checking subsequent guests.</p>
+          <p>Imagine you are hosting a dinner party. You want to find if any two guests' numbers add up to a secret
+            target value, say <code>9</code>. Instead of walking around and asking every single guest to pair up with
+            every other guest (which takes a lot of time, equivalent to an <code>O(n²)</code> brute force scan), you
+            keep a guest logbook at the entrance. When a guest with badge <code>7</code> arrives, you check if
+            <code>9 - 7 = 2</code> is already written in your logbook. If yes, you have found the matching pair
+            immediately! If not, you write down the current guest's badge <code>7</code> and their arrival order (index)
+            in your logbook, then continue checking subsequent guests.</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>1. The Brute Force Approach (O(n²))</h3>
-        <p>We check every possible pair of elements in the array using two nested loops. While easy to implement, this is highly inefficient because it has a quadratic time complexity of <code>O(n²)</code>. For an array of size 10,000, it would require up to 100,000,000 comparisons, which scales poorly.</p>
+        <p>We check every possible pair of elements in the array using two nested loops. While easy to implement, this
+          is highly inefficient because it has a quadratic time complexity of <code>O(n²)</code>. For an array of size
+          10,000, it would require up to 100,000,000 comparisons, which scales poorly.</p>
 
         <h3>2. The Optimized Approach (O(n) Time, O(n) Space)</h3>
-        <p>By using a HashMap, we can trade memory for speed. As we iterate through the array once, we calculate the required complement: <code>complement = target - nums[i]</code>. We check if this complement already exists in our map. If it does, we immediately return the stored index and the current index. If it doesn't, we store the current number and its index in the map, ensuring future numbers can find it. This reduces the time complexity to <code>O(n)</code> since lookup operations in a HashMap take <code>O(1)</code> average time.</p>
+        <p>By using a HashMap, we can trade memory for speed. As we iterate through the array once, we calculate the
+          required complement: <code>complement = target - nums[i]</code>. We check if this complement already exists in
+          our map. If it does, we immediately return the stored index and the current index. If it doesn't, we store the
+          current number and its index in the map, ensuring future numbers can find it. This reduces the time complexity
+          to <code>O(n)</code> since lookup operations in a HashMap take <code>O(1)</code> average time.</p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Let's trace the optimized algorithm on the input array <code>nums = [2, 7, 11, 15]</code> with <code>target = 9</code>:</p>
+        <p>Let's trace the optimized algorithm on the input array <code>nums = [2, 7, 11, 15]</code> with
+          <code>target = 9</code>:</p>
         <ol>
-          <li><strong>Step 1 (Initialization):</strong> We create a HashMap to store values as keys and their corresponding indices as values. The map is initially empty: <code>map = {}</code>.</li>
+          <li><strong>Step 1 (Initialization):</strong> We create a HashMap to store values as keys and their
+            corresponding indices as values. The map is initially empty: <code>map = {}</code>.</li>
           <li><strong>Step 2 (Index i = 0):</strong> We look at the first number, <code>2</code>.
             <ul>
               <li>Calculate the complement: <code>complement = target - nums[0] = 9 - 2 = 7</code>.</li>
-              <li>Check if the complement <code>7</code> exists in the map. It does not: <code>map.containsKey(7)</code> is <code>false</code>.</li>
-              <li>Since it's not found, we store the current number <code>2</code> and its index <code>0</code> in the map. The map is now: <code>{2: 0}</code>.</li>
+              <li>Check if the complement <code>7</code> exists in the map. It does not: <code>map.containsKey(7)</code>
+                is <code>false</code>.</li>
+              <li>Since it's not found, we store the current number <code>2</code> and its index <code>0</code> in the
+                map. The map is now: <code>{2: 0}</code>.</li>
             </ul>
           </li>
           <li><strong>Step 3 (Index i = 1):</strong> We move to the second number, <code>7</code>.
             <ul>
               <li>Calculate the complement: <code>complement = target - nums[1] = 9 - 7 = 2</code>.</li>
-              <li>Check if the complement <code>2</code> exists in the map. Yes! <code>map.containsKey(2)</code> is <code>true</code>. We look up the index of <code>2</code>, which is <code>0</code>.</li>
+              <li>Check if the complement <code>2</code> exists in the map. Yes! <code>map.containsKey(2)</code> is
+                <code>true</code>. We look up the index of <code>2</code>, which is <code>0</code>.</li>
               <li>We have found a valid pair: <code>nums[0] (2) + nums[1] (7) = 9</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 4 (Completion):</strong> The method immediately returns the pair of indices <code>[0, 1]</code>. The iteration stops, avoiding any further unnecessary searches.</li>
+          <li><strong>Step 4 (Completion):</strong> The method immediately returns the pair of indices
+            <code>[0, 1]</code>. The iteration stops, avoiding any further unnecessary searches.</li>
         </ol>
 
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>int complement = target - nums[i];</code>: This calculates the exact mathematical match needed to satisfy the equation <code>nums[i] + complement = target</code>.</li>
-          <li><code>map.containsKey(complement)</code>: By looking up the complement in the HashMap, we bypass checking all other elements, reducing the lookup time to a constant <code>O(1)</code>.</li>
-          <li><code>map.put(nums[i], i);</code>: Storing each visited element ensures that elements appearing later in the array can match with it.</li>
+          <li><code>int complement = target - nums[i];</code>: This calculates the exact mathematical match needed to
+            satisfy the equation <code>nums[i] + complement = target</code>.</li>
+          <li><code>map.containsKey(complement)</code>: By looking up the complement in the HashMap, we bypass checking
+            all other elements, reducing the lookup time to a constant <code>O(1)</code>.</li>
+          <li><code>map.put(nums[i], i);</code>: Storing each visited element ensures that elements appearing later in
+            the array can match with it.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -229,25 +292,35 @@ public class TwoSum {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Solving the <strong>Two Sum</strong> problem highlights how we can leverage key data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime and simplify code complexity.</p>
+        <p>Solving the <strong>Two Sum</strong> problem highlights how we can leverage key data structures and
+          algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime
+          and simplify code complexity.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/understanding-java-executor-service-vs-completable-future.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">ExecutorService vs. CompletableFuture in Java: A Layman's Guide</span>
             </div>
           </a>
-          
+
           <a href="../posts/maximum-subarray.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -255,44 +328,47 @@ public class TwoSum {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -301,18 +377,18 @@ public class TwoSum {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -321,4 +397,5 @@ public class TwoSum {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

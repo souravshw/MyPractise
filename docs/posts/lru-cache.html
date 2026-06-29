@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding LRU Cache in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/lru-cache.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/lru-cache.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +14,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding LRU Cache",
-      "item": "https://enggnotes.com/posts/lru-cache.html"
+      "item": "https://www.enggnotes.com/posts/lru-cache.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how to design a Least Recently Used (LRU) Cache using a HashMap and a Doubly Linked List in O(1) time.">
-  <meta name="keywords" content="lru cache java, java lru cache tutorial, optimized lru cache solution, how to solve lru cache, lru cache leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, lru cache example, hashmap lru cache java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="description"
+    content="Learn how to design a Least Recently Used (LRU) Cache using a HashMap and a Doubly Linked List in O(1) time.">
+  <meta name="keywords"
+    content="lru cache java, java lru cache tutorial, optimized lru cache solution, how to solve lru cache, lru cache leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, lru cache example, hashmap lru cache java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding LRU Cache in Java | Engineering Notes">
-  <meta property="og:description" content="Learn how to design a Least Recently Used (LRU) Cache using a HashMap and a Doubly Linked List in O(1) time.">
+  <meta property="og:description"
+    content="Learn how to design a Least Recently Used (LRU) Cache using a HashMap and a Doubly Linked List in O(1) time.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,54 +44,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +128,7 @@
           <li aria-current="page">LRU Cache</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,38 +143,65 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>An <strong>LRU (Least Recently Used) Cache</strong> is a popular caching mechanism used in systems design. Caches are high-speed, temporary storage structures with limited capacity. When the cache becomes full and a new item needs to be stored, the cache must evict an old item to make room. The LRU policy ejects the item that has not been accessed for the longest duration.</p>
+        <p>An <strong>LRU (Least Recently Used) Cache</strong> is a popular caching mechanism used in systems design.
+          Caches are high-speed, temporary storage structures with limited capacity. When the cache becomes full and a
+          new item needs to be stored, the cache must evict an old item to make room. The LRU policy ejects the item
+          that has not been accessed for the longest duration.</p>
         <p>To design an efficient LRU Cache, we must support two core operations:
-          <ul>
-            <li><code>get(key)</code>: Retrieve the value associated with the key if it exists in the cache; otherwise, return <code>-1</code>. When accessed, this key is marked as the most recently used.</li>
-            <li><code>put(key, value)</code>: Insert or update the key-value pair. If the cache reaches its capacity, we must evict the least recently used key before inserting the new one.</li>
-          </ul>
-          Crucially, both operations must run in <strong>O(1) constant time complexity</strong>. To achieve this, we combine two data structures: a <strong>HashMap</strong> (for instant key-to-node lookups) and a custom <strong>Doubly Linked List</strong> (for instant removal and insertion of elements at the boundaries).
+        <ul>
+          <li><code>get(key)</code>: Retrieve the value associated with the key if it exists in the cache; otherwise,
+            return <code>-1</code>. When accessed, this key is marked as the most recently used.</li>
+          <li><code>put(key, value)</code>: Insert or update the key-value pair. If the cache reaches its capacity, we
+            must evict the least recently used key before inserting the new one.</li>
+        </ul>
+        Crucially, both operations must run in <strong>O(1) constant time complexity</strong>. To achieve this, we
+        combine two data structures: a <strong>HashMap</strong> (for instant key-to-node lookups) and a custom
+        <strong>Doubly Linked List</strong> (for instant removal and insertion of elements at the boundaries).
         </p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/lru_cache.png" alt="Illustration of LRU Cache using HashMap and Doubly Linked List in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/lru_cache.png"
+            alt="Illustration of LRU Cache using HashMap and Doubly Linked List in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Active File Desk
           </div>
-          <p>Imagine you have a small study desk that can only fit exactly 3 files at a time. When you work on a file, you place it on the very top of the pile on your desk (most recently used). If you need to refer to a file that is already on the desk, you pull it out from the middle and put it at the very top of the pile. If you need a new file from the filing cabinet and your desk is already full, you must remove the file at the very bottom of the pile (least recently used) and return it to the cabinet to make room for the new file. In software, the desk pile is a Doubly Linked List (where the top is the head and the bottom is the tail), and your mental index of where each file is located on the desk is the HashMap.</p>
+          <p>Imagine you have a small study desk that can only fit exactly 3 files at a time. When you work on a file,
+            you place it on the very top of the pile on your desk (most recently used). If you need to refer to a file
+            that is already on the desk, you pull it out from the middle and put it at the very top of the pile. If you
+            need a new file from the filing cabinet and your desk is already full, you must remove the file at the very
+            bottom of the pile (least recently used) and return it to the cabinet to make room for the new file. In
+            software, the desk pile is a Doubly Linked List (where the top is the head and the bottom is the tail), and
+            your mental index of where each file is located on the desk is the HashMap.</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>HashMap + Doubly Linked List (O(1) Get and Put)</h3>
         <p>We implement a custom Doubly Linked List with dummy <code>head</code> and <code>tail</code> nodes:
-          <ul>
-            <li><strong>Dummy Nodes:</strong> Dummy <code>head</code> and <code>tail</code> act as sentinels. They linked together initially: <code>head.next = tail</code> and <code>tail.prev = head</code>. This eliminates null pointer checks during insertions and deletions.</li>
-            <li><strong>HashMap Lookup:</strong> The map stores the key and a reference to its corresponding <code>Node</code> in the list. This lets us jump directly to any node in <code>O(1)</code> time, avoiding linear list scans.</li>
-            <li><strong>Access Updates:</strong> Whenever a key is accessed (via <code>get</code>) or updated (via <code>put</code>), we disconnect its node from its current place in the list and insert it immediately after the dummy <code>head</code>. This keeps the list ordered by recency, with the most recently used at the front and the least recently used at the back (before the dummy <code>tail</code>).</li>
-            <li><strong>Ejection:</strong> When capacity is exceeded during a <code>put</code>, we remove the node right before the dummy tail (<code>tail.prev</code>) from both the list and the HashMap.</li>
-          </ul>
+        <ul>
+          <li><strong>Dummy Nodes:</strong> Dummy <code>head</code> and <code>tail</code> act as sentinels. They linked
+            together initially: <code>head.next = tail</code> and <code>tail.prev = head</code>. This eliminates null
+            pointer checks during insertions and deletions.</li>
+          <li><strong>HashMap Lookup:</strong> The map stores the key and a reference to its corresponding
+            <code>Node</code> in the list. This lets us jump directly to any node in <code>O(1)</code> time, avoiding
+            linear list scans.</li>
+          <li><strong>Access Updates:</strong> Whenever a key is accessed (via <code>get</code>) or updated (via
+            <code>put</code>), we disconnect its node from its current place in the list and insert it immediately after
+            the dummy <code>head</code>. This keeps the list ordered by recency, with the most recently used at the
+            front and the least recently used at the back (before the dummy <code>tail</code>).</li>
+          <li><strong>Ejection:</strong> When capacity is exceeded during a <code>put</code>, we remove the node right
+            before the dummy tail (<code>tail.prev</code>) from both the list and the HashMap.</li>
+        </ul>
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
@@ -155,28 +214,33 @@
           </li>
           <li><strong>Step 2 (put(1, 1)):</strong>
             <ul>
-              <li>Create <code>Node(1, 1)</code>. Insert after head: <code>head &harr; Node(1,1) &harr; tail</code>.</li>
+              <li>Create <code>Node(1, 1)</code>. Insert after head: <code>head &harr; Node(1,1) &harr; tail</code>.
+              </li>
               <li>Add to map: <code>{1: Node(1,1)}</code>.</li>
             </ul>
           </li>
           <li><strong>Step 3 (put(2, 2)):</strong>
             <ul>
-              <li>Create <code>Node(2, 2)</code>. Insert after head: <code>head &harr; Node(2,2) &harr; Node(1,1) &harr; tail</code>.</li>
+              <li>Create <code>Node(2, 2)</code>. Insert after head:
+                <code>head &harr; Node(2,2) &harr; Node(1,1) &harr; tail</code>.</li>
               <li>Add to map: <code>{1: Node(1,1), 2: Node(2,2)}</code>.</li>
             </ul>
           </li>
           <li><strong>Step 4 (get(1)):</strong>
             <ul>
               <li>Key 1 is in map. Retrieve <code>Node(1,1)</code>.</li>
-              <li>Move to front: Remove <code>Node(1,1)</code> from list and insert after head: <code>head &harr; Node(1,1) &harr; Node(2,2) &harr; tail</code>.</li>
+              <li>Move to front: Remove <code>Node(1,1)</code> from list and insert after head:
+                <code>head &harr; Node(1,1) &harr; Node(2,2) &harr; tail</code>.</li>
               <li>Return value <code>1</code>.</li>
             </ul>
           </li>
           <li><strong>Step 5 (put(3, 3)):</strong>
             <ul>
               <li>Key 3 is new. Cache size (2) equals capacity (2). Eject least recently used node.</li>
-              <li>Eject node before tail: <code>tail.prev</code> is <code>Node(2,2)</code>. Remove it from map: <code>{1: Node(1,1)}</code>. Remove from list: <code>head &harr; Node(1,1) &harr; tail</code>.</li>
-              <li>Create and insert <code>Node(3, 3)</code> after head: <code>head &harr; Node(3,3) &harr; Node(1,1) &harr; tail</code>.</li>
+              <li>Eject node before tail: <code>tail.prev</code> is <code>Node(2,2)</code>. Remove it from map:
+                <code>{1: Node(1,1)}</code>. Remove from list: <code>head &harr; Node(1,1) &harr; tail</code>.</li>
+              <li>Create and insert <code>Node(3, 3)</code> after head:
+                <code>head &harr; Node(3,3) &harr; Node(1,1) &harr; tail</code>.</li>
               <li>Add to map: <code>{1: Node(1,1), 3: Node(3,3)}</code>.</li>
             </ul>
           </li>
@@ -190,13 +254,18 @@
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>node.prev.next = node.next; node.next.prev = node.prev;</code>: Disconnects a node from its current spot in the linked list. Because it is a doubly linked list, we can perform this deletion in <code>O(1)</code> time without scanning the list.</li>
-          <li><code>head.next.prev = node; node.next = head.next; ...</code>: Inserts a node immediately after the dummy head, marking it as the most recently accessed.</li>
-          <li><code>remove(tail.prev);</code>: Evicts the least recently used node. Since the tail node is connected to the back of the list, <code>tail.prev</code> points directly to the victim node.</li>
+          <li><code>node.prev.next = node.next; node.next.prev = node.prev;</code>: Disconnects a node from its current
+            spot in the linked list. Because it is a doubly linked list, we can perform this deletion in
+            <code>O(1)</code> time without scanning the list.</li>
+          <li><code>head.next.prev = node; node.next = head.next; ...</code>: Inserts a node immediately after the dummy
+            head, marking it as the most recently accessed.</li>
+          <li><code>remove(tail.prev);</code>: Evicts the least recently used node. Since the tail node is connected to
+            the back of the list, <code>tail.prev</code> points directly to the victim node.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -293,25 +362,35 @@ public class LRUCache {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Designing an LRU Cache demonstrates how mapping a Hash Table with a Doubly Linked List solves opposing performance constraints. The HashMap guarantees rapid access, while the list enables fast additions and updates, maintaining an O(1) runtime for all cache operations.</p>
+        <p>Designing an LRU Cache demonstrates how mapping a Hash Table with a Doubly Linked List solves opposing
+          performance constraints. The HashMap guarantees rapid access, while the list enables fast additions and
+          updates, maintaining an O(1) runtime for all cache operations.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/palindrome-partitioning.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Palindrome Partitioning in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/design-hit-counter.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -319,44 +398,47 @@ public class LRUCache {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -365,18 +447,18 @@ public class LRUCache {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -385,4 +467,5 @@ public class LRUCache {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

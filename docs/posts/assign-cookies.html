@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Assign Cookies in Java | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/assign-cookies.html">
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/assign-cookies.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,22 +14,23 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Algorithms",
-      "item": "https://enggnotes.com/index.html?category=Algorithms"
+      "item": "https://www.enggnotes.com/index.html?category=Algorithms"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Assign Cookies",
-      "item": "https://enggnotes.com/posts/assign-cookies.html"
+      "item": "https://www.enggnotes.com/posts/assign-cookies.html"
     }]
   }
   </script>
   <meta name="description" content="Learn how to maximize content children using cookies of different sizes.">
-  <meta name="keywords" content="assign cookies java, java assign cookies tutorial, optimized assign cookies solution, how to solve assign cookies, assign cookies leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, assign cookies example, hashmap assign cookies java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
+  <meta name="keywords"
+    content="assign cookies java, java assign cookies tutorial, optimized assign cookies solution, how to solve assign cookies, assign cookies leetcode, dsa interview questions, java algorithms questions, coding simple language, clean code java, software engineering, coding tutorial, backend development, java developer, java programming, assign cookies example, hashmap assign cookies java, engineering notes, dsa preparation, interview preparation, programming logic, data structures java">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Assign Cookies in Java | Engineering Notes">
@@ -40,54 +42,82 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
-</header>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -96,7 +126,7 @@
           <li aria-current="page">Assign Cookies</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,51 +141,80 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>Introduction & Problem Explanation</h2>
-        <p>The <strong>Assign Cookies</strong> problem describes a scenario where you want to maximize the number of content children using cookies of different sizes. Each child <code>i</code> has a greed factor <code>g[i]</code>, which is the minimum size of a cookie that the child will be content with. Each cookie <code>j</code> has a size <code>s[j]</code>. If <code>s[j] &gt;= g[i]</code>, we can assign the cookie <code>j</code> to the child <code>i</code>, making that child content.
-          Our goal is to output the maximum number of content children. We cannot assign more than one cookie to a single child, nor can we satisfy a child with a cookie that is smaller than their greed factor.
+        <p>The <strong>Assign Cookies</strong> problem describes a scenario where you want to maximize the number of
+          content children using cookies of different sizes. Each child <code>i</code> has a greed factor
+          <code>g[i]</code>, which is the minimum size of a cookie that the child will be content with. Each cookie
+          <code>j</code> has a size <code>s[j]</code>. If <code>s[j] &gt;= g[i]</code>, we can assign the cookie
+          <code>j</code> to the child <code>i</code>, making that child content.
+          Our goal is to output the maximum number of content children. We cannot assign more than one cookie to a
+          single child, nor can we satisfy a child with a cookie that is smaller than their greed factor.
           For example:
-          <ul>
-            <li>Children greed: <code>g = [1, 2, 3]</code></li>
-            <li>Cookies size: <code>s = [1, 1]</code></li>
-          </ul>
-          We have 3 children and 2 cookies. The greed factors are 1, 2, 3. The cookie sizes are both 1. We can satisfy the first child (greed 1) with either cookie. The other child (greed 2 or 3) cannot be satisfied. So we return <code>1</code>.
+        <ul>
+          <li>Children greed: <code>g = [1, 2, 3]</code></li>
+          <li>Cookies size: <code>s = [1, 1]</code></li>
+        </ul>
+        We have 3 children and 2 cookies. The greed factors are 1, 2, 3. The cookie sizes are both 1. We can satisfy the
+        first child (greed 1) with either cookie. The other child (greed 2 or 3) cannot be satisfied. So we return
+        <code>1</code>.
         </p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/assign_cookies.png" alt="Illustration of Assign Cookies two-pointer greedy matching in Java" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/assign_cookies.png"
+            alt="Illustration of Assign Cookies two-pointer greedy matching in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: Fitting Shoes on Kids
           </div>
-          <p>Imagine you have a group of kids with different shoe sizes (greed factors) and a donation box of shoes of various sizes. If a kid wears a size 6, they can wear size 6, 7, or 8 shoes, but not a size 5. To make as many kids happy as possible, you sort the kids from the smallest feet to the largest, and you sort the shoes from smallest to largest. You take the kid with the smallest feet and search for the smallest shoe that fits them. If it fits, you give it to them and move to the next kid. If a shoe is too small even for the kid with the smallest feet, that shoe is useless, so you discard it and try the next shoe size.</p>
+          <p>Imagine you have a group of kids with different shoe sizes (greed factors) and a donation box of shoes of
+            various sizes. If a kid wears a size 6, they can wear size 6, 7, or 8 shoes, but not a size 5. To make as
+            many kids happy as possible, you sort the kids from the smallest feet to the largest, and you sort the shoes
+            from smallest to largest. You take the kid with the smallest feet and search for the smallest shoe that fits
+            them. If it fits, you give it to them and move to the next kid. If a shoe is too small even for the kid with
+            the smallest feet, that shoe is useless, so you discard it and try the next shoe size.</p>
         </div>
 
         <h2>The Algorithmic Approach</h2>
         <h3>Two-Pointer Greedy Search (O(n log n) Time, O(1) Space)</h3>
-        <p>A greedy approach works optimally here. To maximize content children, we should avoid wasting large cookies on children with small greed factors.
+        <p>A greedy approach works optimally here. To maximize content children, we should avoid wasting large cookies
+          on children with small greed factors.
           Here is our approach:
-          <ol>
-            <li><strong>Sort:</strong> Sort both arrays: <code>g</code> (children's greed) and <code>s</code> (cookie sizes) in ascending order.</li>
-            <li><strong>Two Pointers:</strong> Initialize two pointers: <code>child = 0</code> and <code>cookie = 0</code>.</li>
-            <li><strong>Match Pointers:</strong> We loop while <code>child &lt; g.length</code> and <code>cookie &lt; s.length</code>:
-              <ul>
-                <li>If the cookie size satisfies the child (<code>s[cookie] &gt;= g[child]</code>), it means we have successfully made this child content. We increment our <code>child</code> pointer to evaluate the next child.</li>
-                <li>Regardless of whether the cookie satisfies the child or not, we increment the <code>cookie</code> pointer because a cookie that cannot satisfy the current child (who has the lowest greed among remaining unsatisfied kids) can never satisfy any subsequent child with a higher greed factor.</li>
-              </ul>
-            </li>
-          </ol>
-          The final value of the <code>child</code> pointer is our maximum number of satisfied children. Sorting takes <code>O(n log n + m log m)</code> time, and the two-pointer loop runs in linear <code>O(n + m)</code> time.
+        <ol>
+          <li><strong>Sort:</strong> Sort both arrays: <code>g</code> (children's greed) and <code>s</code> (cookie
+            sizes) in ascending order.</li>
+          <li><strong>Two Pointers:</strong> Initialize two pointers: <code>child = 0</code> and
+            <code>cookie = 0</code>.</li>
+          <li><strong>Match Pointers:</strong> We loop while <code>child &lt; g.length</code> and
+            <code>cookie &lt; s.length</code>:
+            <ul>
+              <li>If the cookie size satisfies the child (<code>s[cookie] &gt;= g[child]</code>), it means we have
+                successfully made this child content. We increment our <code>child</code> pointer to evaluate the next
+                child.</li>
+              <li>Regardless of whether the cookie satisfies the child or not, we increment the <code>cookie</code>
+                pointer because a cookie that cannot satisfy the current child (who has the lowest greed among remaining
+                unsatisfied kids) can never satisfy any subsequent child with a higher greed factor.</li>
+            </ul>
+          </li>
+        </ol>
+        The final value of the <code>child</code> pointer is our maximum number of satisfied children. Sorting takes
+        <code>O(n log n + m log m)</code> time, and the two-pointer loop runs in linear <code>O(n + m)</code> time.
         </p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
-        <p>Let's trace the algorithm with children greed <code>g = [1, 2]</code> and cookies <code>s = [1, 2, 3]</code>:</p>
+        <p>Let's trace the algorithm with children greed <code>g = [1, 2]</code> and cookies <code>s = [1, 2, 3]</code>:
+        </p>
         <ol>
-          <li><strong>Step 1 (Sorting):</strong> g and s are already sorted: <code>g = [1, 2]</code>, <code>s = [1, 2, 3]</code>.</li>
+          <li><strong>Step 1 (Sorting):</strong> g and s are already sorted: <code>g = [1, 2]</code>,
+            <code>s = [1, 2, 3]</code>.</li>
           <li><strong>Step 2 (Initialize):</strong>
             <ul>
               <li>Pointers: <code>child = 0</code>, <code>cookie = 0</code>.</li>
@@ -175,19 +234,26 @@
               <li>Increment <code>cookie</code> to 2.</li>
             </ul>
           </li>
-          <li><strong>Step 5 (Termination):</strong> The loop terminates because <code>child (2) == g.length</code>. We return <code>child = 2</code>.</li>
+          <li><strong>Step 5 (Termination):</strong> The loop terminates because <code>child (2) == g.length</code>. We
+            return <code>child = 2</code>.</li>
         </ol>
 
         <h2>Key Code Snippets & Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
-          <li><code>Arrays.sort(g); Arrays.sort(s);</code>: Chronological ordering ensures that we match the smallest greed with the smallest sufficient cookie, preserving larger cookies for kids with larger greed factors.</li>
-          <li><code>if (s[cookie] &gt;= g[child]) child++;</code>: If the cookie is large enough, the child pointer shifts forward, signifying a successful match. If not, the child pointer remains on the same child to wait for a larger cookie.</li>
-          <li><code>cookie++;</code>: Discards the current cookie in each iteration, either because it was successfully eaten or because it was too small to satisfy anyone.</li>
+          <li><code>Arrays.sort(g); Arrays.sort(s);</code>: Chronological ordering ensures that we match the smallest
+            greed with the smallest sufficient cookie, preserving larger cookies for kids with larger greed factors.
+          </li>
+          <li><code>if (s[cookie] &gt;= g[child]) child++;</code>: If the cookie is large enough, the child pointer
+            shifts forward, signifying a successful match. If not, the child pointer remains on the same child to wait
+            for a larger cookie.</li>
+          <li><code>cookie++;</code>: Discards the current cookie in each iteration, either because it was successfully
+            eaten or because it was too small to satisfy anyone.</li>
         </ul>
 
         <h2>Java Implementation Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
+          <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -235,25 +301,35 @@ public class AssignCookies {
 </code></pre>
 
         <h2>Conclusion</h2>
-        <p>Assign Cookies is a classic greedy problem. By sorting the arrays, we align our resources and requirements from smallest to largest, ensuring that we satisfy the maximum number of children without wasting larger cookies on smaller greed factors.</p>
+        <p>Assign Cookies is a classic greedy problem. By sorting the arrays, we align our resources and requirements
+          from smallest to largest, ensuring that we satisfy the maximum number of children without wasting larger
+          cookies on smaller greed factors.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/non-overlapping-intervals.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Non-overlapping Intervals in Java</span>
             </div>
           </a>
-          
+
           <a href="../posts/subsets.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -261,44 +337,47 @@ public class AssignCookies {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/design-url-shortener.html" class="related-card-img">
-              <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL Shortener in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-parking-lot.html" class="related-card-img">
-              <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking Lot in Java</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/design-twitter.html" class="related-card-img">
-              <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Algorithms</span>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in Java</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -307,18 +386,18 @@ public class AssignCookies {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
-</footer>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -327,4 +406,5 @@ public class AssignCookies {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

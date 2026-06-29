@@ -1,10 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Understanding Java's Synchronized Deadlocks | Engineering Notes</title>
-  <link class="canonical" rel="canonical" href="https://enggnotes.com/posts/understanding-deadlock-synchronized.html">
+  <link class="canonical" rel="canonical"
+    href="https://www.enggnotes.com/posts/understanding-deadlock-synchronized.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -13,26 +15,29 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://enggnotes.com/index.html"
+      "item": "https://www.enggnotes.com/index.html"
     },{
       "@type": "ListItem",
       "position": 2,
       "name": "Java Concurrency",
-      "item": "https://enggnotes.com/index.html?category=Java%20Concurrency"
+      "item": "https://www.enggnotes.com/index.html?category=Java%20Concurrency"
     },{
       "@type": "ListItem",
       "position": 3,
       "name": "Understanding Java's Synchronized Deadlocks",
-      "item": "https://enggnotes.com/posts/understanding-deadlock-synchronized.html"
+      "item": "https://www.enggnotes.com/posts/understanding-deadlock-synchronized.html"
     }]
   }
   </script>
-  <meta name="description" content="Learn how nested synchronized blocks create thread deadlocks in Java, explained simply with a bank transfer account lock analogy.">
-  <meta name="keywords" content="java synchronized deadlock, synchronized block deadlock, java locks concurrency, multithreading synchronized, java coding tutorial, understanding javas, javas synchronized, understanding java, javas java, synchronized java, deadlocks java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java concurrency, multithreading java, asynchronous programming, thread pool java, java parallel processing">
+  <meta name="description"
+    content="Learn how nested synchronized blocks create thread deadlocks in Java, explained simply with a bank transfer account lock analogy.">
+  <meta name="keywords"
+    content="java synchronized deadlock, synchronized block deadlock, java locks concurrency, multithreading synchronized, java coding tutorial, understanding javas, javas synchronized, understanding java, javas java, synchronized java, deadlocks java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java concurrency, multithreading java, asynchronous programming, thread pool java, java parallel processing">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Understanding Java's Synchronized Deadlocks | Engineering Notes">
-  <meta property="og:description" content="Learn how nested synchronized blocks create thread deadlocks in Java, explained simply with a bank transfer account lock analogy.">
+  <meta property="og:description"
+    content="Learn how nested synchronized blocks create thread deadlocks in Java, explained simply with a bank transfer account lock analogy.">
   <meta property="og:type" content="article">
 
   <!-- Favicon -->
@@ -40,55 +45,83 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/styles.css">
-  
+
   <!-- Prism.js Code Highlighting (Dark Theme) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
+
 <body>
 
   <!-- Navigation Header -->
   <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
-<div class="nav-container">
-  <a href="https://enggnotes.com/" class="logo" id="nav-logo">
-    <div class="logo-icon"></div>
-    <span>Engineering Notes</span>
-  </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="https://enggnotes.com/" id="nav-home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a></li>
-      <li><a href="../articles.html" id="nav-articles">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Articles
-      </a></li>
-      <li><a href="../meet-sourav.html" id="nav-meet-sourav">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Meet Sourav
-      </a></li>
-      <li><a href="../about.html" id="nav-about">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About Us
-      </a></li>
-      <li><a href="../contact.html" id="nav-contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="../privacy.html" id="nav-privacy">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Privacy
-      </a></li>
-    </ul>
-  </nav>
-</div>
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
 
-</header>
+  </header>
 
   <!-- Main Article Container -->
   <main class="container">
     <article class="article-container">
-      
+
       <!-- Breadcrumb Nav -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -97,7 +130,7 @@
           <li aria-current="page">Synchronized Deadlock</li>
         </ol>
       </nav>
-      
+
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
@@ -111,30 +144,47 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In Java, the most common way to coordinate threads is using the <code>synchronized</code> keyword. By locking a shared object monitor, you prevent multiple threads from accessing it at the same time. However, nesting these synchronized blocks can easily create a <strong>deadlock</strong> if different threads acquire the monitors in different orders.</p>
-        
-        <p>In this guide, we will explore this classic synchronization deadlock scenario using a bank transfer analogy and trace its execution flow.</p>
+        <p>In Java, the most common way to coordinate threads is using the <code>synchronized</code> keyword. By locking
+          a shared object monitor, you prevent multiple threads from accessing it at the same time. However, nesting
+          these synchronized blocks can easily create a <strong>deadlock</strong> if different threads acquire the
+          monitors in different orders.</p>
+
+        <p>In this guide, we will explore this classic synchronization deadlock scenario using a bank transfer analogy
+          and trace its execution flow.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/deadlock_synchronized.png" alt="Illustration of interlocking object locks causing a synchronized block deadlock" style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+          <img src="../images/deadlock_synchronized.png"
+            alt="Illustration of interlocking object locks causing a synchronized block deadlock"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
           <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
             Real-World Analogy: The Double Bank Transfer
           </div>
-          <p>Imagine a bank with two client accounts: <strong>Account A</strong> (lock) and <strong>Account B</strong> (lock2). To prevent mistakes, the bank requires that whenever a transfer is made, both the sending and receiving accounts must be locked at the same time.</p>
+          <p>Imagine a bank with two client accounts: <strong>Account A</strong> (lock) and <strong>Account B</strong>
+            (lock2). To prevent mistakes, the bank requires that whenever a transfer is made, both the sending and
+            receiving accounts must be locked at the same time.</p>
           <p>Two operators start a transfer at the exact same split-second:</p>
           <ul>
-            <li><strong>Operator 1</strong> wants to transfer $10 from Account A to Account B. They lock <strong>Account A</strong> first.</li>
-            <li><strong>Operator 2</strong> wants to transfer $5 from Account B to Account A. They lock <strong>Account B</strong> first.</li>
-            <li>Now, <strong>Operator 1</strong> tries to lock Account B to complete the transfer, but finds it locked. They wait.</li>
-            <li>Meanwhile, <strong>Operator 2</strong> tries to lock Account A to complete the transfer, but finds it locked. They also wait.</li>
+            <li><strong>Operator 1</strong> wants to transfer $10 from Account A to Account B. They lock <strong>Account
+                A</strong> first.</li>
+            <li><strong>Operator 2</strong> wants to transfer $5 from Account B to Account A. They lock <strong>Account
+                B</strong> first.</li>
+            <li>Now, <strong>Operator 1</strong> tries to lock Account B to complete the transfer, but finds it locked.
+              They wait.</li>
+            <li>Meanwhile, <strong>Operator 2</strong> tries to lock Account A to complete the transfer, but finds it
+              locked. They also wait.</li>
           </ul>
-          <p>Since neither operator will release their locked account until the transaction completes, the system locks up. The transfers are frozen forever!</p>
+          <p>Since neither operator will release their locked account until the transaction completes, the system locks
+            up. The transfers are frozen forever!</p>
         </div>
 
         <h2>Walkthrough of the Main Method Scenario</h2>
@@ -144,7 +194,8 @@
           <div class="analogy-box-title" style="color: var(--accent-color);">
             Step 1: Starting the Dual Transactions
           </div>
-          <p>The program enters the main method, sets up the transaction coordinator, and triggers two independent worker threads:</p>
+          <p>The program enters the main method, sets up the transaction coordinator, and triggers two independent
+            worker threads:</p>
           <pre><code class="language-java">DeadlockWithoutReEntrant coordinator = new DeadlockWithoutReEntrant();
 new Thread(() -> coordinator.test1()).start();
 new Thread(() -> coordinator.test2()).start();</code></pre>
@@ -158,8 +209,11 @@ new Thread(() -> coordinator.test2()).start();</code></pre>
           <p>The threads execute their first synchronized blocks in parallel:</p>
           <ul>
             <li><strong>Thread 1</strong> locks the monitor of the `lock` object: <code>synchronized (lock)</code>.</li>
-            <li><strong>Thread 2</strong> locks the monitor of the `lock2` object: <code>synchronized (lock2)</code>.</li>
-            <li>Inside the nested blocks, the threads sleep for 5 seconds (<code>Thread.sleep(5000)</code>). Just like our explicit lock example, this delay ensures that both threads successfully acquire their first object monitor before attempting to lock the second one.</li>
+            <li><strong>Thread 2</strong> locks the monitor of the `lock2` object: <code>synchronized (lock2)</code>.
+            </li>
+            <li>Inside the nested blocks, the threads sleep for 5 seconds (<code>Thread.sleep(5000)</code>). Just like
+              our explicit lock example, this delay ensures that both threads successfully acquire their first object
+              monitor before attempting to lock the second one.</li>
           </ul>
         </div>
 
@@ -169,10 +223,13 @@ new Thread(() -> coordinator.test2()).start();</code></pre>
           </div>
           <p>After waking up from their sleep:</p>
           <ul>
-            <li><strong>Thread 1</strong> reaches the inner block <code>synchronized (lock2)</code>. Since Thread 2 holds the monitor lock of `lock2`, Thread 1 is blocked.</li>
-            <li><strong>Thread 2</strong> reaches the inner block <code>synchronized (lock)</code>. Since Thread 1 holds the monitor lock of `lock`, Thread 2 is blocked.</li>
+            <li><strong>Thread 1</strong> reaches the inner block <code>synchronized (lock2)</code>. Since Thread 2
+              holds the monitor lock of `lock2`, Thread 1 is blocked.</li>
+            <li><strong>Thread 2</strong> reaches the inner block <code>synchronized (lock)</code>. Since Thread 1 holds
+              the monitor lock of `lock`, Thread 2 is blocked.</li>
           </ul>
-          <p>Both threads are blocked at the gates of the inner synchronized blocks, waiting for monitors that the other thread will never release. The program freezes indefinitely.</p>
+          <p>Both threads are blocked at the gates of the inner synchronized blocks, waiting for monitors that the other
+            thread will never release. The program freezes indefinitely.</p>
         </div>
 
         <h2>Java Implementation</h2>
@@ -225,25 +282,36 @@ public class DeadlockWithoutReEntrant {
 }</code></pre>
 
         <h2>Conclusion</h2>
-        <p>Deadlocks inside synchronized blocks are extremely common when locking multiple objects. To avoid them, you must establish a consistent, global order for locking monitor objects across all threads in your application. Designing your programs to avoid nesting synchronized blocks is also an effective architectural way to eliminate deadlocks completely.</p>
+        <p>Deadlocks inside synchronized blocks are extremely common when locking multiple objects. To avoid them, you
+          must establish a consistent, global order for locking monitor objects across all threads in your application.
+          Designing your programs to avoid nesting synchronized blocks is also an effective architectural way to
+          eliminate deadlocks completely.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">
-          
+
           <a href="../posts/understanding-deadlock-checker.html" class="nav-card prev-card">
             <div class="nav-card-arrow prev-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Previous Post</span>
               <span class="nav-card-title">Understanding Java Deadlocks</span>
             </div>
           </a>
-          
+
           <a href="../posts/printing-odd-even-threads.html" class="nav-card next-card">
             <div class="nav-card-arrow next-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </div>
             <div class="nav-card-content">
               <span class="nav-card-label">Next Post</span>
@@ -251,44 +319,47 @@ public class DeadlockWithoutReEntrant {
             </div>
           </a>
         </div>
-        
+
         <div class="related-posts">
           <h3 class="related-posts-title">Related Articles</h3>
           <div class="related-posts-grid">
-            
-          <div class="related-card">
-            <a href="../posts/understanding-synchronized-keyword.html" class="related-card-img">
-              <img src="../images/understanding_synchronized.png" alt="Demystifying Java's Synchronized Keyword">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Concurrency</span>
+
+            <div class="related-card">
+              <a href="../posts/understanding-synchronized-keyword.html" class="related-card-img">
+                <img src="../images/understanding_synchronized.png" alt="Demystifying Java's Synchronized Keyword">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Concurrency</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/understanding-synchronized-keyword.html">Demystifying
+                    Java's Synchronized Keyword</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-synchronized-keyword.html">Demystifying Java's Synchronized Keyword</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/understanding-thread-pool.html" class="related-card-img">
-              <img src="../images/coffee_shop_kitchen.png" alt="Demystifying Java's Thread Pool">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Concurrency</span>
+            <div class="related-card">
+              <a href="../posts/understanding-thread-pool.html" class="related-card-img">
+                <img src="../images/coffee_shop_kitchen.png" alt="Demystifying Java's Thread Pool">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Concurrency</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/understanding-thread-pool.html">Demystifying Java's
+                    Thread Pool</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-thread-pool.html">Demystifying Java's Thread Pool</a></h4>
             </div>
-          </div>
-          <div class="related-card">
-            <a href="../posts/understanding-completablefuture.html" class="related-card-img">
-              <img src="../images/completable_future.svg" alt="Understanding Java's CompletableFuture">
-            </a>
-            <div class="related-card-content">
-              <div class="post-meta">
-                <span class="post-category">Java Concurrency</span>
+            <div class="related-card">
+              <a href="../posts/understanding-completablefuture.html" class="related-card-img">
+                <img src="../images/completable_future.svg" alt="Understanding Java's CompletableFuture">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Java Concurrency</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/understanding-completablefuture.html">Understanding
+                    Java's CompletableFuture</a></h4>
               </div>
-              <h4 class="related-card-title"><a href="../posts/understanding-completablefuture.html">Understanding Java's CompletableFuture</a></h4>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -297,19 +368,19 @@ public class DeadlockWithoutReEntrant {
 
   <!-- Footer Section -->
   <footer class="main-footer" id="main-footer" data-path-prefix="../">
-<div class="footer-container">
-  <div class="footer-copy">
-    &copy; 2026 Engineering Notes. All rights reserved.
-  </div>
-  <ul class="footer-links">
-    <li><a href="https://enggnotes.com/" id="foot-home">Home</a></li>
-    <li><a href="../about.html" id="foot-about">About Us</a></li>
-    <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
-    <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
-  </ul>
-</div>
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
 
-</footer>
+  </footer>
 
   <!-- Script for dynamic fragments -->
   <script src="../js/fragments.js"></script>
@@ -318,4 +389,5 @@ public class DeadlockWithoutReEntrant {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
+
 </html>

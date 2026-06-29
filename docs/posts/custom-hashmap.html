@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Under the Hood: Building a Custom HashMap in Java | Engineering Notes</title>
+  <link class="canonical" rel="canonical" href="https://www.enggnotes.com/posts/custom-hashmap.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.enggnotes.com/index.html"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Data Structures",
+      "item": "https://www.enggnotes.com/index.html?category=Data%20Structures"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Custom HashMap",
+      "item": "https://www.enggnotes.com/posts/custom-hashmap.html"
+    }]
+  }
+  </script>
+  <meta name="description"
+    content="A step-by-step guide explaining how Java's HashMap works under the hood by building a custom HashMap from scratch, using simple analogies.">
+  <meta name="keywords" content="custom hashmap java, hashmap under the hood, how hashmap works, hashmap implementation java, java hashmap collision chaining, hashmap rehashing java, custom hashmap tutorial, data structures java, coding simple language, clean code java, software engineering">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Under the Hood: Building a Custom HashMap in Java | Engineering Notes">
+  <meta property="og:description"
+    content="A step-by-step guide explaining how Java's HashMap works under the hood by building a custom HashMap from scratch.">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <!-- Prism.js Code Highlighting (Dark Theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+
+<body>
+
+  <!-- Navigation Header -->
+  <header class="main-header" id="main-header" data-path-prefix="../" data-active-nav="">
+    <div class="nav-container">
+      <a href="https://www.enggnotes.com/" class="logo" id="nav-logo">
+        <div class="logo-icon"></div>
+        <span>Engineering Notes</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="https://www.enggnotes.com/" id="nav-home">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a></li>
+          <li><a href="../articles.html" id="nav-articles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Articles
+            </a></li>
+          <li><a href="../meet-sourav.html" id="nav-meet-sourav">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Meet Sourav
+            </a></li>
+          <li><a href="../about.html" id="nav-about">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              About Us
+            </a></li>
+          <li><a href="../contact.html" id="nav-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Contact Us
+            </a></li>
+          <li><a href="../privacy.html" id="nav-privacy">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Privacy
+            </a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Article Container -->
+  <main class="container">
+    <article class="article-container">
+
+      <!-- Breadcrumb Nav -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html?category=Data%20Structures">Data Structures</a></li>
+          <li aria-current="page">Custom HashMap</li>
+        </ol>
+      </nav>
+
+      <!-- Article Header Metadata -->
+      <header class="article-header">
+        <div class="post-meta">
+          <span class="post-category">Data Structures</span>
+          <span class="post-date">June 29, 2026</span>
+          <span>•</span>
+          <span class="post-read-time">5 min read</span>
+        </div>
+        <h1 class="article-title">Under the Hood: Building a Custom HashMap in Java</h1>
+      </header>
+
+      <!-- Article Body -->
+      <div class="article-body">
+        <p>In Java development, maps are everywhere. They store key-value pairs and look up values almost instantaneously. But have you ever wondered how standard maps organize elements and handle keys under the hood?</p>
+        <p>In this guide, we will explore the internal mechanics of a real <code>HashMap</code> by implementing one from scratch in Java (supporting key operations like <code>put</code>, <code>get</code>, <code>remove</code>, and dynamic resizing). More importantly, we will explain the concepts using a simple real-world analogy.</p>
+
+        <!-- Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/custom_hashmap.png" alt="Illustration of Custom HashMap Chaining and Rehashing"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
+
+        <!-- Analogy Box -->
+        <div class="analogy-box">
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Locker Room Mailboxes
+          </div>
+          <p>Imagine a post office with <strong>16 lockers</strong> numbered 0 to 15 (these are our <strong>Buckets</strong>).
+          Whenever a letter arrives, the clerk looks at the name on the envelope (the <strong>Key</strong>):</p>
+          <ul>
+            <li><strong>Hashing (Finding the Locker):</strong> The clerk runs the name through a simple formula (like taking the length of the name) and maps it to a number between 0 and 15. The letter belongs in that locker!</li>
+            <li><strong>Collisions (Shared Lockers):</strong> Since there are hundreds of names but only 16 lockers, multiple people will end up assigned to the same locker (e.g., both "Alice" and "Alex" hash to locker 5). To solve this, the clerk places a chain of envelopes in locker 5. Each envelope has a pointer to the next one (<strong>Chaining</strong>).</li>
+            <li><strong>Rehashing (Expanding the Post Office):</strong> If the lockers become too full, finding letters takes longer because the chains grow. To keep lookups fast, the clerk doubles the lockers to 32, recalculates the formula for every name, and redistributes all letters.</li>
+          </ul>
+        </div>
+
+        <h2>Core Technical Concepts</h2>
+        <h3>1. The Bucket Array and Nodes</h3>
+        <p>Internally, our map stores elements in a simple array. Each index in the array is a "bucket." If multiple keys map to the same bucket, we chain them using a singly linked list. Each link in this chain is a <code>Node</code> containing the key, the value, and a reference to the next node in the chain.</p>
+        <pre><code class="language-java">static class Node&lt;K, V&gt; {
+    final K key;
+    V value;
+    Node&lt;K, V&gt; next;
+    // Constructor...
+}</code></pre>
+
+        <h3>2. Calculating the Bucket Index (Hash Function)</h3>
+        <p>When you insert a key, we get its hash code (an integer Java computes automatically for objects) and take the modulus of the current array capacity. This keeps the index within the array boundaries. We map <code>null</code> keys explicitly to index <code>0</code>:</p>
+        <pre><code class="language-java">private int hash(K key) {
+    if (key == null) return 0;
+    return Math.abs(key.hashCode() % capacity);
+}</code></pre>
+
+        <h3>3. Putting Elements (Inserting/Updating)</h3>
+        <p>To store a value, we hash the key to get the index. If the bucket is empty, we place our new node there. If the bucket is occupied (a collision!), we traverse the list:
+        <ul>
+          <li>If the key already exists (via <code>equals()</code>), we overwrite the old value.</li>
+          <li>If the key is new, we append it to the end of the chain.</li>
+        </ul>
+        </p>
+
+        <h3>4. Getting Elements (Retrieval)</h3>
+        <p>Retrieval is quick. We hash the key, jump directly to that bucket, and scan down the linked list comparing keys. If we find a match, we return its value; otherwise, we return <code>null</code>.</p>
+
+        <h3>5. Resizing and Rehashing</h3>
+        <p>A map's efficiency depends on keeping chains short. If we have too many elements compared to buckets, collisions spike. We define a <strong>Load Factor</strong> threshold (typically <code>0.75</code>). If the number of elements exceeds 75% of the capacity, we double the bucket array and rehash (re-run the hash formula for all items under the new capacity) to spread them out evenly.</p>
+
+        <h2>Complete Source Code</h2>
+        <p>Below is the complete implementation of [CustomHashMap.java](file:///c:/code/MyPractise/src/main/java/io/practise/map/CustomHashMap.java) showing these concepts in action with verbose logging.</p>
+
+        <pre><code class="language-java">package io.practise.map;
+
+public class CustomHashMap&lt;K, V&gt; {
+    
+    static class Node&lt;K, V&gt; {
+        final K key;
+        V value;
+        Node&lt;K, V&gt; next;
+
+        public Node(K key, V value, Node&lt;K, V&gt; next) {
+            this.key = key;
+            this.value = value;
+            this.next = next;
+        }
+    }
+
+    private Node&lt;K, V&gt;[] table;
+    private int capacity;
+    private final float loadFactor = 0.75f;
+    private int size;
+
+    @SuppressWarnings("unchecked")
+    public CustomHashMap(int initialCapacity) {
+        this.capacity = initialCapacity;
+        this.table = (Node&lt;K, V&gt;[]) new Node[capacity];
+        this.size = 0;
+    }
+
+    private int hash(K key) {
+        if (key == null) return 0;
+        return Math.abs(key.hashCode() % capacity);
+    }
+
+    public V put(K key, V value) {
+        if ((float) (size + 1) / capacity &gt; loadFactor) {
+            resize();
+        }
+
+        int index = hash(key);
+        Node&lt;K, V&gt; head = table[index];
+
+        if (head == null) {
+            table[index] = new Node&lt;&gt;(key, value, null);
+            size++;
+            return null;
+        }
+
+        Node&lt;K, V&gt; curr = head;
+        while (curr != null) {
+            if (isKeyEqual(curr.key, key)) {
+                V oldValue = curr.value;
+                curr.value = value;
+                return oldValue;
+            }
+            if (curr.next == null) break;
+            curr = curr.next;
+        }
+
+        curr.next = new Node&lt;&gt;(key, value, null);
+        size++;
+        return null;
+    }
+
+    public V get(K key) {
+        int index = hash(key);
+        Node&lt;K, V&gt; curr = table[index];
+
+        while (curr != null) {
+            if (isKeyEqual(curr.key, key)) return curr.value;
+            curr = curr.next;
+        }
+        return null;
+    }
+
+    public V remove(K key) {
+        int index = hash(key);
+        Node&lt;K, V&gt; curr = table[index];
+        Node&lt;K, V&gt; prev = null;
+
+        while (curr != null) {
+            if (isKeyEqual(curr.key, key)) {
+                V value = curr.value;
+                if (prev == null) {
+                    table[index] = curr.next;
+                } else {
+                    prev.next = curr.next;
+                }
+                size--;
+                return value;
+            }
+            prev = curr;
+            curr = curr.next;
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void resize() {
+        int oldCapacity = capacity;
+        Node&lt;K, V&gt;[] oldTable = table;
+
+        capacity = oldCapacity * 2;
+        table = (Node&lt;K, V&gt;[]) new Node[capacity];
+        size = 0;
+
+        for (int i = 0; i < oldCapacity; i++) {
+            Node&lt;K, V&gt; curr = oldTable[i];
+            while (curr != null) {
+                put(curr.key, curr.value);
+                curr = curr.next;
+            }
+        }
+    }
+
+    private boolean isKeyEqual(K k1, K k2) {
+        if (k1 == null) return k2 == null;
+        return k1.equals(k2);
+    }
+}</code></pre>
+
+        <h2>Conclusion</h2>
+        <p>By implementing a custom map, we see how arrays and linked lists combine to form one of Java's most powerful data structures. The performance of lookups is kept close to constant time <code>O(1)</code> by using hash codes to index directly into the bucket array, resolving occasional collisions dynamically using chained lists.</p>
+      </div>
+
+      <!-- Navigation & Related Articles -->
+      <section class="post-navigation-related" id="post-navigation-related">
+        <div class="post-navigation">
+          <a href="../posts/trapping-rain-water.html" class="nav-card prev-card">
+            <div class="nav-card-arrow prev-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+            </div>
+            <div class="nav-card-content">
+              <span class="nav-card-label">Previous Post</span>
+              <span class="nav-card-title">Trapping Rain Water</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="related-posts">
+          <h3 class="related-posts-title">Related Articles</h3>
+          <div class="related-posts-grid">
+            <div class="related-card">
+              <a href="../posts/design-url-shortener.html" class="related-card-img">
+                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-url-shortener.html">Understanding Design URL
+                    Shortener in Java</a></h4>
+              </div>
+            </div>
+            <div class="related-card">
+              <a href="../posts/design-parking-lot.html" class="related-card-img">
+                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-parking-lot.html">Understanding Design Parking
+                    Lot in Java</a></h4>
+              </div>
+            </div>
+            <div class="related-card">
+              <a href="../posts/design-twitter.html" class="related-card-img">
+                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
+              </a>
+              <div class="related-card-content">
+                <div class="post-meta">
+                  <span class="post-category">Algorithms</span>
+                </div>
+                <h4 class="related-card-title"><a href="../posts/design-twitter.html">Understanding Design Twitter in
+                    Java</a></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="main-footer" id="main-footer" data-path-prefix="../">
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 2026 Engineering Notes. All rights reserved.
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://www.enggnotes.com/" id="foot-home">Home</a></li>
+        <li><a href="../about.html" id="foot-about">About Us</a></li>
+        <li><a href="../contact.html" id="foot-contact">Contact Us</a></li>
+        <li><a href="../privacy.html" id="foot-privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Script for dynamic fragments -->
+  <script src="../js/fragments.js"></script>
+
+  <!-- Prism.js Script for Highlight Execution -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+
+</html>

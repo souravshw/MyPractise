@@ -126,11 +126,67 @@ if (categoryFilters) {
   });
 }
 
+// Render Discover More (Sidebar) dynamically with one post from each category
+function renderDiscoverMore() {
+  const sidebarList = document.getElementById('sidebar-list');
+  if (!sidebarList || typeof postsData === 'undefined' || postsData.length === 0) return;
+
+  // Get the IDs of the posts initially visible on the homepage (featured + top 10 posts)
+  const homePostIds = new Set(postsData.slice(0, 11).map(p => String(p.id)));
+
+  const seenCategories = new Set();
+  const discoverPosts = [];
+
+  // Iterate through postsData (ordered latest-to-oldest) to get the latest post of each category
+  postsData.forEach(post => {
+    // Exclude posts already visible on the homepage
+    if (homePostIds.has(String(post.id))) return;
+
+    if (post.category && !seenCategories.has(post.category)) {
+      seenCategories.add(post.category);
+      discoverPosts.push(post);
+    }
+  });
+
+  // Clear existing items
+  sidebarList.innerHTML = '';
+
+  // Render each post
+  discoverPosts.forEach((post, index) => {
+    const item = document.createElement('div');
+    item.className = 'sidebar-item';
+    
+    let badgeHtml = '';
+    if (index === 0) {
+      badgeHtml = `<span class="sidebar-badge" style="background-color: rgba(108, 92, 231, 0.15); color: var(--accent-color);">New</span>`;
+    } else if (index === 1) {
+      badgeHtml = `<span class="sidebar-badge" style="background-color: rgba(255, 76, 76, 0.15); color: #ff4c4c;">Hot</span>`;
+    }
+
+    const imgContent = post.image 
+      ? `<img src="${post.image}" alt="${post.title}">` 
+      : `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>`;
+
+    item.innerHTML = `
+      <div class="sidebar-icon">
+        ${imgContent}
+      </div>
+      <div class="sidebar-info">
+        <h3 class="sidebar-item-title"><a href="${post.url}">${post.title}</a></h3>
+        <span class="sidebar-item-subtitle">${post.category}</span>
+      </div>
+      ${badgeHtml}
+    `;
+    sidebarList.appendChild(item);
+  });
+}
+
 // Initial Run
 document.addEventListener('DOMContentLoaded', () => {
   renderCategoryFilters();
   renderFeaturedPost();
   renderPosts();
+  renderDiscoverMore();
   
   // Cookie Consent Banner Logic
   const cookieBanner = document.getElementById('cookie-consent-banner');

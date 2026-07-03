@@ -64,7 +64,7 @@ HISTORY_FILE_INDEXNOW = os.path.join(BASE_CACHE_DIR, "indexnow_history.json")
 HISTORY_FILE_GOOGLE = os.path.join(BASE_CACHE_DIR, "google_history.json")
 INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow"
 
-# Google OAuth2 Credentials defaults (can be overridden by credentials file in BASE_CACHE_DIR)
+# Google OAuth2 credentials token file (must load client credentials from JSON in BASE_CACHE_DIR)
 GOOGLE_TOKEN_FILE = os.path.join(BASE_CACHE_DIR, "google_token.json")
 
 def load_google_credentials(base_dir):
@@ -73,7 +73,7 @@ def load_google_credentials(base_dir):
     Checks:
       1. base_dir/google_credentials.json
       2. base_dir/client_secrets.json
-    Falls back to embedded defaults.
+    Returns (None, None) if not found.
     """
     for filename in ["google_credentials.json", "client_secrets.json"]:
         filepath = os.path.join(base_dir, filename)
@@ -104,7 +104,7 @@ def load_google_credentials(base_dir):
             except Exception as e:
                 print(f"Warning: Failed to load credentials from {filepath}: {e}")
 
-    return GOOGLE_CLIENT_ID_DEFAULT, GOOGLE_CLIENT_SECRET_DEFAULT
+    return None, None
 
 # Shared variable for Google OAuth code
 auth_code = None
@@ -318,6 +318,10 @@ def get_google_access_token(client_id, client_secret, token_path, port):
 
     # Refresh expired access token
     if tokens.get("refresh_token"):
+        if not client_id or not client_secret:
+            print("Error: Google credentials (client_id/client_secret) are missing. Cannot refresh token.")
+            print("Please verify that 'google_credentials.json' or 'client_secrets.json' is present in your base directory.")
+            return None
         print("Google access token expired. Refreshing using refresh token...")
         try:
             new_tokens = refresh_google_token(client_id, client_secret, tokens["refresh_token"])
@@ -328,6 +332,11 @@ def get_google_access_token(client_id, client_secret, token_path, port):
             print(f"Warning: Failed to refresh Google token: {e}. Falling back to full authorization flow.")
 
     # Run full loopback OAuth2 auth server
+    if not client_id or not client_secret:
+        print("Error: Google credentials (client_id/client_secret) are missing. Cannot authenticate with Google.")
+        print("Please verify that 'google_credentials.json' or 'client_secrets.json' is present in your base directory.")
+        return None
+
     redirect_uri = f"http://localhost:{port}/"
     auth_url = (
             "https://accounts.google.com/o/oauth2/v2/auth?"

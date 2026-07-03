@@ -1,6 +1,7 @@
 import os
 import re
 
+
 def parse_posts():
     with open(r"docs\js\posts.js", "r", encoding="utf-8") as f:
         content = f.read()

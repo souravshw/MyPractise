@@ -26,43 +26,38 @@ document.addEventListener('DOMContentLoaded', () => {
     categoryFilters.innerHTML = html;
   }
 
-  // Render Articles list (filtered by category, no limit constraint)
-  function renderArticles(category = 'all') {
-    if (!articlesList || typeof postsData === 'undefined') return;
+  // Filter Articles list (filtered by category, toggling display of static elements)
+  function filterArticles(category = 'all') {
+    if (!articlesList) return;
 
-    articlesList.innerHTML = '';
+    const items = articlesList.querySelectorAll('.article-list-item');
+    let visibleCount = 0;
     
-    const filteredPosts = category === 'all' 
-      ? postsData 
-      : postsData.filter(post => post.category === category);
-      
-    if (filteredPosts.length === 0) {
-      articlesList.innerHTML = `<div style="color: var(--text-secondary); text-align: center;">No articles found in this category.</div>`;
-      return;
-    }
-    
-    filteredPosts.forEach(post => {
-      const articleItem = document.createElement('div');
-      articleItem.className = 'article-list-item';
-      articleItem.style.paddingBottom = '1.25rem';
-      articleItem.style.borderBottom = '1px solid var(--border-color)';
-      
-      articleItem.innerHTML = `
-        <div class="post-meta" style="margin-bottom: 0.4rem; font-size: 0.8rem;">
-          <span class="post-category" style="padding: 0.15rem 0.5rem; font-size: 0.7rem;">${post.category}</span>
-          <span class="post-date">${post.date}</span>
-          <span>&bull;</span>
-          <span class="post-read-time">${post.readTime}</span>
-        </div>
-        <h2 style="font-size: 1.25rem; font-weight: 700; margin: 0; line-height: 1.4;">
-          <a href="${post.url}" style="color: var(--text-primary); transition: var(--transition-smooth);" onmouseover="this.style.color='var(--accent-color)'" onmouseout="this.style.color='var(--text-primary)'">
-            ${post.title}
-          </a>
-        </h2>
-      `;
-      
-      articlesList.appendChild(articleItem);
+    items.forEach(item => {
+      const itemCategory = item.dataset.category;
+      if (category === 'all' || itemCategory === category) {
+        item.style.display = '';
+        visibleCount++;
+      } else {
+        item.style.display = 'none';
+      }
     });
+
+    // Remove any existing "No articles found" message
+    const noResultsMsg = articlesList.querySelector('.no-results-message');
+    if (noResultsMsg) {
+      noResultsMsg.remove();
+    }
+
+    if (visibleCount === 0) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'no-results-message';
+      msgDiv.style.color = 'var(--text-secondary)';
+      msgDiv.style.textAlign = 'center';
+      msgDiv.style.padding = '2rem 0';
+      msgDiv.textContent = 'No articles found in this category.';
+      articlesList.appendChild(msgDiv);
+    }
   }
 
   // Set up Tab Filtering
@@ -79,16 +74,15 @@ document.addEventListener('DOMContentLoaded', () => {
       // Add active class to clicked tab
       targetTab.classList.add('active');
       
-      // Update active category state and re-render
+      // Update active category state and filter
       activeCategory = targetTab.dataset.category;
-      renderArticles(activeCategory);
+      filterArticles(activeCategory);
     });
   }
 
   // Initial Run
   renderCategoryFilters();
-  renderArticles();
-
+  
   // Handle category query parameter for filtering
   const urlParams = new URLSearchParams(window.location.search);
   const categoryParam = urlParams.get('category');
@@ -97,6 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
       .find(btn => btn.dataset.category === categoryParam);
     if (filterBtn) {
       filterBtn.click();
+    } else {
+      filterArticles();
     }
+  } else {
+    filterArticles();
   }
 });

@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Understanding the Problem</h2>
         <p>Designing a simplified version of a social network like <strong>Twitter</strong> is a classic Object-Oriented
           Design (OOD) and algorithms problem. The system must support core social media interactions like posting
           tweets, following or unfollowing users, and generating a dynamic news feed of the 10 most recent tweets.</p>
@@ -165,14 +165,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Bulletin Board Digest
-          </div>
+          A Simple Metaphor: 
           <p>Imagine you subscribe to several physical bulletin boards in a campus (representing the users you follow).
             Each bulletin board has messages pinned to it in descending chronological order (the newest message on top
             of the older ones). To construct your own daily digest feed of the top 10 newest messages across all boards
@@ -184,7 +177,7 @@
             a Singly Linked List of tweets, and the table on which we compare messages is a Max-Priority Queue.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Core Algorithm</h2>
         <h3>Object Modeling + K-Way Merge (O(F log F) News Feed Generation)</h3>
         <p>We model the entities object-oriented style:
         <ul>
@@ -207,7 +200,7 @@
         </ul>
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Step-by-Step Execution</h2>
         <p>Let's trace a scenario where User 1 follows User 2. User 1 posts Tweet 5, and User 2 posts Tweet 6:</p>
         <ol>
           <li><strong>Step 1 (Post Tweets):</strong>
@@ -248,7 +241,7 @@
           </li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Walkthrough</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>t.next = head; head = t;</code>: Prepends the new tweet to the user's list. This runs in
@@ -260,7 +253,7 @@
             already sorted, we only need to compare the next oldest tweet of the user whose tweet we just pulled.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -394,7 +387,7 @@ public class DesignTwitter {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Designing Twitter demonstrates the efficiency of custom objects and list abstractions. By modeling tweets as
           linked lists and merging them through a Max-Priority Queue, we compile a localized news feed in logarithmic
           time, keeping operations fast and scalable.</p>
@@ -496,3 +489,4 @@ public class DesignTwitter {
 </body>
 
 </html>
+

@@ -156,14 +156,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Co-Signing a Bank Document
-          </div>
+          Think of it like: 
           <p>Imagine a company bank account that normally requires <strong>three executors</strong> to approve a check
             (Replication Factor = 3).</p>
           <p>If two executors go on vacation, you only have one executor left. If you write a check, the single
@@ -212,7 +205,7 @@ AlterConfigOp op = new AlterConfigOp(
 updateConfigs.put(resource, Collections.singletonList(op));
 adminClient.incrementalAlterConfigs(updateConfigs).all().get();</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Data durability in Kafka is a team effort. Always pair your producer's <code>acks=all</code> with a
           topic-level <code>min.insync.replicas=2</code> policy to prevent single-point-of-failure writes and build a
           truly resilient data architecture.</p>
@@ -319,3 +312,4 @@ adminClient.incrementalAlterConfigs(updateConfigs).all().get();</code></pre>
 </body>
 
 </html>
+

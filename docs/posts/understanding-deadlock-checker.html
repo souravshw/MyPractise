@@ -154,14 +154,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Stubborn Coloring Contest
-          </div>
+          A Simple Metaphor: 
           <p>Imagine two kids, <strong>T1</strong> and <strong>T2</strong>, sitting at a table participating in a
             coloring contest. To color their drawings, they both need exactly two tools: a <strong>Blue Crayon</strong>
             (Lock 1) and a <strong>Red Pencil</strong> (Lock 2).</p>
@@ -225,7 +218,7 @@ new Thread(deadlock::operation2, "T2").start();</code></pre>
             remain frozen until manually terminated.</p>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Full Code Solution</h2>
         <p>Below is the complete Java code demonstrating a deadlock using explicit <code>ReentrantLock</code> objects:
         </p>
 
@@ -290,7 +283,7 @@ public class DeadlockChecker {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Deadlocks occur when locks are acquired in different orders across multiple threads. The easiest way to
           prevent them is by establishing a strict lock acquisition order (e.g., both threads must acquire Lock 1 first,
           then Lock 2), or by using timed locking mechanisms like <code>tryLock()</code>, which release resources if a
@@ -399,3 +392,4 @@ public class DeadlockChecker {
 </body>
 
 </html>
+

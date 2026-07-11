@@ -151,14 +151,7 @@
         </div>
 
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Fence Posts and Empty Slots
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine you are walking along a long wooden fence. Some parts of the fence have <strong>solid vertical
               posts (1s)</strong>, and in between them, some boards are missing, leaving <strong>empty gap spaces
               (0s)</strong>.</p>
@@ -167,7 +160,7 @@
             stops, that doesn't count as a gap because it's not closed off.</p>
         </div>
 
-        <h2>Step-by-Step Logic Trace</h2>
+        <h2>Tracing the Logic</h2>
         <ol>
           <li>Convert the decimal number to a binary string using <code>Integer.toBinaryString(N)</code>.</li>
           <li>Convert the string into a character array to loop over it.</li>
@@ -178,7 +171,7 @@
           <li>Set the last seen index to the current index and repeat.</li>
         </ol>
 
-        <h2>Java Implementation</h2>
+        <h2>Implementation in Java</h2>
         <pre><code class="language-java">package io.practise.myPractice;
  
 import java.util.Scanner;
@@ -212,7 +205,7 @@ public class BinaryGapCodility {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>By keeping track of the index of the last seen '1', we can easily calculate gaps on the fly in a single pass
           O(Log N) time complexity, which matches the number of bits in the binary string.</p>
       </div>
@@ -316,3 +309,4 @@ public class BinaryGapCodility {
 </body>
 
 </html>
+

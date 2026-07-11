@@ -154,14 +154,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Cleaning Hotel Rooms
-          </div>
+          An Analogy: 
           <p>Imagine a hotel with 4 dirty rooms (partitions 0, 1, 2, and 3):</p>
           <ul>
             <li>If you have <strong>1 housekeeper</strong> (a single consumer instance), they must clean all 4 rooms one
@@ -228,7 +221,7 @@ try {
             IDs</strong> (e.g., <code>group.id = inventory-service</code> and
           <code>group.id = analytics-service</code>). Kafka will send copy streams to both groups independently.</p>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Consumer Groups are what make Kafka highly scalable. By linking partition count to consumer counts, you can
           increase your processing capacity on the fly by simply adding new consumer instances. Just make sure to size
           your topic partitions with enough buffer to support your future consumer scale.</p>
@@ -337,3 +330,4 @@ try {
 </body>
 
 </html>
+

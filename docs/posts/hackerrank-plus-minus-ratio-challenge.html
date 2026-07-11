@@ -159,14 +159,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Sorting Candy
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine having a bag containing 6 candies: 3 Red (Positive), 2 Blue (Negative), and 1 Green (Zero):</p>
           <ul>
             <li>To find the ratio of Red candy, you count the Reds and divide by the total:
@@ -192,7 +185,7 @@ double countZero     = arr.stream().filter(element -&gt; element == 0).count();<
 System.out.println(String.format("%.6f", (countNegative / arr.size())));
 System.out.println(String.format("%.6f", (countZero / arr.size())));</code></pre>
 
-        <h2>Java Implementation</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete Java code solving the challenge:</p>
         <pre><code class="language-java">package io.practise.hackerrank;
 
@@ -228,7 +221,7 @@ public class PlusMinusRatio {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>Classifying elements inside arrays is simple using Java Streams. By combining <code>filter()</code> with
           double casting, you create clean, declarative logic that is easy to read and formats numbers correctly for
           competitive submissions.</p>
@@ -337,3 +330,4 @@ public class PlusMinusRatio {
 </body>
 
 </html>
+

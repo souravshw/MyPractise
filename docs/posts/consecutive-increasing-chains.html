@@ -158,14 +158,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Left-To-Right Card Run
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine you have cards spread out in a row on a table. You want to construct the longest possible sequence
             of cards that increase by exactly 1 (like <code>0 → 1 → 2 → 3 → 4</code>).</p>
           <p>However, you must follow a strict rule: <strong>you can only pick cards from left to right</strong> (no
@@ -224,7 +217,7 @@ int maxCount = 0;</code></pre>
             <strong>5</strong>.</p>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete Java code demonstrating nested scans for increasing sequences:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -258,7 +251,7 @@ public class TestSecondProblem {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>By using nested loops, we can track the progress of runs starting at every index position in our array.
           Keeping a <code>maxCount</code> variable allows us to record and update the longest run found, ensuring we get
           the correct output without losing our cards!</p>

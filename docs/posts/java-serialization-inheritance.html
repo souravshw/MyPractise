@@ -148,14 +148,7 @@
         </div>
 
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Passport Citizenship Inheritance
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine a travel law ruleset: if a <strong>parent (Superclass)</strong> has citizenship and owns a passport
             (is Serializable), their <strong>children (Subclasses)</strong> automatically inherit that citizenship
             status and can get passports too.</p>
@@ -163,7 +156,7 @@
             inherit the citizenship trait naturally because of their lineage connection.</p>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>The Java Code</h2>
         <p>In this code, <code>SuperclassPerson</code> implements <code>Serializable</code>. The class
           <code>SubclassStudent</code> inherits from it, making it serializable as well:</p>
 
@@ -209,7 +202,7 @@ public class Serialiseisa {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>This inheritance rule makes designing domain models simple. However, keep in mind: if a parent class is NOT
           serializable, subclasses can still implement `Serializable`, but the parent class must declare an accessible
           no-argument constructor so Java can initialize its state during deserialization.</p>
@@ -313,3 +306,4 @@ public class Serialiseisa {
 </body>
 
 </html>
+

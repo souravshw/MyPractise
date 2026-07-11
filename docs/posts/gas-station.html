@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>The Challenge</h2>
         <p>The <strong>Gas Station</strong> problem describes a circular route containing <code>n</code> gas stations.
           Each gas station <code>i</code> provides a certain amount of gas: <code>gas[i]</code>. You have a car with an
           unlimited gas tank, and it costs <code>cost[i]</code> of gas to travel from station <code>i</code> to its next
@@ -166,14 +166,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Circular Fuel Run
-          </div>
+          An Analogy: 
           <p>Imagine running a circular race track with checkpoints. Each checkpoint gives you energy bars, and
             traveling to the next checkpoint burns calories. First, if the total calories provided by all checkpoints is
             less than the total calories burned to run the entire track, you can never finishâ€”no matter where you start.
@@ -183,7 +176,7 @@
             set your next trial start point to B + 1.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Approach</h2>
         <h3>Greedy Gas Tank Tracking (O(n) Time, O(1) Space)</h3>
         <p>We use two observations to solve this in a single loop:
         <ol>
@@ -201,7 +194,7 @@
         <code>start</code> index is guaranteed to be the correct starting position.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>The Inner Workings</h2>
         <p>Let's trace the algorithm with <code>gas = [1, 2, 3, 4, 5]</code> and <code>cost = [3, 4, 5, 1, 2]</code>:
         </p>
         <ol>
@@ -249,7 +242,7 @@
             the tour is possible. We return <code>start = 3</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Walkthrough</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>totalSurplus += gas[i] - cost[i];</code>: Keeps track of the global energy balance. If it ends up
@@ -259,7 +252,7 @@
             starting guess forward to the next index.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>The Java Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -310,7 +303,7 @@ public class GasStation {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>The Gas Station problem is a beautiful example of using mathematical properties to cut search complexity. By
           realizing that failing at station B invalidates all stations between B and the starting candidate, we collapse
           a nested loop search into a single O(n) sweep.</p>
@@ -412,3 +405,4 @@ public class GasStation {
 </body>
 
 </html>
+

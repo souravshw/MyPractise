@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>What We're Solving</h2>
         <p>The <strong>Detect Cycle in a Linked List</strong> problem asks us to determine if a given linked list
           contains a cycle. A cycle exists if there is some node in the list that can be reached again by continuously
           following the <code>next</code> pointer.</p>
@@ -159,14 +159,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Circular Race Track
-          </div>
+          A Simple Metaphor: 
           <p>Imagine two runnersâ€”a Tortoise and a Hareâ€”on a race track. The Tortoise runs slowly, taking 1 step at a
             time. The Hare runs fast, taking 2 steps at a time. If the track is a straight path with a dead end, the
             Hare will quickly reach the end and wait. However, if the track forms a loop, the Hare will go round and
@@ -174,7 +167,7 @@
             exact same location! By checking if they ever meet, we can prove if a loop exists.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Solving the Problem</h2>
         <h3>1. HashSet Visited Tracker (O(n) Time, O(n) Space)</h3>
         <p>We can traverse the linked list and store the reference of each visited node in a HashSet. If we encounter a
           node that is already present in the set, we know there is a cycle. While simple, this requires
@@ -192,7 +185,7 @@
         When <code>slow == fast</code>, a cycle is detected. This is optimal because it uses constant memory.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Tracing the Logic</h2>
         <p>Let's trace the algorithm on the list <code>3 -> 2 -> 0 -> -4</code> where <code>-4</code> points back to
           <code>2</code>:</p>
         <ol>
@@ -229,7 +222,7 @@
             immediately returns <code>true</code>, confirming the presence of a cycle.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>How the Code Works</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>while (fast != null && fast.next != null)</code>: Ensures we do not encounter a NullPointerException
@@ -241,7 +234,7 @@
             existence.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -283,7 +276,7 @@ public class DetectCycleLinkedList {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Solving the <strong>Detect Cycle in Linked List</strong> problem highlights how we can leverage key data
           structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly
           optimize runtime and simplify code complexity.</p>
@@ -385,3 +378,4 @@ public class DetectCycleLinkedList {
 </body>
 
 </html>
+

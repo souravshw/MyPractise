@@ -156,14 +156,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Broken Mailbox Labeling
-          </div>
+          An Analogy: 
           <p>Imagine a school sorting room with numbered <strong>mailboxes</strong>. When a mail sorter gets a letter,
             they use two steps to deliver and retrieve letters:</p>
           <ul>
@@ -230,7 +223,7 @@ map.put(ob2, ob2.getName());</code></pre>
             we have violated the unique-key guarantee of the Map interface.</p>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete Java code demonstrating a broken contract leading to duplicated keys in a HashMap:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -281,7 +274,7 @@ class TestTest {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>The contract of <code>hashCode()</code> and <code>equals()</code> states that if two objects are equal
           according to the <code>equals(Object)</code> method, they must produce the same integer result from
           <code>hashCode()</code>. Furthermore, equals must be consistent and reflexive. Breaking this rule compromises
@@ -393,3 +386,4 @@ class TestTest {
 </body>
 
 </html>
+

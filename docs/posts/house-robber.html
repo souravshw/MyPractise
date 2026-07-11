@@ -140,7 +140,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Understanding the Challenge</h2>
         <p>The <strong>House Robber</strong> problem describes a scenario where a robber plans to rob houses along a
           street. Each house has a certain amount of money stashed. However, adjacent houses have security systems
           connected, and it will automatically contact the police if two adjacent houses are broken into on the same
@@ -156,14 +156,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Alternating Security Alarms
-          </div>
+          An Analogy: 
           <p>Imagine walking down a path of stepping stones. Each stepping stone has a gold coin, but stepping on two
             adjacent stones sounds a loud siren. At each step, you must make a strategic decision: do you step on the
             current stone and add its coin to your loot (which means you must have skipped the stone immediately before
@@ -171,7 +164,7 @@
             You dynamically track the best cumulative reward at every step.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Strategy</h2>
         <h3>1. Dynamic Programming (O(n) Time, O(n) Space)</h3>
         <p>We can define a state array <code>dp</code>, where <code>dp[i]</code> represents the maximum money we can rob
           from the first <code>i</code> houses. At the <code>i</code>-th house:
@@ -197,7 +190,7 @@
         <code>prev1</code> forward. This achieves linear runtime with zero extra space overhead.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>How It Works</h2>
         <p>Let's trace the space-optimized algorithm for <code>nums = [2, 7, 9, 3, 1]</code>:</p>
         <ol>
           <li><strong>Step 1 (Initialization):</strong> Initialize variables representing loot from -1 and -2 houses
@@ -241,7 +234,7 @@
             <code>12</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Key Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>int temp = prev1;</code>: Caches the previous house's total loot so it can become the value for "two
@@ -251,7 +244,7 @@
             loot)?</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Implementation in Java</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -292,7 +285,7 @@ public class HouseRobber {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>The House Robber problem demonstrates the transition from recursive branching to clean, space-optimized
           dynamic programming. By analyzing state dependencies, we eliminate redundancy and solve the problem in linear
           <code>O(n)</code> time using only constant <code>O(1)</code> memory.</p>
@@ -394,3 +387,4 @@ public class HouseRobber {
 </body>
 
 </html>
+

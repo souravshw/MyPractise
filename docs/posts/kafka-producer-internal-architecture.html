@@ -154,14 +154,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Shipping Department
-          </div>
+          A Simple Analogy: 
           <p>Imagine a warehouse shipping department:</p>
           <ul>
             <li><strong>Serializer:</strong> Converts loose products into uniform, catalog-coded boxes.</li>
@@ -239,7 +232,7 @@ producer.send(record, new Callback() {
 
 producer.close(); // Flushes remaining batches and releases memory</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>Kafka producers are designed to be asynchronous and high-performance. By grouping records into batches in
           memory using the Record Accumulator, they minimize network overhead. Tuning <code>batch.size</code> and
           <code>linger.ms</code> allows you to control the sweet spot between latency and throughput.</p>
@@ -342,3 +335,4 @@ producer.close(); // Flushes remaining batches and releases memory</code></pre>
 </body>
 
 </html>
+

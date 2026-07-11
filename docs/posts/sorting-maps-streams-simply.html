@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -135,7 +135,7 @@
         <div class="post-meta">
           <span class="post-category">Java</span>
           <span class="post-date">June 22, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Sorting Maps by Value in Java Streams: A Simple Guide</h1>
@@ -159,14 +159,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Leaderboard Wall
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine you run a company. You have a folder (the unsorted HashMap) containing records matching
             <strong>salary numbers</strong> to <strong>Employee cards</strong> (e.g. key `500` pointing to Employee
             `S1`). Because they are inside a folder, they are shuffled in no particular order.</p>
@@ -230,7 +223,7 @@ salaryEmployeeMap.put(800, new TestEmployee(800, "S2", 2));
             inserted, successfully preserving the sorted leaderboard ranking!</p>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>The Java Code</h2>
         <p>Below is the complete Java code demonstrating Map value sorting using Java Streams:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -304,7 +297,7 @@ class TestEmployee {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Standard HashMaps cannot maintain ordering. Converting Map entries into a stream and sorting them using
           <code>Map.Entry.comparingByValue()</code>, then collecting them into a LinkedHashMap is the most clean and
           readable way to sort Map entries by their values in Java!</p>

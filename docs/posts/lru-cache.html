@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Understanding the Problem</h2>
         <p>An <strong>LRU (Least Recently Used) Cache</strong> is a popular caching mechanism used in systems design.
           Caches are high-speed, temporary storage structures with limited capacity. When the cache becomes full and a
           new item needs to be stored, the cache must evict an old item to make room. The LRU policy ejects the item
@@ -163,14 +163,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Active File Desk
-          </div>
+          Think of it like: 
           <p>Imagine you have a small study desk that can only fit exactly 3 files at a time. When you work on a file,
             you place it on the very top of the pile on your desk (most recently used). If you need to refer to a file
             that is already on the desk, you pull it out from the middle and put it at the very top of the pile. If you
@@ -180,7 +173,7 @@
             your mental index of where each file is located on the desk is the HashMap.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Solving the Problem</h2>
         <h3>HashMap + Doubly Linked List (O(1) Get and Put)</h3>
         <p>We implement a custom Doubly Linked List with dummy <code>head</code> and <code>tail</code> nodes:
         <ul>
@@ -199,7 +192,7 @@
         </ul>
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Step-by-Step Execution</h2>
         <p>Let's trace an LRU Cache with a capacity of <code>2</code>:</p>
         <ol>
           <li><strong>Step 1 (Initialize):</strong>
@@ -246,7 +239,7 @@
           </li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Breakdown</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>node.prev.next = node.next; node.next.prev = node.prev;</code>: Disconnects a node from its current
@@ -258,7 +251,7 @@
             the back of the list, <code>tail.prev</code> points directly to the victim node.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>The Java Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -356,7 +349,7 @@ public class LRUCache {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>Designing an LRU Cache demonstrates how mapping a Hash Table with a Doubly Linked List solves opposing
           performance constraints. The HashMap guarantees rapid access, while the list enables fast additions and
           updates, maintaining an O(1) runtime for all cache operations.</p>
@@ -458,3 +451,4 @@ public class LRUCache {
 </body>
 
 </html>
+

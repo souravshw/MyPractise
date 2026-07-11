@@ -155,14 +155,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Mailing an Important Document
-          </div>
+          An Analogy: 
           <p>Imagine sending a contract to an office building:</p>
           <ul>
             <li><strong>acks=0 (No receipt):</strong> You drop the contract in a regular mailbox. You don't wait for
@@ -216,7 +209,7 @@
           topic level). This forces Kafka to reject writes with an exception if fewer than 2 active replicas are online,
           protecting your data integrity.</p>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>There is no single "best" acks setting. For logs and telemetry, choose <code>acks=0</code> or
           <code>acks=1</code> to maximize speed. For payment engines and system audits where data loss is unacceptable,
           configure <code>acks=all</code> combined with a strong <code>min.insync.replicas</code> policy.</p>
@@ -318,3 +311,4 @@
 </body>
 
 </html>
+

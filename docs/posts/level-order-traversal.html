@@ -141,7 +141,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>What We're Solving</h2>
         <p>The <strong>Level Order Traversal</strong> problem (also known as Breadth-First Search on a tree) requires us
           to traverse a binary tree level-by-level, from left to right, returning a list of list of integers
           representing the values of nodes at each height level.</p>
@@ -166,14 +166,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Family Tree Generation Walk
-          </div>
+          A Simple Analogy: 
           <p>Imagine you are cataloging a family tree. Instead of following a single branch down to the modern day
             (Depth-First Search), you want to write down family members generation-by-generation. First, you record the
             grandparents (Level 0). Next, you record all of their children (Level 1). Finally, you record all of the
@@ -182,7 +175,7 @@
             back of the line. This ensures nobody gets mixed up between generations!</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Logic Behind It</h2>
         <h3>1. Breadth-First Search (BFS) using a Queue (O(n) Time, O(n) Space)</h3>
         <p>A standard queue (FIFO - First In, First Out) is perfect for BFS. To separate the levels:
         <ul>
@@ -197,7 +190,7 @@
         <code>O(w)</code> (where <code>w</code> is the maximum width of the tree) to hold queue elements.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Walking Through the Logic</h2>
         <p>Let's trace the level order traversal on the tree: <code>3</code> (root), left <code>9</code>, right
           <code>20</code> (with children <code>15</code> and <code>7</code>):</p>
         <ol>
@@ -241,7 +234,7 @@
             <code>res</code>: <code>[[3], [9, 20], [15, 7]]</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Breakdown</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>int size = queue.size();</code>: Captures the number of elements at the current level. Crucial
@@ -252,7 +245,7 @@
             to be processed at the next generation level.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Full Code Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -304,7 +297,7 @@ public class LevelOrderTraversal {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Solving the <strong>Level Order Traversal</strong> problem highlights how we can leverage key data structures
           and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize
           runtime and simplify code complexity.</p>
@@ -406,3 +399,4 @@ public class LevelOrderTraversal {
 </body>
 
 </html>
+

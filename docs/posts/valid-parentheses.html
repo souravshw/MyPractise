@@ -141,7 +141,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>The Challenge</h2>
         <p>The <strong>Valid Parentheses</strong> problem asks us to determine if an input string containing only the
           bracket characters <code>'(', ')', '{', '}', '['</code> and <code>']'</code> is valid.</p>
         <p>An input string is valid if:
@@ -159,14 +159,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Nesting Gift Boxes
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine packing nested gift boxes. If you open a large red box, then open a smaller blue box inside it, you
             must place the blue box's lid on *first* before you can place the red box's lid. If you try to close the red
             box before closing the blue box inside, the structure breaks. In computer science, this Last-In, First-Out
@@ -175,7 +168,7 @@
           </p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Strategy</h2>
         <h3>1. Stack-Based Verification (O(n) Time, O(n) Space)</h3>
         <p>We traverse the characters of the string from left to right:
         <ul>
@@ -194,7 +187,7 @@
         space.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Tracing the Logic</h2>
         <p>Let's trace the stack-based algorithm on the string <code>s = "([{}])"</code>:</p>
         <ol>
           <li><strong>Step 1 (Initialization):</strong> Initialize an empty Character stack: <code>stack = []</code>.
@@ -239,7 +232,7 @@
             empty, so we return <code>true</code>. The string is valid!</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>How the Code Works</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>stack.push(c);</code>: Stores opening brackets so we can match them with their corresponding closing
@@ -250,7 +243,7 @@
             opening element with the current closing symbol, ensuring the brackets close in the correct order.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>The Java Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -288,7 +281,7 @@ public class ValidParentheses {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Solving the <strong>Valid Parentheses</strong> problem highlights how we can leverage key data structures and
           algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime
           and simplify code complexity.</p>
@@ -390,3 +383,4 @@ public class ValidParentheses {
 </body>
 
 </html>
+

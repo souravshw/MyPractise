@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Understanding the Challenge</h2>
         <p>The <strong>Sliding Window Maximum</strong> problem is a classic hard problem that asks us to find the
           maximum value in each sliding window of size <code>k</code> moving across an array of integers
           <code>nums</code>.</p>
@@ -171,14 +171,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Hype-Cycle and Older Competitors
-          </div>
+          An Analogy: 
           <p>Imagine a recruiting window for a sports team. Competitors enter a waiting line one by one. If a new,
             incredibly strong player arrives, any weaker players who arrived before them are immediately disqualified
             from ever being the "best candidate" because they are both weaker *and* will retire (slide out of the
@@ -187,7 +180,7 @@
             given moment, the absolute best player in the window is always the one sitting at the front of the list.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Solving the Problem</h2>
         <h3>Monotonic Deque Optimization (O(n) Time, O(k) Space)</h3>
         <p>A double-ended queue (Deque) allows us to add or remove elements from both the front and the back in
           <code>O(1)</code> time. We store indices of elements in the Deque, maintaining them in a <strong>monotonically
@@ -211,7 +204,7 @@
         <code>2 * n</code>, resulting in a linear <code>O(n)</code> time complexity.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>How It Works</h2>
         <p>Let's trace the algorithm on <code>nums = [1, 3, -1, -3, 5]</code> with <code>k = 3</code>:</p>
         <ol>
           <li><strong>Step 1 (Initialization):</strong> Empty Deque: <code>dq = []</code>, output array:
@@ -264,7 +257,7 @@
           </li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Breakdown</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>dq.peekFirst() &lt;= i - k</code>: Keeps the sliding window in bounds by discarding elements that
@@ -275,7 +268,7 @@
             element for the current window.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>The Java Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -336,7 +329,7 @@ public class SlidingWindowMaximum {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Using a double-ended queue to maintain a monotonic sequence allows us to solve the Sliding Window Maximum
           problem in linear <code>O(n)</code> time. This technique is highly effective for sliding window problems
           requiring dynamic range query updates.</p>
@@ -438,3 +431,4 @@ public class SlidingWindowMaximum {
 </body>
 
 </html>
+

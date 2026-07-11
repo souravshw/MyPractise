@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>The Challenge</h2>
         <p>The <strong>Subsets</strong> problem (often referred to as generating the Power Set) asks us to return all
           possible subsets of a set of unique integers, <code>nums</code>.</p>
         <p>A <strong>subset</strong> is a selection of elements from the original set, where order does not matter, and
@@ -158,14 +158,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Packing a Travel Bag
-          </div>
+          An Analogy: 
           <p>Imagine you have three items on a table: a camera, a book, and a hat. You want to write down all possible
             combinations of items you could pack. You start with an empty bag (the empty subset). Then you place the
             camera in the bag and record that combination. Next, you add the book to the camera, recording that. You
@@ -175,7 +168,7 @@
             bag configuration without missing any.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Strategy</h2>
         <h3>DFS Backtracking Search (O(2<sup>n</sup>) Time, O(n) Space)</h3>
         <p>We traverse the state space recursively. Starting from index 0:
         <ul>
@@ -198,7 +191,7 @@
         <code>O(n)</code>.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Step-by-Step Execution</h2>
         <p>Let's trace the backtracking function for <code>nums = [1, 2, 3]</code>:</p>
         <ol>
           <li><strong>Step 1 (Root Call):</strong> <code>backtrack(start=0, path=[])</code>.
@@ -243,7 +236,7 @@
             are explored, ending with the collection of all 8 subsets.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>How the Code Works</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>res.add(new ArrayList&lt;&gt;(path));</code>: Creates a deep copy of the active path. Since Java
@@ -256,7 +249,7 @@
             preventing duplicate entries.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Implementation in Java</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -309,7 +302,7 @@ public class Subsets {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>The Subsets problem is a classic introduction to state-space generation. By using backtracking, we
           recursively walk the decision tree, choosing to include or exclude elements, and build the entire power set in
           optimal time and memory.</p>
@@ -411,3 +404,4 @@ public class Subsets {
 </body>
 
 </html>
+

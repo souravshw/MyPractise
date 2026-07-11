@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>The Challenge</h2>
         <p>The <strong>Longest Increasing Subsequence (LIS)</strong> problem asks us to find the length of the longest
           subsequence of a given array of integers such that all elements of the subsequence are sorted in strictly
           increasing order.</p>
@@ -164,14 +164,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Patience Sorting Card Game
-          </div>
+          An Analogy: 
           <p>Imagine dealing cards face up in piles from left to right. When a new card is drawn, you place it on the
             leftmost pile whose top card is greater than or equal to the new card. If no such pile exists, you create a
             new pile to the right of all existing piles. For example, if you draw a 5, then a 3, the 3 goes on top of
@@ -180,7 +173,7 @@
             can construct!</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Approach</h2>
         <h3>DP with Binary Search (O(n log n) Time, O(n) Space)</h3>
         <p>We maintain an active list (or array) <code>sub</code> that represents the smallest tail of all increasing
           subsequences of various lengths found so far.
@@ -198,7 +191,7 @@
           correct.</em>
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Walking Through the Logic</h2>
         <p>Let's trace the algorithm on the input array <code>nums = [10, 9, 2, 5, 3]</code>:</p>
         <ol>
           <li><strong>Step 1 (Initialization):</strong> Initialize an empty list: <code>sub = []</code>.</li>
@@ -242,7 +235,7 @@
           <li><strong>Step 7 (Final Result):</strong> The list size is 2. We return <code>2</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Breakdown</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>int i = Collections.binarySearch(sub, num);</code>: Searches the list in <code>O(log n)</code> time.
@@ -253,7 +246,7 @@
             options for future numbers.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Full Code Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -308,7 +301,7 @@ public class LongestIncreasingSubsequence {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Dynamic programming alone solves the LIS problem in quadratic time. By combining subproblem storage with
           binary search, we optimize search operations, achieving a highly efficient <code>O(n log n)</code> solution.
         </p>
@@ -410,3 +403,4 @@ public class LongestIncreasingSubsequence {
 </body>
 
 </html>
+

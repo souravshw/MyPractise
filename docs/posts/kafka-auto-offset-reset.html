@@ -155,14 +155,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Arriving Late to a Presentation
-          </div>
+          Think of it like: 
           <p>Imagine walking into a presentation room 30 minutes after it started:</p>
           <ul>
             <li><strong>auto.offset.reset = earliest:</strong> You ask the organizer for a recording of the first 30
@@ -222,7 +215,7 @@ props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDes
 
 KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Choose <code>earliest</code> when data accuracy and processing history are critical. Choose
           <code>latest</code> when you only care about real-time events happening right now. Understanding this starting
           behavior prevents missing records or accidental duplicate replays when booting up new consumer applications.
@@ -330,3 +323,4 @@ KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);</code></pre
 </body>
 
 </html>
+

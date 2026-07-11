@@ -156,14 +156,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Public Telephone Booth
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine a busy street corner with a <strong>public telephone booth</strong>. The booth is big enough for
             exactly <strong>one person</strong> to enter at a time.</p>
           <ul>
@@ -229,7 +222,7 @@ Thread t3 = new Thread(() -> System.out.println("Hello "));</code></pre>
             enters the method, logs its thread name, executes the block, and finishes.</p>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete Java code demonstrating method-level and block-level synchronization:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -258,7 +251,7 @@ public class UnderstandingSynchronized {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>Java's <code>synchronized</code> keyword provides automatic locking. When declared on a method, it locks the
           calling instance (<code>this</code>). When used as a block, it locks a specific target object monitor.
           Understanding the scope of these monitors is crucial to building race-free multithreaded applications without
@@ -367,3 +360,4 @@ public class UnderstandingSynchronized {
 </body>
 
 </html>
+

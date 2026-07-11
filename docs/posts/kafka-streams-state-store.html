@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -135,7 +135,7 @@
         <div class="post-meta">
           <span class="post-category">Kafka & Distributed Systems</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">What is a State Store in Kafka Streams?</h1>
@@ -158,14 +158,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Chef's Order Sheet
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine a chef cooking in a busy kitchen:</p>
           <p>If they had to walk to the back-office filing cabinet database every time they added a pinch of salt to
             check the customer's request history, they would cook very slowly.</p>
@@ -216,7 +209,7 @@ StoreBuilder&lt;KeyValueStore&lt;String, Long&gt;&gt; balanceStoreBuilder =
 // Register the store in your Streams topology
 builder.addStateStore(balanceStoreBuilder);</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>State stores allow Kafka Streams applications to be stateful yet highly resilient. By utilizing local RocksDB
           files and backing them up to Kafka changelogs, your applications process complex joins and aggregations at
           scale with minimal latency.</p>

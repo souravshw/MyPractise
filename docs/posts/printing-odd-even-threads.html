@@ -155,14 +155,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Number Relay Race
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine a track relay race with two runners: <strong>Odd Runner</strong> and <strong>Even Runner</strong>.
             Instead of running laps, they are writing numbers in a notebook in order from 1 to 20.</p>
           <p>They use a single <strong>baton</strong> (the ArrayBlockingQueue) to coordinate:</p>
@@ -222,7 +215,7 @@
           </ul>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete Java code demonstrating odd/even printing using ArrayBlockingQueue:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -291,7 +284,7 @@ class EvenNumber implements Runnable {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Using a <code>BlockingQueue</code> eliminates the need for low-level synchronized, wait, and notify blocks.
           The queue handles thread state blocking and thread-safe messaging internally, providing a clean, concurrent
           design that avoids race conditions and index-ordering bugs.</p>
@@ -406,3 +399,4 @@ class EvenNumber implements Runnable {
 </body>
 
 </html>
+

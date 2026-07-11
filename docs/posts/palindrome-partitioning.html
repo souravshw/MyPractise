@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Understanding the Problem</h2>
         <p>The <strong>Palindrome Partitioning</strong> problem asks us to divide a given string <code>s</code> into all
           possible groups of substrings such that every substring in a group is a <strong>palindrome</strong>.</p>
         <p>A <strong>palindrome</strong> is a word or sequence that reads the same backward as forward (e.g., "aba",
@@ -159,14 +159,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Splitting Patterned Beads
-          </div>
+          A Simple Analogy: 
           <p>Imagine you have a necklace of colored beads with a pattern like <strong>red-red-blue</strong> (represented
             by "aab"). You want to cut the string of beads into smaller segments such that each segment is symmetrical.
             You start from the left: you cut off the first bead "a". Since a single bead is symmetric, you place it in a
@@ -178,7 +171,7 @@
             backtracking, you discover all valid symmetric layouts.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Logic Behind It</h2>
         <h3>DFS Backtracking Search (Time O(N * 2<sup>N</sup>), Space O(N))</h3>
         <p>We solve this by trying all possible cut sizes starting from index 0:
         <ul>
@@ -195,7 +188,7 @@
         </ul>
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Tracing the Logic</h2>
         <p>Let's trace the backtracking function for <code>s = "aab"</code>:</p>
         <ol>
           <li><strong>Step 1 (Root Call):</strong> <code>backtrack(start=0, path=[])</code>.
@@ -246,7 +239,7 @@
           </li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Walkthrough</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>s.substring(start, end)</code>: Extracts the partition candidates. The starting index shifts forward
@@ -257,7 +250,7 @@
             pattern that explores all alternative slice configurations.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -326,7 +319,7 @@ public class PalindromePartitioning {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Palindrome Partitioning shows how backtracking can explore combinatorial string slices. By skipping
           non-palindromic branches early, we prune the search tree to retrieve only valid symmetric partitions
           efficiently.</p>
@@ -428,3 +421,4 @@ public class PalindromePartitioning {
 </body>
 
 </html>
+

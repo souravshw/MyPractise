@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Understanding the Challenge</h2>
         <p>The <strong>Roman to Integer</strong> problem asks us to convert a given Roman numeral string into its
           corresponding integer representation.</p>
         <p>Roman numerals are represented by seven different symbols:
@@ -165,14 +165,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Look-Ahead Accountant
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine reading an old transaction ledger where values are entered. Usually, you just add each value you
             read to your total sum. However, there is a special rule: if you see a smaller amount listed right before a
             larger amount (such as a $1 service fee followed immediately by a $10 refund, labeled "IX"), it means
@@ -181,7 +174,7 @@
             it. By applying this simple rule, you get the correct net total instantly!</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Strategy</h2>
         <h3>1. Map-Based Translation with Look-Ahead (O(n) Time, O(1) Space)</h3>
         <p>We use a HashMap to store the symbol-to-value associations. We iterate through the string from left to right:
         <ul>
@@ -196,7 +189,7 @@
         a fixed size of 7 elements.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Walking Through the Logic</h2>
         <p>Let's trace the look-ahead algorithm on the Roman numeral string <code>s = "MCMXCIV"</code> (which represents
           1994):</p>
         <ol>
@@ -249,7 +242,7 @@
             <code>1994</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Breakdown</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>if (i < s.length() - 1 && map.get(s.charAt(i)) < map.get(s.charAt(i + 1)))</code>: Detects if the
@@ -260,7 +253,7 @@
             decrease or stay equal.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Implementation in Java</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -300,7 +293,7 @@ public class RomanToInteger {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>Solving the <strong>Roman to Integer</strong> problem highlights how we can leverage key data structures and
           algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime
           and simplify code complexity.</p>
@@ -402,3 +395,4 @@ public class RomanToInteger {
 </body>
 
 </html>
+

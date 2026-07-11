@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>The Challenge</h2>
         <p>The <strong>Longest Palindromic Substring</strong> problem requires us to find the longest contiguous
           sequence of characters in a string that reads the same forwards and backwards.</p>
         <p>For example, in the string <code>s = "babad"</code>, the longest palindromic substring is either
@@ -160,14 +160,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Mirror Expansion
-          </div>
+          A Simple Metaphor: 
           <p>Imagine walking down a path lined with letter blocks. You want to find the longest mirrored section of
             blocks. To do this, you stop at each block (and also in the gaps between blocks) and act as a reflection
             center. You stretch your left arm to the left and your right arm to the right, looking at the letter blocks
@@ -176,7 +169,7 @@
             during this walk represents the longest palindromic segment!</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Logic Behind It</h2>
         <h3>1. The Brute Force Approach (O(nÂ³))</h3>
         <p>We check every possible substring in the string, verify if it is a palindrome, and track the longest. With
           <code>O(nÂ²)</code> substrings and <code>O(n)</code> verification time per substring, the total time complexity
@@ -189,7 +182,7 @@
           center, we expand as long as the left and right characters match. This reduces the time complexity to
           <code>O(nÂ²)</code> while using no extra storage space, which is optimal for a simple array traversal.</p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>How It Works</h2>
         <p>Let's trace the Expand Around Center algorithm on the string <code>s = "babad"</code>:</p>
         <ol>
           <li><strong>Step 1 (Initialization):</strong> We initialize two pointers to track the start and end of our
@@ -242,7 +235,7 @@
             depending on comparison details).</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>How the Code Works</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>expandAroundCenter(s, i, i)</code>: Expands centered at character <code>i</code>, looking for
@@ -253,7 +246,7 @@
             condition. It ensures the search stays within bounds and only extends while characters match.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Full Code Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -323,7 +316,7 @@ public class LongestPalindromicSubstring {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Solving the <strong>Longest Palindromic Substring</strong> problem highlights how we can leverage key data
           structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly
           optimize runtime and simplify code complexity.</p>
@@ -425,3 +418,4 @@ public class LongestPalindromicSubstring {
 </body>
 
 </html>
+

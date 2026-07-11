@@ -156,14 +156,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Double Bank Transfer
-          </div>
+          A Simple Metaphor: 
           <p>Imagine a bank with two client accounts: <strong>Account A</strong> (lock) and <strong>Account B</strong>
             (lock2). To prevent mistakes, the bank requires that whenever a transfer is made, both the sending and
             receiving accounts must be locked at the same time.</p>
@@ -227,7 +220,7 @@ new Thread(() -> coordinator.test2()).start();</code></pre>
             thread will never release. The program freezes indefinitely.</p>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Full Code Solution</h2>
         <p>Below is the complete Java code demonstrating a nested synchronized monitor deadlock:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -276,7 +269,7 @@ public class DeadlockWithoutReEntrant {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>Deadlocks inside synchronized blocks are extremely common when locking multiple objects. To avoid them, you
           must establish a consistent, global order for locking monitor objects across all threads in your application.
           Designing your programs to avoid nesting synchronized blocks is also an effective architectural way to
@@ -382,3 +375,4 @@ public class DeadlockWithoutReEntrant {
 </body>
 
 </html>
+

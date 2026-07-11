@@ -155,14 +155,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Lead Singer and Backups
-          </div>
+          A Simple Analogy: 
           <p>Imagine a live musical performance:</p>
           <ul>
             <li><strong>The Leader is the Lead Singer.</strong> They stand at the front microphone, handle all
@@ -208,7 +201,7 @@ adminClient.createTopics(Collections.singletonList(paymentsTopic)).all().get();<
             online instantly, but you lose any messages that were not synced, causing log truncation.</li>
         </ul>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>Kafka replication balances availability and durability. By splitting broker tasks into leaders and followers,
           maintaining a strict ISR registry, and automating leader election, Kafka recovers from server outages in
           milliseconds with zero data loss.</p>
@@ -316,3 +309,4 @@ adminClient.createTopics(Collections.singletonList(paymentsTopic)).all().get();<
 </body>
 
 </html>
+

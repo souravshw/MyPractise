@@ -140,7 +140,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>The Challenge</h2>
         <p>The <strong>Reverse a Linked List</strong> problem is a core data structures challenge. We are given the head
           of a singly linked list, and we need to reverse the list so that the nodes point in the opposite direction,
           returning the new head of the reversed list.</p>
@@ -157,14 +157,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Reversing Conga Line
-          </div>
+          Think of it like: 
           <p>Imagine a conga line where each person has their hands on the shoulders of the person in front of them,
             pointing to the direction of travel. To reverse the direction of the line without making anyone move to a
             different position, each person must turn around and place their hands on the shoulders of the person who
@@ -172,7 +165,7 @@
             list nodes. Each node must swap its forward link to point to its predecessor.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Strategy</h2>
         <h3>1. Iterative Pointer Reordering (O(n) Time, O(1) Space)</h3>
         <p>We traverse the list once. For each node, we redirect its <code>next</code> pointer to the previous node
           (<code>prev</code>). To avoid losing track of the rest of the list when we break the link, we must save the
@@ -186,7 +179,7 @@
         This runs in linear <code>O(n)</code> time using only constant <code>O(1)</code> memory.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>The Inner Workings</h2>
         <p>Let's trace the iterative reversal on the list <code>1 -> 2 -> 3 -> null</code>:</p>
         <ol>
           <li><strong>Step 1 (Initialization):</strong>
@@ -224,7 +217,7 @@
             <code>3 -> 2 -> 1 -> null</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>How the Code Works</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>ListNode nextNode = curr.next;</code>: Keeps a reference to the remaining chain before we break the
@@ -235,7 +228,7 @@
             traversal.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>The Java Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -288,7 +281,7 @@ public class ReverseLinkedList {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Solving the <strong>Reverse a Linked List</strong> problem highlights how we can leverage key data structures
           and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize
           runtime and simplify code complexity.</p>
@@ -390,3 +383,4 @@ public class ReverseLinkedList {
 </body>
 
 </html>
+

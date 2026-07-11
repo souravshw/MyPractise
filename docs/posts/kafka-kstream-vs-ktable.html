@@ -158,14 +158,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Transaction Log vs. Bank Account Balance
-          </div>
+          A Simple Metaphor: 
           <p>Imagine managing your bank account:</p>
           <ul>
             <li><strong>KStream is like your bank statement (Transaction Log).</strong> It records every transaction as
@@ -230,7 +223,7 @@ KTable&lt;String, String&gt; userProfiles = builder.table("user-profiles");</cod
             back into a sequence of change events (changelog stream).</li>
         </ul>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>Model your raw, chronological events using a <strong>KStream</strong>. When you need a lookup table
           containing the latest state of an entity (like checking a user's current subscription tier during a join
           operation), consume that topic as a <strong>KTable</strong> to let Kafka handle upsert deduplication
@@ -339,3 +332,4 @@ KTable&lt;String, String&gt; userProfiles = builder.table("user-profiles");</cod
 </body>
 
 </html>
+

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -131,7 +131,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Tape Equilibrium Split Sum Minimization in Java</h1>
@@ -148,14 +148,7 @@
         </div>
 
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Packing Two Grocery Bags
-          </div>
+          A Simple Metaphor: 
           <p>Imagine you have a row of items with different weights, and you want to pack them into <strong>two bags
               (left bag and right bag)</strong>.</p>
           <p>You cannot change the order of the items. You must pick a splitting point: everything before that point
@@ -164,7 +157,7 @@
               (minimum difference)</strong> so you can carry them easily without falling over.</p>
         </div>
 
-        <h2>Step-by-Step Logic Trace</h2>
+        <h2>The Inner Workings</h2>
         <ol>
           <li>Calculate the total sum of all elements in the array first.</li>
           <li>Set up a loop that simulates placing the split point <code>P</code> from index 1 to the end of the array.
@@ -175,7 +168,7 @@
           <li>Keep track of the minimum difference found during the loop iterations.</li>
         </ol>
 
-        <h2>Java Implementation</h2>
+        <h2>Implementation in Java</h2>
         <pre><code class="language-java">package io.practise.myPractice;
  
 public class TapeEquilibriumCodility {
@@ -201,7 +194,7 @@ public class TapeEquilibriumCodility {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>By computing the total sum beforehand, we avoid nested loops. This optimizes the time complexity to O(N),
           ensuring high performance for extremely large arrays.</p>
       </div>

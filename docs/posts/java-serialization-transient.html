@@ -153,14 +153,7 @@
         </div>
 
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Mailing a Flat Dollhouse
-          </div>
+          A Simple Metaphor: 
           <p>Imagine you built a beautiful 3D plastic toy dollhouse (a live object in memory) and want to mail it to a
             friend:</p>
           <ul>
@@ -175,7 +168,7 @@
           </ul>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>The Java Code</h2>
         <p>In this code, we serialize a student record. The <code>id</code> field is marked as <code>transient</code>,
           so it gets skipped during serialization and prints its default integer value <code>0</code> upon
           deserialization:</p>
@@ -218,7 +211,7 @@ class TStudent implements Serializable {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>Use the `transient` keyword to secure sensitive data fields, exclude loggers, or optimize performance by
           skipping large, temporary cache fields during object persistence operations.</p>
       </div>
@@ -322,3 +315,4 @@ class TStudent implements Serializable {
 </body>
 
 </html>
+

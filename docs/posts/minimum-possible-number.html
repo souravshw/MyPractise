@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -132,7 +132,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Constructing the Minimum Possible Number using Counting Sort</h1>
@@ -150,14 +150,7 @@
         </div>
 
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Numbered Tile Organizers
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine you have a messy pile of numbered toy tiles (digits). You want to align them to make the smallest
             number possible.</p>
           <p>Instead of comparing tiles, you place 10 plastic trays labeled <strong>0 to 9</strong> on the table. You
@@ -170,7 +163,7 @@
             2...) and lay out all the tiles from each tray in order! You get <code>"01225"</code>.</p>
         </div>
 
-        <h2>Step-by-Step Logic Trace</h2>
+        <h2>Walking Through the Logic</h2>
         <ol>
           <li>Set up a bucket array of size 9 (or 10) to hold digit counts: <code>int[] arr = new int[10];</code>.</li>
           <li>Convert the input number string to a character array.</li>
@@ -182,7 +175,7 @@
           <li>Print the finished string.</li>
         </ol>
 
-        <h2>Java Implementation</h2>
+        <h2>The Java Code</h2>
         <pre><code class="language-java">package io.practise.string;
  
 public class PrintMinimumPossibleNumber {
@@ -213,7 +206,7 @@ public class PrintMinimumPossibleNumber {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>By counting frequencies instead of comparisons, we achieve O(N) linear runtime. This makes sorting millions
           of digits run instantaneously.</p>
       </div>

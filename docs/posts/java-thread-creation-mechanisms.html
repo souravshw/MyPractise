@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -29,7 +29,7 @@
   }
   </script>
   <meta name="description"
-    content="Learn the two standard ways to create threads in Java—extending Thread class versus implementing Runnable interface, explained simply.">
+    content="Learn the two standard ways to create threads in Javaâ€”extending Thread class versus implementing Runnable interface, explained simply.">
   <meta name="keywords"
     content="create threads, threads java, create java, java java, extending java, java programming, java tutorial, backend development, clean code java, java developer, software engineering, coding tutorial, java concurrency, multithreading java, asynchronous programming, thread pool java, java parallel processing, java nio, file manipulation java, java io streams, java 8 streams">
 
@@ -131,7 +131,7 @@
         <div class="post-meta">
           <span class="post-category">Java Concurrency</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">How to Create Threads in Java: Extending Thread vs. Implementing Runnable</h1>
@@ -148,14 +148,7 @@
         </div>
 
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Hiring a Dedicated Delivery Driver vs. Writing a Task List
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine you run a pizza shop and need to make deliveries:</p>
           <ul>
             <li><strong>Extending Thread:</strong> You hire a dedicated <strong>Pizza Delivery Driver
@@ -197,7 +190,7 @@
           </tbody>
         </table>
 
-        <h2>Java Implementation</h2>
+        <h2>Full Code Solution</h2>
         <pre><code class="language-java">package io.practise.threadsExample;
  
 public class ThreadExample {
@@ -240,7 +233,7 @@ class SecondSimpleThread implements Runnable {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>In modern production environments, implementing `Runnable` (or `Callable`) is the recommended best practice.
           It maintains class inheritance flexibility and allows you to submit tasks directly to concurrency frameworks
           like ExecutorService.</p>

@@ -143,7 +143,7 @@
       <!-- Article Body -->
       <div class="article-body">
 
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Problem Breakdown</h2>
         <p>The <strong>Diameter of a Binary Tree</strong> is defined as the length of the longest path between any two
           nodes in a tree. The path does not necessarily have to pass through the root. The length of a path between two
           nodes is represented by the number of edges between them.</p>
@@ -161,14 +161,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Longest Highway Route
-          </div>
+          Think of it like: 
           <p>Imagine a highway network structured like a tree. Each town is a node, and the roads connecting them are
             branches. You want to find the longest driving route between any two dead-end towns (leaves) without
             backtracking.</p>
@@ -178,7 +171,7 @@
             longest highway route!</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Solving the Problem</h2>
         <h3>1. The Naive Approach - O(NÂ²)</h3>
         <p>We can solve this by calculating the height of the left and right subtrees for every node in the tree,
           summing them, and keeping track of the maximum. Since calculating the height of a subtree takes O(N) time,
@@ -199,7 +192,7 @@
         <p>This post-order traversal visits each node exactly once, bringing the time complexity down to a highly
           optimized O(N).</p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>How It Works</h2>
         <p>Let's trace the algorithm on the following binary tree:</p>
         <pre>
           1
@@ -227,7 +220,7 @@
           <li><strong>Step 8:</strong> Traversal ends. The maximum diameter recorded is <strong>3</strong>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Breakdown</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>if (node == null) return 0;</code>: The base case for the recursive traversal. An empty subtree has
@@ -284,7 +277,7 @@ public class DiameterBinaryTree {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>Solving the <strong>Diameter of Binary Tree</strong> problem highlights how we can leverage key data
           structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly
           optimize runtime and simplify code complexity.</p>
@@ -386,3 +379,4 @@ public class DiameterBinaryTree {
 </body>
 
 </html>
+

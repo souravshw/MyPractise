@@ -155,14 +155,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Placing an Order at a Coffee Shop
-          </div>
+          An Analogy: 
           <p>Imagine telling a barista, "I'd like a hot latte, please." </p>
           <p>If you don't hear a reply due to background noise (network drop), you might repeat, "I'd like a hot latte,
             please." If the barista treats these as two separate requests, they will make two lattes and charge you
@@ -214,7 +207,7 @@ KafkaProducer<String, String> producer = new KafkaProducer<>(props);</code></pre
             <code>isolation.level = read_committed</code>, ensuring they skip messages from aborted transactions.</li>
         </ul>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Duplicate records can corrupt database registers and break transaction models. By enabling the
           <strong>Idempotent Producer</strong>, you ensure that network-based retries do not duplicate records on
           brokers, laying the foundation for true Exactly-Once processing pipelines.</p>
@@ -317,3 +310,4 @@ KafkaProducer<String, String> producer = new KafkaProducer<>(props);</code></pre
 </body>
 
 </html>
+

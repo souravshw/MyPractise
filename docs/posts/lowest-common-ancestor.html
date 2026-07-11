@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>What We're Solving</h2>
         <p>The <strong>Lowest Common Ancestor (LCA)</strong> of two nodes <code>p</code> and <code>q</code> in a binary
           tree is defined as the lowest node in the tree that has both <code>p</code> and <code>q</code> as descendants
           (where we allow a node to be a descendant of itself).</p>
@@ -160,14 +160,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Nearest Common Manager
-          </div>
+          Think of it like: 
           <p>Imagine a company org chart, which is structured like a tree. You have two employees, Alice (p) and Bob
             (q). You want to find their Lowest Common Ancestor, which represents their nearest shared manager who has
             authority over both of them. If Alice and Bob work in completely different departments (e.g., Engineering
@@ -177,7 +170,7 @@
             hierarchy!</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Approach</h2>
         <h3>1. Post-Order Recursive DFS Search (O(n) Time, O(h) Space)</h3>
         <p>We traverse the tree recursively. For any given node:
         <ul>
@@ -197,7 +190,7 @@
         <code>O(h)</code> due to the recursion call stack.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Walking Through the Logic</h2>
         <p>Let's trace the recursive LCA algorithm on a tree with root <code>3</code>, left child <code>5</code>, right
           child <code>1</code>. We want to find the LCA of <code>p = 5</code> and <code>q = 1</code>:</p>
         <ol>
@@ -233,7 +226,7 @@
           </li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>How the Code Works</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>if (root == null || root == p || root == q) return root;</code>: The recursive base case. It stops
@@ -245,7 +238,7 @@
             nodes are on that side, so we bubble that match up.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>The Java Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -284,7 +277,7 @@ public class LowestCommonAncestor {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>Solving the <strong>Lowest Common Ancestor (LCA)</strong> problem highlights how we can leverage key data
           structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly
           optimize runtime and simplify code complexity.</p>
@@ -386,3 +379,4 @@ public class LowestCommonAncestor {
 </body>
 
 </html>
+

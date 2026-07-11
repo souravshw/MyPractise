@@ -140,7 +140,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>What We're Solving</h2>
         <p>The <strong>Climbing Stairs</strong> problem asks us to find the number of distinct ways to climb a staircase
           of <code>n</code> steps, where we can climb either <code>1</code> or <code>2</code> steps at a time.</p>
         <p>This is a fundamental dynamic programming problem. To reach the <code>n</code>-th step, we must make our
@@ -159,14 +159,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Hops on a Path
-          </div>
+          A Simple Metaphor: 
           <p>Imagine a small frog hopping up a staircase. If the frog wants to get to the 4th step, it could have hopped
             there from the 3rd step (by doing a single hop) or from the 2nd step (by doing a double hop). The frog
             cannot reach the 4th step directly from the 1st step or ground level in a single move. Thus, all the paths
@@ -174,7 +167,7 @@
             to the 3rd step.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Approach</h2>
         <h3>1. Dynamic Programming (O(n) Time, O(n) Space)</h3>
         <p>We can declare a memoization array <code>dp</code> where <code>dp[i]</code> stores the number of ways to
           reach the <code>i</code>-th step. We populate it iteratively from step <code>3</code> to <code>n</code> using
@@ -188,7 +181,7 @@
           complexity from linear <code>O(n)</code> to a constant <code>O(1)</code>.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>How It Works</h2>
         <p>Let's trace the space-optimized algorithm for <code>n = 5</code>:</p>
         <ol>
           <li><strong>Step 1 (Base Cases):</strong> For <code>n = 5</code>, since it's greater than 2, we initialize:
@@ -219,7 +212,7 @@
             <code>8</code>. There are 8 distinct ways to climb 5 stairs.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>How the Code Works</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>if (n &lt;= 2) return n;</code>: Immediately handles the base cases where the number of stairs is 1
@@ -230,7 +223,7 @@
             preparing them for the next iteration.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>The Java Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -269,7 +262,7 @@ public class ClimbingStairs {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>The Climbing Stairs problem is an excellent entry point into Dynamic Programming. We progress from a naive
           recursive solution with exponential complexity to an optimized iterative solution that runs in linear
           <code>O(n)</code> time and uses constant <code>O(1)</code> extra space.</p>
@@ -371,3 +364,4 @@ public class ClimbingStairs {
 </body>
 
 </html>
+

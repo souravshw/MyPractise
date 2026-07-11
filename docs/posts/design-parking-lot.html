@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Problem Breakdown</h2>
         <p>Designing a <strong>Parking Lot</strong> is a classic Object-Oriented Design (OOD) interview question. It
           assesses your ability to break down a physical, real-world system into logical software abstractions using
           fundamental OOP principles: <strong>Inheritance</strong>, <strong>Encapsulation</strong>, and
@@ -163,14 +163,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Labeled Mail Slots
-          </div>
+          A Simple Analogy: 
           <p>Imagine you run a mailroom that receives packages of three different sizes: letters (bikes), boxes (cars),
             and large crates (trucks). To store them, you have shelves with compartments of corresponding sizes: small
             slots, medium slots, and large shelves. When a package arrives, you look at its size and search for the
@@ -180,7 +173,7 @@
             spots is the <code>ParkingLot</code> coordinator.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Strategy</h2>
         <h3>Polymorphic Class Hierarchies</h3>
         <p>We leverage object-oriented principles to build a clean model:
         <ul>
@@ -196,7 +189,7 @@
         </ul>
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Walking Through the Logic</h2>
         <p>Let's trace a parking lot containing a single <code>CAR</code> parking spot:</p>
         <ol>
           <li><strong>Step 1 (Setup):</strong>
@@ -234,7 +227,7 @@
           </li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>How the Code Works</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>public abstract static class Vehicle</code>: Enforces inheritance. By declaring this abstract, we
@@ -245,7 +238,7 @@
             it requests the spot to execute the action, respecting encapsulation.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -369,7 +362,7 @@ public class DesignParkingLot {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Designing a Parking Lot highlights the elegance of object-oriented modeling. By distributing logic into
           separate components (Vehicle subclasses, ParkingSpot verifiers, and ParkingLot coordinators), we build an
           extensible system capable of growing to support new vehicle classes effortlessly.</p>
@@ -471,3 +464,4 @@ public class DesignParkingLot {
 </body>
 
 </html>
+

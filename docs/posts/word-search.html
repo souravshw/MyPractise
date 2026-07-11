@@ -140,7 +140,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Problem Breakdown</h2>
         <p>The <strong>Word Search</strong> problem asks us to find if a target string <code>word</code> can be
           constructed from letters of sequentially adjacent cells in a 2D grid of characters <code>board</code>.</p>
         <p>Adjacent cells are those horizontally or vertically neighboring. The same letter cell may not be used more
@@ -166,14 +166,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Exploring a Maze with Breadcrumbs
-          </div>
+          A Simple Metaphor: 
           <p>Imagine exploring a house made of modular grid rooms, looking to follow a specific sequence of signs (e.g.
             spelling out a word). As you walk into a room, you compare its sign to your checklist. If it matches, you
             drop a colored coin in the room so you know you've visited it, and walk into any neighboring room (up, down,
@@ -182,7 +175,7 @@
             different direction.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Core Algorithm</h2>
         <h3>DFS with In-Place Visited Tracking (O(m * n * 4<sup>L</sup>) Time, O(L) Space)</h3>
         <p>Let <code>m</code> and <code>n</code> be the board dimensions, and <code>L</code> be the length of the target
           word.
@@ -209,7 +202,7 @@
         </ul>
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>How It Works</h2>
         <p>Let's trace the algorithm on a <code>2 &times; 2</code> board: <code>[['A', 'B'], ['C', 'D']]</code>
           searching for <code>"ABD"</code>:</p>
         <ol>
@@ -255,7 +248,7 @@
           </li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>How the Code Works</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>board[r][c] = '#';</code>: The visited marking step. Replaces the letter with a symbol that cannot
@@ -266,7 +259,7 @@
             search paths starting from other cells can use it.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Full Code Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -346,7 +339,7 @@ public class WordSearch {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>The Word Search problem demonstrates how backtracking navigates 2D coordinates. By modifying the grid
           in-place to track visited states and restoring values during backtrack step, we optimize execution speed and
           save extra memory.</p>
@@ -448,3 +441,4 @@ public class WordSearch {
 </body>
 
 </html>
+

@@ -158,14 +158,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Expanding Toy Box
-          </div>
+          A Simple Analogy: 
           <p>Imagine you have a small toy box (Array) that has room for exactly <strong>10 toys</strong> (Capacity =
             10).</p>
           <p>You keep cleaning your room and putting toys in the box one by one. Eventually, you submit your 10th toy.
@@ -226,7 +219,7 @@
 Assert.assertEquals(2, firstList.getIndexedData(0));</code></pre>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>The Java Code</h2>
         <p>Below is the complete Java code demonstrating custom ArrayList resizing logic:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -291,7 +284,7 @@ public class CustomList<T> {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>A dynamic array like ArrayList acts like it has endless size, but underneath, it works by allocating a larger
           array and copying elements over when the limit is reached. Understanding this helps write performant code by
           initializing lists with a proper starting capacity when size is known beforehand!</p>

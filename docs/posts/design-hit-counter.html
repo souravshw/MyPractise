@@ -140,7 +140,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Understanding the Problem</h2>
         <p>A <strong>Hit Counter</strong> is a system that monitors and records the frequency of requests (hits) over a
           sliding temporal windowâ€”typically the last 5 minutes (or 300 seconds). It is widely used in rate limiting, web
           analytics, and security logging systems.</p>
@@ -160,14 +160,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Sliding Turnstile Ticket Box
-          </div>
+          A Simple Analogy: 
           <p>Imagine a security turnstile at a theme park that counts visitors currently in a special zone where the
             maximum stay duration is exactly 5 minutes (300 seconds). Every visitor who enters is given a ticket stamped
             with their exact entry time. The guard puts these tickets into a box in the order they arrive. When someone
@@ -177,7 +170,7 @@
             back and stale hits are polled from the front.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Logic Behind It</h2>
         <h3>The Queue-Based Solution (Amortized O(1) Time, O(N) Space)</h3>
         <p>Since timestamps of incoming hits are monotonically increasing, we can log each hit into a Queue:
         <ul>
@@ -197,7 +190,7 @@
         </ul>
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Step-by-Step Execution</h2>
         <p>Let's trace a Hit Counter receiving hits at timestamps <code>1</code>, <code>2</code>, and <code>3</code>:
         </p>
         <ol>
@@ -234,7 +227,7 @@
           </li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Key Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>queue.offer(timestamp)</code>: Adds the incoming timestamp to the queue. It maintains the
@@ -245,7 +238,7 @@
             time.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Full Code Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -299,7 +292,7 @@ public class DesignHitCounter {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>Designing a Hit Counter teaches us how to manage rolling time windows. By caching timestamp sequences inside
           a Queue, we can continuously prune expired logs in amortized constant time, preventing stale details from
           occupying memory.</p>
@@ -401,3 +394,4 @@ public class DesignHitCounter {
 </body>
 
 </html>
+

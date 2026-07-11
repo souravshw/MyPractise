@@ -155,14 +155,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Shipping Bulk Orders
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine running a mail shipping department:</p>
           <ul>
             <li><strong>Low Latency (Default):</strong> Every time an envelope is written, a delivery driver jumps in a
@@ -212,7 +205,7 @@ props.put("buffer.memory", "67108864");   // 64 MB buffer memory pool
 
 KafkaProducer&lt;String, String&gt; producer = new KafkaProducer&lt;&gt;(props);</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>By combining larger batches (<code>batch.size</code>), brief buffer wait times (<code>linger.ms</code>), fast
           compression algorithms (<code>lz4</code>), and healthy memory pools, you allow your Kafka Producer to group
           events efficiently, unlocking the capability to publish millions of events per second.</p>
@@ -315,3 +308,4 @@ KafkaProducer&lt;String, String&gt; producer = new KafkaProducer&lt;&gt;(props);
 </body>
 
 </html>
+

@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>What We're Solving</h2>
         <p>The <strong>Maximum Subarray</strong> problem asks us to find a contiguous subarray within a one-dimensional
           array of numbers (which contains at least one positive number) that has the largest sum.</p>
         <p>For example, in the array <code>[-2, 1, -3, 4, -1, 2, 1, -5, 4]</code>, the contiguous subarray with the
@@ -159,14 +159,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Rollercoaster Happiness Tracker
-          </div>
+          An Analogy: 
           <p>Imagine riding a rollercoaster with positive highs (thrill) and negative drops (fear/boredom). You want to
             identify the single continuous segment of the ride that gave you the absolute highest aggregate happiness.
             As you traverse the track, you keep track of your running streak of happiness. If your cumulative happiness
@@ -175,7 +168,7 @@
             highest happiness score your streak ever reached. That peak score is the maximum subarray sum!</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Solving the Problem</h2>
         <h3>1. The Naive Approach (O(nÂ²))</h3>
         <p>We can check every possible starting and ending index for all subarrays, sum their elements, and record the
           maximum. This requires two nested loops, yielding a time complexity of <code>O(nÂ²)</code>. For large datasets,
@@ -188,7 +181,7 @@
           element? By taking <code>Math.max(nums[i], currSum + nums[i])</code>, we dynamically build the optimal
           subarray sum in <code>O(n)</code> time using only <code>O(1)</code> extra space.</p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Tracing the Logic</h2>
         <p>Let's trace Kadane's algorithm on the input array <code>nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]</code>:</p>
         <ol>
           <li><strong>Step 1 (Initialization):</strong> We initialize two variables: <code>currSum</code> (current
@@ -257,7 +250,7 @@
             <code>6</code> (corresponding to the segment <code>[4, -1, 2, 1]</code>).</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Key Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>currSum = Math.max(nums[i], currSum + nums[i])</code>: This is the core dynamic programming state
@@ -267,7 +260,7 @@
             <code>currSum</code> at any point during the single-pass traversal.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Full Code Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -323,7 +316,7 @@ public class MaximumSubarray {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>Solving the <strong>Maximum Subarray (Kadane's Algorithm)</strong> problem highlights how we can leverage key
           data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to
           significantly optimize runtime and simplify code complexity.</p>
@@ -425,3 +418,4 @@ public class MaximumSubarray {
 </body>
 
 </html>
+

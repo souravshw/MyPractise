@@ -159,14 +159,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: A Busy Restaurant Kitchen
-          </div>
+          An Analogy: 
           <p>Imagine a bustling restaurant kitchen handling hundreds of orders on a Friday night:</p>
           <p>Waiters do not run directly into the kitchen to scream orders at individual chefs. Instead, they write
             orders on slips and place them on a <strong>central ticket carousel wheel (the "orders" topic)</strong>.</p>
@@ -243,7 +236,7 @@ producer.send(new ProducerRecord&lt;&gt;("orders", newOrder.getOrderId(), newOrd
             validation bypass or a major version mismatch between microservices.</li>
         </ul>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>By decoupling your order validation, payment, and fulfillment pipelines using Kafka, you build a system that
           can absorb massive seasonal traffic surges, process payments in a transactionally safe manner, and recover
           gracefully from microservice crashes.</p>
@@ -349,3 +342,4 @@ producer.send(new ProducerRecord&lt;&gt;("orders", newOrder.getOrderId(), newOrd
 </body>
 
 </html>
+

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -141,8 +141,8 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In Java development, maps are everywhere. They store key-value pairs and look up values almost instantaneously. But have you ever wondered how standard maps organize elements and handle keys under the hood?</p>
-        <p>In this guide, we will explore the internal mechanics of a real <code>HashMap</code> by implementing one from scratch in Java (supporting key operations like <code>put</code>, <code>get</code>, <code>remove</code>, and dynamic resizing). More importantly, we will explain the concepts using a simple real-world analogy.</p>
+        <p>Honestly, Java's <code>HashMap</code> is one of those classes we all import and use daily without thinking twice. We call <code>put()</code>, we call <code>get()</code>, and we just expect $O(1)$ lookups. But have you ever actually stopped to look under the hood to see how it organizes memory under the hood?</p>
+        <p>I decided to write a custom, bare-bones <code>HashMap</code> implementation from scratch to show exactly how hashing, collision chains, and dynamic resizing function behind the scenes. Before diving into the Java code, let's look at how the core concept works in the real world.</p>
 
         <!-- Illustration Image -->
         
@@ -155,20 +155,20 @@
               <line x1="12" y1="16" x2="12" y2="12" />
               <line x1="12" y1="8" x2="12.01" y2="8" />
             </svg>
-            Real-World Analogy: The Locker Room Mailboxes
+            Think of it like this:
           </div>
-          <p>Imagine a post office with <strong>16 lockers</strong> numbered 0 to 15 (these are our <strong>Buckets</strong>).
-          Whenever a letter arrives, the clerk looks at the name on the envelope (the <strong>Key</strong>):</p>
+          <p>Imagine a post office with only <strong>16 mailboxes</strong> (these are our array <strong>Buckets</strong>).
+          When a letter arrives, the clerk needs to decide which mailbox it goes into based on the recipient's name (the <strong>Key</strong>):</p>
           <ul>
-            <li><strong>Hashing (Finding the Locker):</strong> The clerk runs the name through a simple formula (like taking the length of the name) and maps it to a number between 0 and 15. The letter belongs in that locker!</li>
-            <li><strong>Collisions (Shared Lockers):</strong> Since there are hundreds of names but only 16 lockers, multiple people will end up assigned to the same locker (e.g., both "Alice" and "Alex" hash to locker 5). To solve this, the clerk places a chain of envelopes in locker 5. Each envelope has a pointer to the next one (<strong>Chaining</strong>).</li>
-            <li><strong>Rehashing (Expanding the Post Office):</strong> If the lockers become too full, finding letters takes longer because the chains grow. To keep lookups fast, the clerk doubles the lockers to 32, recalculates the formula for every name, and redistributes all letters.</li>
+            <li><strong>Hashing (Choosing the Box):</strong> The clerk runs the name through a quick rule—like taking the name's length—and gets a box number between 0 and 15. The letter always goes there.</li>
+            <li><strong>Collisions (Sharing Boxes):</strong> Since there are thousands of possible names and only 16 mailboxes, people will inevitably share a box. If both "Alice" and "Alex" hash to box 5, the clerk chains the letters together inside box 5 using paperclips. This is <strong>Chaining</strong>.</li>
+            <li><strong>Rehashing (Expanding the Boxes):</strong> As more letters arrive, the paperclipped chains in each mailbox get longer, making it slow for the clerk to find a letter. To fix this, the post office doubles the mailboxes to 32, recalculates the box number for every single name, and redistributes them.</li>
           </ul>
         </div>
 
         <h2>Core Technical Concepts</h2>
         <h3>1. The Bucket Array and Nodes</h3>
-        <p>Internally, our map stores elements in a simple array. Each index in the array is a "bucket." If multiple keys map to the same bucket, we chain them using a singly linked list. Each link in this chain is a <code>Node</code> containing the key, the value, and a reference to the next node in the chain.</p>
+        <p>In our implementation, we store elements in a simple array of Nodes. If multiple keys hash to the same bucket index, we link them together using a singly linked list. Each <code>Node</code> holds the key, the value, and a reference to the next node in the chain.</p>
         <pre><code class="language-java">static class Node&lt;K, V&gt; {
     final K key;
     V value;
@@ -177,28 +177,28 @@
 }</code></pre>
 
         <h3>2. Calculating the Bucket Index (Hash Function)</h3>
-        <p>When you insert a key, we get its hash code (an integer Java computes automatically for objects) and take the modulus of the current array capacity. This keeps the index within the array boundaries. We map <code>null</code> keys explicitly to index <code>0</code>:</p>
+        <p>When inserting a key, we get its hash code (Java's built-in integer identifier for objects) and fit it within our array capacity using a modulo operation. We explicitly assign <code>null</code> keys to index <code>0</code>:</p>
         <pre><code class="language-java">private int hash(K key) {
     if (key == null) return 0;
     return Math.abs(key.hashCode() % capacity);
 }</code></pre>
 
         <h3>3. Putting Elements (Inserting/Updating)</h3>
-        <p>To store a value, we hash the key to get the index. If the bucket is empty, we place our new node there. If the bucket is occupied (a collision!), we traverse the list:
+        <p>When saving a key-value pair, we hash the key to find the index. If the bucket is empty, we place our new node there. If the bucket already has a node (a collision), we walk down the chain:
         <ul>
-          <li>If the key already exists (via <code>equals()</code>), we overwrite the old value.</li>
-          <li>If the key is new, we append it to the end of the chain.</li>
+          <li>If we find a node with the same key (comparing with <code>equals()</code>), we overwrite its value.</li>
+          <li>If we reach the end of the chain without finding a duplicate, we append our new node.</li>
         </ul>
         </p>
 
         <h3>4. Getting Elements (Retrieval)</h3>
-        <p>Retrieval is quick. We hash the key, jump directly to that bucket, and scan down the linked list comparing keys. If we find a match, we return its value; otherwise, we return <code>null</code>.</p>
+        <p>To retrieve a value, we hash the key, jump straight to the correct bucket index, and search down the linked list comparing keys. If we find a match, we return its value; if not, we return <code>null</code>.</p>
 
         <h3>5. Resizing and Rehashing</h3>
-        <p>A map's efficiency depends on keeping chains short. If we have too many elements compared to buckets, collisions spike. We define a <strong>Load Factor</strong> threshold (typically <code>0.75</code>). If the number of elements exceeds 75% of the capacity, we double the bucket array and rehash (re-run the hash formula for all items under the new capacity) to spread them out evenly.</p>
+        <p>If we have too many elements compared to the size of the array, collisions will spike and slow down lookups. We use a threshold called the <strong>Load Factor</strong> (usually <code>0.75</code>). Once the count of elements exceeds 75% of our array's size, we double the capacity, allocate a new array, and rehash all keys to distribute them evenly across the new indexes.</p>
 
         <h2>Complete Source Code</h2>
-        <p>Below is the complete implementation of <code>CustomHashMap.java</code> showing these concepts in action with verbose logging.</p>
+        <p>Here is the full <code>CustomHashMap.java</code> implementation containing these concepts with verbose console logs to show the steps in action.</p>
 
         <pre><code class="language-java">package io.practise.map;
 
@@ -320,7 +320,7 @@ public class CustomHashMap&lt;K, V&gt; {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>By implementing a custom map, we see how arrays and linked lists combine to form one of Java's most powerful data structures. The performance of lookups is kept close to constant time <code>O(1)</code> by using hash codes to index directly into the bucket array, resolving occasional collisions dynamically using chained lists.</p>
       </div>
 
@@ -405,4 +405,5 @@ public class CustomHashMap&lt;K, V&gt; {
 </body>
 
 </html>
+
 

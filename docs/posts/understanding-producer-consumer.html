@@ -155,14 +155,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Bakery and the Display Shelf
-          </div>
+          A Simple Metaphor: 
           <p>Imagine a small bakery that specializes in fresh glazed donuts.</p>
           <p>The bakery has a <strong>Baker</strong> (the Producer) and a <strong>Customer</strong> (the Consumer).
             Between them sits a single <strong>display shelf</strong> that has only enough space to hold exactly
@@ -220,7 +213,7 @@ new Thread(new Consumer1(blockingQueue)).start();</code></pre>
           </ul>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete Java implementation showing the <code>Producer1</code>, <code>Consumer1</code>, and the
           main driver class coordinating via a <code>LinkedBlockingQueue</code>:</p>
 
@@ -290,7 +283,7 @@ class Consumer1 implements Runnable {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>By using a <code>BlockingQueue</code>, we can implement the complex Producer-Consumer pattern in a few lines
           of clean, readable code. The queue manages the thread-safe communication, queue limits, and blocking signals
           under the hood, freeing you from dealing with low-level <code>wait()</code> and <code>notify()</code> blocks.
@@ -395,3 +388,4 @@ class Consumer1 implements Runnable {
 </body>
 
 </html>
+

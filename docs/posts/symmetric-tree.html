@@ -141,7 +141,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Problem Breakdown</h2>
         <p>The <strong>Symmetric Tree</strong> problem asks us to check whether a binary tree is a mirror of itself
           (i.e., symmetric around its center).</p>
         <p>For example, the tree:
@@ -172,14 +172,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Butterfly Wings Match
-          </div>
+          A Simple Analogy: 
           <p>Imagine looking at a butterfly's wings. For the butterfly to be symmetric, every pattern on the outer edge
             of the left wing must match the pattern on the outer edge of the right wing, and every pattern on the inner
             edge of the left wing must match the pattern on the inner edge of the right wing. In terms of a binary tree,
@@ -188,7 +181,7 @@
             we can determine symmetry!</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Core Algorithm</h2>
         <h3>1. Recursive Mirror Check (O(n) Time, O(h) Space)</h3>
         <p>We write a helper function <code>isMirror(TreeNode t1, TreeNode t2)</code> that compares two subtrees.
         <ul>
@@ -206,7 +199,7 @@
         <code>O(h)</code> due to the call stack size.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>How It Works</h2>
         <p>Let's trace the recursive mirror check on the tree <code>[1, 2, 2, 3, 4, 4, 3]</code>:</p>
         <ol>
           <li><strong>Step 1 (Root call):</strong>
@@ -242,7 +235,7 @@
             verified as symmetric around its center. We return <code>true</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Breakdown</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>if (t1 == null && t2 == null) return true;</code>: The base case representing two matched empty
@@ -253,7 +246,7 @@
             matching outer elements and inner elements of the subtrees recursively.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Implementation in Java</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -294,7 +287,7 @@ public class SymmetricTree {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Solving the <strong>Symmetric Tree</strong> problem highlights how we can leverage key data structures and
           algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime
           and simplify code complexity.</p>
@@ -396,3 +389,4 @@ public class SymmetricTree {
 </body>
 
 </html>
+

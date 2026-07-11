@@ -158,14 +158,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Courier Delivery Trucks
-          </div>
+          An Analogy: 
           <p>Imagine you run a retail delivery company. A customer orders a table in parts: <strong>Part A (table
               legs)</strong> and <strong>Part B (table top)</strong>.</p>
           <p>If you load Part A onto Truck 1 (Partition 1) and Part B onto Truck 2 (Partition 2), the trucks will take
@@ -225,7 +218,7 @@ max.in.flight.requests.per.connection=5</code></pre>
           a tool like Kafka Streams or an in-memory priority queue) and sort them before triggering the database
           updates.</p>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>For high-throughput systems, use <strong>Key-Based Routing</strong> with a unique entity ID as the message
           key. Combine this with an <strong>Idempotent Producer</strong> configuration to guarantee that network retries
           never shuffle your event sequences.</p>
@@ -332,3 +325,4 @@ max.in.flight.requests.per.connection=5</code></pre>
 </body>
 
 </html>
+

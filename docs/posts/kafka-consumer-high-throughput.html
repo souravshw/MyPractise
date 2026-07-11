@@ -159,14 +159,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Loading a Shopping Cart
-          </div>
+          A Simple Analogy: 
           <p>Imagine loading boxes from a warehouse shelf onto a hand trolley:</p>
           <ul>
             <li><strong>Low Latency (Default):</strong> You walk to the shelf, grab one small box, and walk all the way
@@ -215,7 +208,7 @@ props.put("enable.auto.commit", "false");    // Disable auto commits
 
 KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer&lt;&gt;(props);</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Consumer throughput is about efficiency. By waiting for slightly larger payload packets
           (<code>fetch.min.bytes</code>) and processing larger arrays of records in memory
           (<code>max.poll.records</code>), you reduce CPU overhead and network chat, allowing your applications to clear
@@ -322,3 +315,4 @@ KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer&lt;&gt;(props);
 </body>
 
 </html>
+

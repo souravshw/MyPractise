@@ -156,14 +156,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Dumb Display Shelf with a Single Key
-          </div>
+          An Analogy: 
           <p>Imagine a bakery with a <strong>Baker</strong> (the Producer), a <strong>Customer</strong> (the Consumer),
             and a wooden <strong>display shelf</strong> with exactly <strong>10 slots</strong> for fresh donuts.</p>
           <p>Unlike a modern smart shelf, this is a dumb wooden shelf. If the Baker and Customer attempt to touch the
@@ -225,7 +218,7 @@ new Thread(new Consumer(buffer)).start();</code></pre>
           </ul>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Full Code Solution</h2>
         <p>Here is the full Java code demonstrating low-level concurrency coordination using custom synchronization
           loops:</p>
 
@@ -314,7 +307,7 @@ class Consumer implements Runnable {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Coordinating threads with <code>wait()</code> and <code>notifyAll()</code> requires strict adherence to Java
           monitor rules: always wait inside a loop checking the condition, and always hold the monitor lock when calling
           wait or notify. While it is more complex than high-level queues, it forms the foundation of all Java
@@ -418,3 +411,4 @@ class Consumer implements Runnable {
 </body>
 
 </html>
+

@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>The Challenge</h2>
         <p>The <strong>Edit Distance</strong> (or Levenshtein Distance) problem asks us to find the minimum number of
           operations required to convert a string <code>word1</code> to another string <code>word2</code>.</p>
         <p>You have three operations permitted on a word:
@@ -170,14 +170,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Typesetter's Ledger
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine a typesetter aligning letters on a press. Converting a blank page to the word "ros" takes 3
             insertions. Converting "horse" to a blank page takes 5 deletions. To align any partial word A of length
             <code>i</code> with word B of length <code>j</code>, the typesetter references a ledger. If the last letters
@@ -187,7 +180,7 @@
             cell at <code>i, j-1</code>), pays $1 for the cheapest action, and notes the result.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Strategy</h2>
         <h3>2D Dynamic Programming (O(m * n) Time, O(m * n) Space)</h3>
         <p>Let <code>m</code> be the length of <code>word1</code> and <code>n</code> be the length of
           <code>word2</code>. We create a 2D grid <code>dp</code> of size <code>(m + 1) &times; (n + 1)</code>, where
@@ -216,7 +209,7 @@
         The value in the bottom-right cell, <code>dp[m][n]</code>, is our final answer.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Tracing the Logic</h2>
         <p>Let's trace the DP matrix setup and transition steps for <code>word1 = "cat"</code> and
           <code>word2 = "cut"</code>:</p>
         <ol>
@@ -254,7 +247,7 @@
             'u' in "cat" to get "cut". We return <code>1</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>How the Code Works</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>dp[i][0] = i; dp[0][j] = j;</code>: Correctly handles the boundary conditions where one of the input
@@ -265,7 +258,7 @@
             the optimal subproblem path out of a replace, delete, or insert operation.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>The Java Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -327,7 +320,7 @@ public class EditDistance {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Edit Distance is a classic example of 2D Dynamic Programming. By mapping prefix relationships onto a grid and
           reusing matching results, we reduce what would be an exponential recursive search into a clean
           <code>O(m * n)</code> grid traversal.</p>
@@ -429,3 +422,4 @@ public class EditDistance {
 </body>
 
 </html>
+

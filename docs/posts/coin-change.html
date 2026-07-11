@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>The Challenge</h2>
         <p>The <strong>Coin Change</strong> problem asks us to find the minimum number of coins needed to make up a
           target <code>amount</code> of money, using a given list of coin denominations (<code>coins</code>). We can
           assume we have an infinite supply of each kind of coin. If that amount of money cannot be made up by any
@@ -160,14 +160,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Stamp Ledger
-          </div>
+          A Simple Analogy: 
           <p>Imagine you are a postal clerk. You have a ledger listing the fewest stamps needed to mail letters of
             various costs from $0 up to $11. To write the entry for $11, you look at your stamp drawer which contains
             $1, $2, and $5 stamps. If you use a $5 stamp, the remaining cost is $6; you look up the ledger entry for $6
@@ -176,7 +169,7 @@
             answer for $11.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Solving the Problem</h2>
         <h3>Bottom-Up Dynamic Programming (O(n * amount) Time, O(amount) Space)</h3>
         <p>We build a table <code>dp</code> of size <code>amount + 1</code>, where <code>dp[i]</code> stores the minimum
           number of coins needed to make the value <code>i</code>.
@@ -195,7 +188,7 @@
         the target value, so we return <code>-1</code>. Otherwise, we return <code>dp[amount]</code>.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Tracing the Logic</h2>
         <p>Let's trace the algorithm for <code>coins = [1, 2, 5]</code> and <code>amount = 5</code>:</p>
         <ol>
           <li><strong>Step 1 (Initialization):</strong> Declare <code>dp</code> array of size 6 filled with
@@ -245,7 +238,7 @@
           <li><strong>Step 7 (Result):</strong> <code>dp[5] = 1</code>. This is returned.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Key Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>Arrays.fill(dp, amount + 1);</code>: Uses a logical equivalent to infinity that fits in standard
@@ -257,7 +250,7 @@
             <code>a</code> with the option of using coin <code>c</code>, choosing the path with fewer coins.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>The Java Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -305,7 +298,7 @@ public class CoinChange {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>The Coin Change problem shows why greedy search isn't always optimal. By adopting a dynamic programming
           approach, we systematically check all configurations in a bottom-up fashion, achieving a highly optimized
           linear <code>O(n * amount)</code> runtime.</p>
@@ -407,3 +400,4 @@ public class CoinChange {
 </body>
 
 </html>
+

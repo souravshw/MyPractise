@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>What We're Solving</h2>
         <p>The <strong>Non-overlapping Intervals</strong> problem asks us to find the minimum number of intervals we
           need to remove from a given collection of intervals so that the remaining intervals do not overlap.</p>
         <p>An interval is represented as a pair <code>[start, end]</code>. For example, if the input is
@@ -164,14 +164,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Greedy Classroom Scheduler
-          </div>
+          A Simple Analogy: 
           <p>Imagine you are scheduling classes in a single classroom to fit as many classes as possible. If Class A
             ends at 2:00 PM and Class B ends at 5:00 PM, which one should you schedule first? You should greedily choose
             Class A (the one that ends earliest) because finishing early frees up the classroom as quickly as possible,
@@ -179,7 +172,7 @@
             cannot be scheduled and must be removed.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Solving the Problem</h2>
         <h3>Greedy Sorting by End Time (O(n) Time, O(1) Space)</h3>
         <p>The greedy rule for maximizing independent intervals is to **always select the interval that ends earliest**.
           Here is our approach:
@@ -202,7 +195,7 @@
         <code>O(1)</code> if we sort the input array in place.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>The Inner Workings</h2>
         <p>Let's trace the algorithm with <code>intervals = [[1, 2], [2, 3], [3, 4], [1, 3]]</code>:</p>
         <ol>
           <li><strong>Step 1 (Sorting):</strong> Sort the intervals based on their end times.
@@ -242,7 +235,7 @@
           <li><strong>Step 6 (Result):</strong> Loop ends. We return <code>removals = 1</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Walkthrough</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>Arrays.sort(intervals, (a, b) -&gt; Integer.compare(a[1], b[1]));</code>: The foundation of the
@@ -253,7 +246,7 @@
             to keep the smaller end boundary.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Full Code Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -301,7 +294,7 @@ public class NonOverlappingIntervals {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>The Non-overlapping Intervals problem highlights how a change of perspective (sorting by end time instead of
           start time) simplifies a scheduling problem. With this greedy choice, we solve the problem optimally in
           <code>O(n log n)</code> time.</p>
@@ -403,3 +396,4 @@ public class NonOverlappingIntervals {
 </body>
 
 </html>
+

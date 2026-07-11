@@ -140,7 +140,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Problem Breakdown</h2>
         <p>The <strong>Invert Binary Tree</strong> problem (sometimes famously known as mirroring a binary tree) asks us
           to take the root of a binary tree and invert it, so that for every node in the tree, its left and right
           subtrees are swapped.</p>
@@ -172,14 +172,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Ceiling Mobile Decoration
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine a decorative mobile hanging from the ceiling. It has a main central branch, which splits into two
             smaller branches (left and right), each holding further sub-decorations. If you look at it in a mirror, or
             if you grab the main branch and spin it 180 degrees, every single left-hand decoration swaps positions with
@@ -188,7 +181,7 @@
             individual hanging charms (leaf nodes).</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Solving the Problem</h2>
         <h3>1. Recursive Depth-First Search (O(n) Time, O(h) Space)</h3>
         <p>A binary tree has a naturally recursive structure, making recursion the most elegant way to solve this. As we
           traverse the tree (post-order DFS):
@@ -204,7 +197,7 @@
         <code>O(h)</code>, where <code>h</code> is the height of the tree, representing the recursion stack depth.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>How It Works</h2>
         <p>Let's trace the recursive inversion on a simple binary tree:</p>
         <pre>
             4
@@ -251,7 +244,7 @@
             successfully inverted.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>How the Code Works</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>if (root == null) return null;</code>: The base case. An empty tree or empty child pointer has
@@ -262,7 +255,7 @@
             subtree in the left branch and vice versa.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -301,7 +294,7 @@ public class InvertBinaryTree {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Solving the <strong>Invert Binary Tree</strong> problem highlights how we can leverage key data structures
           and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize
           runtime and simplify code complexity.</p>
@@ -403,3 +396,4 @@ public class InvertBinaryTree {
 </body>
 
 </html>
+

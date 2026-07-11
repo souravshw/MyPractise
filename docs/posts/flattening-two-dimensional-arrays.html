@@ -155,14 +155,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Sorting Dresser Drawers
-          </div>
+          Think of it like: 
           <p>Imagine you have a dresser with <strong>three drawers</strong> (representing a 2D array). Each drawer holds
             various numbers of toys marked with numbers. If you want to sort all these toys sequentially, you cannot
             easily do it while they are divided into separate drawers.</p>
@@ -221,7 +214,7 @@
           <p>This prints the numbers sequentially from -3 up to 9.</p>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete Java code demonstrating 2D array flattening and sorting using Streams:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -248,7 +241,7 @@ public class FlatteningTwoDimentionalArray {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Java's <code>flatMapToInt()</code> is a powerful method for processing multi-dimensional arrays. By using
           <code>Arrays::stream</code> inside the flatmap call, we cleanly transform nested groupings of primitive
           integers into a single, flat stream. This allows us to perform collection-wide operations like sorting,
@@ -355,3 +348,4 @@ public class FlatteningTwoDimentionalArray {
 </body>
 
 </html>
+

@@ -140,7 +140,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Understanding the Challenge</h2>
         <p>The <strong>Implement Queue using Stacks</strong> problem challenges us to build a standard First-In,
           First-Out (FIFO) queue using only two Last-In, First-Out (LIFO) stacks.</p>
         <p>A queue supports operations like:
@@ -165,14 +165,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Double Cafeteria Tray Stack
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine you have a stack of cafeteria trays in a narrow dispenser. When you put trays in, they stack on top
             (Last-In). Customers want the bottom tray because it was placed there first (First-Out). To serve them, you
             grab another empty dispenser, move the trays one by one from the first dispenser to the second. This action
@@ -181,7 +174,7 @@
             completely empty.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Solving the Problem</h2>
         <h3>Two-Stack Order Reversal (Amortized O(1) Time, O(n) Space)</h3>
         <p>We maintain two stacks:
         <ul>
@@ -210,7 +203,7 @@
         times. Thus, the amortized time complexity per operation is <code>O(1)</code>.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Step-by-Step Execution</h2>
         <p>Let's trace a sequence of operations:</p>
         <ol>
           <li><strong>Step 1 (Initialization):</strong> Initialize two empty stacks: <code>inputStack = []</code> and
@@ -255,7 +248,7 @@
           </li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Breakdown</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>inputStack.push(x)</code>: Keep the write path extremely simple and fast (O(1)).</li>
@@ -266,7 +259,7 @@
             both buffers before declaring the queue empty.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -333,7 +326,7 @@ public class QueueUsingStacks {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Implementing a queue using stacks is a classic lesson in amortized analysis. By using a secondary stack to
           lazily reverse the element order, we preserve the FIFO contract while maintaining highly efficient runtime
           execution.</p>
@@ -435,3 +428,4 @@ public class QueueUsingStacks {
 </body>
 
 </html>
+

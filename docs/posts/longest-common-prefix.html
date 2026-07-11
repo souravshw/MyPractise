@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>The Challenge</h2>
         <p>The <strong>Longest Common Prefix</strong> problem asks us to find the longest string of characters that is a
           prefix of all strings in a given array of strings. If there is no common prefix, we return an empty string
           <code>""</code>.</p>
@@ -160,14 +160,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Alphabetical Filing Cabinet
-          </div>
+          A Simple Metaphor: 
           <p>Imagine you have a large folder of words. You decide to arrange them in alphabetical order. In an
             alphabetically sorted list, the first word and the last word represent the extreme opposites of the set.
             Consequently, any common letters that are shared by *all* the words in the list must, by definition, be
@@ -176,7 +169,7 @@
             words!</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Solving the Problem</h2>
         <h3>1. Horizontal Scanning (O(n * m))</h3>
         <p>We take the first string as our initial prefix candidate. We compare it with the second string, shortening
           the candidate until it matches. Then, we compare the result with the third string, and so on. While simple,
@@ -193,7 +186,7 @@
           prefix for the entire array.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Tracing the Logic</h2>
         <p>Let's trace the boundary sorting algorithm on the array <code>strs = ["flower", "flow", "flight"]</code>:</p>
         <ol>
           <li><strong>Step 1 (Base Case Check):</strong> We check if the array is null or empty. It is not.</li>
@@ -221,7 +214,7 @@
             <code>"fl"</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Walkthrough</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>Arrays.sort(strs);</code>: Lexicographically sorts the array, placing the two most distinct string
@@ -232,7 +225,7 @@
             boundary strings have matching characters.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Implementation in Java</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -280,7 +273,7 @@ public class LongestCommonPrefix {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Solving the <strong>Longest Common Prefix</strong> problem highlights how we can leverage key data structures
           and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize
           runtime and simplify code complexity.</p>
@@ -382,3 +375,4 @@ public class LongestCommonPrefix {
 </body>
 
 </html>
+

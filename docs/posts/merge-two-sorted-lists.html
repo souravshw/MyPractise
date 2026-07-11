@@ -141,7 +141,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>What We're Solving</h2>
         <p>The <strong>Merge Two Sorted Lists</strong> problem asks us to merge two sorted singly linked lists into a
           single sorted linked list. The new list should be made by splicing together the nodes of the first two lists,
           keeping the elements in ascending order.</p>
@@ -159,14 +159,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Merging Two Sorted Card Piles
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine you have two separate piles of playing cards lying face up on the table. Both piles are already
             sorted in ascending order (e.g., Pile A is <code>[1, 3, 5]</code> and Pile B is <code>[2, 4, 6]</code>). To
             merge them into a single sorted pile, you compare the top card of Pile A with the top card of Pile B. You
@@ -176,7 +169,7 @@
             at once!</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Strategy</h2>
         <h3>1. Iterative Merge (O(n + m) Time, O(1) Space)</h3>
         <p>We use a dummy helper node to anchor the start of our new merged list. We also maintain a pointer
           <code>curr</code> that starts at this dummy node.
@@ -191,7 +184,7 @@
         two lists) using only <code>O(1)</code> auxiliary space.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Walking Through the Logic</h2>
         <p>Let's trace the algorithm on <code>list1 = 1 -> 3</code> and <code>list2 = 2 -> 4</code>:</p>
         <ol>
           <li><strong>Step 1 (Initialization):</strong> Create a dummy node
@@ -237,7 +230,7 @@
             sorted merged list: <code>1 -> 2 -> 3 -> 4 -> null</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Key Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>ListNode dummy = new ListNode(-1);</code>: Serves as a constant anchor point at the beginning, so we
@@ -248,7 +241,7 @@
             placeholder.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -307,7 +300,7 @@ public class MergeTwoSortedLists {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>Solving the <strong>Merge Two Sorted Lists</strong> problem highlights how we can leverage key data
           structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly
           optimize runtime and simplify code complexity.</p>
@@ -409,3 +402,4 @@ public class MergeTwoSortedLists {
 </body>
 
 </html>
+

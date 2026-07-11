@@ -157,14 +157,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Postal Inspector
-          </div>
+          Think of it like: 
           <p>Imagine you are a postal inspector. You have a <strong>delivery list</strong> of house addresses (the CSV
             file containing URLs).</p>
           <p>Your job is to identify which houses are sending spam brochures. You follow this process:</p>
@@ -219,7 +212,7 @@
           <p>After processing all links, it writes the spam list to <code>spam_links.txt</code>.</p>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete Java code demonstrating automated link checking and file handling:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -336,7 +329,7 @@ public class LinkAnalyzer {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>Using standard Java networking libraries like <code>HttpURLConnection</code> makes connecting to sites and
           crawling their content simple. Wrapping network fetches in try-catch structures prevents blockages and ensures
           link analysis runs to completion, outputting security results safely to disk!</p>
@@ -445,3 +438,4 @@ public class LinkAnalyzer {
 </body>
 
 </html>
+

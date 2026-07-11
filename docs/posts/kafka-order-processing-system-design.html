@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -135,7 +135,7 @@
         <div class="post-meta">
           <span class="post-category">Kafka & Distributed Systems</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">5 min read</span>
         </div>
         <h1 class="article-title">Designing a Kafka-Based Order Processing System</h1>
@@ -188,7 +188,7 @@
           <li><strong><code>orders-dlq</code>:</strong> Holds malformed or invalid orders for debugging.</li>
           <li><strong>Partitioning Key:</strong> Use <code>customerId</code> or <code>orderId</code>. Using
             <code>customerId</code> ensures all orders placed by the same user are processed sequentially on the same
-            partition. Assign <strong>12 to 24 partitions</strong> to allow scaling consumer groups up to 12–24 parallel
+            partition. Assign <strong>12 to 24 partitions</strong> to allow scaling consumer groups up to 12â€“24 parallel
             instances.</li>
         </ul>
 
@@ -286,9 +286,7 @@ producer.send(new ProducerRecord&lt;&gt;("orders", newOrder.getOrderId(), newOrd
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/kafka-idempotent-producer-exactly-once.html" class="related-card-img">
-                <img src="../images/kafka_exactly_once.png" alt="What is an Idempotent Producer in Kafka?">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>

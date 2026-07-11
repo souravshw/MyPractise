@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -134,7 +134,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Longest Palindromic Substring in Java</h1>
@@ -177,17 +177,17 @@
         </div>
 
         <h2>The Algorithmic Approach</h2>
-        <h3>1. The Brute Force Approach (O(n³))</h3>
+        <h3>1. The Brute Force Approach (O(nÂ³))</h3>
         <p>We check every possible substring in the string, verify if it is a palindrome, and track the longest. With
-          <code>O(n²)</code> substrings and <code>O(n)</code> verification time per substring, the total time complexity
-          is a highly inefficient <code>O(n³)</code>.</p>
+          <code>O(nÂ²)</code> substrings and <code>O(n)</code> verification time per substring, the total time complexity
+          is a highly inefficient <code>O(nÂ³)</code>.</p>
 
-        <h3>2. Expand Around Center Approach (O(n²) Time, O(1) Space)</h3>
+        <h3>2. Expand Around Center Approach (O(nÂ²) Time, O(1) Space)</h3>
         <p>Instead of checking substrings from the outside in, we can start from every potential palindrome center and
           expand outwards. A string of length <code>n</code> has <code>2n - 1</code> potential centers (each of the
           <code>n</code> characters, and each of the <code>n - 1</code> spaces between adjacent characters). For each
           center, we expand as long as the left and right characters match. This reduces the time complexity to
-          <code>O(n²)</code> while using no extra storage space, which is optimal for a simple array traversal.</p>
+          <code>O(nÂ²)</code> while using no extra storage space, which is optimal for a simple array traversal.</p>
 
         <h2>Step-by-Step Execution Walkthrough</h2>
         <p>Let's trace the Expand Around Center algorithm on the string <code>s = "babad"</code>:</p>
@@ -366,9 +366,7 @@ public class LongestPalindromicSubstring {
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/design-url-shortener.html" class="related-card-img">
-                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -378,9 +376,7 @@ public class LongestPalindromicSubstring {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/design-parking-lot.html" class="related-card-img">
-                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -390,9 +386,7 @@ public class LongestPalindromicSubstring {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/design-twitter.html" class="related-card-img">
-                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>

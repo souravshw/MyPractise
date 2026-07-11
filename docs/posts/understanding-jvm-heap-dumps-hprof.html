@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -136,7 +136,7 @@
         <div class="post-meta">
           <span class="post-category">Java Concurrency</span>
           <span class="post-date">June 25, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">5 min read</span>
         </div>
         <h1 class="article-title">Understanding JVM Heap Dumps: A Layman's Guide to HPROF Files</h1>
@@ -210,7 +210,7 @@
         </div>
 
         <blockquote>
-          <p><strong>The Exclusive Rule:</strong> If you discard a backpack, you also discard the sandwich inside it—so
+          <p><strong>The Exclusive Rule:</strong> If you discard a backpack, you also discard the sandwich inside itâ€”so
             the sandwich's weight counts towards the backpack's <em>Retained Size</em>. But if someone else is holding a
             string tied to the sandwich, discarding the backpack won't free the sandwich. Therefore, the sandwich's
             weight does not count towards that backpack's retained size.</p>
@@ -231,7 +231,7 @@
 
         <h4 style="color:var(--accent-color);">Step C: Trace the "Path to GC Roots"</h4>
         <p>Once you find a suspect object that is taking up too much memory, right-click it and choose <strong>Path to
-            GC Roots ➔ exclude all phantom/weak/soft references</strong>. This traces the reference chain back to the
+            GC Roots âž” exclude all phantom/weak/soft references</strong>. This traces the reference chain back to the
           active thread or static variable holding onto the object. Your bug lies where this reference chain intersects
           with your custom code.</p>
 
@@ -386,9 +386,7 @@ List<Product> products = productRepository.findAll(); </code></pre>
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/understanding-deadlock-synchronized.html" class="related-card-img">
-                <img src="../images/deadlock_synchronized.png" alt="Understanding Java's Synchronized Deadlocks">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Java Concurrency</span>

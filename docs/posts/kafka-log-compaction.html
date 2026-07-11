@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -135,7 +135,7 @@
         <div class="post-meta">
           <span class="post-category">Kafka & Distributed Systems</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Log Compaction in Apache Kafka</h1>
@@ -146,7 +146,7 @@
         <p>By default, Apache Kafka deletes old messages after a configured time (e.g., 7 days) or when the topic
           reaches a certain size limit (e.g., 10GB). This is called the <code>delete</code> retention policy.</p>
 
-        <p>However, what if you are using Kafka to store data that represents the state of a system—like a user's
+        <p>However, what if you are using Kafka to store data that represents the state of a systemâ€”like a user's
           profile information or account balances? You can't just delete this data after a week. To store state records
           efficiently without running out of disk space, Kafka provides <strong>Log Compaction</strong>.</p>
 
@@ -285,9 +285,7 @@ try (AdminClient adminClient = AdminClient.create(props)) {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/kafka-replication-mechanics.html" class="related-card-img">
-                <img src="../images/kafka_replication.png" alt="How Apache Kafka Replication and Leader Election Work">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>

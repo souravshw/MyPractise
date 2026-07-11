@@ -1,4 +1,4 @@
-// Blog Posts Data Source
+﻿// Blog Posts Data Source
 const postsData = [
   {
     id: 168,
@@ -8,8 +8,7 @@ const postsData = [
     date: "June 29, 2026",
     readTime: "5 min read",
     url: "posts/custom-hashmap.html",
-    image: "images/custom_hashmap.png"
-  },
+      },
   {
     id: 167,
     title: "Understanding Design URL Shortener in Java",
@@ -18,8 +17,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/design-url-shortener.html",
-    image: "images/design_url_shortener.png"
-  },
+      },
   {
     id: 166,
     title: "Understanding Design Parking Lot in Java",
@@ -28,8 +26,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/design-parking-lot.html",
-    image: "images/design_parking_lot.png"
-  },
+      },
   {
     id: 165,
     title: "Understanding Design Twitter in Java",
@@ -38,8 +35,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/design-twitter.html",
-    image: "images/design_twitter.png"
-  },
+      },
   {
     id: 164,
     title: "Understanding Design Hit Counter in Java",
@@ -48,8 +44,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/design-hit-counter.html",
-    image: "images/design_hit_counter.png"
-  },
+      },
   {
     id: 163,
     title: "Understanding LRU Cache in Java",
@@ -58,8 +53,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/lru-cache.html",
-    image: "images/lru_cache.png"
-  },
+      },
   {
     id: 162,
     title: "Understanding Palindrome Partitioning in Java",
@@ -68,8 +62,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/palindrome-partitioning.html",
-    image: "images/palindrome_partitioning.png"
-  },
+      },
   {
     id: 161,
     title: "Understanding N-Queens in Java",
@@ -78,8 +71,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/n-queens.html",
-    image: "images/n_queens.png"
-  },
+      },
   {
     id: 160,
     title: "Understanding Word Search in Java",
@@ -88,8 +80,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/word-search.html",
-    image: "images/word_search.png"
-  },
+      },
   {
     id: 159,
     title: "Understanding Permutations in Java",
@@ -98,8 +89,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/permutations.html",
-    image: "images/string_permutations.png"
-  },
+      },
   {
     id: 158,
     title: "Understanding Subsets in Java",
@@ -108,8 +98,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/subsets.html",
-    image: "images/subsets.png"
-  },
+      },
   {
     id: 157,
     title: "Understanding Assign Cookies in Java",
@@ -118,8 +107,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/assign-cookies.html",
-    image: "images/assign_cookies.png"
-  },
+      },
   {
     id: 156,
     title: "Understanding Non-overlapping Intervals in Java",
@@ -128,8 +116,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/non-overlapping-intervals.html",
-    image: "images/non_overlapping_intervals.png"
-  },
+      },
   {
     id: 155,
     title: "Understanding Merge Intervals in Java",
@@ -138,8 +125,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/merge-intervals.html",
-    image: "images/merge_intervals.png"
-  },
+      },
   {
     id: 154,
     title: "Understanding Gas Station in Java",
@@ -148,8 +134,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/gas-station.html",
-    image: "images/gas_station.png"
-  },
+      },
   {
     id: 153,
     title: "Understanding Jump Game in Java",
@@ -158,8 +143,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/jump-game.html",
-    image: "images/jump_game.png"
-  },
+      },
   {
     id: 152,
     title: "Understanding Edit Distance in Java",
@@ -188,8 +172,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/house-robber.html",
-    image: "images/house_robber.png"
-  },
+      },
   {
     id: 149,
     title: "Understanding Coin Change in Java",
@@ -198,8 +181,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/coin-change.html",
-    image: "images/coin_change.png"
-  },
+      },
   {
     id: 148,
     title: "Understanding Climbing Stairs in Java",
@@ -208,8 +190,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/climbing-stairs.html",
-    image: "images/climbing_stairs.png"
-  },
+      },
   {
     id: 147,
     title: "Understanding Sliding Window Maximum in Java",
@@ -258,8 +239,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/valid-parentheses.html",
-    image: "images/parenthesis_checker.png"
-  },
+      },
   {
     id: 142,
     title: "Understanding Symmetric Tree in Java",
@@ -388,8 +368,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/group-anagrams.html",
-    image: "images/string_anagram_grouping.png"
-  },
+      },
   {
     id: 129,
     title: "Understanding Longest Palindromic Substring in Java",
@@ -408,8 +387,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/valid-anagram.html",
-    image: "images/string_anagram_grouping.png"
-  },
+      },
   {
     id: 127,
     title: "Understanding Trapping Rain Water in Java",
@@ -458,8 +436,7 @@ const postsData = [
     date: "June 26, 2026",
     readTime: "4 min read",
     url: "posts/two-sum.html",
-    image: "images/two-sum.png"
-  },
+      },
 
   {
     id: 122,
@@ -899,8 +876,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-producer-high-throughput.html",
-    image: "images/kafka_producer_throughput.png"
-  },
+      },
   {
     id: 78,
     title: "What Happens When a Kafka Broker Goes Down?",
@@ -909,8 +885,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-broker-failure-scenario.html",
-    image: "images/kafka_broker_down.png"
-  },
+      },
   {
     id: 77,
     title: "Why min.insync.replicas is Crucial for Kafka Durability",
@@ -919,8 +894,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-min-insync-replicas.html",
-    image: "images/kafka_min_isr.png"
-  },
+      },
   {
     id: 76,
     title: "How Apache Kafka Replication and Leader Election Work",
@@ -929,8 +903,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-replication-mechanics.html",
-    image: "images/kafka_replication.png"
-  },
+      },
   {
     id: 75,
     title: "Kafka Consumer Commits: commitSync vs. commitAsync",
@@ -939,8 +912,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-commitsync-vs-commitasync.html",
-    image: "images/kafka_commit_sync_async.png"
-  },
+      },
   {
     id: 74,
     title: "Kafka auto.offset.reset: Earliest vs. Latest Explained Simply",
@@ -949,8 +921,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "3 min read",
     url: "posts/kafka-auto-offset-reset.html",
-    image: "images/kafka_offset_reset.png"
-  },
+      },
   {
     id: 73,
     title: "Understanding Kafka Consumer Rebalancing and How to Minimize It",
@@ -959,8 +930,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-consumer-rebalancing.html",
-    image: "images/kafka_rebalancing.png"
-  },
+      },
   {
     id: 72,
     title: "What is Apache Kafka and Why is it Used?",
@@ -969,8 +939,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-what-is-kafka.html",
-    image: "images/kafka_intro.png"
-  },
+      },
   {
     id: 71,
     title: "The Core Components of Apache Kafka Explained",
@@ -979,8 +948,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-core-components.html",
-    image: "images/kafka_components.png"
-  },
+      },
   {
     id: 70,
     title: "Apache Kafka vs. RabbitMQ: Understanding the Differences",
@@ -989,8 +957,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-vs-rabbitmq-message-queues.html",
-    image: "images/kafka_vs_mq.png"
-  },
+      },
   {
     id: 69,
     title: "Understanding Kafka Topics and Partitioning Mechanics",
@@ -999,8 +966,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-topics-partitions-explained.html",
-    image: "images/kafka_partitions.png"
-  },
+      },
   {
     id: 68,
     title: "What is an Offset in Kafka and How is it Managed?",
@@ -1009,8 +975,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-offsets-management.html",
-    image: "images/kafka_offsets.png"
-  },
+      },
   {
     id: 67,
     title: "How to Choose the Right Number of Partitions in Kafka",
@@ -1019,8 +984,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-choosing-partition-count.html",
-    image: "images/kafka_partition_scaling.png"
-  },
+      },
   {
     id: 66,
     title: "Inside the Kafka Producer: Architecture and Internal Flow",
@@ -1029,8 +993,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "5 min read",
     url: "posts/kafka-producer-internal-architecture.html",
-    image: "images/kafka_producer_flow.png"
-  },
+      },
   {
     id: 65,
     title: "Understanding Kafka Producer ACKs Settings and Trade-offs",
@@ -1039,8 +1002,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-producer-acks-settings.html",
-    image: "images/kafka_acks.png"
-  },
+      },
   {
     id: 64,
     title: "What is an Idempotent Producer in Kafka?",
@@ -1049,8 +1011,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-idempotent-producer-exactly-once.html",
-    image: "images/kafka_exactly_once.png"
-  },
+      },
   {
     id: 63,
     title: "How Kafka Consumers and Consumer Groups Work",
@@ -1059,8 +1020,7 @@ const postsData = [
     date: "June 20, 2026",
     readTime: "4 min read",
     url: "posts/kafka-consumer-groups-basics.html",
-    image: "images/kafka_consumer_groups.png"
-  },
+      },
   {
     id: 62,
     title: "Understanding Java Inner Classes: Member, Local, and Anonymous",
@@ -1069,8 +1029,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/java-inner-classes-member-local-anonymous.html",
-    image: "images/coffee_shop_kitchen.png"
-  },
+      },
   {
     id: 61,
     title: "Understanding Java Static Nested Classes and Nested Interfaces",
@@ -1079,8 +1038,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/java-static-nested-classes-interfaces.html",
-    image: "images/string_identity_map.png"
-  },
+      },
   {
     id: 60,
     title: "Class Initialization Sequences in Java Inheritance",
@@ -1089,8 +1047,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "3 min read",
     url: "posts/java-class-initialization-blocks-inheritance.html",
-    image: "images/java_initialization_blocks.png"
-  },
+      },
   {
     id: 59,
     title: "Mutating Map Keys and the HashSet Removal Gotcha",
@@ -1099,8 +1056,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "5 min read",
     url: "posts/java-mutating-map-keys-set-removal.html",
-    image: "images/hash_contract_broken.png"
-  },
+      },
   {
     id: 58,
     title: "How Map Sorting Works with and without Java Streams",
@@ -1109,8 +1065,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/java-map-sorting-values-stream.html",
-    image: "images/comparator_chaining.png"
-  },
+      },
   {
     id: 57,
     title: "Sorted Sets (TreeSet) and Custom Comparator Gotchas in Java",
@@ -1179,8 +1134,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-java-exception-propagation.html",
-    image: "images/java_exception_propagation.png"
-  },
+      },
   {
     id: 50,
     title: "How to Use throw, throws, and Custom Exceptions in Java",
@@ -1189,8 +1143,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/java-throw-throws-custom-exceptions.html",
-    image: "images/java_throw_throws_custom.png"
-  },
+      },
   {
     id: 49,
     title: "Java Multiple Catch Blocks and the Finally Execution Trap",
@@ -1199,8 +1152,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/java-multiple-catch-finally-execution.html",
-    image: "images/java_catch_finally_execution.png"
-  },
+      },
   {
     id: 48,
     title: "Java Exception Rules in Method Overriding",
@@ -1209,8 +1161,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/java-exception-rules-method-overriding.html",
-    image: "images/java_exception_overriding.png"
-  },
+      },
   {
     id: 47,
     title: "Reading and Writing Files in Java: The Classic IO Way",
@@ -1219,8 +1170,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/java-classic-io-read-write-files.html",
-    image: "images/java_classic_io_read_write.png"
-  },
+      },
   {
     id: 46,
     title: "Building a Custom Filter Reader: The Decorator Pattern in Java IO",
@@ -1229,8 +1179,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/java-custom-bufferedReader-decorator.html",
-    image: "images/java_custom_reader_decorator.png"
-  },
+      },
   {
     id: 45,
     title: "Modern File Manipulation in Java: Introduction to NIO.2",
@@ -1239,8 +1188,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "3 min read",
     url: "posts/java-nio-file-manipulation.html",
-    image: "images/java_nio_file_manipulation.png"
-  },
+      },
   {
     id: 44,
     title: "Java 8 Streams Recipes for Common Programming Tasks",
@@ -1249,8 +1197,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "5 min read",
     url: "posts/java8-streams-common-tasks-recipes.html",
-    image: "images/java8_streams_recipes.png"
-  },
+      },
   {
     id: 43,
     title: "Deep Dive into Java 8 Method References",
@@ -1259,8 +1206,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/java8-method-references-guide.html",
-    image: "images/java8_method_references.png"
-  },
+      },
   {
     id: 42,
     title: "Understanding Generic Classes and Methods in Java",
@@ -1279,8 +1225,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "5 min read",
     url: "posts/java-generics-wildcards-bounded-types.html",
-    image: "images/comparator_chaining.png"
-  },
+      },
   {
     id: 40,
     title: "Understanding Built-In Annotations in Java",
@@ -1289,8 +1234,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-java-builtin-annotations.html",
-    image: "images/java_builtin_annotations.png"
-  },
+      },
   {
     id: 39,
     title: "How to Create and Read Custom Annotations in Java",
@@ -1299,8 +1243,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/creating-custom-annotations-java.html",
-    image: "images/custom_annotations_java.png"
-  },
+      },
   {
     id: 38,
     title: "Understanding the Basics of Java Enums",
@@ -1309,8 +1252,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "3 min read",
     url: "posts/understanding-java-enums-basics.html",
-    image: "images/java_enums_basics.png"
-  },
+      },
   {
     id: 37,
     title: "Mastering Advanced Java Enums: Fields and Constructors",
@@ -1319,8 +1261,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-advanced-java-enums.html",
-    image: "images/advanced_java_enums.png"
-  },
+      },
   {
     id: 36,
     title: "Understanding String Equality in Java",
@@ -1329,8 +1270,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "3 min read",
     url: "posts/understanding-string-equality.html",
-    image: "images/string_equality_java.png"
-  },
+      },
   {
     id: 35,
     title: "Demystifying the equals() and hashCode() Contract in Java",
@@ -1339,8 +1279,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "5 min read",
     url: "posts/understanding-equals-hashcode-contract.html",
-    image: "images/book_employee_equals.png"
-  },
+      },
   {
     id: 34,
     title: "Understanding Java Class Initialization Order and Blocks",
@@ -1349,8 +1288,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-class-initialization-blocks.html",
-    image: "images/java_initialization_blocks.png"
-  },
+      },
   {
     id: 33,
     title: "Finding the Longest Consecutive Increasing Chain in Java",
@@ -1439,8 +1377,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-balanced-parentheses.html",
-    image: "images/parenthesis_checker.png"
-  },
+      },
   {
     id: 24,
     title: "Flatmapping Min/Max & Diamond Inheritance",
@@ -1449,8 +1386,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/flatmapping-min-max-interfaces.html",
-    image: "images/min_max_flatmap.png"
-  },
+      },
   {
     id: 23,
     title: "Flattening 2D Arrays in Java",
@@ -1459,8 +1395,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/flattening-two-dimensional-arrays.html",
-    image: "images/flattening_2d_arrays.png"
-  },
+      },
   {
     id: 22,
     title: "Sorting by Multiple Fields",
@@ -1469,8 +1404,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/sorting-multiple-fields-streams.html",
-    image: "images/comparator_chaining.png"
-  },
+      },
   {
     id: 21,
     title: "Understanding Anagram Grouping",
@@ -1479,8 +1413,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-anagram-grouping.html",
-    image: "images/string_anagram_grouping.png"
-  },
+      },
   {
     id: 20,
     title: "Understanding Strings as HashMap Keys",
@@ -1489,8 +1422,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-string-map-keys.html",
-    image: "images/string_identity_map.png"
-  },
+      },
   {
     id: 19,
     title: "Demystifying Java's equals() and hashCode() Contract",
@@ -1499,8 +1431,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-hashmap-equals-hashcode.html",
-    image: "images/hash_contract_broken.png"
-  },
+      },
   {
     id: 18,
     title: "Demystifying Java's Synchronized Keyword",
@@ -1509,8 +1440,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-synchronized-keyword.html",
-    image: "images/understanding_synchronized.png"
-  },
+      },
   {
     id: 17,
     title: "Printing Odd & Even Numbers using Two Threads",
@@ -1519,8 +1449,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/printing-odd-even-threads.html",
-    image: "images/odd_even_threads.png"
-  },
+      },
   {
     id: 16,
     title: "Understanding Java's Synchronized Deadlocks",
@@ -1529,8 +1458,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-deadlock-synchronized.html",
-    image: "images/deadlock_synchronized.png"
-  },
+      },
   {
     id: 15,
     title: "Understanding Java Deadlocks",
@@ -1539,8 +1467,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-deadlock-checker.html",
-    image: "images/deadlock_checker.png"
-  },
+      },
   {
     id: 14,
     title: "Demystifying Java's Builder Design Pattern",
@@ -1549,8 +1476,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-builder-design-pattern.html",
-    image: "images/builder_pattern.png"
-  },
+      },
   {
     id: 13,
     title: "Demystifying String Permutations",
@@ -1559,8 +1485,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-string-permutations.html",
-    image: "images/string_permutations.png"
-  },
+      },
   {
     id: 12,
     title: "Reversing Strings While Preserving Space Positions",
@@ -1569,8 +1494,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/reversing-words-preserving-spaces.html",
-    image: "images/reversing_words.png"
-  },
+      },
   {
     id: 11,
     title: "Understanding Java's Wait and Notify",
@@ -1579,8 +1503,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "5 min read",
     url: "posts/understanding-producer-consumer-wait-notify.html",
-    image: "images/bakery_wait_notify.png"
-  },
+      },
   {
     id: 10,
     title: "Understanding Java's Producer-Consumer Pattern",
@@ -1589,8 +1512,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "4 min read",
     url: "posts/understanding-producer-consumer.html",
-    image: "images/bakery_producer_consumer.png"
-  },
+      },
   {
     id: 9,
     title: "Demystifying Java's Thread Pool",
@@ -1599,8 +1521,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "5 min read",
     url: "posts/understanding-thread-pool.html",
-    image: "images/coffee_shop_kitchen.png"
-  },
+      },
   {
     id: 8,
     title: "Demystifying the Bridge and Torch Problem",
@@ -1609,8 +1530,7 @@ const postsData = [
     date: "June 19, 2026",
     readTime: "5 min read",
     url: "posts/bridge-and-torch-problem.html",
-    image: "images/bridge_crossing.png"
-  },
+      },
   {
     id: 7,
     title: "Understanding Java's CompletableFuture",
@@ -1632,4 +1552,5 @@ const postsData = [
     image: "images/fork_join_pool.svg"
   }
 ];
+
 

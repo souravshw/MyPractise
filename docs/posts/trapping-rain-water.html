@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -134,7 +134,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Trapping Rain Water in Java</h1>
@@ -176,11 +176,11 @@
         </div>
 
         <h2>The Algorithmic Approach</h2>
-        <h3>1. The Naive Approach (O(n²))</h3>
+        <h3>1. The Naive Approach (O(nÂ²))</h3>
         <p>For every bar in the array, we scan to its left to find the maximum height, and scan to its right to find the
           maximum height. The water trapped at the current bar is <code>Math.min(leftMax, rightMax) - height[i]</code>.
           Since we do this search for each of the <code>n</code> bars, the time complexity is quadratic:
-          <code>O(n²)</code>.</p>
+          <code>O(nÂ²)</code>.</p>
 
         <h3>2. The Dynamic Programming Approach (O(n) Time, O(n) Space)</h3>
         <p>We can precompute the maximum heights seen from the left and right in two passes, storing them in two arrays:
@@ -386,9 +386,7 @@ public class TrappingRainWater {
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/design-url-shortener.html" class="related-card-img">
-                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -398,9 +396,7 @@ public class TrappingRainWater {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/design-parking-lot.html" class="related-card-img">
-                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -410,9 +406,7 @@ public class TrappingRainWater {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/design-twitter.html" class="related-card-img">
-                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>

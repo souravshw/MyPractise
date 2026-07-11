@@ -13,30 +13,47 @@ let activeCategory = 'all';
 function renderFeaturedPost() {
   if (!featuredPost || postsData.length === 0) return;
   const latestPost = postsData[0];
-  const imgContent = latestPost.image 
-    ? `<img src="${latestPost.image}" alt="${latestPost.title}">` 
-    : `<svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>`;
-
-  featuredPost.innerHTML = `
-    <div class="hero-card">
-      <div class="hero-img">
-        ${imgContent}
-      </div>
-      <div class="hero-content">
-        <div class="post-meta">
-          <span class="post-category">${latestPost.category}</span>
-          <span class="post-date">${latestPost.date}</span>
-          <span>•</span>
-          <span class="post-read-time">${latestPost.readTime}</span>
+  
+  if (latestPost.image) {
+    featuredPost.innerHTML = `
+      <div class="hero-card">
+        <div class="hero-img">
+          <img src="${latestPost.image}" alt="${latestPost.title}">
         </div>
-        <h1 class="hero-title"><a href="${latestPost.url}" id="hero-link">${latestPost.title}</a></h1>
-        <p class="hero-excerpt">${latestPost.excerpt}</p>
-        <div>
-          <a href="${latestPost.url}" class="read-more-btn" id="hero-read-more">Read walkthrough →</a>
+        <div class="hero-content">
+          <div class="post-meta">
+            <span class="post-category">${latestPost.category}</span>
+            <span class="post-date">${latestPost.date}</span>
+            <span>•</span>
+            <span class="post-read-time">${latestPost.readTime}</span>
+          </div>
+          <h1 class="hero-title"><a href="${latestPost.url}" id="hero-link">${latestPost.title}</a></h1>
+          <p class="hero-excerpt">${latestPost.excerpt}</p>
+          <div>
+            <a href="${latestPost.url}" class="read-more-btn" id="hero-read-more">Read walkthrough →</a>
+          </div>
         </div>
       </div>
-    </div>
-  `;
+    `;
+  } else {
+    featuredPost.innerHTML = `
+      <div class="hero-card no-image">
+        <div class="hero-content" style="flex: 1; padding: 0.5rem 0;">
+          <div class="post-meta">
+            <span class="post-category">${latestPost.category}</span>
+            <span class="post-date">${latestPost.date}</span>
+            <span>•</span>
+            <span class="post-read-time">${latestPost.readTime}</span>
+          </div>
+          <h1 class="hero-title" style="font-size: 2.25rem; font-weight: 800; line-height: 1.25; margin-bottom: 1rem;"><a href="${latestPost.url}" id="hero-link">${latestPost.title}</a></h1>
+          <p class="hero-excerpt" style="max-width: 850px; margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 1.05rem;">${latestPost.excerpt}</p>
+          <div>
+            <a href="${latestPost.url}" class="read-more-btn" id="hero-read-more">Read walkthrough →</a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 }
 
 // Render Posts Grid

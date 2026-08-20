@@ -334,7 +334,7 @@ public class Sample {
 
     @Test
     public  void extractDuplicateElements() {
-            List<Integer> duplicateElements = List.of(1, 2, 2, 2, 3, 3, 4, 5, 1, 1, 56, 7, 8, 9, 10);
+        List<Integer> duplicateElements = List.of(1, 2, 2, 2, 3, 3, 4, 5, 1, 1, 56, 7, 8, 9, 10);
 
         System.out.println("maxed Elements " + duplicateElements);
 

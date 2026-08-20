@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
+User-agent: Googlebot-Image
+Disallow: /images/
+
+User-agent: Mediapartners-Google
+Disallow: /images/
+
 Sitemap: https://www.enggnotes.com/sitemap-blog-post.xml

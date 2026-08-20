@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -136,7 +136,7 @@
         <div class="post-meta">
           <span class="post-category">Kafka & Distributed Systems</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Introduction to Apache Kafka Security: Authentication & Authorization</h1>
@@ -159,14 +159,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Secure Vault Access
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine visiting a high-security military vault:</p>
           <ul>
             <li><strong>Encryption is the armored car.</strong> When you transport documents between the base and the
@@ -222,7 +215,7 @@ props.put("ssl.truststore.password", "truststore-secret-password");
 
 KafkaProducer&lt;String, String&gt; producer = new KafkaProducer&lt;&gt;(props);</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Securing Kafka is essential for maintaining enterprise safety. Always encrypt your traffic using
           <strong>SSL/TLS</strong>, verify client identities via <strong>SASL/SCRAM</strong>, and enforce
           least-privilege access permissions using <strong>ACLs</strong>.</p>
@@ -277,9 +270,7 @@ KafkaProducer&lt;String, String&gt; producer = new KafkaProducer&lt;&gt;(props);
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/kafka-replication-mechanics.html" class="related-card-img">
-                <img src="../images/kafka_replication.png" alt="How Apache Kafka Replication and Leader Election Work">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>
@@ -289,9 +280,7 @@ KafkaProducer&lt;String, String&gt; producer = new KafkaProducer&lt;&gt;(props);
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/kafka-what-is-kafka.html" class="related-card-img">
-                <img src="../images/kafka_intro.png" alt="What is Apache Kafka and Why is it Used?">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>
@@ -331,3 +320,4 @@ KafkaProducer&lt;String, String&gt; producer = new KafkaProducer&lt;&gt;(props);
 </body>
 
 </html>
+

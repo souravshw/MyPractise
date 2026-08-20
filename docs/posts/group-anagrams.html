@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -133,7 +133,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Group Anagrams in Java</h1>
@@ -141,7 +141,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>What We're Solving</h2>
         <p>The <strong>Group Anagrams</strong> problem asks us to group an array of strings such that all strings that
           are anagrams of each other are placed in the same sublist.</p>
         <p>For example, given the input array <code>["eat", "tea", "tan", "ate", "nat", "bat"]</code>, we want to return
@@ -149,23 +149,11 @@
           any order. The challenge is organizing these strings efficiently when the array contains thousands of words.
         </p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/string_anagram_grouping.png"
-            alt="Illustration of Group Anagrams algorithm using sorted fingerprints in Java"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Sorting Mail by Zip Code
-          </div>
+          A Simple Metaphor: 
           <p>Imagine you have a stack of unsorted letters. Each letter has letters written on it in a random order (e.g.
             "eat", "tea", "ate"). To organize them, you decide to rearrange the letters of each word alphabetically.
             This sorted word acts as a unique signature or "fingerprint" (e.g., all three words sort to "aet"). You
@@ -174,10 +162,10 @@
             each other!</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
-        <h3>1. The Naive Approach (O(n² * k))</h3>
+        <h2>Solving the Problem</h2>
+        <h3>1. The Naive Approach (O(nÂ² * k))</h3>
         <p>We can check every pair of strings using a nested loop, comparing if they are anagrams. When we find matches,
-          we group them. This has a quadratic complexity of <code>O(n² * k)</code> where <code>k</code> is the maximum
+          we group them. This has a quadratic complexity of <code>O(nÂ² * k)</code> where <code>k</code> is the maximum
           length of a string, which is extremely slow for larger datasets.</p>
 
         <h3>2. HashMap with Sorted Key Fingerprints (O(n * k log k))</h3>
@@ -194,7 +182,7 @@
         is the maximum string length), which is highly efficient.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Step-by-Step Execution</h2>
         <p>Let's trace the HashMap-based grouping on the array
           <code>strs = ["eat", "tea", "tan", "ate", "nat", "bat"]</code>:</p>
         <ol>
@@ -243,7 +231,7 @@
             of lists: <code>[["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Walkthrough</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>char[] chars = s.toCharArray(); Arrays.sort(chars);</code>: Standardizes any anagram permutation
@@ -252,7 +240,7 @@
             initializes a new list for a key if it is missing, then adds the string, avoiding nested null checks.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Implementation in Java</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -319,7 +307,7 @@ public class GroupAnagrams {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Solving the <strong>Group Anagrams</strong> problem highlights how we can leverage key data structures and
           algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime
           and simplify code complexity.</p>
@@ -362,9 +350,7 @@ public class GroupAnagrams {
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/design-url-shortener.html" class="related-card-img">
-                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -374,9 +360,7 @@ public class GroupAnagrams {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/design-parking-lot.html" class="related-card-img">
-                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -386,9 +370,7 @@ public class GroupAnagrams {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/design-twitter.html" class="related-card-img">
-                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -427,3 +409,4 @@ public class GroupAnagrams {
 </body>
 
 </html>
+

@@ -152,22 +152,11 @@
         <p>However, checked exceptions and unchecked exceptions behave very differently during this propagation journey.
           Let's explore why using Java propagation examples.</p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/java_exception_propagation.png" alt="Illustration of exceptions bubbling up a call stack"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Corporate Escalation
-          </div>
+          Think of it like: 
           <p>Imagine a factory assembly line:</p>
           <ul>
             <li><strong>Unchecked Exceptions (Runtime):</strong> An entry-level worker encounters a minor glitch. They
@@ -240,7 +229,7 @@ class CompileTimeExceptionPropagation {
           <code>throws IOException</code>. If you remove the throws declaration, the compilation fails, forcing you to
           think about error handling beforehand.</p>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>In Java:
         <ul>
           <li>Unchecked exceptions propagate automatically down the call stack.</li>
@@ -286,9 +275,7 @@ class CompileTimeExceptionPropagation {
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/java-exception-rules-method-overriding.html" class="related-card-img">
-                <img src="../images/java_exception_overriding.png" alt="Java Exception Rules in Method Overriding">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Java Exceptions</span>
@@ -298,10 +285,7 @@ class CompileTimeExceptionPropagation {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/java-multiple-catch-finally-execution.html" class="related-card-img">
-                <img src="../images/java_catch_finally_execution.png"
-                  alt="Java Multiple Catch Blocks and the Finally Execution Trap">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Java Exceptions</span>
@@ -311,10 +295,7 @@ class CompileTimeExceptionPropagation {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/java-throw-throws-custom-exceptions.html" class="related-card-img">
-                <img src="../images/java_throw_throws_custom.png"
-                  alt="How to Use throw, throws, and Custom Exceptions in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Java Exceptions</span>
@@ -354,3 +335,4 @@ class CompileTimeExceptionPropagation {
 </body>
 
 </html>
+

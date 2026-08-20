@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -135,7 +135,7 @@
         <div class="post-meta">
           <span class="post-category">Kafka & Distributed Systems</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">What Happens When a Kafka Broker Goes Down?</h1>
@@ -150,22 +150,11 @@
         <p>But what actually happens behind the scenes when a broker goes offline? Let's trace the step-by-step failover
           process of how Kafka detects the crash, elects new leaders, and redirects network traffic.</p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/kafka_broker_down.png" alt="Kafka Broker Failover Sequence Diagram"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: A Supervisor Stepping Away
-          </div>
+          A Simple Metaphor: 
           <p>Imagine a factory assembly line with multiple stations, each managed by a team lead. Suddenly, the Lead of
             Station A slips and has to leave for the hospital.</p>
           <p>The factory coordinator immediately notices their absence, checks their list of qualified backups, and
@@ -201,7 +190,7 @@
           leader. It joins as a follower. It compares its local log files with the active leader, truncates any
           uncommitted data, and copies missing records. Once it catches up completely, it rejoins the ISR registry.</p>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Kafka's resilient architecture turns server crashes into minor, self-healing events. By delegating metadata
           monitoring to a coordinator, decoupling client connections, and executing fast leader elections, Kafka ensures
           high availability for your production streaming applications.</p>
@@ -309,3 +298,4 @@
 </body>
 
 </html>
+

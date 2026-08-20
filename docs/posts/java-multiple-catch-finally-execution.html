@@ -151,23 +151,11 @@
         <p>In this guide, we will trace how multiple catches execute, and examine when the "always executed" finally
           block is bypassed.</p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/java_catch_finally_execution.png"
-            alt="Illustration of cascading catch nets and a finally gate with a stop sign representing exit execution"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Sorting Funnels and the Janitor
-          </div>
+          A Simple Metaphor: 
           <p>Imagine dropping balls down a series of funnels:</p>
           <ul>
             <li><strong>Multiple Catch Blocks:</strong> The top funnel filters out specific red balls
@@ -222,7 +210,7 @@
           <code>System.exit(0)</code>, the JVM is terminated immediately. The system halts, and the console never prints
           the finally statement!</p>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>When design try-catch blocks:
         <ul>
           <li>Order catch blocks from most specific subclasses to most generic parent classes.</li>
@@ -270,9 +258,7 @@
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/understanding-java-exception-propagation.html" class="related-card-img">
-                <img src="../images/java_exception_propagation.png" alt="Understanding Java Exception Propagation">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Java Exceptions</span>
@@ -283,9 +269,7 @@
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/java-exception-rules-method-overriding.html" class="related-card-img">
-                <img src="../images/java_exception_overriding.png" alt="Java Exception Rules in Method Overriding">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Java Exceptions</span>
@@ -295,10 +279,7 @@
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/java-throw-throws-custom-exceptions.html" class="related-card-img">
-                <img src="../images/java_throw_throws_custom.png"
-                  alt="How to Use throw, throws, and Custom Exceptions in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Java Exceptions</span>
@@ -338,3 +319,4 @@
 </body>
 
 </html>
+

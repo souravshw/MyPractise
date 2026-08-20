@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -135,7 +135,7 @@
         <div class="post-meta">
           <span class="post-category">Kafka & Distributed Systems</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Kafka Consumer Commits: commitSync vs. commitAsync</h1>
@@ -151,22 +151,11 @@
           or guaranteed delivery confirmations (sync)? Let's analyze the differences, code layouts, and best practices.
         </p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/kafka_commit_sync_async.png" alt="Comparison between commitSync and commitAsync"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Sending Status Updates
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine telling your boss you finished reviewing a project:</p>
           <ul>
             <li><strong>commitSync() is like calling them:</strong> You dial their number, wait for them to answer, and
@@ -240,7 +229,7 @@
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Never rely solely on <code>commitSync()</code> if you require high-speed consumption pipelines. By running
           <strong>asynchronous commits in your main loop</strong> and backing them up with a <strong>synchronous commit
             on shutdown</strong>, you get the best of both worlds: high performance and data safety.</p>
@@ -283,10 +272,7 @@
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/kafka-consumer-rebalancing.html" class="related-card-img">
-                <img src="../images/kafka_rebalancing.png"
-                  alt="Understanding Kafka Consumer Rebalancing and How to Minimize It">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>
@@ -296,9 +282,7 @@
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/kafka-consumer-groups-basics.html" class="related-card-img">
-                <img src="../images/kafka_consumer_groups.png" alt="How Kafka Consumers and Consumer Groups Work">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>
@@ -351,3 +335,4 @@
 </body>
 
 </html>
+

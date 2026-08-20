@@ -158,14 +158,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Leaving Sticky Notes on Doors
-          </div>
+          An Analogy: 
           <p>Imagine you are exploring a series of connected rooms (Nodes). Each room has a single door leading to the
             next room.</p>
           <p>You want to check if you are walking in a circle. Here is your plan:</p>
@@ -212,7 +205,7 @@ c.nextNode = b; // Cycle created! C -> B</code></pre>
           </ul>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Implementation in Java</h2>
         <p>Below is the complete Java code demonstrating how `Node1` utilizes the `isTraversed` boolean state flag to
           detect a cycle:</p>
 
@@ -266,7 +259,7 @@ class Node1 {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>By using a simple <code>boolean isTraversed</code> flag inside our list nodes, we can easily check for loop
           cycles in a single pass. This visited flag approach runs in O(N) time and requires minimal extra code to
           implement!</p>

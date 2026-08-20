@@ -151,23 +151,11 @@
         <p>In this guide, we will translate this concurrency problem into a simple relay-race analogy and trace the
           code's execution step by step.</p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/odd_even_threads.png"
-            alt="Illustration of odd and even threads passing a baton in a relay race"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Number Relay Race
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine a track relay race with two runners: <strong>Odd Runner</strong> and <strong>Even Runner</strong>.
             Instead of running laps, they are writing numbers in a notebook in order from 1 to 20.</p>
           <p>They use a single <strong>baton</strong> (the ArrayBlockingQueue) to coordinate:</p>
@@ -227,7 +215,7 @@
           </ul>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete Java code demonstrating odd/even printing using ArrayBlockingQueue:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -296,7 +284,7 @@ class EvenNumber implements Runnable {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Using a <code>BlockingQueue</code> eliminates the need for low-level synchronized, wait, and notify blocks.
           The queue handles thread state blocking and thread-safe messaging internally, providing a clean, concurrent
           design that avoids race conditions and index-ordering bugs.</p>
@@ -411,3 +399,4 @@ class EvenNumber implements Runnable {
 </body>
 
 </html>
+

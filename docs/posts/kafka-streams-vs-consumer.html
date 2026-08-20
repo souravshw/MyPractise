@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -135,7 +135,7 @@
         <div class="post-meta">
           <span class="post-category">Kafka & Distributed Systems</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">5 min read</span>
         </div>
         <h1 class="article-title">Kafka Streams vs. Kafka Consumer: Which Should You Use?</h1>
@@ -158,14 +158,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Courier vs. Sorting Department
-          </div>
+          Think of it like: 
           <p>Imagine managing cargo packages:</p>
           <ul>
             <li><strong>A Kafka Consumer is like a courier driver.</strong> Their job is simple: pick up a package from
@@ -206,7 +199,7 @@
             </tr>
             <tr style="border-bottom: 1px solid var(--border-color);">
               <td style="padding: 0.75rem; font-weight: bold;">Operations</td>
-              <td style="padding: 0.75rem;">Read → Run custom code → Commit.</td>
+              <td style="padding: 0.75rem;">Read â†’ Run custom code â†’ Commit.</td>
               <td style="padding: 0.75rem;">Fluent API (map, filter, join, window, aggregate).</td>
             </tr>
           </tbody>
@@ -265,7 +258,7 @@ completedOrders.to("completed-orders-destination");
 KafkaStreams streams = new KafkaStreams(builder.build(), config);
 streams.start();</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Start with a lightweight <strong>Kafka Consumer</strong> for simple, stateless ingestion tasks. As soon as
           you need to aggregate data, join topics, or track time-based windows, upgrade to the <strong>Kafka Streams
             API</strong> to leverage its built-in RocksDB state stores and robust streaming abstractions.</p>
@@ -320,10 +313,7 @@ streams.start();</code></pre>
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/kafka-consumer-rebalancing.html" class="related-card-img">
-                <img src="../images/kafka_rebalancing.png"
-                  alt="Understanding Kafka Consumer Rebalancing and How to Minimize It">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>
@@ -333,9 +323,7 @@ streams.start();</code></pre>
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/kafka-consumer-groups-basics.html" class="related-card-img">
-                <img src="../images/kafka_consumer_groups.png" alt="How Kafka Consumers and Consumer Groups Work">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>
@@ -375,3 +363,4 @@ streams.start();</code></pre>
 </body>
 
 </html>
+

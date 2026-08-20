@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -135,7 +135,7 @@
         <div class="post-meta">
           <span class="post-category">Kafka & Distributed Systems</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">What is an Offset in Kafka and How is it Managed?</h1>
@@ -150,22 +150,11 @@
           correctly is the difference between an application that processes data smoothly and one that suffers from
           message loss or duplicate processing.</p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/kafka_offsets.png" alt="Illustration of Partition Offsets and Consumer Reading Progress"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Bookmark
-          </div>
+          An Analogy: 
           <p>Imagine reading a 500-page book in a library. When you need to go home, you don't tear out the pages you've
             read. Instead, you put a <strong>bookmark</strong> on page 42. When you return tomorrow, you look at your
             bookmark and immediately resume reading from page 43.</p>
@@ -233,7 +222,7 @@ try {
     consumer.close();
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>Offsets are the glue that allows Kafka consumers to remain stateless and resilient. In production
           environments, always prefer <strong>manual offset commits</strong> and ensure that you only commit offsets
           <em>after</em> your business logic finishes successfully to prevent data loss.</p>
@@ -276,9 +265,7 @@ try {
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/kafka-what-is-kafka.html" class="related-card-img">
-                <img src="../images/kafka_intro.png" alt="What is Apache Kafka and Why is it Used?">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>
@@ -342,3 +329,4 @@ try {
 </body>
 
 </html>
+

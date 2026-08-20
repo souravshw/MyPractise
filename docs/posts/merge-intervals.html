@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -132,7 +132,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Merge Intervals in Java</h1>
@@ -140,7 +140,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Understanding the Problem</h2>
         <p>The <strong>Merge Intervals</strong> problem asks us to take an array of intervals where
           <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>, and merge all overlapping intervals,
           returning an array of the non-overlapping intervals that cover all the input intervals.</p>
@@ -156,22 +156,11 @@
         <code>O(n<sup>2</sup>)</code>. We can optimize this using a sorting-based greedy approach.
         </p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/merge_intervals.png" alt="Illustration of Merge Intervals sorting and merging in Java"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Consolidating Meeting Room Bookings
-          </div>
+          A Simple Analogy: 
           <p>Imagine you manage a conference room. Multiple people have booked slots throughout the day, but some
             bookings overlap (e.g., Alice booked 1:00 PM to 3:00 PM, and Bob booked 2:00 PM to 4:00 PM). To clean up the
             master schedule, you write down all bookings on a timeline sorted by their start times. You start with the
@@ -180,7 +169,7 @@
             at 8:00 PM), you close the current block, save it, and start a new block.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>The Approach</h2>
         <h3>Sorting & Greedy Merging (O(n log n) Time, O(n) Space)</h3>
         <p>The key insight is that sorting the intervals by their start times resolves chronological ambiguity.
           Here is our approach:
@@ -205,7 +194,7 @@
         <code>O(n)</code> time.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>Step-by-Step Execution</h2>
         <p>Let's trace the algorithm with <code>intervals = [[1, 3], [8, 10], [2, 6], [15, 18]]</code>:</p>
         <ol>
           <li><strong>Step 1 (Sorting):</strong> Sort intervals by start time.
@@ -246,7 +235,7 @@
           <li><strong>Step 7 (Final Output):</strong> Return <code>[[1, 6], [8, 10], [15, 18]]</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Breakdown</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>Arrays.sort(intervals, (a, b) -&gt; Integer.compare(a[0], b[0]));</code>: Sorting simplifies
@@ -257,7 +246,7 @@
             expanding the active interval to the furthest end time.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -313,7 +302,7 @@ public class MergeIntervals {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>The Merge Intervals problem is a perfect demonstration of using sorting to unlock greedy optimizations. By
           establishing a guaranteed chronological order, we can merge overlapping segments in a single linear pass.</p>
       </div>
@@ -355,9 +344,7 @@ public class MergeIntervals {
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/design-url-shortener.html" class="related-card-img">
-                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -367,9 +354,7 @@ public class MergeIntervals {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/design-parking-lot.html" class="related-card-img">
-                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -379,9 +364,7 @@ public class MergeIntervals {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/design-twitter.html" class="related-card-img">
-                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -420,3 +403,4 @@ public class MergeIntervals {
 </body>
 
 </html>
+

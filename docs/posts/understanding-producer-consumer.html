@@ -151,23 +151,11 @@
           <code>BlockingQueue</code>, explaining the concept with a simple bakery analogy and tracing the execution of
           the main program step by step.</p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/bakery_producer_consumer.png"
-            alt="Illustration of a cozy bakery with a baker placing a donut on a shelf and a customer waiting"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Bakery and the Display Shelf
-          </div>
+          A Simple Metaphor: 
           <p>Imagine a small bakery that specializes in fresh glazed donuts.</p>
           <p>The bakery has a <strong>Baker</strong> (the Producer) and a <strong>Customer</strong> (the Consumer).
             Between them sits a single <strong>display shelf</strong> that has only enough space to hold exactly
@@ -225,7 +213,7 @@ new Thread(new Consumer1(blockingQueue)).start();</code></pre>
           </ul>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete Java implementation showing the <code>Producer1</code>, <code>Consumer1</code>, and the
           main driver class coordinating via a <code>LinkedBlockingQueue</code>:</p>
 
@@ -295,7 +283,7 @@ class Consumer1 implements Runnable {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>By using a <code>BlockingQueue</code>, we can implement the complex Producer-Consumer pattern in a few lines
           of clean, readable code. The queue manages the thread-safe communication, queue limits, and blocking signals
           under the hood, freeing you from dealing with low-level <code>wait()</code> and <code>notify()</code> blocks.
@@ -339,9 +327,7 @@ class Consumer1 implements Runnable {
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/understanding-deadlock-synchronized.html" class="related-card-img">
-                <img src="../images/deadlock_synchronized.png" alt="Understanding Java's Synchronized Deadlocks">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Java Concurrency</span>
@@ -351,9 +337,7 @@ class Consumer1 implements Runnable {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/understanding-producer-consumer-wait-notify.html" class="related-card-img">
-                <img src="../images/bakery_wait_notify.png" alt="Understanding Java's Wait and Notify">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Java Concurrency</span>
@@ -364,9 +348,7 @@ class Consumer1 implements Runnable {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/understanding-synchronized-keyword.html" class="related-card-img">
-                <img src="../images/understanding_synchronized.png" alt="Demystifying Java's Synchronized Keyword">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Java Concurrency</span>
@@ -406,3 +388,4 @@ class Consumer1 implements Runnable {
 </body>
 
 </html>
+

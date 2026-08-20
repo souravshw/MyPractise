@@ -151,23 +151,11 @@
         <p>In this guide, we will answer these questions using a key-maker analogy and walk through a step-by-step trace
           of Java's String pool lookup behavior.</p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/string_identity_map.png"
-            alt="Illustration of a String literal and a new String pointing to the same map bucket"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Shared Key and the Copy-Machine
-          </div>
+          A Simple Analogy: 
           <p>Imagine a bank vault with a <strong>treasure box</strong> inside. To open the box, you must present a key
             with the letter <strong>"A"</strong> engraved on it.</p>
           <p>Two customers arrive wanting to open the treasure box using two different key sources:</p>
@@ -235,7 +223,7 @@ map.put(str, 10);</code></pre>
             heap-allocated key did not create a new map entry.</p>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete Java code demonstrating how different String instances representing the same text
           collapse to a single key in a HashMap:</p>
 
@@ -259,7 +247,7 @@ public class StringInMap {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Java's <code>HashMap</code> uses content equality (<code>equals()</code>) rather than reference equality
           (<code>==</code>) to resolve keys. Because the <code>String</code> class implements content equality, any two
           string objects with the same sequence of letters will resolve to the same key, regardless of whether they
@@ -372,3 +360,4 @@ public class StringInMap {
 </body>
 
 </html>
+

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -135,7 +135,7 @@
         <div class="post-meta">
           <span class="post-category">Kafka & Distributed Systems</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Important Kafka Metrics to Monitor in Production</h1>
@@ -159,14 +159,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Car Dashboard
-          </div>
+          A Simple Analogy: 
           <p>Imagine driving a car down the highway:</p>
           <ul>
             <li><strong>Under-Replicated Partitions is the check engine light.</strong> If it turns red (value > 0), one
@@ -209,7 +202,7 @@
         <p>Tracks the rate of write requests that fail due to schema validation issues, broker downtime, or
           authorization errors. In a healthy system, this value should be 0.</p>
 
-        <h2>Conclusion</h2>
+        <h2>Wrapping Up</h2>
         <p>Effective monitoring prevents minor glitches from turning into system outages. Set up Grafana dashboards to
           track <strong>under-replicated partitions</strong>, monitor <strong>consumer lag</strong> to prevent business
           delays, and alert on broker heartbeat failures to catch issues early.</p>
@@ -252,9 +245,7 @@
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/kafka-broker-failure-scenario.html" class="related-card-img">
-                <img src="../images/kafka_broker_down.png" alt="What Happens When a Kafka Broker Goes Down?">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>
@@ -317,3 +308,4 @@
 </body>
 
 </html>
+

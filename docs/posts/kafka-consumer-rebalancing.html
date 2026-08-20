@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -136,7 +136,7 @@
         <div class="post-meta">
           <span class="post-category">Kafka & Distributed Systems</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Kafka Consumer Rebalancing and How to Minimize It</h1>
@@ -152,22 +152,11 @@
             rebalance, consumers stop reading data</strong>, leading to stop-the-world pauses and processing delays.
           Let's look at what triggers rebalances and how to minimize their impact.</p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/kafka_rebalancing.png" alt="Kafka Consumer Group Rebalance Diagram"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Rearranging Office Desks
-          </div>
+          Think of it like: 
           <p>Imagine a team of 3 office workers dividing a pile of documents to review. Suddenly, a 4th worker joins the
             room.</p>
           <p>Everyone must stop working immediately, gather up all their current folders, and stand in a circle. The
@@ -215,7 +204,7 @@ props.put("heartbeat.interval.ms", "15000");</code></pre>
           without triggering a rebalance:</p>
         <pre><code class="language-java">props.put("group.instance.id", "processor-node-1");</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>Consumer rebalances ensure that your data continues to flow even when nodes crash. However, false rebalances
           cause unnecessary pauses. Tune your poll timeouts and use <strong>static membership</strong> to build a highly
           stable and resilient consumption layer.</p>
@@ -258,9 +247,7 @@ props.put("heartbeat.interval.ms", "15000");</code></pre>
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/kafka-consumer-groups-basics.html" class="related-card-img">
-                <img src="../images/kafka_consumer_groups.png" alt="How Kafka Consumers and Consumer Groups Work">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>
@@ -325,3 +312,4 @@ props.put("heartbeat.interval.ms", "15000");</code></pre>
 </body>
 
 </html>
+

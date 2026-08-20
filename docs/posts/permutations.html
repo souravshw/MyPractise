@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -132,7 +132,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Permutations in Java</h1>
@@ -140,7 +140,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>Problem Breakdown</h2>
         <p>The <strong>Permutations</strong> problem asks us to generate all possible permutations (different
           arrangements or orderings) of an array of distinct integers, <code>nums</code>.</p>
         <p>A <strong>permutation</strong> is an arrangement of all members of a set into some sequence or linear order.
@@ -153,23 +153,11 @@
           standard method for this task.
         </p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/string_permutations.png"
-            alt="Illustration of generating all Permutations using backtracking in Java"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Spelling Words from Letter Tiles
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine you have three letter tiles on a desk: <strong>A</strong>, <strong>B</strong>, and
             <strong>C</strong>. You want to write down all possible 3-letter combinations you can make using each tile
             exactly once. You start with an empty spelling tray. For the first slot, you have 3 choices: A, B, or C. If
@@ -180,7 +168,7 @@
             explores every anagram possible.</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
+        <h2>Core Algorithm</h2>
         <h3>Backtracking Search with Used Buffer (O(n * n!) Time, O(n) Space)</h3>
         <p>We build our permutations recursively, building a single permutation list <code>path</code> of length
           <code>n</code> step-by-step.
@@ -203,7 +191,7 @@
         The auxiliary space complexity is <code>O(n)</code> due to the recursion stack and the state arrays.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>The Inner Workings</h2>
         <p>Let's trace the backtracking flow for <code>nums = [1, 2, 3]</code>:</p>
         <ol>
           <li><strong>Step 1 (Root Call):</strong> <code>backtrack(path=[], used=[false, false, false])</code>.
@@ -245,7 +233,7 @@
             starting with 2 and 3, exploring all paths.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Code Breakdown</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>boolean[] used</code>: A high-performance lookup state. Using a boolean array reduces lookup time to
@@ -256,7 +244,7 @@
             classic choose-explore-unchoose cycle, restoring state for adjacent branches.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>Full Code Solution</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -319,7 +307,7 @@ public class Permutations {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>Generating permutations requires exploring all possible orderings of a set. By utilizing backtracking and
           optimizing lookup operations with a <code>used</code> state array, we navigate the state space tree with
           maximum execution speed and minimum memory overhead.</p>
@@ -362,9 +350,7 @@ public class Permutations {
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/design-url-shortener.html" class="related-card-img">
-                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -374,9 +360,7 @@ public class Permutations {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/design-parking-lot.html" class="related-card-img">
-                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -386,9 +370,7 @@ public class Permutations {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/design-twitter.html" class="related-card-img">
-                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -427,3 +409,4 @@ public class Permutations {
 </body>
 
 </html>
+

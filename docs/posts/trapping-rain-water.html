@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -134,7 +134,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Trapping Rain Water in Java</h1>
@@ -142,7 +142,7 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Introduction & Problem Explanation</h2>
+        <h2>The Challenge</h2>
         <p>The <strong>Trapping Rain Water</strong> problem is a classic hard-level coding challenge. We are given an
           array of non-negative integers representing an elevation map where the width of each bar is <code>1</code>.
           Our task is to calculate how much water it can trap after raining.</p>
@@ -158,14 +158,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Valley Reservoirs
-          </div>
+          An Analogy: 
           <p>Imagine a series of concrete pillars standing side-by-side on a line. During a heavy rainstorm, water fills
             up the gaps between them. How much water can accumulate on top of any single pillar? The water level above a
             pillar is bounded by the height of the tallest pillar to its left and the tallest pillar to its right.
@@ -175,12 +168,12 @@
             easily find these boundaries!</p>
         </div>
 
-        <h2>The Algorithmic Approach</h2>
-        <h3>1. The Naive Approach (O(n²))</h3>
+        <h2>Core Algorithm</h2>
+        <h3>1. The Naive Approach (O(nÂ²))</h3>
         <p>For every bar in the array, we scan to its left to find the maximum height, and scan to its right to find the
           maximum height. The water trapped at the current bar is <code>Math.min(leftMax, rightMax) - height[i]</code>.
           Since we do this search for each of the <code>n</code> bars, the time complexity is quadratic:
-          <code>O(n²)</code>.</p>
+          <code>O(nÂ²)</code>.</p>
 
         <h3>2. The Dynamic Programming Approach (O(n) Time, O(n) Space)</h3>
         <p>We can precompute the maximum heights seen from the left and right in two passes, storing them in two arrays:
@@ -202,7 +195,7 @@
         This achieves <code>O(n)</code> time complexity and <code>O(1)</code> space complexity.
         </p>
 
-        <h2>Step-by-Step Execution Walkthrough</h2>
+        <h2>How It Works</h2>
         <p>Let's trace the two-pointer algorithm on the array
           <code>height = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]</code>:</p>
         <ol>
@@ -277,7 +270,7 @@
             terminates. The total trapped water is <code>6</code>.</li>
         </ol>
 
-        <h2>Key Code Snippets & Explanations</h2>
+        <h2>Key Explanations</h2>
         <p>Here is why the main logic in the solution is important:</p>
         <ul>
           <li><code>if (height[left] &lt; height[right])</code>: By comparing the heights at the two pointers, we ensure
@@ -289,7 +282,7 @@
             minus the bar height.</li>
         </ul>
 
-        <h2>Java Implementation Code</h2>
+        <h2>The Java Code</h2>
         <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
           <code>main</code> method that traces the execution with console outputs.</p>
 
@@ -343,7 +336,7 @@ public class TrappingRainWater {
 }
 </code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>Solving the <strong>Trapping Rain Water</strong> problem highlights how we can leverage key data structures
           and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize
           runtime and simplify code complexity.</p>
@@ -386,9 +379,7 @@ public class TrappingRainWater {
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/design-url-shortener.html" class="related-card-img">
-                <img src="../images/design_url_shortener.png" alt="Understanding Design URL Shortener in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -398,9 +389,7 @@ public class TrappingRainWater {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/design-parking-lot.html" class="related-card-img">
-                <img src="../images/design_parking_lot.png" alt="Understanding Design Parking Lot in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -410,9 +399,7 @@ public class TrappingRainWater {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/design-twitter.html" class="related-card-img">
-                <img src="../images/design_twitter.png" alt="Understanding Design Twitter in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -451,3 +438,4 @@ public class TrappingRainWater {
 </body>
 
 </html>
+

@@ -151,23 +151,11 @@
         <p>In this guide, we will explain this algorithm using a fridge magnet sorting analogy and walk through its
           trace in Java.</p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/string_anagram_grouping.png"
-            alt="Illustration of letters being sorted and placed in matching slots to group anagrams"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Sorting Fridge Magnets
-          </div>
+          An Analogy: 
           <p>Imagine you have a pile of scrambled word cards on the fridge, like <code>"tlebee"</code>,
             <code>"beeetl"</code>, and <code>"beetle"</code>. You want to group all the word cards that share the exact
             same letters together.</p>
@@ -243,7 +231,7 @@
           </ol>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Full Code Solution</h2>
         <p>Below is the complete Java code demonstrating character-sorting and stream-based grouping for anagram
           frequency collection:</p>
 
@@ -294,7 +282,7 @@ public class StringGrouping {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Takeaways</h2>
         <p>Grouping anagrams is highly efficient when you convert scrambled strings to a common sorted representation.
           This sorted signature acts as the primary key in your grouping logic. Using Java Streams makes the process of
           mapping, grouping, and sorting collections of data expressive and clean.</p>
@@ -337,9 +325,7 @@ public class StringGrouping {
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/understanding-balanced-parentheses.html" class="related-card-img">
-                <img src="../images/parenthesis_checker.png" alt="Understanding Balanced Parentheses">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -349,9 +335,7 @@ public class StringGrouping {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/group-anagrams.html" class="related-card-img">
-                <img src="../images/string_anagram_grouping.png" alt="Understanding Group Anagrams in Java">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Algorithms</span>
@@ -404,3 +388,4 @@ public class StringGrouping {
 </body>
 
 </html>
+

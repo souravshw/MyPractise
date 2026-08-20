@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -136,7 +136,7 @@
         <div class="post-meta">
           <span class="post-category">Kafka & Distributed Systems</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Kafka Delivery Semantics: At-Most-Once, At-Least-Once, Exactly-Once</h1>
@@ -159,14 +159,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Courier Delivery Methods
-          </div>
+          An Everyday Metaphor: 
           <p>Imagine mailing a document to a business partner:</p>
           <ul>
             <li><strong>At-Most-Once:</strong> You drop the document in a standard mailbox. If it gets lost, it's gone.
@@ -218,7 +211,7 @@
           inserting). For payment gateways and ledger systems, invest the effort to configure true <strong>Exactly-Once
             Semantics</strong>.</p>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>Match your delivery guarantees to your business goals. For simple logs, choose At-Most-Once to save network
           resources. For database updates, choose At-Least-Once, and use Exactly-Once transactions when database
           consistency is paramount.</p>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -135,7 +135,7 @@
         <div class="post-meta">
           <span class="post-category">Kafka & Distributed Systems</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">5 min read</span>
         </div>
         <h1 class="article-title">Inside the Kafka Producer: Architecture and Internal Flow</h1>
@@ -150,22 +150,11 @@
         <p>Understanding this internal pipeline is key to tuning your producers for performance and reliability. Let's
           trace the journey of a message inside the Kafka producer client from code to broker.</p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/kafka_producer_flow.png" alt="Kafka Producer Internal Message Pipeline Flowchart"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Shipping Department
-          </div>
+          A Simple Analogy: 
           <p>Imagine a warehouse shipping department:</p>
           <ul>
             <li><strong>Serializer:</strong> Converts loose products into uniform, catalog-coded boxes.</li>
@@ -243,7 +232,7 @@ producer.send(record, new Callback() {
 
 producer.close(); // Flushes remaining batches and releases memory</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>Kafka producers are designed to be asynchronous and high-performance. By grouping records into batches in
           memory using the Record Accumulator, they minimize network overhead. Tuning <code>batch.size</code> and
           <code>linger.ms</code> allows you to control the sweet spot between latency and throughput.</p>
@@ -286,10 +275,7 @@ producer.close(); // Flushes remaining batches and releases memory</code></pre>
           <div class="related-posts-grid">
 
             <div class="related-card">
-              <a href="../posts/kafka-producer-high-throughput.html" class="related-card-img">
-                <img src="../images/kafka_producer_throughput.png"
-                  alt="Key Producer Configurations for High Throughput in Kafka">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>
@@ -299,9 +285,7 @@ producer.close(); // Flushes remaining batches and releases memory</code></pre>
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/kafka-producer-acks-settings.html" class="related-card-img">
-                <img src="../images/kafka_acks.png" alt="Understanding Kafka Producer ACKs Settings and Trade-offs">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>
@@ -311,9 +295,7 @@ producer.close(); // Flushes remaining batches and releases memory</code></pre>
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/kafka-idempotent-producer-exactly-once.html" class="related-card-img">
-                <img src="../images/kafka_exactly_once.png" alt="What is an Idempotent Producer in Kafka?">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Kafka & Distributed Systems</span>
@@ -353,3 +335,4 @@ producer.close(); // Flushes remaining batches and releases memory</code></pre>
 </body>
 
 </html>
+

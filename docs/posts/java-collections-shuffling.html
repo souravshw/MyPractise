@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -131,7 +131,7 @@
         <div class="post-meta">
           <span class="post-category">Java Concurrency</span>
           <span class="post-date">June 20, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Shuffling Lists in Java using Collections.shuffle()</h1>
@@ -152,14 +152,7 @@
         </div>
 
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Shuffling a Deck of Cards
-          </div>
+          A Simple Analogy: 
           <p>Imagine you have a deck of playing cards stacked in perfect numerical order: A, 2, 3, 4, 5...</p>
           <p>To prepare the game, you throw the cards into a <strong>tumbling drum machine
               (Collections.shuffle)</strong>. The machine rotates, spinning and scrambling the cards in random
@@ -167,7 +160,7 @@
             fair and unpredictable sequence (e.g. 3, A, 5, 2, 4).</p>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Java Solution</h2>
         <p>Below, we load a list of custom Song objects and randomize their playback order using Collections.shuffle:
         </p>
 
@@ -213,7 +206,7 @@ class Song {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Final Thoughts</h2>
         <p>The `Collections.shuffle()` method modifies the target list in-place. If you want to retain the original
           order of the list, copy the list first before invoking the shuffle command.</p>
       </div>

@@ -1,6 +1,7 @@
 package io.practise.map;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class TestMapSorting {
     public static void main(String[] args) {

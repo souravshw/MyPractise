@@ -150,23 +150,11 @@
         <p>In this guide, we will look at how Java handles string comparison under the hood and trace the execution of
           reference equality vs. value equality.</p>
 
-        <!-- Post Illustration Image -->
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <img src="../images/string_equality_java.png"
-            alt="Illustration of two identical smartphones compared under a magnifying glass, showing identity vs equality"
-            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
-        </div>
+        
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: Identical Smartphones
-          </div>
+          A Simple Metaphor: 
           <p>Imagine you and your friend own the exact same model of a smartphone, in the same color, with the same
             configurations:</p>
           <ul>
@@ -224,7 +212,7 @@ String s2 = new String(s1);</code></pre>
           </p>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Full Code Solution</h2>
         <p>Below is the complete Java code showing this behavior:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -243,7 +231,7 @@ public class StringEqulals {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>Always use <code>.equals()</code> to compare strings when you care about their values (i.e. if the text is
           the same). Only use <code>==</code> if you specifically want to check if they are the exact same instance in
           memory.</p>
@@ -313,10 +301,7 @@ public class StringEqulals {
               </div>
             </div>
             <div class="related-card">
-              <a href="../posts/understanding-class-initialization-blocks.html" class="related-card-img">
-                <img src="../images/java_initialization_blocks.png"
-                  alt="Understanding Java Class Initialization Order and Blocks">
-              </a>
+              
               <div class="related-card-content">
                 <div class="post-meta">
                   <span class="post-category">Java Core & OOP</span>
@@ -357,3 +342,4 @@ public class StringEqulals {
 </body>
 
 </html>
+

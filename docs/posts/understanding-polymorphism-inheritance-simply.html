@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -137,7 +137,7 @@
         <div class="post-meta">
           <span class="post-category">Java</span>
           <span class="post-date">June 22, 2026</span>
-          <span>•</span>
+          <span>â€¢</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Polymorphism and Method Overriding: A Simple Guide</h1>
@@ -161,14 +161,7 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          <div class="analogy-box-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            Real-World Analogy: The Theater Actor
-          </div>
+          Think of it like: 
           <p>Imagine a director writing a theater script. The script has a role called <strong>"Actor"</strong> (the
             Parent Class A) with directions like <strong>"give speech"</strong> (method <code>m1()</code>) and
             <strong>"take a bow"</strong> (method <code>m2()</code>).</p>
@@ -235,7 +228,7 @@ b.m1();</code></pre>
             actual object type!</p>
         </div>
 
-        <h2>Java Implementation</h2>
+        <h2>Java Solution</h2>
         <p>Below is the complete Java code demonstrating polymorphism and class method inheritance:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -271,7 +264,7 @@ class B extends A {
     }
 }</code></pre>
 
-        <h2>Conclusion</h2>
+        <h2>Summary</h2>
         <p>Polymorphism allows our code to be flexible and extensible. By writing code that references the parent class,
           we can easily swap in new child classes in the future without changing our main logic. The JVM will
           automatically look up the correct overridden method implementation at runtime!</p>

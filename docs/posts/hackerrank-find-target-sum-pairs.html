@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -138,18 +138,14 @@
           <span>•</span>
           <span class="post-read-time">3 min read</span>
         </div>
-        <h1 class="article-title">Finding Target Sum Pairs Using Complements</h1>
+        <h1 class="article-title">Finding Target Sum Pairs Using Complements HashSet in Java</h1>
       </header>
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>A classic software engineering puzzle (often called <strong>Two Sum</strong>) asks: Given an array of
-          integers and a target sum, check if there are any two numbers that add up to the target. While a nested-loop
-          approach is easy to write, it runs in slow <code>O(N²)</code> time. We can solve this in fast
-          <code>O(N)</code> time using a <strong>complements search</strong>.</p>
+        <p>One of the most foundational algorithmic questions in software engineering interviews is the <strong>Two Sum</strong> problem, often presented on coding platforms like HackerRank. The problem statement is simple: given an array of integers and a target sum, determine if there exists a pair of numbers in the array that add up to the target.</p>
 
-        <p>In this guide, we will implement the complements lookup algorithm using a <code>HashSet</code> and a Java
-          Stream.</p>
+        <p>While a straightforward solution involving nested loops is easy to implement, it suffers from a slow <code>O(N&sup2;)</code> quadratic time complexity. This makes it impractical for large datasets. Fortunately, we can optimize this lookup to linear <code>O(N)</code> time complexity using a <strong>complements search</strong> with a hash set.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -160,58 +156,63 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Metaphor: 
-          <p>Imagine people standing in a room, each holding a numbered card. You want to find if any two cards sum up
-            to <strong>9</strong>:</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Social Security Matchmaker
+          </div>
+          <p>To understand this optimized search, imagine you are a matchmaker hosting a party. Your task is to find if there are any two guests in the room whose cards add up to <strong>10</strong>.</p>
+          <p>Instead of having everyone walk around and ask every other guest for their number, you set up a blackboard (our hash set) near the entrance:
           <ul>
-            <li>A person holding card <strong>7</strong> enters. They calculate: "I need a partner holding card
-              <code>9 - 7 = 2</code>."</li>
-            <li>They check a chalkboard (HashSet) where previous entries are written. Since 2 is not on the board, they
-              write "7" on the board and sit down.</li>
-            <li>Later, a person holding card <strong>2</strong> enters. They calculate: "I need card
-              <code>9 - 2 = 7</code>."</li>
-            <li>They check the chalkboard, see <strong>7</strong> is already written there, and yell: "Match Found!"
-            </li>
-            <li>We found our pair in a single pass without making everyone compare cards with everyone else.</li>
+            <li>The first guest arrives holding card <strong>3</strong>. They calculate: *"To get to 10, I need a partner holding card 7 (10 - 3 = 7)."*</li>
+            <li>They look at the blackboard. Since card <strong>3</strong> is not written on the board, they calculate their complement partner needed (<code>10 - 3 = 7</code>), write <strong>7</strong> on the blackboard, and mingle.</li>
+            <li>A few minutes later, another guest arrives holding card <strong>7</strong>. They calculate: *"To get to 10, I need a partner holding card 3 (10 - 7 = 3)."*</li>
+            <li>They look at the board, see <strong>7</strong> is already written there (written by the guest who brought card 3), and declare: *"We have a match!"*</li>
           </ul>
+          This strategy allows us to find a valid pair in a single pass, without requiring guests to compare cards with everyone else.
+          </p>
         </div>
 
-        <h2>1. The Complements HashSet Logic</h2>
-        <p>Instead of matching every number with every other number, we loop through the array once. For each number, we
-          check if its complement (<code>target - number</code>) was already seen. If not, we add the current number to
-          a HashSet:</p>
-        <pre><code class="language-java">int[] arr = {10, 15, 3, 7};
-int target = 9;
-
-HashSet&lt;Integer&gt; complements = new HashSet&lt;&gt;();
-// For 10: complement is 9 - 10 = -1. Not seen. Add 10 to complements.
-// For 15: complement is 9 - 15 = -6. Not seen. Add 15 to complements.
-// For 3:  complement is 9 - 3 = 6. Not seen. Add 3 to complements.
-// For 7:  complement is 9 - 7 = 2. But complements set contains 2? No, wait!</code></pre>
-        <p>Let's look at the correct matching check:
+        <h2>Technical Strategy</h2>
+        <p>In Java, we can implement this search using a <code>HashSet</code>:
         <ul>
-          <li>If the current number is <code>num</code>, we look for <code>num</code> in our complements board.</li>
-          <li>If <code>num</code> is found, it means some previous number already calculated it was waiting for
-            <code>num</code> to arrive! We have a match.</li>
-          <li>If not found, we calculate the partner needed (<code>target - num</code>) and store it in our complements
-            board.</li>
+          <li>As we iterate through the integer array, we check if the current element is in our complements board.</li>
+          <li>If the <code>HashSet</code> already contains the current number, it means a previous number was waiting for this exact number. We return <code>true</code>.</li>
+          <li>If the current number is not in the set, we calculate its complement (<code>target - currentNumber</code>) and store it in our complements board.</li>
         </ul>
+        By using a hash set, we reduce lookup times to constant <code>O(1)</code> time, achieving an overall linear runtime.
         </p>
 
-        <h2>Implementation in Java</h2>
-        <p>We can write this cleanly using Java 8 Stream's <code>anyMatch()</code> method:</p>
-        <pre><code class="language-java">package io.practise.hackerrank;
+        <h2>Step-by-Step Scenario Trace</h2>
+        <p>Let's trace the execution on a sample input: <code>arr = [10, 15, 3, 7]</code> with a target sum of <code>10</code>:
+        <ol>
+          <li><strong>First element (10):</strong> Set is empty. Complements set does not contain <code>10</code>. We insert complement <code>10 - 10 = 0</code>. Set: <code>[0]</code>.</li>
+          <li><strong>Second element (15):</strong> Set doesn't contain <code>15</code>. We insert complement <code>10 - 15 = -5</code>. Set: <code>[0, -5]</code>.</li>
+          <li><strong>Third element (3):</strong> Set doesn't contain <code>3</code>. We insert complement <code>10 - 3 = 7</code>. Set: <code>[0, -5, 7]</code>.</li>
+          <li><strong>Fourth element (7):</strong> Set contains <code>7</code>! This means a previous element (which was 3) calculated that it needed a 7, and stored it. We return <code>true</code> immediately.</li>
+        </ol>
+        Match found! We return <code>true</code> in one pass.
+        </p>
 
+        <h2>Java Implementation Code</h2>
+        <p>We can write this cleanly using Java 8 Stream's <code>anyMatch()</code> method:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.hackerrank;
+ 
 import java.util.HashSet;
 import java.util.stream.IntStream;
-
+ 
 public class FindSumPair {
     public static void main(String[] args) {
         int[] arr = {10, 15, 3, 7};
-        int target = 9;
-
+        int target = 10;
+ 
         HashSet&lt;Integer&gt; complements = new HashSet&lt;&gt;();
-
+ 
         boolean hasPair = IntStream.of(arr).anyMatch(num -&gt; {
             // If the current number is the complement some previous number was looking for
             if (complements.contains(num)) {
@@ -221,15 +222,13 @@ public class FindSumPair {
             complements.add(target - num);
             return false;
         });
-
-        System.out.println("Has pair summing to " + target + "? " + hasPair); // Prints: true (7 + 2)
+ 
+        System.out.println("Has pair summing to " + target + "? " + hasPair); // Prints: true (7 + 3)
     }
 }</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>Using a HashSet transforms a slow <code>O(N²)</code> nested loop search into a fast <code>O(N)</code> lookup.
-          HashSet contains check operations run in constant <code>O(1)</code> time, representing the most optimal
-          scaling solution for search pairings.</p>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>Using a <code>HashSet</code> to store complement demands transforms a slow <code>O(N&sup2;)</code> nested loop search into a fast <code>O(N)</code> lookup. HashSet contains check operations run in constant <code>O(1)</code> time, representing the most optimal scaling solution for search pairings.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

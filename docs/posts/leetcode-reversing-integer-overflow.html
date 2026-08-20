@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -144,14 +144,10 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Reversing the digits of a number is a classic programming challenge. However, when working in environments
-          constrained to 32-bit signed integers (range <code>[-2,147,483,648, 2,147,483,647]</code>), reversing a number
-          can easily push the value outside bounds, causing a mathematical overflow. In Java, this triggers silent
-          wrap-arounds (e.g. going from positive to negative).</p>
+        <p>Reversing the digits of an integer is one of the most common coding interview puzzles, popular on platforms like LeetCode. At first glance, the task seems simple: continuously extract the last digit using modulo arithmetic and append it to a running result. However, in real-world systems constrained by fixed-size data registers, the math gets tricky. When restricted to standard 32-bit signed integers—which span the range <code>[-2,147,483,648, 2,147,483,647]</code>—reversing a completely valid number can push its reversed sequence beyond these bounds.</p>
 
-        <p>In this guide, we will look at how to reverse a number digit-by-digit and check for overflow boundaries
-          before performing operations.</p>
-
+        <p>In languages like Java, this overflow doesn't crash the program; instead, it silently wraps around, turning a massive positive value into a negative number and corrupting downstream calculations. In this guide, we will walk through the mathematical logic of reversing digits and explain how to detect and prevent integer overflow before it occurs.</p>
+ 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/stock_profit_checker.svg"
@@ -161,60 +157,62 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Metaphor: 
-          <p>Imagine a car odometer that only has 5 digits (can only show up to 99,999):</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Rolling Odometer
+          </div>
+          <p>To visualize this limitation, think of a mechanical car odometer with only 5 display digits (spanning from <code>00000</code> to <code>99999</code>):</p>
           <ul>
-            <li>If you have 99,990 miles and drive 15 more miles, the odometer rolls over to show
-              <strong>00,005</strong>. It rolled over because it exceeded the physical register limits.</li>
-            <li>In software, if we reverse `1,534,236,469` (within limits), it becomes `9,646,324,351`, which rolls over
-              a 32-bit register and crashes calculation accuracy. We must predict this roll-over before multiplying.
-            </li>
+            <li><strong>Odometer Rollover:</strong> If you drive a car with <code>99990</code> miles on the dash for an extra 15 miles, the physical gear wheels cannot display <code>100005</code>. Instead, the gears spin past the limit and reset to <code>00005</code>.</li>
+            <li><strong>The Binary Equivalent:</strong> In computer registers, a similar rollover occurs. If you reverse the valid integer <code>1,534,236,469</code>, the reversed digits mathematically equal <code>9,646,324,351</code>. Because this number exceeds the maximum limit of <code>2,147,483,647</code>, the binary representation overflows, yielding a corrupted negative value.</li>
           </ul>
+          Our software must inspect the boundary proximity before the gear wheels turn.
         </div>
 
-        <h2>1. The Reverse Logic</h2>
-        <p>To reverse a number, we peel off the last digit using modulo 10 (<code>num % 10</code>) and add it to our
-          running total, multiplying the previous total by 10 first:</p>
-        <pre><code class="language-java">int temp = num % 10;
-ans = (ans * 10) + temp;
+        <h2>1. The Reversal Logic</h2>
+        <p>The iterative approach to reversing a number involves peeling off the units digit one by one. By calculating the modulo ten of the input, we isolate the last digit, add it to our accumulated result (multiplied by ten), and then perform integer division by ten to discard it:</p>
+        <pre><code class="language-java">int lastDigit = num % 10;
+reversedResult = (reversedResult * 10) + lastDigit;
 num = num / 10; // Discard last digit</code></pre>
-
+ 
         <h2>2. Guarding Against Overflow</h2>
-        <p>Before running <code>ans * 10</code>, we check if the operation will exceed <code>Integer.MAX_VALUE</code>
-          (<code>2147483647</code>) or fall below <code>Integer.MIN_VALUE</code> (<code>-2147483648</code>) when divided
-          by 10:</p>
-        <pre><code class="language-java">if (ans <= Integer.MIN_VALUE / 10 || ans >= Integer.MAX_VALUE / 10) {
+        <p>Before running <code>reversedResult * 10</code>, we check if the operation will exceed <code>Integer.MAX_VALUE</code> (<code>2,147,483,647</code>) or fall below <code>Integer.MIN_VALUE</code> (<code>-2,147,483,648</code>) when divided by 10. The proactive guard checks if the current accumulated value is already past this threshold:
+        <pre><code class="language-java">if (ans &lt;= Integer.MIN_VALUE / 10 || ans &gt;= Integer.MAX_VALUE / 10) {
     return 0; // Return 0 as specified by LeetCode constraint
 }</code></pre>
-
+        This prevents the overflow from ever happening, maintaining clean mathematical bounds.
+        </p>
+ 
         <h2>Implementation in Java</h2>
-        <p>Below is the complete solution in Java:</p>
+        <p>Below is the complete solution in Java, demonstrating how to loop through the digits safely:</p>
         <pre><code class="language-java">package io.practise.leetcode.medium;
-
+ 
 public class ReversingInteger {
     public static void main(String[] args) {
         int num = 123678;
         int ans = 0;
-
+ 
         for (; num > 0; num = num / 10) {
             // Check overflow limits before multiplying by 10
-            if (ans <= Integer.MIN_VALUE / 10 || ans >= Integer.MAX_VALUE / 10) {
+            if (ans &lt;= Integer.MIN_VALUE / 10 || ans &gt;= Integer.MAX_VALUE / 10) {
                 ans = 0;
                 break;
             }
-
+ 
             int temp = num % 10;
             ans = (ans * 10) + temp;
         }
-
+ 
         System.out.println("Reversed: " + ans); // Reversed: 876321
     }
 }</code></pre>
-
-        <h2>Final Thoughts</h2>
-        <p>When solving arithmetic LeetCode puzzles, bounds check constraints are always the primary edge cases.
-          Checking variables against <code>Integer.MAX_VALUE / 10</code> before multiplying prevents math overflow
-          corruption.</p>
+ 
+        <h2>Conclusion</h2>
+        <p>Handling numerical constraints is the difference between writing scripts and engineering robust software. By checking register limits against <code>Integer.MAX_VALUE / 10</code> before executing multiplication, you ensure that your code remains safe from silent numeric corruption.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -132,10 +132,9 @@
         </ol>
       </nav>
 
-      <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
-          <span class="post-category">Java</span>
+          <span class="post-category">Java IO & NIO</span>
           <span class="post-date">June 19, 2026</span>
           <span>•</span>
           <span class="post-read-time">4 min read</span>
@@ -145,42 +144,40 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>The <code>java.io</code> package is one of the classic examples of the <strong>Decorator Design
-            Pattern</strong> in software engineering. By wrapping classes inside other classes, you can dynamically
-          attach new behaviors to input streams without modifying the underlying class structures.</p>
+        <p>In software architecture, the <strong>Decorator Design Pattern</strong> is a structural pattern used to dynamically extend the functionality of an object at runtime without altering its structure. Instead of relying on subclassing to multiply behaviors, the Decorator pattern wraps an object inside another class, creating a layered execution pipeline.</p>
 
-        <p>In this guide, we will extend <code>BufferedReader</code> to build a custom decorator—called
-          <code>CapReader</code>—that automatically transforms all text lines to uppercase as they are read.</p>
-
-        
-
+        <p>Java's <code>java.io</code> package is one of the most famous real-world implementations of this design pattern. Classes like <code>BufferedReader</code> and <code>FilterReader</code> wrap around raw inputs (like <code>FileReader</code> or <code>FileInputStream</code>) to add capabilities like buffering and character conversion. In this guide, we will leverage this pattern to build a custom <code>BufferedReader</code> subclass that intercepts read lines and automatically capitalizes them on the fly.</p>
+ 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Metaphor: 
-          <p>Imagine your sink faucet has a basic water pipe (BufferedReader):</p>
-          <ul>
-            <li>You buy an attachment filter (CapReader) and screw it onto the faucet.</li>
-            <li>As the water flows out of the main pipe, it passes through the filter, which purifies it or adds flavor
-              before it reaches your glass.</li>
-            <li>The faucet doesn't know the filter exists; it just pushes water. The filter decorates the water stream
-              on the fly.</li>
-          </ul>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Faucet Filter Attachment
+          </div>
+          <p>To visualize the Decorator pattern, think about your kitchen sink's water faucet. The faucet is connected to a <strong>basic water pipe (representing the standard <code>BufferedReader</code>)</strong> that flows raw tap water out.</p>
+          <p>If you want pure, carbon-filtered water, you do not rip out the entire plumbing system. Instead, you buy a <strong>filtration attachment (representing our custom <code>CapReader</code> decorator)</strong> and screw it onto the end of the faucet.</p>
+          <p>As the tap water flows out of the main pipe, it passes through the filter, which purifies it or adds flavor before it reaches your glass. The faucet remains unchanged, and the water pipe remains unchanged. The filter simply decorates the water stream on the fly as it exits the system.</p>
         </div>
 
-        <h2>1. Creating the Decorator Class</h2>
-        <p>To build our custom filter, we extend <code>BufferedReader</code> and override its <code>readLine()</code>
-          method. Inside the override, we call <code>super.readLine()</code> to get the raw text, then apply our
-          capitalization logic:</p>
+        <h2>Creating the Custom Decorator Class</h2>
+        <p>To implement our custom text filter in Java, we extend the <code>BufferedReader</code> class. This choice allows our decorator to inherit all standard buffering capabilities. We override the <code>readLine()</code> method. In our implementation, we call <code>super.readLine()</code> to fetch the raw text from the underlying file reader. If the fetched line is not <code>null</code>, we intercept the string, convert it to uppercase using <code>line.toUpperCase()</code>, and return the modified string. This intercepts and decorates the data stream transparently.</p>
 
+        <p>Here is the Java class definition for our custom <code>CapReader</code> decorator:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-
+ 
 class CapReader extends BufferedReader {
     public CapReader(Reader arg0) {
         super(arg0); // Pass reader to super constructor
     }
-
+ 
     @Override
     public String readLine() throws IOException {
         String line = super.readLine(); // Fetch raw line
@@ -190,20 +187,22 @@ class CapReader extends BufferedReader {
         return null;
     }
 }</code></pre>
+ 
+        <h2>Applying the Custom Filter</h2>
+        <p>To use our <code>CapReader</code>, we chain it into a standard Java character stream pipeline. We instantiate a <code>FileReader</code> to read raw characters from disk, wrap it in a standard <code>BufferedReader</code> for buffering, and then wrap that inside our <code>CapReader</code> to apply the uppercase transformation.</p>
 
-        <h2>2. Applying the Custom Filter</h2>
-        <p>Now, we chain our custom <code>CapReader</code> into the reader pipeline, just like we would with standard
-          Java streams:</p>
+        <p>Below is the complete client code showing how to read a file through our custom decorator pipeline:</p>
 
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">import java.io.FileReader;
 import java.io.IOException;
-
+ 
 public class CapitalizeRead {
     public static void main(String[] args) {
         String content = textFromFile();
         System.out.println("Uppercase file content:\n" + content);
     }
-
+ 
     private static String textFromFile() {
         FileReader f = null;
         try {
@@ -231,10 +230,9 @@ public class CapitalizeRead {
         return null;
     }
 }</code></pre>
-
-        <h2>Final Thoughts</h2>
-        <p>By extending reader classes, you can design reusable streams that clean inputs, decrypt data on the fly, or
-          format logs automatically. This clean separation of concerns is the essence of the Decorator pattern.</p>
+ 
+        <h2>Conclusion & Design Benefits</h2>
+        <p>By extending standard reader classes, you can design reusable decorators to perform various tasks—such as decrypting secure files on the fly, striping trailing whitespaces, filtering out spam keywords, or logging stream execution metrics. This maintains a clean separation of concerns and follows the Single Responsibility Principle, demonstrating the elegance of the Decorator pattern.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

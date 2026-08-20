@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -131,12 +131,11 @@
         </ol>
       </nav>
 
-      <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
           <span class="post-category">Java Core & OOP</span>
           <span class="post-date">June 23, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">5 min read</span>
         </div>
         <h1 class="article-title">Java Memory Management and Garbage Collection: A Simple Guide</h1>
@@ -144,15 +143,10 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In languages like C or C++, developers must manually allocate and free memory in their programs. Forgetting
-          to free memory leads to <strong>memory leaks</strong>, while freeing it too early causes program crashes. Java
-          solves this problem by taking over memory management completely. The JVM automatically decides where objects
-          live, keeps track of them, and uses a background cleaner called the <strong>Garbage Collector (GC)</strong> to
-          destroy them when they are no longer needed.</p>
+        <p>In low-level programming languages like C or C++, memory management is the sole responsibility of the developer. You must explicitly request memory blocks on the heap using functions like <code>malloc()</code> or operators like <code>new</code>, and release them using <code>free()</code> or <code>delete</code>. Failing to free memory leads to <strong>memory leaks</strong> that eventually crash systems, while freeing memory too early creates dangling pointers.</p>
 
-        <p>Let's look at how Java organizes its memory (Stack vs. Heap) and how GC works using a simple kitchen analogy.
-        </p>
-
+        <p>Java eliminates this manual burden by implementing automatic memory management. The Java Virtual Machine (JVM) controls object allocation, traces active references, and runs a background utility called the <strong>Garbage Collector (GC)</strong> to safely reclaim memory occupied by unreachable objects. In this guide, we will explore the stack and heap divisions and see how the JVM automates cleanup.</p>
+ 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/java-memory-gc.svg"
@@ -162,84 +156,40 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine you are a chef working in a busy restaurant kitchen. Your kitchen is divided into two main areas:
-          </p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Chef's Kitchen
+          </div>
+          <p>To visualize Java memory management, think of a chef working in a high-volume restaurant kitchen:</p>
           <ul>
-            <li><strong>The Workbench (Stack Memory)</strong>: This is your immediate prep counter. It is small,
-              organized, and holds your active recipes and local utensils (method scopes and local variables). Once you
-              finish a recipe step, you clear the workbench completely.</li>
-            <li><strong>The Pantry (Heap Memory)</strong>: This is a huge shared storage area. Any big bowl, cake, or
-              ingredient platter you prepare (objects on the heap) is stored here. To find a dish, you place a labeled
-              sticky note on your workbench pointing to its location in the pantry (object references).</li>
-            <li><strong>The Cleanup Robot (Garbage Collector)</strong>: The robot patrols the pantry. It looks at all
-              the stored dishes. If a dish in the pantry doesn't have any sticky notes pointing to it from the active
-              recipes on the workbench (it is unreachable), the robot throws it in the trash (reclaims the memory) so
-              new dishes can be made!</li>
+            <li><strong>The Prep Counter (<code>Stack Memory</code>):</strong> This is your immediate workbench. It is small, fast, and holds local utensils, spice shakers, and the active recipe cards you are working on (representing local variables and method execution frames). When you finish a recipe step, you clear the workbench completely.</li>
+            <li><strong>The Shared Pantry (<code>Heap Memory</code>):</strong> This is the large storage area where you place bulk prepared salads, slow-cooked stocks, or dessert bowls (representing instantiated objects). Since they are bulky, you store them in the pantry and place a small sticky note with a locator code on your prep workbench pointing to the pantry shelf (representing object references).</li>
+            <li><strong>The Cleanup Robot (<code>Garbage Collector</code>):</strong> A cleanup robot periodically patrols the pantry. It checks every bowl. If a bowl has no sticky notes pointing to it from any active workbench recipe cards (meaning it is unreachable), the robot throws it in the trash, freeing up space.</li>
           </ul>
         </div>
 
-        <h2>Understanding the Divisions of Heap: Generational GC</h2>
-        <p>To make cleaning efficient, the Java Pantry (Heap) is divided into age sections because <strong>most objects
-            die young</strong> (e.g., intermediate variables used in a loop):</p>
+        <h2>Generational Garbage Collection</h2>
+        <p>Relational mapping shows that <strong>most objects die young</strong> (such as temporary string builders or loop counters). To avoid scanning the entire heap every time, the JVM divides the heap into age-based generations:
+        <ul>
+          <li><strong>Young Generation:</strong> Composed of <strong>Eden</strong> and <strong>Survivor (S0/S1)</strong> spaces. All new objects start in Eden. When Eden fills, a fast <strong>Minor GC</strong> runs, discarding dead objects and promoting survivors to S0 or S1.</li>
+          <li><strong>Old Generation (Tenured):</strong> If an object survives several rounds of Minor GC sweeps (for example, application configurations or cache pools), it is promoted to the Old Generation. This area is larger and swept less frequently during a <strong>Major GC / Full GC</strong>.</li>
+        </ul>
+        </p>
+
+        <h2>Execution Scenarios Trace</h2>
+        <p>Let's trace how these zones interact during standard code execution:</p>
         <ol>
-          <li><strong>Young Generation (Eden &amp; Survivor Spaces)</strong>: Newly created objects are placed in the
-            <strong>Eden</strong> space. When Eden fills up, the GC robot sweeps it quickly, deleting unused objects.
-            Objects that survive are moved to <strong>Survivor</strong> spaces. This quick sweep is called a
-            <strong>Minor GC</strong>.</li>
-          <li><strong>Old Generation (Tenured Space)</strong>: If an object survives several rounds of Minor GC sweeps
-            because it is referenced long-term (e.g., application configurations), the robot relocates it to the
-            <strong>Old Gen</strong> space. This space is swept less frequently because the items here are expected to
-            stay. A full sweep here is called a <strong>Major GC / Full GC</strong>.</li>
+          <li><strong>Instantiation:</strong> When you run <code>Dish mainCourse = new Dish("Lasagna");</code>, the reference <code>mainCourse</code> sits in the stack frame, pointing to a <code>Dish</code> object created in the heap's Eden space.</li>
+          <li><strong>Re-assignment:</strong> Reassigning the reference via <code>mainCourse = new Dish("Spaghetti");</code> creates a new object and redirects the stack pointer. The original "Lasagna" object is orphaned (unreachable) and marked for GC.</li>
+          <li><strong>Scope Exit:</strong> Calling a helper method creates a nested stack frame. When the method returns, its frame is popped, destroying local reference variables. Any heap objects created inside it that weren't returned now have zero references and are swept away.</li>
         </ol>
 
-        <h2>Walkthrough of Code Scenarios</h2>
-        <p>Let's trace how the JVM manages memory during code execution:</p>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Scenario 1: Instantiating on the Heap
-          </div>
-          <p>When you run <code>Dish mainCourse = new Dish("Lasagna");</code>:</p>
-          <ul>
-            <li>A reference variable <code>mainCourse</code> is placed on the <strong>Stack</strong> frame.</li>
-            <li>A new <code>Dish</code> object with the name "Lasagna" is allocated in the <strong>Heap</strong> (Eden
-              space).</li>
-            <li>The reference on the stack points to the object on the heap.</li>
-          </ul>
-        </div>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Scenario 2: Re-assigning References (Object Orphanage)
-          </div>
-          <p>If you re-assign the reference: <code>mainCourse = new Dish("Spaghetti");</code>:</p>
-          <ul>
-            <li>A new "Spaghetti" object is created on the heap.</li>
-            <li>The reference <code>mainCourse</code> on the stack is updated to point to the new "Spaghetti" object.
-            </li>
-            <li>The original "Lasagna" object on the heap now has <strong>no references</strong> pointing to it. It is
-              orphaned (unreachable) and immediately becomes eligible for Garbage Collection!</li>
-          </ul>
-        </div>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Scenario 3: Popping Stack Frames (Method End)
-          </div>
-          <p>When calling <code>prepareDessert()</code>, a new frame is pushed to the stack containing
-            <code>tempBowl</code> pointing to "Chocolate Mousse". When the method exits:</p>
-          <ul>
-            <li>The <code>prepareDessert()</code> frame is popped off the Stack. The local variable
-              <code>tempBowl</code> is destroyed.</li>
-            <li>The "Chocolate Mousse" object remains on the Heap, but now has zero references pointing to it. It is now
-              eligible for GC.</li>
-          </ul>
-        </div>
-
-        <h2>Java Solution</h2>
-        <p>Below is a Java code example demonstrating references going in and out of scope and explicitly dereferencing
-          objects:</p>
+        <h2>Java Implementation Code</h2>
+        <p>Below is the Java implementation tracing object creation, re-assignment, scope exit, and explicit dereferencing:</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.myPractice;
@@ -256,7 +206,7 @@ public class MemoryManagementDemo {
         
         // 3. Re-assigning reference orphans the original Lasagna object
         mainCourse = new Dish("Spaghetti"); 
-        // Lasagna is now unreachable and eligible for GC!
+        // Spaghetti is now also eligible for GC!
         
         // 4. Setting to null breaks the final reference path
         mainCourse = null; 
@@ -283,12 +233,9 @@ class Dish {
         return name;
     }
 }</code></pre>
-
-        <h2>Summary</h2>
-        <p>Java's split memory model makes execution fast and safe. The <strong>Stack</strong> is used for quick,
-          structured method executions, while the <strong>Heap</strong> holds larger dynamic objects. Thanks to the
-          <strong>Garbage Collector</strong>, developers don't have to write cleanup codeâ€”the JVM automatically monitors
-          references and sweeps away garbage, preventing memory leaks and keeping programs running smoothly!</p>
+ 
+        <h2>Conclusion & Summary</h2>
+        <p>Java's split memory model makes execution fast and safe. The <strong>Stack</strong> is used for quick, structured method executions, while the <strong>Heap</strong> holds larger dynamic objects. Thanks to the <strong>Garbage Collector</strong>, developers don't have to write cleanup code—the JVM automatically monitors references and sweeps away garbage, preventing memory leaks and keeping programs running smoothly!</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

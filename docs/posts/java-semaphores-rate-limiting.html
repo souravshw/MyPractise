@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -132,43 +132,55 @@
         <div class="post-meta">
           <span class="post-category">Java Concurrency</span>
           <span class="post-date">June 20, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Java Semaphores: Rate Limiting &amp; Concurrency Control</h1>
       </header>
 
       <div class="article-body">
-        <p>A <strong>Semaphore</strong> in Java Concurrency is a utility that controls access to a shared resource using
-          a set of virtual <strong>permits</strong>. Unlike a standard mutual exclusion lock (Mutex) which only allows
-          one thread, a Semaphore can allow multiple threads to access a resource in parallel up to a configured limit.
-        </p>
+        <p>In multi-threaded applications, managing access to shared resources is crucial for maintaining system stability and performance. While standard mutual exclusion locks (Mutexes or synchronized blocks) enforce a strict "one thread at a time" policy, some resources can handle multiple concurrent operations up to a specific limit.</p>
 
+        <p>To solve this, Java provides the <strong><code>Semaphore</code></strong> class inside the <code>java.util.concurrent</code> package. A semaphore maintains a set of virtual <strong>permits</strong>. Threads can access the guarded resource only if they can successfully acquire a permit. By dynamically managing these permits, semaphores allow developers to implement robust concurrency throttling and rate-limiting. In this guide, we will analyze Java Semaphores and build a thread-throttled ATM simulator.</p>
+ 
+        <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/java-semaphores.svg" alt="Visualizing Java Semaphore permits"
             style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
+        <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Metaphor: 
-          <p>Imagine an ATM bank vestibule that contains exactly <strong>2 ATM machines</strong> inside. A security
-            guard stands outside holding exactly <strong>2 keys (permits)</strong>:</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The ATM Vestibule and the Key Guard
+          </div>
+          <p>To visualize semaphore access control, imagine a bank vestibule containing exactly <strong>2 ATM machines</strong>:</p>
           <ul>
-            <li><strong>Alice</strong> arrives first. The guard hands her a key, and she enters the booth (1 permit
-              remaining).</li>
-            <li><strong>Bob</strong> arrives second. The guard hands him the second key, and he enters (0 permits
-              remaining).</li>
-            <li><strong>Charlie</strong> arrives third. Since there are no keys left, the guard makes him wait outside
-              in a blocked queue.</li>
-            <li>Once Alice finished her transaction and leaves, she <strong>returns the key (releases permit)</strong>
-              to the guard. The guard immediately hands it to Charlie, who can now enter.</li>
+            <li><strong>Alice and Bob (Acquiring Permits):</strong> Alice arrives first. The guard hands her a key, and she enters the booth (1 key remaining). Next, Bob arrives. The guard hands him the second key, and he enters (0 keys remaining).</li>
+            <li><strong>Charlie (Blocking Queue):</strong> Charlie arrives third. Since no keys remain, the guard makes him wait in a queue outside the door. Charlie's execution blocks.</li>
+            <li><strong>Alice Leaves (Releasing Permits):</strong> Once Alice finishes her transaction and steps out, she returns the key to the guard (releasing a permit). The guard immediately hands the key to Charlie, who can now enter.</li>
           </ul>
+          In this system, the keys represent semaphore permits, the guard coordinates thread access, and the vestibule represents the critical section.
         </div>
 
-        <h2>Implementing Semaphore in Java</h2>
-        <p>Using <code>semaphore.acquire()</code> locks a thread if no permits are available, and
-          <code>semaphore.release()</code> returns a permit to the pool:</p>
+        <h2>Semaphore Types &amp; Mechanics</h2>
+        <p>Java supports two main types of semaphores:
+        <ol>
+          <li><strong>Binary Semaphore:</strong> Initialized with exactly 1 permit. It behaves like a Mutex, restricting access to a single thread at a time.</li>
+          <li><strong>Counting Semaphore:</strong> Initialized with $N$ permits (where $N > 1$). It allows up to $N$ threads to run concurrently.</li>
+        </ol>
+        When a thread calls <strong><code>acquire()</code></strong>, it blocks until a permit is available. Conversely, calling <strong><code>release()</code></strong> increments the permit count, notifying blocked threads. Crucially, you should always release permits inside a <code>finally</code> block; otherwise, an unexpected runtime exception inside the critical section will cause a permit leak, permanently blocking other waiting threads. Additionally, Java's <code>Semaphore</code> constructor accepts an optional <code>fair</code> boolean flag. Setting <code>new Semaphore(2, true)</code> guarantees that waiting threads acquire permits in a strict First-In-First-Out (FIFO) order, preventing thread starvation, though it introduces a slight performance overhead.
+        </p>
 
+        <h2>Java Implementation Code</h2>
+        <p>Below is the complete Java implementation of our ATM vestibule simulator using a counting semaphore to throttle threads:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.threadsExample;
  
 import java.util.concurrent.Semaphore;
@@ -206,11 +218,11 @@ public class SemaphoreExample {
       }
   }
 }</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>Semaphores are highly useful for rate-limiting calls to external APIs, managing database connection pools, or
-          shielding expensive physical server resources from concurrent overload.</p>
+ 
+        <h2>Conclusion &amp; Best Practices</h2>
+        <p>Java Semaphores are highly useful for rate-limiting outward calls to third-party APIs, throttling connections to database pools, or shielding expensive physical server resources from sudden concurrent traffic spikes. By sizing your permits appropriately, you prevent downstream resource starvation and maintain consistent system performance.</p>
       </div>
+
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

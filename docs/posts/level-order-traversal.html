@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -133,7 +133,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Level Order Traversal in Java</h1>
@@ -142,21 +142,21 @@
       <!-- Article Body -->
       <div class="article-body">
         <h2>What We're Solving</h2>
-        <p>The <strong>Level Order Traversal</strong> problem (also known as Breadth-First Search on a tree) requires us
-          to traverse a binary tree level-by-level, from left to right, returning a list of list of integers
-          representing the values of nodes at each height level.</p>
-        <p>For example, if the input tree is:
+        <p>Navigating a binary tree is a core operation in computer science. While Depth-First Search (DFS) strategies like in-order, pre-order, and post-order traversals dive deep down a branch before backtracking, <strong>Level Order Traversal</strong> (also known as Breadth-First Search or BFS) processes the tree horizontally.</p>
+
+        <p>The goal is to visit all nodes at the current height (level) from left to right before moving down to the next generation. The final output is structured as a list of lists, where each sublist contains the node values corresponding to a specific depth level.</p>
+
+        <p>For instance, consider the following binary tree structure:
         <pre>
              3
             / \
            9  20
              /  \
             15   7
-          </pre>
-        The output list of lists should be: <code>[[3], [9, 20], [15, 7]]</code>. This traversal is essential for
-        hierarchical structure processing, network packet broadcasting, and calculating the minimum depth of a tree.
+        </pre>
+        A level order traversal reads this level-by-level, producing the output nested structure: <code>[[3], [9, 20], [15, 7]]</code>. This traversal pattern is widely used in real-world scenarios, such as calculating the minimum depth of a tree, finding the widest level, serializing hierarchical structures, and broadcasting network packets across peers.
         </p>
-
+ 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/level_order_traversal.svg"
@@ -166,102 +166,104 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Analogy: 
-          <p>Imagine you are cataloging a family tree. Instead of following a single branch down to the modern day
-            (Depth-First Search), you want to write down family members generation-by-generation. First, you record the
-            grandparents (Level 0). Next, you record all of their children (Level 1). Finally, you record all of the
-            grandchildren (Level 2). To do this in an orderly fashion, you set up a waiting line (Queue). You call in
-            one generation, note down their names, and as you do so, you ask them to send their children to wait at the
-            back of the line. This ensures nobody gets mixed up between generations!</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: Cataloging a Family Tree
+          </div>
+          <p>To visualize this process, imagine cataloging a family tree:</p>
+          <ul>
+            <li><strong>Depth-First Search (The Lineage Focus):</strong> You pick one grandchild, trace their lineage directly back to the first ancestor, then repeat for each sibling. You traverse vertically down one branch at a time.</li>
+            <li><strong>Breadth-First Search (The Generation Focus):</strong> You group family members strictly by generation. First, you write down the patriarch and matriarch (Level 0). Next, you record all of their children (Level 1). Finally, you document all of the grandchildren (Level 2).</li>
+          </ul>
+          To do this systematically without mixing up cousins and generations, you set up a waiting queue. You process one generation from the queue, write their names down, and as you do, you ask them to direct their children to wait at the back of the queue. This queue-based coordination ensures that generations are kept separate and ordered.
         </div>
 
         <h2>The Logic Behind It</h2>
-        <h3>1. Breadth-First Search (BFS) using a Queue (O(n) Time, O(n) Space)</h3>
-        <p>A standard queue (FIFO - First In, First Out) is perfect for BFS. To separate the levels:
+        <h3>Breadth-First Search (BFS) using a Queue (O(n) Time, O(n) Space)</h3>
+        <p>To implement BFS on a binary tree, we leverage a queue data structure, which operates on a First-In, First-Out (FIFO) basis. The challenge is knowing where one level ends and the next begins. We solve this by capturing the queue's size at the start of each iteration loop.
         <ul>
-          <li>We initialize a queue and add the root node.</li>
-          <li>While the queue is not empty, we read its size: <code>int levelSize = queue.size()</code>. This tells us
-            exactly how many nodes are at the current level.</li>
-          <li>We loop <code>levelSize</code> times to dequeue these nodes, add their values to a list representing the
-            current level, and enqueue their non-null left and right children.</li>
-          <li>Once the inner loop finishes, we add the level list to our main results list.</li>
+          <li><strong>Initialization:</strong> We instantiate a queue and enqueue the root node.</li>
+          <li><strong>Level Partitioning:</strong> During each iteration of the outer loop, we measure <code>int levelSize = queue.size()</code>. This measurement tells us exactly how many nodes are currently in the queue for the active level.</li>
+          <li><strong>De-queue &amp; En-queue Loop:</strong> We execute a nested loop exactly <code>levelSize</code> times. In each iteration, we poll a node from the queue, append its value to the current level's list, and add its non-null left and right child nodes to the queue.</li>
         </ul>
-        This runs in <code>O(n)</code> time since we visit every node exactly once. The space complexity is
-        <code>O(w)</code> (where <code>w</code> is the maximum width of the tree) to hold queue elements.
+        Because children are appended to the back of the queue, they do not interfere with the <code>levelSize</code> count of the current level. Once the nested loop completes, we commit the level's list to our master output. This algorithm runs in <code>O(n)</code> time complexity since we visit every node exactly once. The space complexity is <code>O(w)</code>, where <code>w</code> is the maximum width of the tree (representing the leaf node level stored in the queue).
         </p>
-
-        <h2>Walking Through the Logic</h2>
-        <p>Let's trace the level order traversal on the tree: <code>3</code> (root), left <code>9</code>, right
-          <code>20</code> (with children <code>15</code> and <code>7</code>):</p>
+ 
+        <h2>Detailed Trace Walkthrough</h2>
+        <p>Let's trace this level-by-level execution on our example tree: <code>3</code> (root) with left child <code>9</code> and right child <code>20</code> (which has children <code>15</code> and <code>7</code>).</p>
         <ol>
           <li><strong>Step 1 (Initialization):</strong>
             <ul>
-              <li>Create result list <code>res = []</code>.</li>
-              <li>Initialize queue and add root: <code>queue = [3]</code>.</li>
+              <li>Create empty results list: <code>result = []</code>.</li>
+              <li>Initialize queue and offer root node: <code>queue = [3]</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 2 (Level 0):</strong>
+          <li><strong>Step 2 (Processing Level 0):</strong>
             <ul>
-              <li>The queue size is <code>1</code>. We process 1 node.</li>
-              <li>Dequeue node <code>3</code>. Add value <code>3</code> to level list: <code>level = [3]</code>.</li>
-              <li>Enqueue children of 3: left child <code>9</code> and right child <code>20</code>.</li>
-              <li>Queue is now: <code>[9, 20]</code>. Add level to results: <code>res = [[3]]</code>.</li>
+              <li>Read queue size: <code>levelSize = 1</code>.</li>
+              <li>Initialize empty list for this level: <code>level = []</code>.</li>
+              <li>Dequeue node <code>3</code> &rarr; <code>level = [3]</code>.</li>
+              <li>Offer children of node <code>3</code> to the queue: left child <code>9</code> and right child <code>20</code>.</li>
+              <li>Queue is now: <code>[9, 20]</code>.</li>
+              <li>Add level list to results: <code>result = [[3]]</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 3 (Level 1):</strong>
+          <li><strong>Step 3 (Processing Level 1):</strong>
             <ul>
-              <li>The queue size is <code>2</code>. We must process exactly 2 nodes (node <code>9</code> and node
-                <code>20</code>).</li>
-              <li>Dequeue node <code>9</code>. Add value <code>9</code> to level list: <code>level = [9]</code>. Node 9
-                has no children.</li>
-              <li>Dequeue node <code>20</code>. Add value <code>20</code> to level list: <code>level = [9, 20]</code>.
-              </li>
-              <li>Enqueue children of 20: left child <code>15</code> and right child <code>7</code>.</li>
-              <li>Queue is now: <code>[15, 7]</code>. Add level to results: <code>res = [[3], [9, 20]]</code>.</li>
+              <li>Read queue size: <code>levelSize = 2</code> (processing nodes <code>9</code> and <code>20</code>).</li>
+              <li>Initialize level list: <code>level = []</code>.</li>
+              <li>Dequeue node <code>9</code> &rarr; <code>level = [9]</code>. Node <code>9</code> has no children.</li>
+              <li>Dequeue node <code>20</code> &rarr; <code>level = [9, 20]</code>.</li>
+              <li>Offer children of node <code>20</code> to the queue: left child <code>15</code> and right child <code>7</code>.</li>
+              <li>Queue is now: <code>[15, 7]</code>.</li>
+              <li>Add level list to results: <code>result = [[3], [9, 20]]</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 4 (Level 2):</strong>
+          <li><strong>Step 4 (Processing Level 2):</strong>
             <ul>
-              <li>The queue size is <code>2</code>. We process 2 nodes (node <code>15</code> and node <code>7</code>).
-              </li>
-              <li>Dequeue node <code>15</code>. Add to level: <code>level = [15]</code>. No children.</li>
-              <li>Dequeue node <code>7</code>. Add to level: <code>level = [15, 7]</code>. No children.</li>
-              <li>Queue is now empty: <code>[]</code>. Add level to results: <code>res = [[3], [9, 20], [15, 7]]</code>.
-              </li>
+              <li>Read queue size: <code>levelSize = 2</code> (processing nodes <code>15</code> and <code>7</code>).</li>
+              <li>Initialize level list: <code>level = []</code>.</li>
+              <li>Dequeue node <code>15</code> &rarr; <code>level = [15]</code>. Node <code>15</code> has no children.</li>
+              <li>Dequeue node <code>7</code> &rarr; <code>level = [15, 7]</code>. Node <code>7</code> has no children.</li>
+              <li>Queue is now empty: <code>[]</code>.</li>
+              <li>Add level list to results: <code>result = [[3], [9, 20], [15, 7]]</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 5 (Completion):</strong> The queue is empty, so the loop ends. The method returns
-            <code>res</code>: <code>[[3], [9, 20], [15, 7]]</code>.</li>
+          <li><strong>Step 5 (Termination):</strong>
+            <ul>
+              <li>The queue is empty, terminating the outer loop. The function returns the nested list: <code>[[3], [9, 20], [15, 7]]</code>.</li>
+            </ul>
+          </li>
         </ol>
 
         <h2>Code Breakdown</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <p>Here are the critical lines in our Java implementation:</p>
         <ul>
-          <li><code>int size = queue.size();</code>: Captures the number of elements at the current level. Crucial
-            because it prevents child nodes added during iteration from being processed in the current level's list.
-          </li>
-          <li><code>queue.offer(root);</code>: Adds the starting element to the queue.</li>
-          <li><code>if (curr.left != null) queue.offer(curr.left);</code>: Conditionally adds child nodes to the queue
-            to be processed at the next generation level.</li>
+          <li><code>int size = queue.size();</code> is the key state snapshot. By locking in the size before the inner loop begins, we ensure we only dequeue nodes belonging to the current level, preventing the loop from trailing into the next level's children.</li>
+          <li><code>queue.offer(root);</code> safely initializes the queue without throwing exceptions on capacity limits.</li>
+          <li><code>if (curr.left != null) queue.offer(curr.left);</code> checks node presence dynamically to avoid inserting null pointers into our FIFO line.</li>
         </ul>
 
-        <h2>Full Code Solution</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <h2>Full Java Implementation</h2>
+        <p>Below is the complete, self-contained Java class solving the LeetCode challenge, including a static binary tree node definition and a main driver method to print output trace details.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 import java.util.*;
-
+ 
 public class LevelOrderTraversal {
-
+ 
     public static class TreeNode {
         public int val;
         public TreeNode left, right;
         public TreeNode(int val) { this.val = val; }
     }
-
+ 
     // BFS Using Queue - O(n)
     public List&lt;List&lt;Integer&gt;&gt; levelOrder(TreeNode root) {
         List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
@@ -281,7 +283,7 @@ public class LevelOrderTraversal {
         }
         return result;
     }
-
+ 
     public static void main(String[] args) {
         LevelOrderTraversal solver = new LevelOrderTraversal();
         TreeNode root = new TreeNode(3);
@@ -289,19 +291,17 @@ public class LevelOrderTraversal {
         root.right = new TreeNode(20);
         root.right.left = new TreeNode(15);
         root.right.right = new TreeNode(7);
-
-        System.out.println(&quot;--- Level Order Traversal Demonstration ---&quot;);
+ 
+        System.out.println("--- Level Order Traversal Demonstration ---");
         List&lt;List&lt;Integer&gt;&gt; result = solver.levelOrder(root);
-        System.out.println(&quot;Levels: &quot; + result);
+        System.out.println("Levels: " + result);
     }
-}
-</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>Solving the <strong>Level Order Traversal</strong> problem highlights how we can leverage key data structures
-          and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize
-          runtime and simplify code complexity.</p>
+}</code></pre>
+ 
+        <h2>Conclusion &amp; Takeaways</h2>
+        <p>Solving the <strong>Level Order Traversal</strong> problem highlights how we can leverage key data structures like Queues to transition from vertical recursion to horizontal iterative partitioning. Mastering BFS forms the basis for parsing complex graph networks, shortest-path problems, and hierarchical models.</p>
       </div>
+ 
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

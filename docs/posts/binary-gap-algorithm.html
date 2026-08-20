@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -131,19 +131,17 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 20, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Finding the Longest Binary Gap in Java</h1>
       </header>
 
+      <!-- Article Body -->
       <div class="article-body">
-        <p>A binary gap is the length of the longest sequence of consecutive zeros that is surrounded by ones in the
-          binary representation of a positive integer.</p>
+        <p>When working with binary numbers, we often look for patterns in the bits. One interesting and common coding puzzle is finding the <strong>longest binary gap</strong>. A binary gap is defined as the length of the longest consecutive sequence of zeros that is completely surrounded by ones on both sides.</p>
 
-        <p>For example, the number <code>9</code> in binary is <code>1001</code>, which has a binary gap of length
-          <code>2</code>. The number <code>20</code> in binary is <code>10100</code>, which has a binary gap of length
-          <code>1</code> because the trailing zeros are not closed by a final <code>1</code>.</p>
+        <p>For instance, consider the decimal number <code>9</code>. In binary, <code>9</code> is represented as <code>1001</code>. Here, we have a sequence of two zeros sandwiched between two ones, giving us a binary gap of <code>2</code>. Now consider the number <code>20</code>, which is <code>10100</code> in binary. There is a single zero between the first two ones, which represents a gap of <code>1</code>. The two trailing zeros at the end do not count because they aren't followed by a closing <code>1</code>. Finding these gaps efficiently is a great exercise in bit manipulation and array traversal.</p>
 
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/binary-gap.svg" alt="Visualizing Binary Gap Sequence"
@@ -151,27 +149,44 @@
         </div>
 
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine you are walking along a long wooden fence. Some parts of the fence have <strong>solid vertical
-              posts (1s)</strong>, and in between them, some boards are missing, leaving <strong>empty gap spaces
-              (0s)</strong>.</p>
-          <p>If you see a post, and then walk past 3 missing spots, and then reach another post, you found a gap of
-            <strong>3</strong>. However, if you pass 4 missing spots but never hit a post at the end before the fence
-            stops, that doesn't count as a gap because it's not closed off.</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: Counting Missing Fence Boards
+          </div>
+          <p>Think of this problem like walking along a long wooden privacy fence. The solid vertical fence posts represent the binary digit <code>1</code>, while the sections with missing boards represent the binary digit <code>0</code>.</p>
+          <p>As you walk, you want to count the number of missing boards in each gap. If you start at a post, walk past three empty spots, and then reach another solid post, you have successfully measured a gap of <code>3</code>. But if the fence ends while you are still walking past empty spots, that section doesn't count. A gap must have a starting post and an ending post to be considered complete.</p>
         </div>
 
-        <h2>Tracing the Logic</h2>
+        <h2>The Algorithmic Design</h2>
+        <p>To solve this problem programmatically in Java, we need a way to inspect the binary representation of a number. Here is the step-by-step logic:
         <ol>
-          <li>Convert the decimal number to a binary string using <code>Integer.toBinaryString(N)</code>.</li>
-          <li>Convert the string into a character array to loop over it.</li>
-          <li>Keep track of the index of the last seen <code>'1'</code> (initialized to 0).</li>
-          <li>For each character, if it is a <code>'1'</code>, calculate the distance between the current index and the
-            last seen index minus 1.</li>
-          <li>Update the maximum gap seen so far if the current distance is larger.</li>
-          <li>Set the last seen index to the current index and repeat.</li>
+          <li><strong>Convert to Binary String:</strong> We can convert our decimal integer <code>N</code> into its binary string representation using Java's built-in helper method, <code>Integer.toBinaryString(N)</code>.</li>
+          <li><strong>Scan the Characters:</strong> We iterate through the binary string character by character (or convert it to a character array).</li>
+          <li><strong>Track Positions of '1's:</strong> The key to measuring gaps is keeping track of where the last <code>'1'</code> occurred. We can initialize a pointer or index tracker to store the position of the first <code>'1'</code>.</li>
+          <li><strong>Calculate Gap Sizes:</strong> Every time we encounter a subsequent <code>'1'</code>, we can calculate the distance between the current index and the last seen <code>'1'</code> index. The gap size is simply the difference between the two indices minus one.</li>
+          <li><strong>Update the Maximum:</strong> If the calculated gap is larger than any gap we've seen so far, we update our maximum gap variable.</li>
+          <li><strong>Advance the Tracker:</strong> Finally, we update our tracker to point to the current <code>'1'</code> index, which becomes the new starting boundary for the next potential gap.</li>
         </ol>
+        </p>
+
+        <h2>Step-by-Step Execution Walkthrough</h2>
+        <p>Let's trace this logic with the number <code>137</code>. In binary, <code>137</code> is <code>10001001</code>.
+        <ul>
+          <li><strong>Start:</strong> We initialize our maximum gap variable to <code>0</code>. We locate the first occurrence of <code>'1'</code> at index <code>0</code>, setting our last seen tracker to <code>0</code>.</li>
+          <li><strong>Indices 1, 2, 3:</strong> These indices contain zeros, so we continue scanning.</li>
+          <li><strong>Index 4:</strong> We find another <code>'1'</code>. The gap is calculated as <code>4 - 0 - 1 = 3</code>. Since <code>3</code> is greater than our maximum gap (which was <code>0</code>), we update the maximum gap to <code>3</code>. We update our last seen tracker to index <code>4</code>.</li>
+          <li><strong>Indices 5, 6:</strong> These contain zeros, so we continue.</li>
+          <li><strong>Index 7:</strong> We hit a final <code>'1'</code>. The gap is <code>7 - 4 - 1 = 2</code>. Since <code>2</code> is not larger than our current maximum gap of <code>3</code>, the maximum remains <code>3</code>. We update our tracker to <code>7</code>.</li>
+          <li><strong>Termination:</strong> The loop finishes, and we return our maximum gap of <code>3</code>.</li>
+        </ul>
+        </p>
 
         <h2>Implementation in Java</h2>
+        <p>Here is the complete Java implementation of this algorithm. The code converts the integer into a binary string and loops through it, keeping track of indices to measure gaps.</p>
         <pre><code class="language-java">package io.practise.myPractice;
  
 import java.util.Scanner;
@@ -204,10 +219,9 @@ public class BinaryGapCodility {
         return large;
     }
 }</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>By keeping track of the index of the last seen '1', we can easily calculate gaps on the fly in a single pass
-          O(Log N) time complexity, which matches the number of bits in the binary string.</p>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>This single-pass approach is highly efficient. The time complexity is <code>O(log N)</code> because the number of digits in the binary representation of <code>N</code> is proportional to <code>log N</code> (base 2). Since we only iterate through the binary string once, the algorithm runs in linear time relative to the number of bits. The space complexity is also kept minimal at <code>O(log N)</code> to store the string and character array, making it an optimal solution for coding interviews.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

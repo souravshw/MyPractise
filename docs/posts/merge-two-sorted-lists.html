@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -133,7 +133,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Merge Two Sorted Lists in Java</h1>
@@ -141,15 +141,13 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>What We're Solving</h2>
-        <p>The <strong>Merge Two Sorted Lists</strong> problem asks us to merge two sorted singly linked lists into a
-          single sorted linked list. The new list should be made by splicing together the nodes of the first two lists,
-          keeping the elements in ascending order.</p>
-        <p>For example, if <code>list1 = 1 -> 2 -> 4</code> and <code>list2 = 1 -> 3 -> 4</code>, the merged list should
-          be <code>1 -> 1 -> 2 -> 3 -> 4 -> 4</code>. The key constraint is that we should do this in-place by updating
-          the existing <code>next</code> pointer references of the nodes rather than creating new node instances, which
-          is highly efficient.</p>
+        <h2>What We're Solving &amp; Splicing Nodes</h2>
+        <p>Consolidating sorted data streams is a fundamental operation with wide application in high-throughput data processing. The <strong>Merge Two Sorted Lists</strong> problem asks us to merge two sorted singly linked lists into a single sorted linked list. The resulting list must be constructed by splicing together the nodes of the first two lists, keeping all elements in strictly ascending order.</p>
 
+        <p>For example, given <code>list1 = 1 -> 2 -> 4</code> and <code>list2 = 1 -> 3 -> 4</code>, the merged list should resolve to <code>1 -> 1 -> 2 -> 3 -> 4 -> 4</code>.</p>
+
+        <p>A key constraint is that we must merge the lists <em>in-place</em>. This means rather than creating new node instances (which incurs an auxiliary space overhead of <code>O(n + m)</code>), we must update the existing <code>next</code> pointer references of the nodes. This allows the operation to run with <code>O(1)</code> space complexity.</p>
+ 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/merge_two_sorted_lists.svg"
@@ -159,103 +157,103 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine you have two separate piles of playing cards lying face up on the table. Both piles are already
-            sorted in ascending order (e.g., Pile A is <code>[1, 3, 5]</code> and Pile B is <code>[2, 4, 6]</code>). To
-            merge them into a single sorted pile, you compare the top card of Pile A with the top card of Pile B. You
-            pick the smaller card, place it face down at the end of your new combined pile, and move to the next card in
-            that pile. You repeat this comparison step until one of the piles is completely empty. When that happens,
-            you simply take the remaining cards from the non-empty pile and place them at the end of your new pile all
-            at once!</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: Two Decks of Cards
+          </div>
+          <p>To visualize this iterative sorting approach, imagine playing card decks:</p>
+          <ul>
+            <li><strong>Parallel Piles:</strong> You have two separate piles of cards lying face up on a table. Both piles are already sorted in ascending order (e.g., Pile A is <code>[1, 3, 5]</code> and Pile B is <code>[2, 4, 6]</code>).</li>
+            <li><strong>Sequential Merging:</strong> To merge them into a single sorted pile, you compare the top card of Pile A with the top card of Pile B. You pick the smaller card, place it face down at the end of your new combined pile, and move to the next card in that pile.</li>
+            <li><strong>The Remainder Shortcut:</strong> You repeat this comparison step until one of the piles is completely empty. When that happens, you do not need to compare any more cards: you simply pick up the remaining cards from the non-empty pile and place them at the end of your new pile all at once.</li>
+          </ul>
+          This card-sorting technique is precisely how our node-by-node pointer matching works.
         </div>
 
         <h2>The Strategy</h2>
-        <h3>1. Iterative Merge (O(n + m) Time, O(1) Space)</h3>
-        <p>We use a dummy helper node to anchor the start of our new merged list. We also maintain a pointer
-          <code>curr</code> that starts at this dummy node.
+        <h3>Iterative Merge (O(n + m) Time, O(1) Space)</h3>
+        <p>Let's look at the pointer manipulation mechanics of this <code>O(n + m)</code> runtime algorithm:
         <ul>
-          <li>We compare the values of the current nodes of <code>list1</code> and <code>list2</code>.</li>
-          <li>We link the node with the smaller value to <code>curr.next</code> and advance that list's pointer.</li>
-          <li>We advance the <code>curr</code> pointer.</li>
-          <li>Once the loop finishes (because one list is fully exhausted), we attach the remaining part of the other
-            list directly to <code>curr.next</code>.</li>
+          <li><strong>Dummy Node Anchor:</strong> We create a dummy node (<code>ListNode dummy = new ListNode(-1)</code>) that serves as a permanent anchor point at the start of our new merged list. We also maintain a pointer <code>curr</code> that tracks the end of our merged list, initialized to <code>dummy</code>. This sentinel node simplifies the code, as we don't have to write complex conditional checks to handle setting the head of the list.</li>
+          <li><strong>Pointer Comparisons:</strong> In each iteration of our loop, we inspect <code>l1.val</code> and <code>l2.val</code>. We link the node with the smaller value to <code>curr.next</code>, and then advance both the corresponding list's iterator pointer (<code>l1 = l1.next</code> or <code>l2 = l2.next</code>) and our tracker pointer (<code>curr = curr.next</code>).</li>
+          <li><strong>Splicing the Tail:</strong> Once either <code>l1</code> or <code>l2</code> becomes <code>null</code>, the comparison loop terminates. We then execute a single pointer update: <code>curr.next = (l1 != null) ? l1 : l2;</code>. This instantly attaches the entire remaining segment of the non-empty list to the end of our merged list, executing in <code>O(1)</code> constant time.</li>
         </ul>
-        This runs in linear <code>O(n + m)</code> time (where <code>n</code> and <code>m</code> are the lengths of the
-        two lists) using only <code>O(1)</code> auxiliary space.
         </p>
-
-        <h2>Walking Through the Logic</h2>
-        <p>Let's trace the algorithm on <code>list1 = 1 -> 3</code> and <code>list2 = 2 -> 4</code>:</p>
+ 
+        <h2>Detailed Trace Walkthrough</h2>
+        <p>Let's trace this iterative merging algorithm on the inputs <code>list1 = 1 -> 3</code> and <code>list2 = 2 -> 4</code>:</p>
         <ol>
-          <li><strong>Step 1 (Initialization):</strong> Create a dummy node
-            <code>ListNode dummy = new ListNode(-1)</code> and set <code>curr = dummy</code>.
+          <li><strong>Step 1 (Initialization):</strong>
             <ul>
-              <li><code>list1 = [1, 3]</code>, <code>list2 = [2, 4]</code></li>
-              <li>Merged list: <code>dummy -> null</code></li>
+              <li>Create <code>dummy = ListNode(-1)</code> and set <code>curr = dummy</code>.</li>
+              <li>List state: <code>l1 = [1, 3]</code>, <code>l2 = [2, 4]</code>.</li>
+              <li>Merged list: <code>dummy -> null</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 2 (Iteration 1):</strong> Compare <code>list1.val (1)</code> and <code>list2.val (2)</code>.
+          <li><strong>Step 2 (Iteration 1):</strong>
             <ul>
-              <li>Since <code>1 &lt; 2</code>, we link <code>curr.next = list1</code>.</li>
-              <li>Advance <code>list1 = list1.next</code> (which is node <code>3</code>).</li>
-              <li>Advance <code>curr = curr.next</code> (which is node <code>1</code>).</li>
-              <li>Merged list: <code>dummy -> 1</code>.</li>
+              <li>Compare <code>l1.val</code> (1) and <code>l2.val</code> (2).</li>
+              <li>Since <code>1 &lt; 2</code>, we link the smaller node: <code>curr.next = l1</code>.</li>
+              <li>Advance list pointer: <code>l1 = l1.next</code> (now pointing to node <code>3</code>).</li>
+              <li>Advance tracker: <code>curr = curr.next</code> (now node <code>1</code>).</li>
+              <li>Merged state: <code>dummy -> 1</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 3 (Iteration 2):</strong> Compare <code>list1.val (3)</code> and <code>list2.val (2)</code>.
+          <li><strong>Step 3 (Iteration 2):</strong>
             <ul>
-              <li>Since <code>3 &gt;= 2</code>, we link <code>curr.next = list2</code>.</li>
-              <li>Advance <code>list2 = list2.next</code> (which is node <code>4</code>).</li>
-              <li>Advance <code>curr = curr.next</code> (which is node <code>2</code>).</li>
-              <li>Merged list: <code>dummy -> 1 -> 2</code>.</li>
+              <li>Compare <code>l1.val</code> (3) and <code>l2.val</code> (2).</li>
+              <li>Since <code>3 &gt;= 2</code>, we link the smaller node: <code>curr.next = l2</code>.</li>
+              <li>Advance list pointer: <code>l2 = l2.next</code> (now pointing to node <code>4</code>).</li>
+              <li>Advance tracker: <code>curr = curr.next</code> (now node <code>2</code>).</li>
+              <li>Merged state: <code>dummy -> 1 -> 2</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 4 (Iteration 3):</strong> Compare <code>list1.val (3)</code> and <code>list2.val (4)</code>.
+          <li><strong>Step 4 (Iteration 3):</strong>
             <ul>
-              <li>Since <code>3 &lt; 4</code>, link <code>curr.next = list1</code>.</li>
-              <li>Advance <code>list1 = list1.next</code> (which is <code>null</code>).</li>
-              <li>Advance <code>curr = curr.next</code> (which is node <code>3</code>).</li>
-              <li>Merged list: <code>dummy -> 1 -> 2 -> 3</code>.</li>
+              <li>Compare <code>l1.val</code> (3) and <code>l2.val</code> (4).</li>
+              <li>Since <code>3 &lt; 4</code>, we link the smaller node: <code>curr.next = l1</code>.</li>
+              <li>Advance list pointer: <code>l1 = l1.next</code> (now <code>null</code>).</li>
+              <li>Advance tracker: <code>curr = curr.next</code> (now node <code>3</code>).</li>
+              <li>Merged state: <code>dummy -> 1 -> 2 -> 3</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 5 (Exhaustion & Splicing):</strong> The loop terminates because <code>list1</code> is
-            <code>null</code>.
+          <li><strong>Step 5 (Splicing the Tail):</strong>
             <ul>
-              <li>We check if any list remains. Yes, <code>list2</code> has remaining nodes (node <code>4</code>).</li>
-              <li>We splice the remainder: <code>curr.next = list2</code>.</li>
-              <li>Merged list: <code>dummy -> 1 -> 2 -> 3 -> 4</code>.</li>
+              <li>The loop terminates because <code>l1</code> is <code>null</code>.</li>
+              <li>We check if any list remains. Yes, <code>l2</code> is not null (pointing to node <code>4</code>).</li>
+              <li>We splice: <code>curr.next = l2</code>.</li>
+              <li>Merged state: <code>dummy -> 1 -> 2 -> 3 -> 4</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 6 (Completion):</strong> The method returns <code>dummy.next</code>, which is the head of the
-            sorted merged list: <code>1 -> 2 -> 3 -> 4 -> null</code>.</li>
+          <li><strong>Step 6 (Completion):</strong> We return <code>dummy.next</code>, yielding the sorted list: <code>1 -> 2 -> 3 -> 4 -> null</code>.</li>
         </ol>
 
-        <h2>Key Explanations</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <h2>Code Highlights &amp; Pointer Traversal</h2>
+        <p>Key highlights of our Java solution:</p>
         <ul>
-          <li><code>ListNode dummy = new ListNode(-1);</code>: Serves as a constant anchor point at the beginning, so we
-            don't have to write complex conditional logic to set the head of the merged list.</li>
-          <li><code>curr.next = (list1 != null) ? list1 : list2;</code>: Instantly attaches the remainder of whichever
-            list is not empty, avoiding unnecessary element-by-element copy loops.</li>
-          <li><code>return dummy.next;</code>: Returns the actual start of the sorted list, skipping the dummy node
-            placeholder.</li>
+          <li><code>dummy</code> acts as a static head reference, allowing us to return <code>dummy.next</code> directly at the end of the run.</li>
+          <li><code>curr = curr.next</code> advances the pointer of our target list.</li>
+          <li><code>curr.next = (l1 != null) ? l1 : l2</code> performs the <code>O(1)</code> final splicing step.</li>
         </ul>
 
         <h2>Java Solution</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete Java implementation featuring the node-splicing method, along with a main runner to trace the merged list values.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 public class MergeTwoSortedLists {
-
+ 
     public static class ListNode {
         public int val;
         public ListNode next;
         public ListNode(int val) { this.val = val; }
     }
-
+ 
     // Optimized - Iterative Merge - O(n + m)
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         ListNode dummy = new ListNode(-1);
@@ -273,38 +271,36 @@ public class MergeTwoSortedLists {
         curr.next = (l1 != null) ? l1 : l2;
         return dummy.next;
     }
-
+ 
     public static void main(String[] args) {
         MergeTwoSortedLists solver = new MergeTwoSortedLists();
         ListNode l1 = new ListNode(1);
         l1.next = new ListNode(2);
         l1.next.next = new ListNode(4);
-
+ 
         ListNode l2 = new ListNode(1);
         l2.next = new ListNode(3);
         l2.next.next = new ListNode(4);
-
-        System.out.println(&quot;--- Merge Two Sorted Lists Demonstration ---&quot;);
+ 
+        System.out.println("--- Merge Two Sorted Lists Demonstration ---");
         ListNode result = solver.mergeTwoLists(l1, l2);
         printList(result);
     }
-
+ 
     private static void printList(ListNode head) {
         ListNode curr = head;
         while (curr != null) {
-            System.out.print(curr.val + (curr.next != null ? &quot; -&gt; &quot; : &quot;&quot;));
+            System.out.print(curr.val + (curr.next != null ? " -> " : ""));
             curr = curr.next;
         }
         System.out.println();
     }
-}
-</code></pre>
-
-        <h2>Final Thoughts</h2>
-        <p>Solving the <strong>Merge Two Sorted Lists</strong> problem highlights how we can leverage key data
-          structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly
-          optimize runtime and simplify code complexity.</p>
+}</code></pre>
+ 
+        <h2>Conclusion &amp; Takeaways</h2>
+        <p>Solving the <strong>Merge Two Sorted Lists</strong> problem highlights how we can leverage sentinel node references and linear pointer traversal to combine sorted streams in-place. By updating object references directly rather than generating new instances, we achieve maximum memory efficiency with a clean $O(1)$ space profile.</p>
       </div>
+
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

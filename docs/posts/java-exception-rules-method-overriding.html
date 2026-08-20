@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -131,10 +131,9 @@
         </ol>
       </nav>
 
-      <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
-          <span class="post-category">Java</span>
+          <span class="post-category">Java Exceptions</span>
           <span class="post-date">June 19, 2026</span>
           <span>•</span>
           <span class="post-read-time">4 min read</span>
@@ -144,59 +143,58 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In Java inheritance, when a subclass overrides a parent class method, it must adhere to strict signature
-          rules. In addition to return-type covariance, Java enforces specific compiler rules on what exceptions the
-          subclass method is allowed to throw.</p>
+        <p>In Java inheritance, method overriding is the cornerstone of polymorphism. When a subclass overrides a superclass method, it must maintain a consistent external interface so that client code can interact with both parent and child objects interchangeably.</p>
 
-        <p>In this guide, we will break down these overriding rules for checked vs. unchecked exceptions using a
-          practical parent-child code example.</p>
-
-        
-
+        <p>This design contract is strictly enforced by the Java compiler, which monitors parameter counts, types, return types, and most importantly, the exceptions declared in the <code>throws</code> clause. If subclass methods were allowed to throw arbitrary checked exceptions, it would break compile-time type safety. A developer calling the parent class method would have no way of knowing they need to wrap their code in a <code>try-catch</code> block to handle a surprise exception thrown by a child instance. In this guide, we will analyze the strict rules Java imposes on checked and unchecked exceptions during method overriding.</p>
+ 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Analogy: 
-          <p>Imagine a business contract between a parent contractor and a client:</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Subcontractor's Agreement
+          </div>
+          <p>To visualize this compiler rule, imagine a business contract between a parent contractor (the superclass) and a client:</p>
           <ul>
-            <li>The parent contractor promises to deliver a house and warns that minor delays (NullPointerException -
-              unchecked) might occur.</li>
-            <li>If a subcontractor takes over (method overriding), they are bound by the parent's contract. They cannot
-              suddenly declare: "We might delay the build by 3 years due to custom import permits (checked
-              IOException)."</li>
-            <li>The subcontractor is allowed to make stricter promises (throw no exceptions, or only throw subclasses of
-              the parent's declared exceptions), but they can never impose wider risks on the client.</li>
+            <li>The parent contractor signs a deal to construct a house. The contract warns the client of minor, routine delays that are easy to anticipate and fix (representing <strong>unchecked exceptions</strong>, like <code>NullPointerException</code>).</li>
+            <li>Later, the parent contractor delegates the actual building phase to a subcontractor (the subclass method override).</li>
+            <li>Because the subcontractor is bound by the original contract, they cannot suddenly introduce high-risk, major delays (representing <strong>checked exceptions</strong>, like a 3-year import permit delay <code>IOException</code>) that were never declared in the original contract.</li>
           </ul>
+          The subcontractor is allowed to make stricter promises (such as declaring no delays or subclassing existing risks), but they can never introduce new, broader liabilities to the client.
         </div>
 
         <h2>Rule 1: Superclass Method Declares No Exceptions</h2>
-        <p>If the parent class method does not declare any exception in its signature:</p>
+        <p>If the parent class method does not declare any exceptions in its signature:
         <ul>
-          <li>The overridden subclass method <strong>cannot</strong> declare checked exceptions (e.g.
-            <code>IOException</code>). Doing so will result in a compile-time error.</li>
-          <li>However, the subclass method <strong>is allowed</strong> to declare unchecked exceptions (e.g.
-            <code>NullPointerException</code> or <code>ArithmeticException</code>).</li>
+          <li>The overridden child method <strong>cannot</strong> declare any checked exceptions (like <code>IOException</code> or <code>SQLException</code>). If you attempt to do so, the compiler will fail to build the project.</li>
+          <li>The child method <strong>is allowed</strong> to declare unchecked exceptions (like <code>ArithmeticException</code> or <code>IllegalArgumentException</code>). Unchecked exceptions represent programming bugs rather than recoverable runtime states, so they do not violate the compiler's strict API contract.</li>
         </ul>
+        </p>
 
-        <h2>Rule 2: Superclass Method Declares a Checked Exception</h2>
-        <p>If the parent class method declares a checked exception in its signature:</p>
+        <h2>Rule 2: Superclass Method Declares Checked Exceptions</h2>
+        <p>If the parent class method declares a checked exception:
         <ul>
-          <li>The overridden subclass method can declare the <strong>same</strong> exception, a
-            <strong>subclass</strong> of that exception (stricter rule), or <strong>no exception</strong> at all.</li>
-          <li>The subclass method <strong>cannot</strong> declare a broader parent exception or a completely unrelated
-            checked exception.</li>
+          <li>The overridden child method can declare the <strong>same</strong> checked exception.</li>
+          <li>The child method can declare a <strong>subclass</strong> of the parent's exception (which is a narrower, more specific checked exception).</li>
+          <li>The child method can choose to declare <strong>no exceptions</strong> at all, fulfilling the contract without throwing any errors.</li>
+          <li>The child method <strong>cannot</strong> throw a broader parent exception or a completely unrelated checked exception. For example, if the parent throws <code>IOException</code>, the child cannot throw <code>Exception</code> or <code>SQLException</code>.</li>
         </ul>
+        </p>
 
-        <h2>Code Walkthrough</h2>
-        <p>Let's check this in action. We have a parent class <code>OverridenClass</code> which declares a method that
-          throws no exceptions, and a subclass <code>OverridingExample</code> which overrides it:</p>
+        <h2>Java Implementation Code</h2>
+        <p>Here is a complete Java implementation demonstrating compile-time rules for method overrides declaring unchecked exceptions:</p>
 
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">class OverridenClass {
     OverridenClass msg() { // Declares no exceptions
         System.out.println("parent");
         return this;
     }
 }
-
+ 
 public class OverridingExample extends OverridenClass {
     // Overridden method - OK to declare unchecked NullPointerException!
     @Override
@@ -204,23 +202,15 @@ public class OverridingExample extends OverridenClass {
         System.out.println("TestExceptionChild");
         return this;
     }
-
+ 
     public static void main(String args[]) {
         OverridenClass p = new OverridingExample();
         p.msg(); // Triggers the child overridden method
     }
 }</code></pre>
-        <p>If we modified the child method signature to be <code>OverridingExample msg() throws IOException</code>, the
-          compiler would fail instantly because <code>IOException</code> is checked and the parent method is clean.</p>
-
-        <h2>Final Thoughts</h2>
-        <p>To summarize, a subclass overridden method:
-        <ul>
-          <li>Can throw any unchecked exception.</li>
-          <li>Can only throw checked exceptions that are narrower than (subclasses of) the checked exceptions declared
-            in the parent method signature.</li>
-        </ul>
-        </p>
+ 
+        <h2>Conclusion & Design Benefits</h2>
+        <p>By enforcing these exception propagation rules, Java maintains the Liskov Substitution Principle (LSP). It ensures that client code written to consume a superclass can safely run against any child subclass instance without compiling new, unexpected exception handler logic. This design guarantee is essential for building robust distributed systems.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

@@ -133,7 +133,7 @@
         <div class="post-meta">
           <span class="post-category">Data Structures</span>
           <span class="post-date">June 29, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">5 min read</span>
         </div>
         <h1 class="article-title">Under the Hood: Building a Custom HashMap in Java</h1>
@@ -141,11 +141,14 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Honestly, Java's <code>HashMap</code> is one of those classes we all import and use daily without thinking twice. We call <code>put()</code>, we call <code>get()</code>, and we just expect $O(1)$ lookups. But have you ever actually stopped to look under the hood to see how it organizes memory under the hood?</p>
-        <p>I decided to write a custom, bare-bones <code>HashMap</code> implementation from scratch to show exactly how hashing, collision chains, and dynamic resizing function behind the scenes. Before diving into the Java code, let's look at how the core concept works in the real world.</p>
+        <p>In Java development, <code>HashMap</code> is one of the most frequently used data structures. It provides near-instantaneous <code>O(1)</code> time complexity for both retrieving and storing key-value pairs. But how does it actually manage memory and search operations under the hood? To demystify this, we will build a custom, bare-bones implementation of a <code>HashMap</code> from scratch. We will explore how it uses hashing algorithms, handles collisions, and dynamically grows as you add more data.</p>
 
         <!-- Illustration Image -->
-        
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/custom_hashmap.png"
+            alt="Illustration of Custom HashMap Chaining and Rehashing"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
@@ -155,98 +158,92 @@
               <line x1="12" y1="16" x2="12" y2="12" />
               <line x1="12" y1="8" x2="12.01" y2="8" />
             </svg>
-            Think of it like this:
+            Real-World Analogy: The Mailbox Room
           </div>
-          <p>Imagine a post office with only <strong>16 mailboxes</strong> (these are our array <strong>Buckets</strong>).
-          When a letter arrives, the clerk needs to decide which mailbox it goes into based on the recipient's name (the <strong>Key</strong>):</p>
+          <p>Think of a <code>HashMap</code> like a post office sorting room with exactly <code>16</code> mailboxes, which we call <strong>buckets</strong>. When mail arrives, the clerk must sort it using the recipient's name (the <strong>key</strong>):</p>
           <ul>
-            <li><strong>Hashing (Choosing the Box):</strong> The clerk runs the name through a quick rule—like taking the name's length—and gets a box number between 0 and 15. The letter always goes there.</li>
-            <li><strong>Collisions (Sharing Boxes):</strong> Since there are thousands of possible names and only 16 mailboxes, people will inevitably share a box. If both "Alice" and "Alex" hash to box 5, the clerk chains the letters together inside box 5 using paperclips. This is <strong>Chaining</strong>.</li>
-            <li><strong>Rehashing (Expanding the Boxes):</strong> As more letters arrive, the paperclipped chains in each mailbox get longer, making it slow for the clerk to find a letter. To fix this, the post office doubles the mailboxes to 32, recalculates the box number for every single name, and redistributes them.</li>
+            <li><strong>Hashing (Choosing the Box):</strong> Instead of checking boxes randomly, the clerk runs the recipient's name through a quick rule—for example, taking the length of the name modulo 16—to get a box number. The letter always goes into that specific box.</li>
+            <li><strong>Handling Collisions (Separate Chaining):</strong> With thousands of possible names and only 16 boxes, some names will inevitably map to the same box. If "Alice" and "Alex" both hash to box 5, the clerk clips their letters together in a chain inside box 5. This method is called <strong>Separate Chaining</strong>.</li>
+            <li><strong>Resizing (Rehashing):</strong> As more letters accumulate, these paperclipped chains grow longer. Eventually, finding a specific letter requires sorting through a long chain, which slows down operations. To fix this, the post office doubles the number of mailboxes to 32, recalculates the mailbox number for every recipient, and redistributes all the letters.</li>
           </ul>
         </div>
 
         <h2>Core Technical Concepts</h2>
         <h3>1. The Bucket Array and Nodes</h3>
-        <p>In our implementation, we store elements in a simple array of Nodes. If multiple keys hash to the same bucket index, we link them together using a singly linked list. Each <code>Node</code> holds the key, the value, and a reference to the next node in the chain.</p>
+        <p>Our custom implementation relies on several key components. First, we store our data in an array of <code>Node</code> elements. Each <code>Node</code> represents a key-value entry and contains a reference to the next node in the chain, forming a singly linked list for handling collisions.</p>
         <pre><code class="language-java">static class Node&lt;K, V&gt; {
     final K key;
     V value;
     Node&lt;K, V&gt; next;
     // Constructor...
 }</code></pre>
-
+ 
         <h3>2. Calculating the Bucket Index (Hash Function)</h3>
-        <p>When inserting a key, we get its hash code (Java's built-in integer identifier for objects) and fit it within our array capacity using a modulo operation. We explicitly assign <code>null</code> keys to index <code>0</code>:</p>
+        <p>When a key is inserted, we determine its bucket index by calculating the absolute value of its hash code modulo the current array capacity. Null keys are always routed to index <code>0</code>:</p>
         <pre><code class="language-java">private int hash(K key) {
     if (key == null) return 0;
     return Math.abs(key.hashCode() % capacity);
 }</code></pre>
-
+ 
         <h3>3. Putting Elements (Inserting/Updating)</h3>
-        <p>When saving a key-value pair, we hash the key to find the index. If the bucket is empty, we place our new node there. If the bucket already has a node (a collision), we walk down the chain:
-        <ul>
-          <li>If we find a node with the same key (comparing with <code>equals()</code>), we overwrite its value.</li>
-          <li>If we reach the end of the chain without finding a duplicate, we append our new node.</li>
-        </ul>
-        </p>
-
+        <p>When saving a key-value pair, we hash the key to find the bucket. If the bucket is empty, we place the node there. If a collision occurs, we traverse the list: if we find the same key (comparing with <code>equals()</code>), we update the value; otherwise, we append the new node to the end of the chain.</p>
+ 
         <h3>4. Getting Elements (Retrieval)</h3>
-        <p>To retrieve a value, we hash the key, jump straight to the correct bucket index, and search down the linked list comparing keys. If we find a match, we return its value; if not, we return <code>null</code>.</p>
-
+        <p>To retrieve a value, we hash the key to locate the bucket and traverse its linked list, returning the value if we find a matching key, or <code>null</code> if the key doesn't exist.</p>
+ 
         <h3>5. Resizing and Rehashing</h3>
-        <p>If we have too many elements compared to the size of the array, collisions will spike and slow down lookups. We use a threshold called the <strong>Load Factor</strong> (usually <code>0.75</code>). Once the count of elements exceeds 75% of our array's size, we double the capacity, allocate a new array, and rehash all keys to distribute them evenly across the new indexes.</p>
-
+        <p>When the number of elements exceeds our load factor threshold (typically 75% of the array size), we double the capacity and rehash all existing entries into the new array.</p>
+ 
         <h2>Complete Source Code</h2>
-        <p>Here is the full <code>CustomHashMap.java</code> implementation containing these concepts with verbose console logs to show the steps in action.</p>
+        <p>Here is the complete Java source code for our <code>CustomHashMap</code>. It includes standard <code>put</code>, <code>get</code>, <code>remove</code>, and <code>resize</code> operations, along with a <code>main</code> class to demonstrate the map in action.</p>
 
         <pre><code class="language-java">package io.practise.map;
-
+ 
 public class CustomHashMap&lt;K, V&gt; {
     
     static class Node&lt;K, V&gt; {
         final K key;
         V value;
         Node&lt;K, V&gt; next;
-
+ 
         public Node(K key, V value, Node&lt;K, V&gt; next) {
             this.key = key;
             this.value = value;
             this.next = next;
         }
     }
-
+ 
     private Node&lt;K, V&gt;[] table;
     private int capacity;
     private final float loadFactor = 0.75f;
     private int size;
-
+ 
     @SuppressWarnings("unchecked")
     public CustomHashMap(int initialCapacity) {
         this.capacity = initialCapacity;
         this.table = (Node&lt;K, V&gt;[]) new Node[capacity];
         this.size = 0;
     }
-
+ 
     private int hash(K key) {
         if (key == null) return 0;
         return Math.abs(key.hashCode() % capacity);
     }
-
+ 
     public V put(K key, V value) {
         if ((float) (size + 1) / capacity &gt; loadFactor) {
             resize();
         }
-
+ 
         int index = hash(key);
         Node&lt;K, V&gt; head = table[index];
-
+ 
         if (head == null) {
             table[index] = new Node&lt;&gt;(key, value, null);
             size++;
             return null;
         }
-
+ 
         Node&lt;K, V&gt; curr = head;
         while (curr != null) {
             if (isKeyEqual(curr.key, key)) {
@@ -257,28 +254,28 @@ public class CustomHashMap&lt;K, V&gt; {
             if (curr.next == null) break;
             curr = curr.next;
         }
-
+ 
         curr.next = new Node&lt;&gt;(key, value, null);
         size++;
         return null;
     }
-
+ 
     public V get(K key) {
         int index = hash(key);
         Node&lt;K, V&gt; curr = table[index];
-
+ 
         while (curr != null) {
             if (isKeyEqual(curr.key, key)) return curr.value;
             curr = curr.next;
         }
         return null;
     }
-
+ 
     public V remove(K key) {
         int index = hash(key);
         Node&lt;K, V&gt; curr = table[index];
         Node&lt;K, V&gt; prev = null;
-
+ 
         while (curr != null) {
             if (isKeyEqual(curr.key, key)) {
                 V value = curr.value;
@@ -295,16 +292,16 @@ public class CustomHashMap&lt;K, V&gt; {
         }
         return null;
     }
-
+ 
     @SuppressWarnings("unchecked")
     private void resize() {
         int oldCapacity = capacity;
         Node&lt;K, V&gt;[] oldTable = table;
-
+ 
         capacity = oldCapacity * 2;
         table = (Node&lt;K, V&gt;[]) new Node[capacity];
         size = 0;
-
+ 
         for (int i = 0; i < oldCapacity; i++) {
             Node&lt;K, V&gt; curr = oldTable[i];
             while (curr != null) {
@@ -313,15 +310,15 @@ public class CustomHashMap&lt;K, V&gt; {
             }
         }
     }
-
+ 
     private boolean isKeyEqual(K k1, K k2) {
         if (k1 == null) return k2 == null;
         return k1.equals(k2);
     }
 }</code></pre>
-
-        <h2>Summary</h2>
-        <p>By implementing a custom map, we see how arrays and linked lists combine to form one of Java's most powerful data structures. The performance of lookups is kept close to constant time <code>O(1)</code> by using hash codes to index directly into the bucket array, resolving occasional collisions dynamically using chained lists.</p>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>Building a custom <code>HashMap</code> illustrates how arrays and linked lists combine to create a highly efficient hash table. By using hash codes to index directly into memory, we achieve constant-time lookup performance <code>O(1)</code>, while chained linked lists handle collisions dynamically.</p>
       </div>
 
       <!-- Navigation & Related Articles -->

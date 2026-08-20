@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -132,7 +132,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Climbing Stairs in Java</h1>
@@ -140,92 +140,61 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>What We're Solving</h2>
-        <p>The <strong>Climbing Stairs</strong> problem asks us to find the number of distinct ways to climb a staircase
-          of <code>n</code> steps, where we can climb either <code>1</code> or <code>2</code> steps at a time.</p>
-        <p>This is a fundamental dynamic programming problem. To reach the <code>n</code>-th step, we must make our
-          final move from either:
-        <ol>
-          <li>The <code>(n-1)</code>-th step (by taking <code>1</code> step)</li>
-          <li>The <code>(n-2)</code>-th step (by taking <code>2</code> steps)</li>
-        </ol>
-        Therefore, the total number of distinct ways to reach step <code>n</code> is simply the sum of the ways to reach
-        step <code>n-1</code> and the ways to reach step <code>n-2</code>. This recurrence relation:
-        <code>Ways(n) = Ways(n-1) + Ways(n-2)</code> is identical to the mathematical definition of the Fibonacci
-        sequence.
-        </p>
+        <p>Dynamic programming often sounds intimidating, but it is easiest to understand when applied to simple, physical scenarios. A perfect example of this is the classic <strong>Climbing Stairs</strong> problem. In this puzzle, you are standing at the bottom of a staircase with <code>n</code> steps. Your goal is to reach the top. At any point, you can choose to climb either <code>1</code> step or <code>2</code> steps at a time. The challenge is to find how many distinct ways you can reach the very top.</p>
 
-        
+        <p>This problem is a classic introduction to dynamic programming because it is built entirely on subproblems. To land on the final <code>n</code>-th step, your last move must have been either a single step from the <code>(n-1)</code>-th step or a double step from the <code>(n-2)</code>-th step. Consequently, the total number of ways to reach step <code>n</code> is simply the sum of the ways to reach the last two steps before it. This mathematical relationship, <code>Ways(n) = Ways(n-1) + Ways(n-2)</code>, is identical to the Fibonacci sequence.</p>
+
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/climbing_stairs.png"
+            alt="Illustration of Climbing Stairs subproblem transition tree in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Metaphor: 
-          <p>Imagine a small frog hopping up a staircase. If the frog wants to get to the 4th step, it could have hopped
-            there from the 3rd step (by doing a single hop) or from the 2nd step (by doing a double hop). The frog
-            cannot reach the 4th step directly from the 1st step or ground level in a single move. Thus, all the paths
-            the frog could take to reach the 4th step are just combinations of all paths to the 2nd step and all paths
-            to the 3rd step.</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Frog Metaphor
+          </div>
+          <p>Think of this problem through a simple metaphor of a small frog hopping up a flight of stairs. If the frog is aiming for the 4th step, there are only two positions it could have hopped from: the 3rd step (using a 1-step hop) or the 2nd step (using a 2-step hop). The frog cannot reach the 4th step directly from the ground or the 1st step in a single move. Because of this, counting all the distinct paths to the 4th step is as simple as combining all the paths that lead to the 2nd step with all the paths that lead to the 3rd step.</p>
         </div>
 
-        <h2>The Approach</h2>
-        <h3>1. Dynamic Programming (O(n) Time, O(n) Space)</h3>
-        <p>We can declare a memoization array <code>dp</code> where <code>dp[i]</code> stores the number of ways to
-          reach the <code>i</code>-th step. We populate it iteratively from step <code>3</code> to <code>n</code> using
-          <code>dp[i] = dp[i-1] + dp[i-2]</code>. This avoids repeating calculation of subproblems.</p>
+        <h2>The Algorithmic Approaches</h2>
+        <p>We can solve this problem using two distinct levels of optimization:</p>
 
-        <h3>2. Space-Optimized Dynamic Programming (O(n) Time, O(1) Space)</h3>
-        <p>Notice that to calculate the ways to reach the current step, we only ever need the values of the last two
-          steps. Instead of keeping the entire <code>dp</code> array of size <code>n + 1</code>, we can keep track of
-          only two variables: <code>first</code> (representing <code>dp[i-2]</code>) and <code>second</code>
-          (representing <code>dp[i-1]</code>). We iteratively update them as we step forward. This reduces the space
-          complexity from linear <code>O(n)</code> to a constant <code>O(1)</code>.
+        <h3>1. Standard Dynamic Programming (Linear Space)</h3>
+        <p>We can create a memoization array, <code>dp</code>, where each index <code>i</code> stores the number of ways to reach the <code>i</code>-th step. Starting from the bottom, we fill the array step-by-step using our recurrence relation, <code>dp[i] = dp[i-1] + dp[i-2]</code>. This approach is clean and runs in <code>O(n)</code> time, but it uses <code>O(n)</code> auxiliary memory to store the array.</p>
+
+        <h3>2. Space-Optimized Dynamic Programming (Constant Space)</h3>
+        <p>If you look closely at the recurrence relation, you'll realize we only ever need the results of the last two steps to calculate the next one. We don't actually need to remember the entire staircase history. Instead of storing a whole array, we can keep track of just two variables: <code>first</code> (the ways to reach the step before last) and <code>second</code> (the ways to reach the immediate previous step). By updating these two values as we walk up, we reduce our space complexity to <code>O(1)</code> while maintaining the <code>O(n)</code> running time.</p>
+
+        <h2>Step-by-Step Execution Walkthrough</h2>
+        <p>Let's trace this space-optimized algorithm for a staircase with <code>n = 5</code> steps:
+        <ol>
+          <li><strong>Initialize:</strong> Since <code>5</code> is greater than <code>2</code>, we set up our base variables: <code>first = 1</code> (ways to reach step 1) and <code>second = 2</code> (ways to reach step 2).</li>
+          <li><strong>Step 3:</strong> The ways to reach step 3 is <code>first + second = 1 + 2 = 3</code>. We shift our window forward: <code>first</code> becomes <code>2</code>, and <code>second</code> becomes <code>3</code>.</li>
+          <li><strong>Step 4:</strong> The ways to reach step 4 is <code>2 + 3 = 5</code>. We shift the window again: <code>first</code> becomes <code>3</code>, and <code>second</code> becomes <code>5</code>.</li>
+          <li><strong>Step 5:</strong> The ways to reach the final step is <code>3 + 5 = 8</code>. We shift variables: <code>first</code> becomes <code>5</code>, and <code>second</code> becomes <code>8</code>.</li>
+          <li><strong>Done:</strong> The loop terminates, and we return our final answer: <code>8</code> distinct ways.</li>
+        </ol>
         </p>
 
-        <h2>How It Works</h2>
-        <p>Let's trace the space-optimized algorithm for <code>n = 5</code>:</p>
-        <ol>
-          <li><strong>Step 1 (Base Cases):</strong> For <code>n = 5</code>, since it's greater than 2, we initialize:
-            <ul>
-              <li><code>first = 1</code> (representing ways to reach step 1)</li>
-              <li><code>second = 2</code> (representing ways to reach step 2)</li>
-            </ul>
-          </li>
-          <li><strong>Step 2 (Iteration i = 3):</strong>
-            <ul>
-              <li>Compute: <code>third = first + second = 1 + 2 = 3</code>.</li>
-              <li>Update state: <code>first = 2</code>, <code>second = 3</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 3 (Iteration i = 4):</strong>
-            <ul>
-              <li>Compute: <code>third = first + second = 2 + 3 = 5</code>.</li>
-              <li>Update state: <code>first = 3</code>, <code>second = 5</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 4 (Iteration i = 5):</strong>
-            <ul>
-              <li>Compute: <code>third = first + second = 3 + 5 = 8</code>.</li>
-              <li>Update state: <code>first = 5</code>, <code>second = 8</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 5 (Final Result):</strong> The loop ends. We return <code>second</code>, which is
-            <code>8</code>. There are 8 distinct ways to climb 5 stairs.</li>
-        </ol>
-
         <h2>How the Code Works</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <p>Let's look at the key details of the code logic:
         <ul>
-          <li><code>if (n &lt;= 2) return n;</code>: Immediately handles the base cases where the number of stairs is 1
-            or 2, avoiding loop overhead.</li>
-          <li><code>int third = first + second;</code>: Represents the core Fibonacci relation, combining the subproblem
-            results of the two previous steps.</li>
-          <li><code>first = second; second = third;</code>: Shifts our sliding window variables forward by one step,
-            preparing them for the next iteration.</li>
+          <li><code>if (n &lt;= 2) return n;</code>: Immediately handles the base cases where the number of stairs is 1 or 2, avoiding loop overhead.</li>
+          <li><code>int third = first + second;</code>: Represents the core Fibonacci relation, combining the subproblem results of the two previous steps.</li>
+          <li><code>first = second; second = third;</code>: Shifts our sliding window variables forward by one step, preparing them for the next iteration.</li>
         </ul>
+        </p>
 
-        <h2>The Java Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <h2>Java Implementation Code</h2>
+        <p>Here is the complete Java implementation of this optimized approach. The code immediately handles the base cases for staircases with 2 or fewer steps, then runs a simple loop to calculate the ways dynamically.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
@@ -262,10 +231,8 @@ public class ClimbingStairs {
 }
 </code></pre>
 
-        <h2>Takeaways</h2>
-        <p>The Climbing Stairs problem is an excellent entry point into Dynamic Programming. We progress from a naive
-          recursive solution with exponential complexity to an optimized iterative solution that runs in linear
-          <code>O(n)</code> time and uses constant <code>O(1)</code> extra space.</p>
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>By transitioning from a naive recursive design to an iterative sliding-window approach, we resolve the problem optimally. The final solution runs in linear <code>O(n)</code> time and uses a constant <code>O(1)</code> extra space. This makes it an incredibly efficient solution, showing how identifying and caching overlapping subproblems can dramatically optimize code performance.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

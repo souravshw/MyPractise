@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -138,17 +138,16 @@
           <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
-        <h1 class="article-title">Solving HackerRank's Min-Max Sum Challenge</h1>
+        <h1 class="article-title">Solving HackerRank's Min-Max Sum Challenge in Java</h1>
       </header>
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In competitive programming, the <strong>Min-Max Sum</strong> challenge asks you to take five positive
-          integers and find the minimum and maximum values that can be calculated by summing exactly four of those five
-          integers. While it sounds simple, the primary trap in this challenge is <strong>integer overflow</strong>.</p>
+        <p>When beginning competitive programming, problems that seem mathematically simple often contain hidden traps. HackerRank's <strong>Min-Max Sum</strong> challenge is a perfect example of this.</p>
 
-        <p>In this guide, we will solve the problem efficiently using Java 8 Streams and review how to avoid numerical
-          overflow bounds.</p>
+        <p>The problem asks us to take five positive integers and calculate the minimum and maximum sums possible by combining exactly four of them. While the arithmetic is basic, the core challenge lies in understanding how data types handle large numerical boundaries.</p>
+
+        <p>For instance, when input integers approach one billion, summing them exceeds standard 32-bit storage limits. To write a production-ready solution, we must avoid numerical overflow. In this tutorial, we will explore both functional Stream-based reduction and optimized single-pass loops to solve this safely in Java.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -159,101 +158,109 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Metaphor: 
-          <p>Imagine you have 5 weights: 1g, 2g, 3g, 4g, and 5g. You want to pick exactly 4 weights:</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Five Weights Balance
+          </div>
+          <p>To visualize the underlying math, imagine you have five physical weights sitting on a table: <code>1g</code>, <code>2g</code>, <code>3g</code>, <code>4g</code>, and <code>5g</code>. You are asked to choose exactly four of these weights and calculate their combined weight.</p>
           <ul>
-            <li><strong>Minimum Sum:</strong> To get the lightest sum, you leave behind the heaviest weight (5g). The
-              sum is: <code>1 + 2 + 3 + 4 = 10</code>.</li>
-            <li><strong>Maximum Sum:</strong> To get the heaviest sum, you leave behind the lightest weight (1g). The
-              sum is: <code>2 + 3 + 4 + 5 = 14</code>.</li>
+            <li><strong>For the Minimum Sum:</strong> To obtain the lightest possible combination, you leave behind the single heaviest weight (<code>5g</code>). The remaining weights sum to <code>1 + 2 + 3 + 4 = 10g</code>.</li>
+            <li><strong>For the Maximum Sum:</strong> To obtain the heaviest possible combination, you leave behind the single lightest weight (<code>1g</code>). The remaining weights sum to <code>2 + 3 + 4 + 5 = 14g</code>.</li>
           </ul>
-          <p>Mathematically, you don't need to try every combination. You simply calculate the <strong>total
-              sum</strong> of all 5 weights, and then:
+          <p>Instead of calculating every permutation of four weights, the most efficient method is to find the <strong>total sum</strong> of all five weights. From there:
           <ul>
-            <li><code>Min Sum = Total Sum - Max Value</code></li>
-            <li><code>Max Sum = Total Sum - Min Value</code></li>
+            <li><code>Minimum Sum = Total Sum - Maximum Element</code></li>
+            <li><code>Maximum Sum = Total Sum - Minimum Element</code></li>
           </ul>
+          This logic requires finding only the min, max, and total sum of the dataset in a single pass.
           </p>
         </div>
 
-        <h2>1. The Stream Reduce Solution</h2>
-        <p>Using Java 8 Streams, we can scan the array to find the minimum value, maximum value, and total sum using
-          <code>reduce()</code>:</p>
-        <pre><code class="language-java">public static void miniMaxSum(List&lt;Integer&gt; arr) {
-    // 1. Find the minimum value
-    int minValue = arr.stream().reduce(arr.get(0), (min, element) -> {
-        return min > element ? element : min;
-    });
-
-    // 2. Find the maximum value
-    int maxValue = arr.stream().reduce(arr.get(0), (max, element) -> {
-        return max < element ? element : max;
-    });
-
-    // 3. Find the total sum
-    int totalSum = arr.stream().reduce(0, (sum, element) -> {
-        return sum + element;
-    });
-
-    // 4. Print sums excluding extremes
-    System.out.println((totalSum - maxValue) + " " + (totalSum - minValue));
-}</code></pre>
+        <h2>Algorithmic Solutions & Integer Overflow</h2>
+        <p>We can implement this logic in Java using two different coding styles:
+        <ol>
+          <li><strong>Functional Stream Reduction:</strong> We convert our list into a stream and apply <code>.reduce()</code> operators to calculate the minimum value, maximum value, and overall sum. This declarative style is highly readable.</li>
+          <li><strong>Greedy Single-Loop Pass:</strong> We loop through the list once, updating our running <code>minValue</code> and <code>maxValue</code> checkers, while accumulating a running sum.</li>
+        </ol>
+        </p>
 
         <div class="analogy-box" style="border-left-color: var(--accent-color);">
           <div class="analogy-box-title" style="color: var(--accent-color);">
             Warning: The Integer Overflow Trap!
           </div>
-          <p>
-            If the five input values are large (e.g. <code>1,000,000,000</code>), their total sum will be
-            <code>5,000,000,000</code>.
-            Because a standard 32-bit Java <code>int</code> only supports values up to <code>2,147,483,647</code>,
-            summing them will overflow, returning incorrect negative results!
-            <strong>Solution:</strong> Always store the total sum using a 64-bit <code>long</code> type.
-          </p>
+          <p>A standard 32-bit Java <code>int</code> supports values up to <code>2,147,483,647</code>. If the five input values are large (such as <code>1,000,000,000</code>), the sum becomes <code>5,000,000,000</code>, which overflows the integer range and yields incorrect negative numbers.</p>
+          <p>To prevent this truncation, we must declare the sum using a 64-bit <code>long</code> data type, which supports values up to <code>9,223,372,036,854,775,807</code>. Using <code>long</code> variables guarantees correct calculations.</p>
         </div>
 
-        <h2>The Java Code</h2>
-        <p>Below is the complete solution including IO reading:</p>
-        <pre><code class="language-java">package io.practise.hackerrank;
+        <h2>Step-by-Step Scenario Trace</h2>
+        <p>Let's trace a sample array: <code>arr = [1, 3, 5, 7, 9]</code>:
+        <ul>
+          <li><strong>Step 1 (Initialization):</strong> We set <code>minValue = 1</code>, <code>maxValue = 1</code>, <code>totalSum = 0</code>.</li>
+          <li><strong>Step 2 (Looping & Accumulation):</strong>
+            <ul>
+              <li>For <code>1</code>: <code>totalSum = 1</code>. Trackers remain unchanged.</li>
+              <li>For <code>3</code>: <code>totalSum = 4</code>. Since <code>3 &gt; maxValue</code>, <code>maxValue = 3</code>.</li>
+              <li>For <code>5</code>: <code>totalSum = 9</code>. Since <code>5 &gt; maxValue</code>, <code>maxValue = 5</code>.</li>
+              <li>For <code>7</code>: <code>totalSum = 16</code>. Since <code>7 &gt; maxValue</code>, <code>maxValue = 7</code>.</li>
+              <li>For <code>9</code>: <code>totalSum = 25</code>. Since <code>9 &gt; maxValue</code>, <code>maxValue = 9</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Final Calculation):</strong>
+            <ul>
+              <li><code>Min Sum = 25 - 9 = 16</code> (sum of <code>1 + 3 + 5 + 7</code>).</li>
+              <li><code>Max Sum = 25 - 1 = 24</code> (sum of <code>3 + 5 + 7 + 9</code>).</li>
+            </ul>
+          </li>
+        </ul>
+        Our console prints <code>16 24</code>.
+        </p>
 
+        <h2>Java Implementation Code</h2>
+        <p>Below is the complete solution including input reading:</p>
+
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.hackerrank;
+ 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
-
+ 
 public class MinMaxSum {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-
+ 
         List&lt;Integer&gt; arr = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
                 .map(Integer::parseInt)
                 .collect(toList());
-
+ 
         miniMaxSum(arr);
         bufferedReader.close();
     }
-
+ 
     public static void miniMaxSum(List&lt;Integer&gt; arr) {
         long minValue = arr.get(0);
         long maxValue = arr.get(0);
         long totalSum = 0;
-
+ 
         for (int val : arr) {
             totalSum += val; // Prevents overflow via long arithmetic
             if (val < minValue) minValue = val;
             if (val > maxValue) maxValue = val;
         }
-
+ 
         System.out.println((totalSum - maxValue) + " " + (totalSum - minValue));
     }
 }</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>The Min-Max Sum challenge is a great study in optimization. By calculating the total sum once, we avoid
-          nesting loops, and by using <code>long</code> data structures, we protect the program against data truncation
-          errors.</p>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>This greedy algorithm runs in <code>O(N)</code> linear time complexity (where <code>N</code> is the number of elements) and uses <code>O(1)</code> constant space. By utilizing the mathematical relationship between the total sum and extreme values, we solve the challenge in a single pass while using proper type declarations to avoid integer overflows.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -144,13 +144,10 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In data analytics, you will often need to sort collections not by the values of the elements themselves, but
-          by their <strong>frequency</strong> (how many times they occur in the dataset). For example, if you are
-          sorting user actions or search queries, you want to show the most popular items first.</p>
+        <p>In many software engineering and data analytics applications, standard sorting algorithms (which order elements based on their natural values or alphabetical characters) are insufficient. Often, you need to sort collections based on their <strong>frequency of occurrence</strong>—meaning the most popular, repeating elements appear at the beginning of the list.</p>
 
-        <p>In this guide, we will look at how to implement a frequency-sorting algorithm using Java 8 Streams, grouping
-          elements into maps, and sorting them by counts.</p>
-
+        <p>Whether you are building a trending search query dashboard, prioritizing system alert logs, or solving LeetCode interview challenges like "Sort Characters By Frequency", grouping and sorting collections by their occurrences is a fundamental pattern. In Java, implementing this iteratively with loops and nested collections can quickly lead to verbose, error-prone code. Fortunately, Java 8 Streams and Collectors provide a clean, declarative way to perform this operation. In this guide, we will analyze the logic of frequency-based sorting and walk through a clean Java implementation.</p>
+ 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/top_k_elements.svg" alt="Illustration representing leaderboards and element frequencies"
@@ -159,48 +156,51 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine having a pile of fruit containing 4 Apples, 3 Bananas, and 1 Pear:</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Grocery Checkout Display
+          </div>
+          <p>To visualize frequency sorting, imagine a grocery store cashier sorting a customer's shopping cart:</p>
           <ul>
-            <li>If you sort them <strong>alphabetically</strong>, you get: Apple, Banana, Pear.</li>
-            <li>If you sort them <strong>by popularity (frequency)</strong>, you sort them into baskets, count them, and
-              align them: Baskets with the most fruit go first. You end up with: Apples, then Bananas, and finally
-              Pears.</li>
+            <li><strong>Alphabetical Sorting:</strong> If the customer buys 4 apples, 3 bananas, and 1 pear, an alphabetical sort lists them as: Apple, Apple, Apple, Apple, Banana, Banana, Banana, Pear.</li>
+            <li><strong>Frequency-Based Sorting:</strong> A popularity-based sort first groups identical fruits into separate checkout baskets, counts the quantity in each basket, and then arranges the baskets in descending order. The apples basket (count 4) is processed first, followed by bananas (count 3), and finally the single pear.</li>
           </ul>
+          In software design, this translates to counting occurrences before rearranging the primary list.
         </div>
 
         <h2>1. Step 1: Grouping and Counting</h2>
-        <p>We use <code>Collectors.groupingBy()</code> and <code>Collectors.counting()</code> to build a Map where keys
-          are the elements and values are their occurrence counts:</p>
+        <p>The first step is to transform our flat list of elements into a frequency lookup table. We use <code>Collectors.groupingBy()</code> alongside <code>Collectors.counting()</code> to build a map where keys are the unique list elements and values represent their respective frequency count:</p>
         <pre><code class="language-java">Map&lt;Integer, Long&gt; frequencyMap = list.stream()
         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-// Input: {2, 3, 2, 2, 5, 5, 6, 5, 7, 5, 3, 1}
-// Output Map: {1=1, 2=3, 3=2, 5=4, 6=1, 7=1}</code></pre>
-
-        <h2>2. Step 2: Sorting Map Entries by Value</h2>
-        <p>Next, we stream the entry set of the map, sort it in descending order of values (counts), and process the
-          results:</p>
+// Input: {2, 3, 2, 2, 5, 5, 6}
+// Output Map: {2=3, 3=1, 5=2, 6=1}</code></pre>
+ 
+        <h2>2. Step 2: Sorting and Re-expanding</h2>
+        <p>Once the map is generated, we stream its entry set and sort the entries in descending order based on their value (the counts). Finally, we iterate through the sorted entries and expand each key back into our output list according to its count:</p>
         <pre><code class="language-java">frequencyMap.entrySet().stream()
-        .sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue())) // Sort by count descending
+        .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
         .collect(Collectors.toList());</code></pre>
-
+ 
         <h2>Implementation in Java</h2>
-        <p>Below is the complete Java code that groups the elements, sorts the map, and expands the keys back into a
-          sorted output list:</p>
+        <p>Below is the complete Java code that groups the elements, sorts the map, and expands the keys back into a sorted output list:</p>
 
         <pre><code class="language-java">package io.practise.leetcode.medium;
-
+ 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
+ 
 public class SortBasedOnOccurance {
     public static void main(String[] args) {
         List&lt;Integer&gt; list = Arrays.asList(2, 3, 2, 2, 5, 5, 6, 5, 7, 5, 3, 1);
         List&lt;Integer&gt; output = new ArrayList&lt;&gt;();
-
+ 
         // 1. Group by element and count occurrences
         list.stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
@@ -214,17 +214,15 @@ public class SortBasedOnOccurance {
                         output.add(entry.getKey());
                     }
                 });
-
+ 
         System.out.println("Input:  " + list);
         System.out.println("Output: " + output);
         // Output: [5, 5, 5, 5, 2, 2, 2, 3, 3, 6, 7, 1]
     }
 }</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>Frequency sorting is a powerful pipeline pattern. By combining <code>Collectors.groupingBy()</code> with
-          stream entry comparison, you can convert complex counting-and-sorting loops into a single declarative Java
-          statement.</p>
+ 
+        <h2>Conclusion &amp; Takeaways</h2>
+        <p>Frequency-based sorting is a classic pattern in data processing. By leveraging Java Streams' mapping utilities, you can replace complex nested loops with a declarative stream pipeline that is easy to read, optimize, and maintain across enterprise collections.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

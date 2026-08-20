@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -134,7 +134,7 @@
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
-          <span class="post-category">Java</span>
+          <span class="post-category">Java Exceptions</span>
           <span class="post-date">June 19, 2026</span>
           <span>•</span>
           <span class="post-read-time">4 min read</span>
@@ -144,33 +144,31 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Exception handling is all about planning for failures. In Java, a single block of code can potentially throw
-          multiple types of exceptions. To handle this, we chain multiple catch blocks. Furthermore, Java guarantees
-          that a <code>finally</code> block executes no matter what—except under one critical trap.</p>
-
-        <p>In this guide, we will trace how multiple catches execute, and examine when the "always executed" finally
-          block is bypassed.</p>
-
-        
-
+        <p>Robust software development requires planning for operational failures. In Java, a single operation (like parsing a configuration file or connecting to a network socket) can fail in multiple distinct ways, resulting in different exceptions. To handle these scenarios gracefully, Java permits you to chain <strong>multiple catch blocks</strong> to a single <code>try</code> statement. Additionally, Java provides the <code>finally</code> block, which is traditionally used to clean up resources, close network connections, and release file handles. However, even though Java guarantees that <code>finally</code> blocks are "always executed", there are subtle runtime traps where this execution is bypassed. In this guide, we will analyze the ordering of multiple catch blocks and explore the <code>System.exit()</code> trap.</p>
+ 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Metaphor: 
-          <p>Imagine dropping balls down a series of funnels:</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Sorted Funnel System
+          </div>
+          <p>To visualize exception chaining and cleanup, imagine a material recycling plant sorting plastic containers:</p>
           <ul>
-            <li><strong>Multiple Catch Blocks:</strong> The top funnel filters out specific red balls
-              (ArithmeticException). The middle funnel catches blue balls (ArrayIndexOutOfBoundsException). The bottom
-              wide funnel catches all remaining balls (generic Exception). If you place the wide funnel at the top, it
-              swallows everything, rendering the specific ones useless.</li>
-            <li><strong>The finally Block:</strong> At the end of the day, no matter what balls fell down the funnels,
-              the janitor sweeps the floor (cleanup operations). The only way they don't clean is if someone pulls the
-              building's fire alarm and forces everyone to evacuate immediately (`System.exit()`).</li>
+            <li><strong>Chained Catch Blocks:</strong> The sorting line has a series of funnels. The first narrow funnel filters out small red caps (<code>ArithmeticException</code>). The second funnel catches blue containers (<code>ArrayIndexOutOfBoundsException</code>). The final, wide-open hopper catches all remaining general plastics (generic <code>Exception</code>). If you place the wide hopper at the top, it swallows all containers immediately, rendering the lower, specialized filters completely useless.</li>
+            <li><strong>The <code>finally</code> Block (The Janitor):</strong> At the end of the shift, regardless of what items passed through the funnels or got stuck, the janitor is guaranteed to sweep the floor and clean the facility. The only scenario where the janitor does not clean is if an emergency fire alarm rings (<code>System.exit()</code>), forcing everyone to drop their brooms and evacuate the building immediately.</li>
           </ul>
         </div>
 
-        <h2>1. Chaining Multiple Catch Blocks</h2>
-        <p>When write multiple catch blocks, Java checks them sequentially from top to bottom. You must always place
-          specific exceptions above parent exceptions:</p>
+        <h2>Chaining Multiple Catch Blocks: Order Matters</h2>
+        <p>When chaining multiple catch blocks, the Java compiler enforces a strict <strong>subclass-to-superclass order</strong>. Because Java resolves catch blocks sequentially from top to bottom, a parent exception class will catch its own type and all of its subclass exceptions. If you place a broad parent exception (like <code>Exception</code> or <code>RuntimeException</code>) above a specific child exception (like <code>NullPointerException</code>), the child block becomes unreachable. The Java compiler detects this shadow code and fails with a compile-time error. Therefore, always order catch blocks from the most specific subclass to the most general ancestor.</p>
+
+        <p>Here is a code implementation demonstrating proper catch block hierarchy when handling arithmetic and indexing errors:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">public class MulCatch {
     public static void main(String args[]) {
         try {
@@ -185,13 +183,13 @@
         }
     }
 }</code></pre>
-        <p>If you put the generic <code>catch (Exception e)</code> at the top, the compiler throws a "Variable already
-          defined / Unreachable catch block" error because all exceptions extend <code>Exception</code>, making lower
-          blocks unreachable.</p>
+ 
+        <h2>The <code>finally</code> Block and the <code>System.exit()</code> Trap</h2>
+        <p>The <code>finally</code> block is designed to execute whether or not an exception is thrown, caught, or propagates up the stack. However, if the application invokes <strong><code>System.exit(int status)</code></strong> within a <code>try</code> or <code>catch</code> block, the JVM immediately terminates the current running process. Because the entire JVM process halts instantly, the execution pipeline is cut off, and the <code>finally</code> block is bypassed. Other scenarios that bypass the <code>finally</code> block include hardware power failure, operating system process termination (like <code>kill -9</code>), or JVM thread deadlocks.</p>
 
-        <h2>2. The finally Block and the System.exit() Trap</h2>
-        <p>Developers are taught that the code inside the <code>finally</code> block executes regardless of whether an
-          exception occurs or is caught. However, look at this exception handler:</p>
+        <p>Below is a demonstration of the <code>System.exit()</code> execution trap, where the <code>finally</code> block fails to run:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">public class FinalExample {
     public static void main(String args[]) {
         try {
@@ -205,20 +203,9 @@
         }
     }
 }</code></pre>
-
-        <p>Normally, the finally block runs right after the catch block finishes. But because we called
-          <code>System.exit(0)</code>, the JVM is terminated immediately. The system halts, and the console never prints
-          the finally statement!</p>
-
-        <h2>Takeaways</h2>
-        <p>When design try-catch blocks:
-        <ul>
-          <li>Order catch blocks from most specific subclasses to most generic parent classes.</li>
-          <li>Use <code>finally</code> for releasing file handles, closing sockets, or db connections.</li>
-          <li>Remember: <code>System.exit(0)</code>, system crashes, or power outages will bypass the finally execution.
-          </li>
-        </ul>
-        </p>
+ 
+        <h2>Conclusion & Design Guidelines</h2>
+        <p>When designing exception handling logic, always position specific catch blocks at the top of the chain to handle known failure modes, and place a generic catch block at the bottom as a safety net. Use the <code>finally</code> block (or Java's modern try-with-resources statement) to release system resources, but keep in mind that critical JVM shutdowns will skip this cleanup.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

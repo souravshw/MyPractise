@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -127,12 +127,11 @@
         </ol>
       </nav>
 
-      <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding House Robber in Java</h1>
@@ -140,121 +139,79 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Understanding the Challenge</h2>
-        <p>The <strong>House Robber</strong> problem describes a scenario where a robber plans to rob houses along a
-          street. Each house has a certain amount of money stashed. However, adjacent houses have security systems
-          connected, and it will automatically contact the police if two adjacent houses are broken into on the same
-          night.</p>
-        <p>Given an integer array <code>nums</code> representing the amount of money in each house, our goal is to
-          determine the maximum amount of money we can rob tonight without alerting the police.
-          For instance, if <code>nums = [2, 7, 9, 3, 1]</code>, the optimal choice is to rob house 1 (value 2), house 3
-          (value 9), and house 5 (value 1), yielding a total of <code>2 + 9 + 1 = 12</code>. Robbing house 2 (value 7)
-          and house 4 (value 3) only gives 10.
-        </p>
+        <p>In algorithm design, dynamic programming is a powerful tool for solving optimization problems by breaking them down into smaller overlapping subproblems. A classic challenge that perfectly demonstrates this paradigm is LeetCode's <strong>House Robber</strong> problem.</p>
 
-        
+        <p>The problem statement describes a robber planning to rob houses along a street. Each house contains a certain amount of cash. However, neighboring houses have connected security alarms; if the robber breaks into two adjacent houses on the same night, the system alerts the police.</p>
+
+        <p>Given an array of integers representing the money in each house, our goal is to find the maximum sum of money we can rob without robbing adjacent houses.</p>
+ 
+        <p>For instance, given the loot values <code>[2, 7, 9, 3, 1]</code>, robbing the first, third, and fifth houses yields the optimal total of <code>2 + 9 + 1 = 12</code>. In this guide, we will walk through the logic of transition states to design an optimized, space-efficient Java solution.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Analogy: 
-          <p>Imagine walking down a path of stepping stones. Each stepping stone has a gold coin, but stepping on two
-            adjacent stones sounds a loud siren. At each step, you must make a strategic decision: do you step on the
-            current stone and add its coin to your loot (which means you must have skipped the stone immediately before
-            it), or do you skip the current stone altogether (maintaining the total loot you had at the previous stone)?
-            You dynamically track the best cumulative reward at every step.</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Gold Coin Stepping Stones
+          </div>
+          <p>To visualize this problem, imagine walking along a pathway of stepping stones. Each stone has a specific number of gold coins sitting on it. The catch is that stepping on two adjacent stones triggers a loud siren.</p>
+          <p>As you stand before each stepping stone, you must make a choice:
+          <ul>
+            <li><strong>Option 1 (Step on it):</strong> You collect the gold on the current stone. Because you cannot step on the immediate predecessor, your total gold is the coin value of the current stone plus the maximum gold accumulated up to two stones ago.</li>
+            <li><strong>Option 2 (Skip it):</strong> You skip the current stone. Your total gold is simply the maximum amount of gold you had collected up to the previous stone.</li>
+          </ul>
+          To maximize your loot, you choose the option that yields the larger sum. You repeat this decision at every stone, carrying forward your running total.
+          </p>
         </div>
 
-        <h2>The Strategy</h2>
-        <h3>1. Dynamic Programming (O(n) Time, O(n) Space)</h3>
-        <p>We can define a state array <code>dp</code>, where <code>dp[i]</code> represents the maximum money we can rob
-          from the first <code>i</code> houses. At the <code>i</code>-th house:
+        <h2>Dynamic Programming Strategies</h2>
+        <h3>1. The Full State Array Approach (O(N) Time, O(N) Space)</h3>
+        <p>We can allocate a <code>dp</code> array where <code>dp[i]</code> represents the maximum loot we can get from robbing the first <code>i</code> houses. At the <code>i</code>-th house, our recurrence relation is: <code>dp[i] = Math.max(dp[i-1], dp[i-2] + nums[i])</code>. This builds a complete historical ledger of all optimal paths.</p>
+ 
+        <h3>2. Space-Optimized Approach (O(N) Time, O(1) Space)</h3>
+        <p>Since calculating the state for house <code>i</code> only requires the values of the last two states (<code>dp[i-1]</code> and <code>dp[i-2]</code>), storing the entire array is redundant. We can keep track of these two states using two variables:
         <ul>
-          <li>If we rob house <code>i</code>, we cannot rob house <code>i-1</code>. The max loot is
-            <code>dp[i-2] + nums[i]</code>.</li>
-          <li>If we skip house <code>i</code>, the max loot is the same as <code>dp[i-1]</code>.</li>
+          <li><code>prev1</code>: The maximum money robbed up to the previous house.</li>
+          <li><code>prev2</code>: The maximum money robbed up to two houses ago.</li>
         </ul>
-        Thus, our recurrence relation is: <code>dp[i] = Math.max(dp[i-1], dp[i-2] + nums[i])</code>.
+        As we iterate through each house, we compute the current maximum, then shift <code>prev2</code> and <code>prev1</code> forward. This achieves linear runtime with zero extra space overhead.
         </p>
 
-        <h3>2. Space-Optimized Dynamic Programming (O(n) Time, O(1) Space)</h3>
-        <p>To calculate the result for house <code>i</code>, we only need the results of the last two states
-          (<code>dp[i-1]</code> and <code>dp[i-2]</code>).
-          Instead of keeping a full array, we can use two variables:
+        <h2>Step-by-Step Scenario Walkthrough</h2>
+        <p>Let's trace the space-optimized algorithm with the array <code>nums = [2, 7, 9, 3, 1]</code>:
         <ul>
-          <li><code>prev1</code>: The maximum loot from robbing up to the previous house (corresponds to
-            <code>dp[i-1]</code>).</li>
-          <li><code>prev2</code>: The maximum loot from robbing up to two houses ago (corresponds to
-            <code>dp[i-2]</code>).</li>
+          <li><strong>Initialization:</strong> Set <code>prev1 = 0</code>, <code>prev2 = 0</code>.</li>
+          <li><strong>House 1 (val = 2):</strong> Max loot is <code>Math.max(prev2 + 2, prev1) = Math.max(0 + 2, 0) = 2</code>. Update: <code>prev2 = 0</code>, <code>prev1 = 2</code>.</li>
+          <li><strong>House 2 (val = 7):</strong> Max loot is <code>Math.max(prev2 + 7, prev1) = Math.max(0 + 7, 2) = 7</code>. Update: <code>prev2 = 2</code>, <code>prev1 = 7</code>.</li>
+          <li><strong>House 3 (val = 9):</strong> Max loot is <code>Math.max(prev2 + 9, prev1) = Math.max(2 + 9, 7) = 11</code>. Update: <code>prev2 = 7</code>, <code>prev1 = 11</code>.</li>
+          <li><strong>House 4 (val = 3):</strong> Max loot is <code>Math.max(prev2 + 3, prev1) = Math.max(7 + 3, 11) = 11</code>. Update: <code>prev2 = 11</code>, <code>prev1 = 11</code>.</li>
+          <li><strong>House 5 (val = 1):</strong> Max loot is <code>Math.max(prev2 + 1, prev1) = Math.max(11 + 1, 11) = 12</code>. Update: <code>prev2 = 11</code>, <code>prev1 = 12</code>.</li>
         </ul>
-        As we iterate through each house, we compute the current maximum, then shift <code>prev2</code> and
-        <code>prev1</code> forward. This achieves linear runtime with zero extra space overhead.
+        The loop terminates, and we return the final value of <code>prev1</code>, which is <code>12</code>.
         </p>
 
-        <h2>How It Works</h2>
-        <p>Let's trace the space-optimized algorithm for <code>nums = [2, 7, 9, 3, 1]</code>:</p>
-        <ol>
-          <li><strong>Step 1 (Initialization):</strong> Initialize variables representing loot from -1 and -2 houses
-            ago:
-            <ul>
-              <li><code>prev1 = 0</code></li>
-              <li><code>prev2 = 0</code></li>
-            </ul>
-          </li>
-          <li><strong>Step 2 (House 1: val = 2):</strong>
-            <ul>
-              <li>Determine max: <code>current = Math.max(prev2 + 2, prev1) = Math.max(0 + 2, 0) = 2</code>.</li>
-              <li>Update state: <code>prev2 = prev1 (0)</code>, <code>prev1 = current (2)</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 3 (House 2: val = 7):</strong>
-            <ul>
-              <li>Determine max: <code>current = Math.max(prev2 + 7, prev1) = Math.max(0 + 7, 2) = 7</code>.</li>
-              <li>Update state: <code>prev2 = 2</code>, <code>prev1 = 7</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 4 (House 3: val = 9):</strong>
-            <ul>
-              <li>Determine max: <code>current = Math.max(prev2 + 9, prev1) = Math.max(2 + 9, 7) = 11</code>.</li>
-              <li>Update state: <code>prev2 = 7</code>, <code>prev1 = 11</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 5 (House 4: val = 3):</strong>
-            <ul>
-              <li>Determine max: <code>current = Math.max(prev2 + 3, prev1) = Math.max(7 + 3, 11) = 11</code>.</li>
-              <li>Update state: <code>prev2 = 11</code>, <code>prev1 = 11</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 6 (House 5: val = 1):</strong>
-            <ul>
-              <li>Determine max: <code>current = Math.max(prev2 + 1, prev1) = Math.max(11 + 1, 11) = 12</code>.</li>
-              <li>Update state: <code>prev2 = 11</code>, <code>prev1 = 12</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 7 (Final Result):</strong> The loop completes. We return <code>prev1</code>, which is
-            <code>12</code>.</li>
-        </ol>
-
-        <h2>Key Explanations</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <h2>Key Code Explanations</h2>
+        <p>Here is why the main logic in the solution is important:
         <ul>
-          <li><code>int temp = prev1;</code>: Caches the previous house's total loot so it can become the value for "two
-            houses ago" (<code>prev2</code>) in the next step.</li>
-          <li><code>Math.max(prev2 + num, prev1);</code>: Evaluates the fundamental subproblem choiceâ€”should we rob the
-            current house (taking money from two houses ago + current loot) or skip it (taking previous house's total
-            loot)?</li>
+          <li><code>int temp = prev1;</code>: Caches the previous house's total loot so it can become the value for "two houses ago" (<code>prev2</code>) in the next step.</li>
+          <li><code>Math.max(prev2 + num, prev1);</code>: Evaluates the fundamental subproblem choice—should we rob the current house (taking money from two houses ago + current loot) or skip it (taking previous house's total loot)?</li>
         </ul>
+        </p>
 
-        <h2>Implementation in Java</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <h2>Java Implementation Code</h2>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 import java.util.Arrays;
-
+ 
 public class HouseRobber {
-
+ 
     // Space-Optimized Dynamic Programming: Time O(N), Space O(1)
     public int rob(int[] nums) {
         if (nums == null || nums.length == 0) {
@@ -272,23 +229,20 @@ public class HouseRobber {
         
         return prev1;
     }
-
+ 
     public static void main(String[] args) {
         HouseRobber solver = new HouseRobber();
         int[] houses = {2, 7, 9, 3, 1};
-
+ 
         System.out.println("--- House Robber Demonstration ---");
         System.out.println("Loot values of houses: " + Arrays.toString(houses));
         int maxLoot = solver.rob(houses);
         System.out.println("Maximum possible loot: " + maxLoot); // Expected: 12
     }
-}
-</code></pre>
-
-        <h2>Wrapping Up</h2>
-        <p>The House Robber problem demonstrates the transition from recursive branching to clean, space-optimized
-          dynamic programming. By analyzing state dependencies, we eliminate redundancy and solve the problem in linear
-          <code>O(n)</code> time using only constant <code>O(1)</code> memory.</p>
+}</code></pre>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>By identifying that state transitions depend only on the immediate past two values, we reduce the space complexity from <code>O(N)</code> to <code>O(1)</code> constant space, while maintaining a fast linear <code>O(N)</code> runtime complexity. This is the optimal design for resource allocation questions.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

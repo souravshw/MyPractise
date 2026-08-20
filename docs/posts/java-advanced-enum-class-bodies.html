@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -130,45 +130,70 @@
 
       <header class="article-header">
         <div class="post-meta">
-          <span class="post-category">Java Concurrency</span>
+          <span class="post-category">Java Enums</span>
           <span class="post-date">June 20, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Advanced Java Enums: Constant-Specific Class Bodies</h1>
       </header>
 
+      <!-- Article Body -->
       <div class="article-body">
-        <p>In Java, enums are not just lists of string constants; they are full classes. You can add constructors,
-          instance variables, and methods to them. One of the most powerful features of Java enums is the ability to
-          write <strong>constant-specific class bodies</strong>, allowing specific enum items to override class methods
-          or implement abstract methods uniquely.</p>
+        <p>In Java, enums are far more than a simple sequence of named string constants like they are in C or C++. Java enums represent full-fledged classes under the hood. They can contain fields, constructors, instance variables, and custom methods.</p>
 
+        <p>One of the most advanced and powerful OOP features supported by Java's enum model is the ability to write <strong>constant-specific class bodies</strong>. This feature allows individual enum constants to declare their own class bodies, enabling specific enum items to override instance methods or implement abstract methods uniquely. By assigning custom behaviors directly to constants, we can implement clean, polymorphic designs without writing sprawling conditional statements.</p>
+
+        <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/advanced-enums.svg" alt="Visualizing Constant-Specific Enum Bodies"
             style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
+        <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Metaphor: 
-          <p>Imagine a smart light switch panel with three buttons: <strong>ON</strong>, <strong>OFF</strong>, and
-            <strong>PARTY</strong>.</p>
-          <p>Each button is a switch option, but they trigger different behaviors when pressed:
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Smart Switch Panel
+          </div>
+          <p>To understand constant-specific class bodies, picture a smart home switch panel on a wall containing three buttons: <strong>ON</strong>, <strong>OFF</strong>, and <strong>PARTY</strong>.</p>
+          <p>Each button is a switch option, but pressing them triggers distinct actions:
           <ul>
-            <li>Pressing <strong>ON</strong> executes standard behavior: turns lights to 100%.</li>
-            <li>Pressing <strong>OFF</strong> executes standard behavior: turns lights to 0%.</li>
-            <li>Pressing <strong>PARTY</strong> does something completely custom: it overrides the standard switch
-              behavior to cycle colors dynamically and start playing dance music!</li>
+            <li>Pressing <strong>ON</strong> triggers standard behavior: turns the lights to full brightness.</li>
+            <li>Pressing <strong>OFF</strong> triggers standard behavior: shuts the lights off completely.</li>
+            <li>Pressing <strong>PARTY</strong>, however, triggers something custom: it overrides the standard switch behavior to cycle colors dynamically, dim the main lights, and start playing dance music!</li>
           </ul>
+          In Java's object model, each switch button represents an enum constant. While ON and OFF follow the default action method, the PARTY constant carries a custom class body that overrides the action method to execute its unique party behavior.
           </p>
-          <p>In Java, each switch button is an enum constant, and the PARTY button has a <strong>custom class
-              body</strong> that overrides the standard click behavior.</p>
         </div>
 
-        <h2>Implementation in Java</h2>
-        <p>In this example, enum constants define character representations. The constant <code>C</code> defines a
-          custom body that overrides the method <code>printSmallCase()</code> to execute unique printing logic:</p>
+        <h2>Technical Strategy & Code Design</h2>
+        <p>We can implement this design pattern in Java:
+        <ul>
+          <li>We declare our enum with constants.</li>
+          <li>If we define an abstract method at the enum class level, every constant <em>must</em> provide a constant-specific class body that implements that method.</li>
+          <li>Alternatively, we can define a default package-private or public method at the enum level. Constants can choose to inherit this default behavior, or they can optionally open a pair of curly braces <code>{}</code> after their declaration to define a custom class body and override the method.</li>
+        </ul>
+        This constant-specific override mechanism is a compiler-supported form of inheritance where each constant acts as an anonymous subclass of the enum class.
+        </p>
 
+        <h2>Step-by-Step Scenario Walkthrough</h2>
+        <p>Let's trace how the JVM processes our <code>characters</code> enum:
+        <ul>
+          <li>When the JVM initializes the enum, it instantiates three constants: <code>A</code>, <code>B</code>, and <code>C</code>.</li>
+          <li>Constants <code>A</code> and <code>B</code> carry the constructor parameter but do not declare custom bodies. When they invoke <code>printSmallCase()</code>, they execute the default implementation defined at the class level.</li>
+          <li>Constant <code>C</code> is compiled as an anonymous subclass of <code>characters</code>. It overrides <code>printSmallCase()</code>. When <code>C.printSmallCase()</code> is invoked, it successfully executes the overridden code, printing its small-case representation <code>"c"</code> to the console.</li>
+        </ul>
+        </p>
+
+        <h2>Java Implementation Code</h2>
+        <p>Below is the complete Java code showing how to define constant-specific class bodies and use them inside a standard execution framework.</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.ocpPractise;
  
 public enum characters {
@@ -199,10 +224,9 @@ public enum characters {
     throw new UnsupportedOperationException("Not supported yet.");
   }
 }</code></pre>
-
-        <h2>Summary</h2>
-        <p>Constant-specific method bodies enable you to implement the Strategy Design Pattern directly within a clean
-          Enum structure, eliminating messy switch-case logic blocks across your codebase.</p>
+ 
+        <h2>Conclusion & Design Benefits</h2>
+        <p>Constant-specific method bodies enable you to implement the <strong>Strategy Design Pattern</strong> directly within a clean Enum structure, eliminating messy switch-case logic blocks across your codebase and improving type safety, readability, and code maintainability.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

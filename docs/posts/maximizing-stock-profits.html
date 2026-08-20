@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -143,13 +143,12 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Finding the maximum profit you can make by buying and selling stocks over a period of time is a classic
-          coding interview problem. In this scenario, you are given an array of daily stock prices, and you want to
-          write a program that calculates the highest profit you could accumulate by buying and selling as many times as
-          you like.</p>
+        <h2>The Problem &amp; Greedy Strategy</h2>
+        <p>Calculating the maximum profit achievable by buying and selling stocks over a sequence of days is a classic array manipulation problem frequently encountered in software engineering interviews. In this variant, you are provided with an array representing daily stock prices, and the goal is to determine the absolute highest cumulative profit you can earn by executing as many buy and sell transactions as you wish.</p>
 
-        <p>This is solved using an approach called a <strong>Greedy Algorithm</strong>. Let's look at how this works
-          using a fun rollercoaster analogy.</p>
+        <p>The constraint is that you cannot engage in multiple transactions simultaneously; you must sell your current stock before purchasing another.</p>
+
+        <p>This problem is solved efficiently in <code>O(n)</code> time using a <strong>Greedy Algorithm</strong>. Rather than trying to predict long-term trends or looking ahead multiple days, the algorithm makes the local optimal choice at each step: if tomorrow's price is higher than today's, we capture the gain.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -160,65 +159,53 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Analogy: 
-          <p>Imagine you are riding a rollercoaster where the height of the track represents the price of a stock on
-            different days. You want to collect "climbing points" (profit) on this ride.</p>
-          <p>Since you can buy and sell as many times as you want, your strategy is simple:</p>
-          <ul>
-            <li>Every time the rollercoaster is going <strong>upward</strong> (today's price is higher than
-              yesterday's), you capture that gain!</li>
-            <li>Every time the rollercoaster goes <strong>downward</strong> (prices drop), you do nothing—you just sit
-              back and wait for it to bottom out.</li>
-            <li>By adding up all the upward climbs, you automatically get the maximum possible points you could ever
-              score on the ride.</li>
-          </ul>
-        </div>
-
-        <h2>Walkthrough of the Main Method Scenario</h2>
-        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 1: Setting up the price histories
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: Rollercoaster Climbing
           </div>
-          <p>The program declares two array scenarios representing stock price movements:</p>
-          <pre><code class="language-java">int arr[] = {100, 180, 260, 310, 40, 535, 695};
-int arr1[] = {4, 2, 2, 2, 4};</code></pre>
+          <p>To understand this greedy approach, imagine riding a rollercoaster where the height of the track represents the stock price on consecutive days:</p>
+          <ul>
+            <li><strong>Upward Climbs:</strong> Every time the rollercoaster moves upward (meaning today's price is higher than yesterday's), you accumulate the difference in height as climb points.</li>
+            <li><strong>Downward Drops:</strong> Whenever the rollercoaster drops or stays level, you simply enjoy the ride without taking any action.</li>
+            <li><strong>Summing Gains:</strong> By adding up all the vertical climbs, you automatically calculate the absolute maximum possible points you could have collected throughout the entire journey.</li>
+          </ul>
+          In financial terms, this represents buying at the start of every upward trend and selling at the peak before a drop.
         </div>
 
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 2: Tracing the first stock price array
-          </div>
-          <p>The program calls <code>getMaxProfit(arr)</code> and loops through the elements starting from index 1:</p>
-          <ul>
-            <li><strong>Day 1 ($180):</strong> $180 &gt; $100 (yesterday). Yes! We add the difference:
-              <code>profit += 80</code>. Total: $80.</li>
-            <li><strong>Day 2 ($260):</strong> $260 &gt; $180. Yes! <code>profit += 80</code>. Total: $160.</li>
-            <li><strong>Day 3 ($310):</strong> $310 &gt; $260. Yes! <code>profit += 50</code>. Total: $210. (This
-              matches buying at $100 and selling at $310!)</li>
-            <li><strong>Day 4 ($40):</strong> $40 &lt; $310. Downward slope. No profit added.</li>
-            <li><strong>Day 5 ($535):</strong> $535 &gt; $40. Yes! <code>profit += 495</code>. Total: $705.</li>
-            <li><strong>Day 6 ($695):</strong> $695 &gt; $535. Yes! <code>profit += 160</code>. Total: $865. (This
-              matches buying at $40 and selling at $695!)</li>
-          </ul>
-          <p>The program returns the total accumulated profit: <strong>$865</strong>.</p>
-        </div>
+        <h2>Detailed Scenario Tracing</h2>
+        <p>Let's trace exactly how the program evaluates two different price histories step-by-step:</p>
 
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 3: Tracing the second stock price array
-          </div>
-          <p>The program calls <code>getMaxProfit(arr1)</code> for the prices <code>[4, 2, 2, 2, 4]</code>:</p>
-          <ul>
-            <li>Days 1, 2, and 3: Prices drop or remain flat (<code>4 → 2 → 2 → 2</code>). No profit is added.</li>
-            <li>Day 4 ($4): Price climbs: $4 &gt; $2. Yes! <code>profit += 2</code>. Total: $2.</li>
-          </ul>
-          <p>The program returns: <strong>$2</strong>.</p>
-        </div>
+        <h3>Scenario A: Array <code>arr = [100, 180, 260, 310, 40, 535, 695]</code></h3>
+        <ul>
+          <li><strong>Day 1 ($180):</strong> We compare today's price ($180) against yesterday's price ($100). Since $180 &gt; $100, we execute a transaction. Profit added: <code>180 - 100 = 80</code>. Total profit: <code>80</code>.</li>
+          <li><strong>Day 2 ($260):</strong> Today's price ($260) is higher than yesterday's ($180). We capture the gain. Profit added: <code>260 - 180 = 80</code>. Total profit: <code>160</code>.</li>
+          <li><strong>Day 3 ($310):</strong> Today's price ($310) is higher than yesterday's ($260). Profit added: <code>310 - 260 = 50</code>. Total profit: <code>210</code>. (Note that adding the sequential differences <code>80 + 80 + 50</code> is mathematically identical to buying at $100 and selling at $310).</li>
+          <li><strong>Day 4 ($40):</strong> Today's price ($40) is less than yesterday's ($310). We do nothing.</li>
+          <li><strong>Day 5 ($535):</strong> Today's price ($535) is higher than yesterday's ($40). Profit added: <code>535 - 40 = 495</code>. Total profit: <code>705</code>.</li>
+          <li><strong>Day 6 ($695):</strong> Today's price ($695) is higher than yesterday's ($535). Profit added: <code>695 - 535 = 160</code>. Total profit: <code>865</code>.</li>
+          <li><strong>Result:</strong> The algorithm completes and returns <strong>$865</strong>.</li>
+        </ul>
+
+        <h3>Scenario B: Array <code>arr1 = [4, 2, 2, 2, 4]</code></h3>
+        <ul>
+          <li><strong>Days 1, 2, and 3:</strong> The prices fall or remain flat (<code>4 &rarr; 2 &rarr; 2 &rarr; 2</code>). Since there is no positive change, no profit is added.</li>
+          <li><strong>Day 4 ($4):</strong> Today's price ($4) is higher than yesterday's ($2). Profit added: <code>4 - 2 = 2</code>.</li>
+          <li><strong>Result:</strong> The algorithm returns <strong>$2</strong>.</li>
+        </ul>
+
+        <h2>Code Highlight &amp; Mathematical Equivalence</h2>
+        <p>The core loop logic in our Java solution checks for any positive daily movement:</p>
+        <pre><code class="language-java">if (arr[i] &gt; arr[i - 1]) {
+    profit += arr[i] - arr[i - 1];
+}</code></pre>
+        <p>This single check captures every segment of growth. Summing these individual intervals is mathematically equivalent to buying at the local minimum of a trend and selling at the local maximum, ensuring optimal results in a single pass.</p>
 
         <h2>The Java Code</h2>
-        <p>Below is the complete Java code showing the profit calculation checker:</p>
+        <p>Below is the complete, self-contained Java source code that demonstrates this greedy approach on our test scenarios.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.accolite;
@@ -235,8 +222,8 @@ public class StockBuyAndSellMaxProfitChecker {
     private static int getMaxProfit(int[] arr) {
         int profit = 0;
  
-        for (int i = 1; i < arr.length; ++i) {
-            if (arr[i] > arr[i - 1]) {
+        for (int i = 1; i &lt; arr.length; ++i) {
+            if (arr[i] &gt; arr[i - 1]) {
                 profit += arr[i] - arr[i - 1];
             }
         }
@@ -244,11 +231,9 @@ public class StockBuyAndSellMaxProfitChecker {
         return profit;
     }
 }</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>By using a greedy approach, we don't need to predict the future or look ahead multiple days. We simply
-          compare today's price with yesterday's price. If it is higher, we buy yesterday and sell today, accumulating
-          all positive upward moves to guarantee the maximum profit!</p>
+ 
+        <h2>Conclusion &amp; Takeaways</h2>
+        <p>By utilizing a greedy model, we avoid the complexity of recursive lookahead or sliding window trackers. Simply accumulating each positive increment ensures we trace the peaks and valleys of any price history array in a single <code>O(n)</code> pass.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

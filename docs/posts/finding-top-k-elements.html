@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -130,7 +130,6 @@
         </ol>
       </nav>
 
-      <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
@@ -138,17 +137,14 @@
           <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
-        <h1 class="article-title">Finding the Top K Elements</h1>
+        <h1 class="article-title">Finding the Top K Elements in Java</h1>
       </header>
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Finding the top <strong>K</strong> largest or smallest elements in a stream of numbers is a common challenge
-          in data engineering. For example, you might want to display the top 3 highest scores on a gaming site, or the
-          top 10 most popular products on a shopping app.</p>
+        <p>In modern software development, extracting the top <strong>K</strong> elements from a large data stream is a frequent requirement. Think of displaying the top 10 trending articles on a news platform, listing the top 3 high scores on a gaming leaderboard, or identifying the top 100 most expensive transactions for fraud detection.</p>
 
-        <p>To do this dynamically and efficiently in Java, we use a self-sorting data collection called a
-          <strong>TreeSet</strong>. Let's see how this works using a simple arcade game analogy.</p>
+        <p>When dealing with dynamically incoming data, sorting the entire list repeatedly is highly inefficient. Instead, we want a data collection that keeps itself sorted on insertion. In Java, this can be achieved efficiently using a <code>TreeSet</code> with a custom comparator, allowing us to keep track of top elements in real-time.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -158,70 +154,49 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine you run a classic arcade machine. The screen has a <strong>High Score Leaderboard</strong> with
-            only three slots (K = 3).</p>
-          <p>As kids play games, they get scores. To maintain the board:</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Arcade Cabinet Leaderboard
+          </div>
+          <p>To visualize this approach, picture a vintage arcade cabinet running a game. The screen features a <strong>High Score Leaderboard</strong> containing exactly three slots (<code>K = 3</code>).</p>
+          <p>As players take turns, they achieve scores. The cabinet manages the board dynamically:
           <ul>
-            <li>Every time a score is submitted, the machine slots it into its sorted ranking list automatically.</li>
-            <li>By default, a Java <code>TreeSet</code> ignores duplicates (if two players score exactly 66, it will
-              only keep one). To prevent this, we write a custom rule: <strong>"Even if two scores are equal, keep them
-                both as separate entries on the board!"</strong></li>
-            <li>Once all players submit their scores, the board displays the top 3 rows, letting you know who takes home
-              the trophies!</li>
+            <li>When a new score is finished, the system ranks it immediately against the current listings.</li>
+            <li>Standard Java sets (like <code>TreeSet</code> or <code>HashSet</code>) automatically discard duplicates. This means if two different players score exactly 66, the default set will discard one of them.</li>
+            <li>To prevent this, we write a custom comparison rule for our cabinet: <strong>"Even if two scores are equal, treat them as separate entries and keep both on the board!"</strong></li>
+            <li>The leaderboard always displays the top 3 entries, letting players know who is currently in the lead.</li>
           </ul>
-        </div>
-
-        <h2>Walkthrough of the Main Method Scenario</h2>
-        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 1: Setting up scores and K limit
-          </div>
-          <p>The program declares an array of raw unsorted scores and sets our leaderboard limit to 3:</p>
-          <pre><code class="language-java">int[] arr = {1, 3, 66, 5, 7, 2, 3, 5, 9, 2, 11, 66, 75};
-int k = 3;</code></pre>
-        </div>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 2: Defining the Self-Sorting TreeSet
-          </div>
-          <p>We create a TreeSet with a custom comparator rule:</p>
-          <pre><code class="language-java">TreeSet&lt;Integer&gt; treeSet = new TreeSet&lt;&gt;((o1, o2) -> {
-    if (o2 > o1 || o2 == o1) {
-        return 1; // puts o2 before o1 (descending)
-    } else if (o2 &lt; o1) {
-        return -1;
-    }
-    return 1;
-});</code></pre>
-          <p>Typically, a comparator returns <code>0</code> if two values are equal, telling TreeSet to discard the
-            duplicate. By returning <code>1</code> for equality instead of <code>0</code>, we bypass this mechanism and
-            successfully allow duplicate scores (like having multiple 66s) on our board!</p>
-        </div>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 3: Populating and reading the Leaderboard
-          </div>
-          <p>The program loops and adds all elements to the TreeSet:</p>
-          <pre><code class="language-java">for (int a : arr) {
-    treeSet.add(a);
-}</code></pre>
-          <p>The collection automatically keeps elements sorted in descending order:
-            <code>[75, 66, 66, 11, 9, 7, 5, 5, 3, 3, 2, 2, 1]</code>.</p>
-          <p>Next, the program opens an iterator and prints the first <code>k</code> elements:</p>
-          <pre><code class="language-java">while (iterator.hasNext() && k > 0) {
-    System.out.println(iterator.next());
-    --k;
-}</code></pre>
-          <p>This yields the top 3 highest scores: <strong>75</strong>, <strong>66</strong>, and <strong>66</strong>.
+          In code, these arcade scores are our dataset, and the leaderboard is represented by a <code>TreeSet</code>.
           </p>
         </div>
 
-        <h2>Java Solution</h2>
+        <h2>TreeSet Strategy & Custom Comparator Gotcha</h2>
+        <p>A <code>TreeSet</code> in Java uses a self-balancing binary search tree (a Red-Black Tree) under the hood. Insertion, deletion, and lookup operations run in <code>O(log N)</code> time.</p>
+ 
+        <p>However, <code>TreeSet</code> relies on a <code>Comparator</code> not only for ordering but also for equality checking. If a comparator returns <code>0</code> for two elements, the <code>TreeSet</code> assumes they are duplicates and refuses to add the second element.</p>
+
+        <p>To overcome this and allow duplicate scores in our leaderboard, we design a custom comparator that never returns <code>0</code>:
+        <ul>
+          <li>If score <code>o2</code> is greater than or equal to <code>o1</code>, we return <code>1</code> (which forces <code>o2</code> to be placed before <code>o1</code>, building a descending list).</li>
+          <li>If score <code>o2</code> is smaller than <code>o1</code>, we return <code>-1</code>.</li>
+        </ul>
+        By returning <code>1</code> for equality instead of <code>0</code>, we bypass the duplicate elimination mechanism and allow duplicates to exist side-by-side in the tree.
+        </p>
+
+        <h2>Step-by-Step Scenario Walkthrough</h2>
+        <p>Let's trace this execution with an array of scores: <code>[1, 3, 66, 5, 7, 2, 3, 5, 9, 2, 11, 66, 75]</code>, targeting <code>K = 3</code>:
+        <ul>
+          <li><strong>Populating the Set:</strong> We iterate through the array and add each score to the <code>TreeSet</code>.</li>
+          <li><strong>Ordering:</strong> The custom comparator sorts the elements descending: <code>[75, 66, 66, 11, 9, 7, 5, 5, 3, 3, 2, 2, 1]</code>. Notice both <code>66</code> values are preserved.</li>
+          <li><strong>Extraction:</strong> We open an iterator on the set and pull the first <code>K</code> elements. This returns <code>75</code>, <code>66</code>, and <code>66</code> as the top 3 scores.</li>
+        </ul>
+        </p>
+
+        <h2>Java Implementation Code</h2>
         <p>Below is the complete Java code demonstrating leaderboard sorting with a custom comparator:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -237,10 +212,10 @@ public class TopKElements {
         int k = 3;
  
         // Self-sorting collection sorted in descending order
-        TreeSet<Integer> treeSet = new TreeSet<>((o1, o2) -> {
+        TreeSet&lt;Integer&gt; treeSet = new TreeSet<>((o1, o2) -> {
             if (o2 > o1 || o2 == o1) {
                 return 1; // puts higher or equal elements first
-            } else if (o2 < o1) {
+            } else if (o2 &lt; o1) {
                 return -1;
             }
  
@@ -251,7 +226,7 @@ public class TopKElements {
             treeSet.add(a);
         }
  
-        Iterator<Integer> iterator = treeSet.iterator();
+        Iterator&lt;Integer&gt; iterator = treeSet.iterator();
  
         // Retrieve the first K elements
         while (iterator.hasNext() && k > 0) {
@@ -261,11 +236,9 @@ public class TopKElements {
         }
     }
 }</code></pre>
-
-        <h2>Wrapping Up</h2>
-        <p>Using a self-sorting structure like TreeSet with a custom comparator makes finding the top K elements easy.
-          It maintains order automatically on insertion, allowing you to fetch the highest values instantly without
-          needing to sort the raw array multiple times!</p>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>Using a self-sorting <code>TreeSet</code> with a custom comparator allows us to retrieve the top <code>K</code> elements in <code>O(1)</code> once the tree is built. Each insertion runs in <code>O(log N)</code>. While using a heap-based <code>PriorityQueue</code> is also popular, this <code>TreeSet</code> technique offers a clean, set-based alternative. Understanding how custom comparators impact element uniqueness is essential to master Java's collections framework.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

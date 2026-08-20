@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -134,7 +134,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Move Zeroes in Java</h1>
@@ -142,14 +142,13 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Problem Breakdown</h2>
-        <p>The <strong>Move Zeroes</strong> problem requires us to modify an array in-place such that all occurrences of
-          the number <code>0</code> are shifted to the end of the array, while maintaining the relative ordering of all
-          non-zero elements.</p>
-        <p>Crucially, we must do this without creating a copy of the array (in-place operation), and we want to minimize
-          the number of operations to keep it as efficient as possible. This is a common utility task in databases and
-          garbage collection systems where active items need to be compacted.</p>
+        <h2>What We're Solving &amp; Compacting Lists</h2>
+        <p>Optimizing storage arrays by compacting non-empty data values is a very common performance task in backend engineering. The <strong>Move Zeroes</strong> problem requires us to modify an array in-place such that all occurrences of the value <code>0</code> are shifted to the end of the array, while preserving the relative ordering of all non-zero elements.</p>
 
+        <p>For example, given <code>nums = [0, 1, 0, 3, 12]</code>, the resulting array should be transformed in-place to <code>[1, 3, 12, 0, 0]</code>.</p>
+
+        <p>Crucially, we must accomplish this task without allocating a copy of the array (<code>O(1)</code> auxiliary space constraint) and while minimizing the total number of element writes to ensure high performance. This kind of array compaction is a key design pattern in database indexes and memory garbage collectors.</p>
+ 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/move_zeroes.svg" alt="Illustration of Move Zeroes algorithm compacting arrays in Java"
@@ -158,97 +157,88 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          Think of it like: 
-          <p>Imagine a conveyor belt loaded with toys and empty cardboard boxes (representing zeroes). Your task is to
-            pack the toys tightly together at the front of the belt in the exact order they appeared, pushing all the
-            empty boxes to the very end. You stand at the beginning of the belt with a marker pointing to the "next
-            write spot". As the belt moves, whenever a real toy passes, you grab it, place it at the "next write spot,"
-            and step one slot forward. You ignore the empty boxes. Once all toys are compacted at the front, you simply
-            place empty boxes in all the remaining empty spaces behind you. The toys remain in order, and the empty
-            boxes are pushed to the end!</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: Conveyor Belt Packing
+          </div>
+          <p>To visualize this two-pointer alignment strategy, imagine standing beside a moving conveyor belt:</p>
+          <ul>
+            <li><strong>Toys &amp; Empty Boxes:</strong> The belt holds a random mix of toys (non-zero numbers) and empty cardboard boxes (zeroes). Your goal is to pack the toys tightly together at the front of the belt in the exact order they arrived, leaving all the empty boxes at the back.</li>
+            <li><strong>The Write Marker:</strong> You place a marker pointing to the "next write slot" at the start of the conveyor belt.</li>
+            <li><strong>Scanning:</strong> As the belt moves, whenever a toy passes by, you pick it up, place it exactly at your "next write slot", and step the marker forward by one position. You ignore the empty cardboard boxes.</li>
+            <li><strong>Filling the Tail:</strong> Once all toys have been moved to the front, you fill all the remaining slots behind your marker with empty boxes.</li>
+          </ul>
+          By the end of the run, the toys remain in their original relative order at the front, and the empty boxes are pushed to the end.
         </div>
 
-        <h2>The Approach</h2>
-        <h3>1. Using an Extra Array (O(n) Space)</h3>
-        <p>We can create a new array of the same size, iterate through the original array to copy all non-zero elements
-          first, and then fill the remaining positions with zeroes. Finally, we copy the temp array back. This is simple
-          but requires <code>O(n)</code> extra memory, which violates the in-place constraint.</p>
+        <h2>Solving the Problem</h2>
+        <h3>1. Extra Array Sieve (O(n) Space)</h3>
+        <p>We could allocate a temporary array of the same size, traverse the input array to write all non-zero values to the front, and then fill the remainder with zeros. While simple to implement, this approach requires <code>O(n)</code> extra memory, which violates the in-place modifier constraint.</p>
 
-        <h3>2. Two-Pointer In-Place Optimization (O(n) Time, O(1) Space)</h3>
-        <p>We maintain a pointer <code>insertPos</code> initialized to <code>0</code>, which tracks where the next
-          non-zero element should be written. We iterate through the array:
-        <ol>
-          <li>If the current element is non-zero, we assign it to <code>nums[insertPos]</code> and increment
-            <code>insertPos</code>.</li>
-          <li>If the current element is zero, we do nothing and proceed.</li>
-        </ol>
-        After scanning the array, all non-zero elements have been written to the front. We then run a simple loop
-        starting from the current value of <code>insertPos</code> to the end of the array, setting all those indices to
-        <code>0</code>. This is optimal as it visits every element exactly once with zero extra memory allocation.
+        <h3>2. Two-Pointer In-Place Shift (O(n) Time, O(1) Space)</h3>
+        <p>We maintain an index tracker, <code>insertPos</code>, initialized to <code>0</code>. We scan the array:
+        <ul>
+          <li><strong>Sifting Non-Zeroes:</strong> If the current value <code>nums[i]</code> is non-zero, we write it at <code>nums[insertPos]</code> and increment <code>insertPos</code>.</li>
+          <li><strong>Ignoring Zeroes:</strong> If the element is <code>0</code>, we skip it.</li>
+          <li><strong>Padding Zeroes:</strong> Once the traversal completes, all non-zero elements are compacted at indices <code>0</code> to <code>insertPos - 1</code>. We then loop from <code>insertPos</code> to <code>nums.length - 1</code>, setting each index to <code>0</code>.</li>
+        </ul>
+        This is optimal as it visits every element exactly once with zero extra memory allocation.
         </p>
 
-        <h2>Step-by-Step Execution</h2>
-        <p>Let's trace the optimized two-pointer compaction on the input array <code>nums = [0, 1, 0, 3, 12]</code>:</p>
+        <h2>Detailed Trace Walkthrough</h2>
+        <p>Let's trace this two-pointer compaction step-by-step on <code>nums = [0, 1, 0, 3, 12]</code>:</p>
         <ol>
-          <li><strong>Step 1 (Initialization):</strong> Set <code>insertPos = 0</code>. This pointer is ready to write
-            the first non-zero element we find.</li>
-          <li><strong>Step 2 (Index i = 0, Value = 0):</strong> The value is <code>0</code>. We do nothing and move to
-            the next index. <code>insertPos</code> remains <code>0</code>.</li>
+          <li><strong>Step 1 (Initialization):</strong> Set <code>insertPos = 0</code>. This pointer is ready to write the first non-zero element.</li>
+          <li><strong>Step 2 (Index i = 0, Value = 0):</strong> The value is <code>0</code>. We skip it. <code>insertPos</code> remains <code>0</code>.</li>
           <li><strong>Step 3 (Index i = 1, Value = 1):</strong> The value is <code>1</code> (non-zero).
             <ul>
-              <li>We write it at <code>nums[insertPos]</code>: <code>nums[0] = 1</code>.</li>
-              <li>Increment <code>insertPos</code> to <code>1</code>. The array is now: <code>[1, 1, 0, 3, 12]</code>.
-              </li>
+              <li>Write at target: <code>nums[insertPos] = 1</code> &rarr; <code>nums[0] = 1</code>.</li>
+              <li>Increment <code>insertPos</code> to <code>1</code>. Array state: <code>[1, 1, 0, 3, 12]</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 4 (Index i = 2, Value = 0):</strong> The value is <code>0</code>. We do nothing.
-            <code>insertPos</code> remains <code>1</code>.</li>
+          <li><strong>Step 4 (Index i = 2, Value = 0):</strong> The value is <code>0</code>. Skip it. <code>insertPos</code> remains <code>1</code>.</li>
           <li><strong>Step 5 (Index i = 3, Value = 3):</strong> The value is <code>3</code> (non-zero).
             <ul>
-              <li>We write it at <code>nums[insertPos]</code>: <code>nums[1] = 3</code>.</li>
-              <li>Increment <code>insertPos</code> to <code>2</code>. The array is now: <code>[1, 3, 0, 3, 12]</code>.
-              </li>
+              <li>Write at target: <code>nums[insertPos] = 3</code> &rarr; <code>nums[1] = 3</code>.</li>
+              <li>Increment <code>insertPos</code> to <code>2</code>. Array state: <code>[1, 3, 0, 3, 12]</code>.</li>
             </ul>
           </li>
           <li><strong>Step 6 (Index i = 4, Value = 12):</strong> The value is <code>12</code> (non-zero).
             <ul>
-              <li>We write it at <code>nums[insertPos]</code>: <code>nums[2] = 12</code>.</li>
-              <li>Increment <code>insertPos</code> to <code>3</code>. The array is now: <code>[1, 3, 12, 3, 12]</code>.
-              </li>
+              <li>Write at target: <code>nums[insertPos] = 12</code> &rarr; <code>nums[2] = 12</code>.</li>
+              <li>Increment <code>insertPos</code> to <code>3</code>. Array state: <code>[1, 3, 12, 3, 12]</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 7 (Filling Zeroes):</strong> The main loop finishes. Now, we fill the remaining slots from
-            <code>insertPos = 3</code> to the end of the array (<code>nums.length = 5</code>) with zeroes:
+          <li><strong>Step 7 (Loop Finish &amp; Padding):</strong> The traversal loop completes. We pad indices from <code>insertPos = 3</code> to <code>nums.length - 1 = 4</code> with <code>0</code>:
             <ul>
-              <li>Write <code>nums[3] = 0</code>. Increment <code>insertPos</code> to <code>4</code>.</li>
-              <li>Write <code>nums[4] = 0</code>. Increment <code>insertPos</code> to <code>5</code>.</li>
+              <li>Set <code>nums[3] = 0</code>.</li>
+              <li>Set <code>nums[4] = 0</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 8 (Completion):</strong> The array is now fully processed: <code>[1, 3, 12, 0, 0]</code>. The
-            relative order of <code>1, 3, 12</code> is preserved, and all zeroes are successfully moved to the end.</li>
+          <li><strong>Step 8 (Completion):</strong> The final array is transformed to <code>[1, 3, 12, 0, 0]</code>. The relative order of <code>1, 3, 12</code> is preserved, and all zeroes are successfully moved to the end.</li>
         </ol>
 
-        <h2>Code Breakdown</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <h2>Code Highlights &amp; Explanations</h2>
+        <p>Key mechanics of our Java implementation:</p>
         <ul>
-          <li><code>if (num != 0) nums[insertPos++] = num;</code>: This compacts all active non-zero elements
-            sequentially at the front of the array.</li>
-          <li><code>while (insertPos &lt; nums.length) nums[insertPos++] = 0;</code>: This fills all remaining trailing
-            elements with zeroes, effectively wiping out the leftover duplicates of elements that were shifted forward.
-          </li>
+          <li><code>nums[insertPos++] = num</code> dynamically updates the write target index during the single-pass copy.</li>
+          <li>The trailing <code>while (insertPos &lt; nums.length)</code> loop acts as a cleanup pass, replacing the duplicate elements left behind by the shift.</li>
         </ul>
 
         <h2>Java Solution</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code demonstrating both the brute-force and the optimized in-place two-pointer approach.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 import java.util.Arrays;
-
+ 
 public class MoveZeroes {
-
+ 
     // Brute Force - O(n) with extra space
     public void moveZeroesBrute(int[] nums) {
         int[] temp = new int[nums.length];
@@ -260,7 +250,7 @@ public class MoveZeroes {
         }
         System.arraycopy(temp, 0, nums, 0, nums.length);
     }
-
+ 
     // Optimized - O(n) in-place
     public void moveZeroes(int[] nums) {
         int insertPos = 0;
@@ -273,35 +263,32 @@ public class MoveZeroes {
             nums[insertPos++] = 0;
         }
     }
-
+ 
     public static void main(String[] args) {
         MoveZeroes solver = new MoveZeroes();
         int[] nums = {0, 1, 0, 3, 12};
-
-        System.out.println(&quot;--- Move Zeroes Demonstration ---&quot;);
-        System.out.println(&quot;Input Array: &quot; + Arrays.toString(nums));
-
-        System.out.println(&quot;\nExecuting In-Place Shift...&quot;);
+ 
+        System.out.println("--- Move Zeroes Demonstration ---");
+        System.out.println("Input Array: " + Arrays.toString(nums));
+ 
+        System.out.println("\nExecuting In-Place Shift...");
         int insertPos = 0;
         for (int num : nums) {
             if (num != 0) {
-                System.out.printf(&quot;  Found non-zero %d. Writing to insertPos %d.\n&quot;, num, insertPos);
+                System.out.printf("  Found non-zero %d. Writing to insertPos %d.\n", num, insertPos);
                 insertPos++;
             }
         }
-        System.out.printf(&quot;  Filling remaining spots from index %d to %d with 0.\n&quot;, insertPos, nums.length - 1);
+        System.out.printf("  Filling remaining spots from index %d to %d with 0.\n", insertPos, nums.length - 1);
         
         int[] testNums = {0, 1, 0, 3, 12};
         solver.moveZeroes(testNums);
-        System.out.println(&quot;Result Array: &quot; + Arrays.toString(testNums));
+        System.out.println("Result Array: " + Arrays.toString(testNums));
     }
-}
-</code></pre>
-
-        <h2>Final Thoughts</h2>
-        <p>Solving the <strong>Move Zeroes</strong> problem highlights how we can leverage key data structures and
-          algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime
-          and simplify code complexity.</p>
+}</code></pre>
+ 
+        <h2>Conclusion &amp; Takeaways</h2>
+        <p>Compacting values using two pointers allows us to optimize array layouts in-place without wasting memory space. By leveraging one pointer to scan elements and another to record write locations, we achieve maximum data packing in a single linear pass.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

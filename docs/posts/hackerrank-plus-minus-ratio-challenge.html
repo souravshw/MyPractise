@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -139,17 +139,16 @@
           <span>•</span>
           <span class="post-read-time">3 min read</span>
         </div>
-        <h1 class="article-title">Solving HackerRank's Plus-Minus Ratio Challenge</h1>
+        <h1 class="article-title">Solving HackerRank's Plus-Minus Ratio Challenge in Java</h1>
       </header>
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>The <strong>Plus-Minus</strong> challenge is a standard data classification problem on HackerRank. Given an
-          array of integers, you must calculate the ratios of its elements that are positive, negative, and zero. Print
-          the decimal value of each fraction on a new line with six places after the decimal.</p>
+        <p>In data analysis and statistics, a common initial task is classifying numbers based on their sign. HackerRank's <strong>Plus-Minus</strong> ratio challenge is a standard test of this concept.</p>
 
-        <p>In this guide, we will implement this classification using Java 8 Stream filtering and display formatting.
-        </p>
+        <p>Given an array of integers, we need to calculate the ratio of positive values, negative values, and zero values relative to the total number of elements. The challenge requires printing each ratio on a new line, formatted as a decimal with exactly six decimal places.</p>
+
+        <p>While iterating and counting values is basic programming, this problem tests your handling of type casting (to avoid integer truncation) and output formatting. We can solve this cleanly in Java using the Stream API for declaration and custom decimal string formats.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -159,72 +158,94 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine having a bag containing 6 candies: 3 Red (Positive), 2 Blue (Negative), and 1 Green (Zero):</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Color-Coded Candy Bag
+          </div>
+          <p>To visualize this task, imagine a bag containing <strong>6 candies</strong> of different colors:
           <ul>
-            <li>To find the ratio of Red candy, you count the Reds and divide by the total:
-              <code>3 / 6 = 0.500000</code>.</li>
-            <li>To find the ratio of Blue candy: <code>2 / 6 = 0.333333</code>.</li>
-            <li>To find the ratio of Green candy: <code>1 / 6 = 0.166667</code>.</li>
+            <li><strong>3 Red candies</strong> (representing Positive numbers)</li>
+            <li><strong>2 Blue candies</strong> (representing Negative numbers)</li>
+            <li><strong>1 Green candy</strong> (representing Zero)</li>
           </ul>
+          To calculate the color ratios in the bag, we divide the count of each color by the total:
+          <ul>
+            <li><strong>Red Candy Ratio:</strong> <code>3 / 6 = 0.500000</code> (half of the bag is Red).</li>
+            <li><strong>Blue Candy Ratio:</strong> <code>2 / 6 = 0.333333</code> (one-third of the bag is Blue).</li>
+            <li><strong>Green Candy Ratio:</strong> <code>1 / 6 = 0.166667</code> (one-sixth of the bag is Green).</li>
+          </ul>
+          Dividing integers naively in programming causes truncation (for example, <code>3 / 6</code> yields <code>0</code> in integer division). To prevent this, we must cast the counts to decimal values (such as <code>double</code> or <code>float</code>) before dividing.
+          </p>
         </div>
 
-        <h2>1. Filtering with Streams</h2>
-        <p>Using Java 8 Streams, we can apply <code>filter()</code> on the list to separate positive, negative, and zero
-          elements, and call <code>count()</code> to count them:</p>
-        <pre><code class="language-java">double countNegative = arr.stream().filter(element -&gt; element &lt; 0).count();
-double countPositive = arr.stream().filter(element -&gt; element &gt; 0).count();
-double countZero     = arr.stream().filter(element -&gt; element == 0).count();</code></pre>
-        <p>By declaring these variables as <code>double</code>, we avoid integer division issues (where <code>3/6</code>
-          would evaluate to <code>0</code> instead of <code>0.5</code>).</p>
+        <h2>Technical Strategy</h2>
+        <p>Our Java strategy consists of two main parts:
+        <ol>
+          <li><strong>Filtering Streams:</strong> We use the Stream API to filter elements dynamically:
+            <ul>
+              <li>Positive count: <code>arr.stream().filter(n -&gt; n &gt; 0).count()</code></li>
+              <li>Negative count: <code>arr.stream().filter(n -&gt; n &lt; 0).count()</code></li>
+              <li>Zero count: <code>arr.stream().filter(n -&gt; n == 0).count()</code></li>
+            </ul>
+          </li>
+          <li><strong>Decimal Formatting:</strong> To satisfy the six-decimal-place requirement, we format the resulting quotient using <code>String.format("%.6f", quotient)</code>. The <code>%.6f</code> format specifier tells the JVM to print a floating-point number rounded to exactly six decimal places.</li>
+        </ol>
+        </p>
 
-        <h2>2. Formatting Decimals</h2>
-        <p>To print the output rounded to exactly six decimal places, use <code>String.format()</code> with the format
-          specifier <code>%.6f</code>:</p>
-        <pre><code class="language-java">System.out.println(String.format("%.6f", (countPositive / arr.size())));
-System.out.println(String.format("%.6f", (countNegative / arr.size())));
-System.out.println(String.format("%.6f", (countZero / arr.size())));</code></pre>
+        <h2>Step-by-Step Scenario Trace</h2>
+        <p>Let's trace the algorithm on an array of size <code>N = 6</code>: <code>arr = [-4, 3, -9, 0, 4, 1]</code>:
+        <ul>
+          <li><strong>Positive Count:</strong> The values <code>3</code>, <code>4</code>, and <code>1</code> are greater than zero. Count is <code>3</code>. Ratio: <code>3.0 / 6.0 = 0.500000</code>.</li>
+          <li><strong>Negative Count:</strong> The values <code>-4</code> and <code>-9</code> are less than zero. Count is <code>2</code>. Ratio: <code>2.0 / 6.0 = 0.333333</code>.</li>
+          <li><strong>Zero Count:</strong> The value <code>0</code> is equal to zero. Count is <code>1</code>. Ratio: <code>1.0 / 6.0 = 0.166667</code>.</li>
+        </ul>
+        Each value is printed to the console on a separate line.
+        </p>
 
-        <h2>Java Solution</h2>
+        <h2>Java Implementation Code</h2>
         <p>Below is the complete Java code solving the challenge:</p>
-        <pre><code class="language-java">package io.practise.hackerrank;
 
+        <!-- Prism.js Code Snippet -->
+        <pre><code class="language-java">package io.practise.hackerrank;
+ 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
-
+ 
 public class PlusMinusRatio {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-
+ 
         int n = Integer.parseInt(bufferedReader.readLine().trim());
         List&lt;Integer&gt; arr = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
                 .map(Integer::parseInt)
                 .collect(toList());
-
+ 
         plusMinus(arr);
         bufferedReader.close();
     }
-
+ 
     private static void plusMinus(List&lt;Integer&gt; arr) {
         double total = arr.size();
         double countNegative = arr.stream().filter(element -&gt; element &lt; 0).count();
         double countPositive = arr.stream().filter(element -&gt; element &gt; 0).count();
         double countZero     = arr.stream().filter(element -&gt; element == 0).count();
-
+ 
         System.out.println(String.format("%.6f", countPositive / total));
         System.out.println(String.format("%.6f", countNegative / total));
         System.out.println(String.format("%.6f", countZero / total));
     }
 }</code></pre>
-
-        <h2>Final Thoughts</h2>
-        <p>Classifying elements inside arrays is simple using Java Streams. By combining <code>filter()</code> with
-          double casting, you create clean, declarative logic that is easy to read and formats numbers correctly for
-          competitive submissions.</p>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>This solution runs in <code>O(N)</code> linear time complexity (as we inspect each array element to classify its sign) and uses <code>O(1)</code> constant space. Utilizing functional streams keeps the logic concise and readable, making it easy to adapt for more complex classification pipelines.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

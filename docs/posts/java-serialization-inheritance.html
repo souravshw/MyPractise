@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -129,36 +129,49 @@
 
       <header class="article-header">
         <div class="post-meta">
-          <span class="post-category">Java Concurrency</span>
+          <span class="post-category">Java Core & OOP</span>
           <span class="post-date">June 20, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Serialization and Class Inheritance in Java</h1>
       </header>
 
       <div class="article-body">
-        <p>In Java Object-Oriented Programming, serialization follows the rules of class inheritance. An important rule
-          is that **if a parent class implements the <code>Serializable</code> interface, all of its subclasses
-          automatically become serializable too**, even if they do not explicitly declare it in their class headers.</p>
-
+        <p>In Java development, object serialization is the process of converting an object's state into a byte stream, allowing it to be persisted to a file, database, or transmitted over a network. Because Java is an object-oriented language, the capabilities and traits of classes propagate down the inheritance hierarchy. A fundamental rule of this system is that <strong>if a superclass implements the <code>java.io.Serializable</code> interface, all of its subclasses automatically inherit serializability</strong>. The subclass does not need to declare <code>implements Serializable</code> in its header class definition. The JVM automatically recognizes the child class as serializable through its inheritance lineage. In this guide, we will analyze how serialization propagates down the class hierarchy and examine what happens when the parent class is not serializable.</p>
+ 
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/serialization-inheritance.svg" alt="Visualizing Serialization and Inheritance hierarchy"
             style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine a travel law ruleset: if a <strong>parent (Superclass)</strong> has citizenship and owns a passport
-            (is Serializable), their <strong>children (Subclasses)</strong> automatically inherit that citizenship
-            status and can get passports too.</p>
-          <p>The child class does not need to submit complex separate requests or apply from scratch; they simply
-            inherit the citizenship trait naturally because of their lineage connection.</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Citizenship Passport Inheritance
+          </div>
+          <p>To visualize this inheritance, imagine a nation's citizenship and travel laws:</p>
+          <ul>
+            <li><strong>The Parent (Superclass):</strong> A parent gains citizenship in a country and successfully applies for a passport (representing the <code>Serializable</code> marker interface).</li>
+            <li><strong>The Child (Subclass):</strong> Because of their direct lineage, the child naturally inherits citizenship and the right to obtain a passport. The child does not need to go through the naturalization process from scratch or submit independent applications. The citizenship status is automatically part of their identity because of their parent's status.</li>
+          </ul>
+          The subclass inherits this capability naturally because it <strong>is-a</strong> specialized version of the superclass.
         </div>
 
-        <h2>The Java Code</h2>
-        <p>In this code, <code>SuperclassPerson</code> implements <code>Serializable</code>. The class
-          <code>SubclassStudent</code> inherits from it, making it serializable as well:</p>
+        <h2>Deserialization & The Non-Serializable Parent Scenario</h2>
+        <p>While subclass serialization is automatic, there is a critical rule regarding classes that do <strong>not</strong> implement <code>Serializable</code>:
+        <ul>
+          <li><strong>Serializable Parent:</strong> If the parent class is serializable, Java serializes both the parent and child field states. During deserialization, Java restores the entire object hierarchy using the serialized byte data.</li>
+          <li><strong>Non-Serializable Parent:</strong> If a child class wants to be serializable but its parent class is <strong>not</strong> serializable, serialization is still possible. To do this, the parent class <strong>must declare an accessible no-argument constructor</strong> (either public or protected). During deserialization, Java skips the constructor of the serializable child class and reconstructs its fields from the serialized byte stream. However, for the non-serializable parent, Java invokes the no-argument constructor to initialize the parent's portion of the object state. If the non-serializable parent does not have a no-argument constructor, a runtime <code>InvalidClassException</code> will be thrown instantly during the deserialization phase.</li>
+        </ul>
+        </p>
+
+        <h2>Java Implementation Code</h2>
+        <p>Below is the complete Java implementation showcasing a parent class implementing <code>Serializable</code> and a subclass inheriting it, writing the object state to a binary file:</p>
 
         <pre><code class="language-java">package io.practise;
  
@@ -202,10 +215,8 @@ public class Serialiseisa {
     }
 }</code></pre>
 
-        <h2>Wrapping Up</h2>
-        <p>This inheritance rule makes designing domain models simple. However, keep in mind: if a parent class is NOT
-          serializable, subclasses can still implement `Serializable`, but the parent class must declare an accessible
-          no-argument constructor so Java can initialize its state during deserialization.</p>
+        <h2>Conclusion & Best Practices</h2>
+        <p>Inheriting serializability simplifies domain model design, as you only need to declare the interface at the root level of your entity models. However, you must be careful: if you inherit serializability, all subclass fields must also be serializable or marked as <code>transient</code>. Additionally, always declare a unique <code>serialVersionUID</code> in your classes to ensure versions remain compatible across JVM executions, even when class properties undergo minor refactoring.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

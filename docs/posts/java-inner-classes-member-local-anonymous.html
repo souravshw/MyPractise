@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -131,7 +131,6 @@
         </ol>
       </nav>
 
-      <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
           <span class="post-category">Java Core & OOP</span>
@@ -144,42 +143,44 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In Java, you can define a class inside another class. These are called <strong>inner classes</strong>. By
-          nesting classes, you can visually group helpers that only serve the outer class, enhancing encapsulation and
-          keeping your package namespaces clean.</p>
+        <p>In object-oriented programming, class design often calls for helper structures that are only relevant to a single parent class. Rather than polluting the package namespace with top-level helper classes, Java allows you to define a class directly inside another class. These are known as <strong>nested classes</strong>.</p>
 
-        <p>In this guide, we will look at three types of nested classes: <strong>Member Inner Classes</strong>,
-          <strong>Local Inner Classes</strong>, and <strong>Anonymous Inner Classes</strong>.</p>
-
-        
-
+        <p>When a nested class is non-static, it is referred to as an <strong>inner class</strong>. Inner classes have a unique property: they carry an implicit reference to the outer class instance that created them, granting them direct access to all private members and methods of the outer class. In this guide, we will explore the three primary types of inner classes—<strong>Member</strong>, <strong>Local</strong>, and <strong>Anonymous</strong>—and discuss when to use each style.</p>
+ 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Analogy: 
-          <p>Imagine a house (Outer Class):</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Residential House
+          </div>
+          <p>To visualize how these inner classes differ, imagine a residential house (the Outer Class):</p>
           <ul>
-            <li><strong>Member Inner Class:</strong> A light switch on the kitchen wall. It has access to all the
-              house's power lines and cannot exist without the house.</li>
-            <li><strong>Local Inner Class:</strong> A temporary space heater you set up inside the kitchen during
-              winter. It only exists while you are in the kitchen cooking.</li>
-            <li><strong>Anonymous Inner Class:</strong> A hired repairman who arrives, fixes a faucet once without
-              introducing themselves, and leaves. They have no name and perform a one-time job.</li>
+            <li><strong>Member Inner Class (The Wall Light Switch):</strong> A light switch is mounted directly on the kitchen wall. It has direct access to the house's internal electrical grid (private fields) and controls the kitchen lights. A light switch cannot exist or function in mid-air without a physical house containing it.</li>
+            <li><strong>Local Inner Class (The Portable Space Heater):</strong> During winter, you bring a temporary space heater into the kitchen while you cook. It only exists and runs within the scope of that cooking session (the method). Once you finish cooking and leave, the space heater is unplugged and stored away.</li>
+            <li><strong>Anonymous Inner Class (The Hired Plumber):</strong> You hire a plumber to fix a leaking sink once. They arrive, complete the job, and leave without introducing themselves or setting up a permanent room in the house. They have no name and perform a single, immediate task.</li>
           </ul>
         </div>
 
         <h2>1. Member Inner Classes</h2>
-        <p>A member inner class is declared directly inside the body of the outer class. It has access to all private
-          variables of the outer class:</p>
+        <p>A member inner class is declared directly inside the body of the outer class, outside of any methods. Because it belongs to the outer instance, you cannot instantiate a member inner class without first creating an instance of the outer class. It is ideal for representing structural components of the parent object.</p>
+
+        <p>Here is how to declare and instantiate a member inner class in Java:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">class MemberInnerClass {
     private int data = 30;
-
+ 
     class Inner {
         void msg() {
             // Can access private field 'data' directly
             System.out.println("data is " + data);
         }
     }
-
+ 
     public static void main(String args[]) {
         MemberInnerClass obj = new MemberInnerClass();
         // Syntactic requirement to construct an inner class instance
@@ -187,13 +188,16 @@
         in.msg(); // Prints: data is 30
     }
 }</code></pre>
-
+ 
         <h2>2. Local Inner Classes</h2>
-        <p>A local inner class is declared inside a specific method body. It is only scope-visible inside that method:
-        </p>
+        <p>A local inner class is defined inside the block of a method. Its scope is restricted entirely to that method, meaning it cannot be instantiated or referenced outside. It can access local variables of the method, provided they are effectively final.</p>
+
+        <p>Below is the syntax for declaring a local inner class inside a method block:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">class LocalInner {
     private int data = 30;
-
+ 
     void display() {
         // Local class declared inside method
         class Local {
@@ -204,20 +208,23 @@
         Local l = new Local();
         l.msg();
     }
-
+ 
     public static void main(String args[]) {
         LocalInner obj = new LocalInner();
         obj.display(); // Prints: 30
     }
 }</code></pre>
-
+ 
         <h2>3. Anonymous Inner Classes</h2>
-        <p>An anonymous inner class has no name. You declare and instantiate it simultaneously, typically to override
-          interface methods or abstract classes on the fly:</p>
+        <p>An anonymous inner class has no declared name and is defined and instantiated simultaneously. It is typically used to override methods of an existing class or interface on the fly without writing a separate concrete class file. Since Java 8, simple single-method anonymous classes are often replaced with cleaner lambda expressions.</p>
+
+        <p>Here is how to create an anonymous subclass of a Person class on the fly:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">abstract class Person {
     abstract void eat();
 }
-
+ 
 class AnonymousInner {
     public static void main(String args[]) {
         // Declares and instantiates anonymous Person subclass
@@ -229,10 +236,9 @@ class AnonymousInner {
         p.eat(); // Prints: nice fruits
     }
 }</code></pre>
-
-        <h2>Summary</h2>
-        <p>Use inner classes to restrict helper access. Member inner classes represent permanent components, local
-          classes restrict scope to methods, and anonymous classes are ideal for quick, one-off callbacks.</p>
+ 
+        <h2>Conclusion & Design Guidelines</h2>
+        <p>Nesting classes is a powerful tool for logical grouping and encapsulation. Use <strong>member inner classes</strong> when the helper class needs to be reused across multiple methods of the outer class. Choose <strong>local inner classes</strong> to restrict helper visibility to a single complex method. Finally, use <strong>anonymous inner classes</strong> (or lambda expressions) for quick, one-off callbacks and listener instances.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

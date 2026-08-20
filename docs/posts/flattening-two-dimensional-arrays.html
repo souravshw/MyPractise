@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -143,78 +143,56 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>A multi-dimensional array (like a 2D array) organizes data in rows and columns. While this is great for
-          representing grids, it makes searching, filtering, and sorting all the elements together complex. In Java,
-          <strong>flatMap</strong> is an elegant functional operation that "flattens" multiple arrays nested inside a
-          container into a single continuous stream of data.</p>
+        <p>In software development, we often organize data in multi-dimensional arrays, such as matrices, grids, or spreadsheets. While this layout is excellent for spatial modeling, it introduces challenges when you need to perform global operations like sorting, filtering, searching, or mapping across all elements.</p>
 
-        <p>In this guide, we will explain how 2D array flattening works using a simple dresser-drawers analogy and trace
-          the execution path in Java.</p>
-
-        
+        <p>To process this data efficiently, we need a way to decompose the nested structure. In Java, <strong>flattening</strong> is the process of converting a multi-dimensional array into a single, continuous one-dimensional stream of elements. By flattening nested arrays using the Stream API's <code>flatMap</code> operations, we can perform functional pipelines seamlessly.</p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          Think of it like: 
-          <p>Imagine you have a dresser with <strong>three drawers</strong> (representing a 2D array). Each drawer holds
-            various numbers of toys marked with numbers. If you want to sort all these toys sequentially, you cannot
-            easily do it while they are divided into separate drawers.</p>
-          <p>To sort them, you do this:</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Dresser Drawers
+          </div>
+          <p>To understand flattening, think of a dresser containing <strong>three separate drawers</strong> (representing our 2D array). Each drawer holds various numbers of toys marked with numeric labels. If you want to sort all the toys from smallest to largest, doing it while they remain split across separate drawers is clumsy and slow.</p>
+          <p>Instead, you follow this two-step process:
           <ol>
-            <li><strong>Dumping (`flatMap`):</strong> You pull open all three drawers and pour all the toys onto a
-              <strong>single long table</strong> (a flat 1D stream).</li>
-            <li><strong>Sorting (`sorted`):</strong> Now that all the toys are lying on the same flat surface, you line
-              them up from smallest to largest.</li>
+            <li><strong>Dumping (The FlatMap step):</strong> You pull open every drawer and pour all their contents onto a <strong>single long table</strong>. The drawers are removed, leaving you with a single flat line of toys.</li>
+            <li><strong>Sorting (The Sorted step):</strong> Now that all the toys lie on the same flat surface, you line them up sequentially.</li>
           </ol>
-          <p>The act of pouring the nested contents out onto a single flat table is exactly what
-            <strong>flatMap</strong> does!</p>
+          The act of pouring the nested contents out onto a single flat table is exactly what <strong>flatMap</strong> does in software.
+          </p>
         </div>
 
-        <h2>Walkthrough of the Main Method Scenario</h2>
-        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
+        <h2>The Stream Strategy</h2>
+        <p>To implement this in Java:
+        <ul>
+          <li>We start with a 2D jagged array <code>int[][] arr</code> (where different rows can have different lengths).</li>
+          <li>We create a stream of these arrays: <code>Stream.of(arr)</code> or <code>Arrays.stream(arr)</code>. This produces a stream of references to individual integer arrays.</li>
+          <li>We apply <code>flatMapToInt(Arrays::stream)</code>. This maps each array reference into its own primitive stream of values, then flattens and concatenates them into a single <code>IntStream</code>.</li>
+          <li>Finally, we call <code>.sorted()</code> on this unified stream to sort all elements, and print or collect them.</li>
+        </ul>
+        </p>
 
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 1: Instantiating the 2D Jagged Array
-          </div>
-          <p>The program sets up a 2D array where each row has a different length (known as a jagged array):</p>
-          <pre><code class="language-java">int[][] arr = {
+        <h2>Step-by-Step Scenario Walkthrough</h2>
+        <p>Let's trace the stream execution step-by-step for a jagged array:
+        <pre><code class="language-java">int[][] arr = {
     {1, 2, 3},
     {-2, 0, 5, 7},
     {-3, 4, 6, 8, 9}
 };</code></pre>
-          <p>We have 3 nested arrays containing a total of 12 elements.</p>
-        </div>
+        <ul>
+          <li><strong>Stream Generation:</strong> <code>Stream.of(arr)</code> yields a stream containing three array references: <code>[{1, 2, 3}, {-2, 0, 5, 7}, {-3, 4, 6, 8, 9}]</code>.</li>
+          <li><strong>Flattening:</strong> <code>flatMapToInt</code> merges these arrays into a continuous primitive <code>IntStream</code>: <code>[1, 2, 3, -2, 0, 5, 7, -3, 4, 6, 8, 9]</code>.</li>
+          <li><strong>Sorting:</strong> The <code>.sorted()</code> method sorts the continuous stream in natural ascending order: <code>[-3, -2, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code>.</li>
+          <li><strong>Printing:</strong> The <code>forEach</code> loop prints each number sequentially to the console.</li>
+        </ul>
+        </p>
 
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 2: Stream conversion and flattening
-          </div>
-          <p>The program wraps the 2D array in a stream, flattens it, and sorts it in one fluent pipeline:</p>
-          <pre><code class="language-java">IntStream sorted = Stream.of(arr)
-                         .flatMapToInt(Arrays::stream)
-                         .sorted();</code></pre>
-          <ul>
-            <li><code>Stream.of(arr)</code> creates a stream of type <code>Stream&lt;int[]&gt;</code> containing 3 array
-              references (one for each row).</li>
-            <li><code>flatMapToInt(Arrays::stream)</code> processes each array row, converts it into a primitive
-              <code>IntStream</code>, and merges them. The output is a single flat stream:
-              <code>[1, 2, 3, -2, 0, 5, 7, -3, 4, 6, 8, 9]</code>.</li>
-            <li><code>.sorted()</code> sorts this single stream in natural ordering:
-              <code>[-3, -2, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code>.</li>
-          </ul>
-        </div>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 3: Printing the sorted stream
-          </div>
-          <p>Finally, the sorted elements are printed to the console one by one:</p>
-          <pre><code class="language-java">sorted.forEach(eachElement -> System.out.println(eachElement));</code></pre>
-          <p>This prints the numbers sequentially from -3 up to 9.</p>
-        </div>
-
-        <h2>Java Solution</h2>
+        <h2>Java Implementation Code</h2>
         <p>Below is the complete Java code demonstrating 2D array flattening and sorting using Streams:</p>
 
         <!-- Prism.js Code Snippet -->
@@ -240,13 +218,11 @@ public class FlatteningTwoDimentionalArray {
         sorted.forEach(eachElement -> System.out.println(eachElement));
     }
 }</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>Java's <code>flatMapToInt()</code> is a powerful method for processing multi-dimensional arrays. By using
-          <code>Arrays::stream</code> inside the flatmap call, we cleanly transform nested groupings of primitive
-          integers into a single, flat stream. This allows us to perform collection-wide operations like sorting,
-          filtering, or reduction efficiently without nested loops.</p>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>Flattening a 2D array using <code>flatMapToInt()</code> is highly efficient, running in <code>O(N)</code> linear time for the flattening pass, followed by <code>O(N log N)</code> for sorting, where <code>N</code> is the total number of elements. By eliminating nested loops and temporary storage arrays, this approach makes processing jagged data structures elegant and highly readable.</p>
       </div>
+
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

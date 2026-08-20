@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -134,7 +134,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Maximum Subarray (Kadane's Algorithm) in Java</h1>
@@ -142,14 +142,19 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>What We're Solving</h2>
-        <p>The <strong>Maximum Subarray</strong> problem asks us to find a contiguous subarray within a one-dimensional
-          array of numbers (which contains at least one positive number) that has the largest sum.</p>
-        <p>For example, in the array <code>[-2, 1, -3, 4, -1, 2, 1, -5, 4]</code>, the contiguous subarray with the
-          largest sum is <code>[4, -1, 2, 1]</code>, which sums up to <code>6</code>. Finding this efficiently is
-          critical because contiguous sequence maximization is a common subproblem in data analysis and signal
-          processing.</p>
+        <h2>What We're Solving &amp; Sequential Sums</h2>
+        <p>Determining the maximum sum of a contiguous subarray in a one-dimensional array is a classic problem in computational logic. The <strong>Maximum Subarray</strong> problem asks us to find a contiguous segment of elements within a numeric array (which may contain both positive and negative values) that yields the largest possible sum.</p>
 
+        <p>For example, in the array <code>[-2, 1, -3, 4, -1, 2, 1, -5, 4]</code>, the contiguous subarray with the largest sum is <code>[4, -1, 2, 1]</code>, which sums up to <code>6</code>.</p>
+
+        <p>This is a key algorithm in software engineering:
+        <ul>
+          <li><strong>Financial Analytics:</strong> Finding the optimal time frame to buy and hold a stock by locating the period of greatest consecutive net gains.</li>
+          <li><strong>Signal Processing:</strong> Detecting the strongest contiguous signal burst amidst background noise and interference spikes.</li>
+          <li><strong>Pattern Recognition:</strong> Identifying clustered high-density regions within geometric or sequential data arrays.</li>
+        </ul>
+        </p>
+ 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/maximum_subarray.svg"
@@ -159,34 +164,35 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Analogy: 
-          <p>Imagine riding a rollercoaster with positive highs (thrill) and negative drops (fear/boredom). You want to
-            identify the single continuous segment of the ride that gave you the absolute highest aggregate happiness.
-            As you traverse the track, you keep track of your running streak of happiness. If your cumulative happiness
-            drops below zero, it means the sequence is actually dragging you down; so you discard it, reset your running
-            streak, and start tracking a new streak from the next point. Throughout the entire ride, you note down the
-            highest happiness score your streak ever reached. That peak score is the maximum subarray sum!</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Rollercoaster Streak
+          </div>
+          <p>To visualize this selection strategy, imagine riding a rollercoaster with positive peaks (happiness) and negative drops (discomfort or boredom):</p>
+          <ul>
+            <li><strong>Tracking the Streak:</strong> You want to find the single continuous segment of the ride that gives you the highest total happiness. As you traverse the track, you keep a running sum of your happiness.</li>
+            <li><strong>Resetting:</strong> If at any point your running sum drops below zero, it means the journey up to this block is actually dragging you down. Keeping this history would make any future streak smaller. So, you dynamically discard the negative history, reset your running streak to zero, and begin tracking a new segment starting exactly at the next track section.</li>
+            <li><strong>Recording the Peak:</strong> Throughout the entire ride, you note down the highest happiness score your streak ever reached. That peak score is the maximum subarray sum.</li>
+          </ul>
         </div>
 
         <h2>Solving the Problem</h2>
-        <h3>1. The Naive Approach (O(nÂ²))</h3>
-        <p>We can check every possible starting and ending index for all subarrays, sum their elements, and record the
-          maximum. This requires two nested loops, yielding a time complexity of <code>O(nÂ²)</code>. For large datasets,
-          this approach is extremely slow and impractical.</p>
+        <h3>1. The Naive Scanning Method (O(n&sup2;) Complexity)</h3>
+        <p>A naive approach checks every possible starting and ending index combination, summing the values within each range to find the maximum. This requires two nested loops, giving a time complexity of <code>O(n&sup2;)</code>. For arrays with thousands of elements, this approach is extremely slow and unusable.</p>
 
         <h3>2. Kadane's Algorithm (O(n) Time, O(1) Space)</h3>
-        <p>Kadane's algorithm is a classic dynamic programming technique that solves the problem in a single pass. At
-          each index, we make a local greedy decision: Is it better to add the current element to our existing running
-          sum, or should we discard the current sum and start a brand-new subarray starting exactly at the current
-          element? By taking <code>Math.max(nums[i], currSum + nums[i])</code>, we dynamically build the optimal
-          subarray sum in <code>O(n)</code> time using only <code>O(1)</code> extra space.</p>
+        <p>Kadane's algorithm is an elegant dynamic programming technique that solves this problem in a single pass. At each element, we make a local greedy choice: Is it better to append the current element to our existing running sum, or should we discard the previous sum and start a brand-new subarray starting exactly at the current element?</p>
+        
+        <p>By evaluating <code>Math.max(nums[i], currSum + nums[i])</code> at each step, we dynamically build the optimal subarray sum in <code>O(n)</code> time using only <code>O(1)</code> extra space.</p>
 
-        <h2>Tracing the Logic</h2>
-        <p>Let's trace Kadane's algorithm on the input array <code>nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]</code>:</p>
+        <h2>Detailed Trace Walkthrough</h2>
+        <p>Let's trace Kadane's algorithm step-by-step on the input array <code>nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]</code>:</p>
         <ol>
-          <li><strong>Step 1 (Initialization):</strong> We initialize two variables: <code>currSum</code> (current
-            running subarray sum) and <code>maxSum</code> (global maximum subarray sum seen so far). We set both to the
-            first element of the array:
+          <li><strong>Step 1 (Initialization):</strong> We set our running variables to the first element:
             <ul>
               <li><code>currSum = -2</code></li>
               <li><code>maxSum = -2</code></li>
@@ -194,83 +200,75 @@
           </li>
           <li><strong>Step 2 (Index i = 1, Value = 1):</strong>
             <ul>
-              <li>We compare the current element <code>1</code> against the sum of the element and the previous running
-                sum: <code>Math.max(1, currSum + 1) = Math.max(1, -2 + 1) = 1</code>.</li>
-              <li>So, <code>currSum = 1</code> (we discard the negative history and start a new subarray here).</li>
-              <li>Update global maximum: <code>maxSum = Math.max(maxSum, currSum) = Math.max(-2, 1) = 1</code>.</li>
+              <li>We evaluate: <code>Math.max(1, currSum + 1) = Math.max(1, -2 + 1) = 1</code>.</li>
+              <li><code>currSum</code> becomes <code>1</code> (we discard the negative history and start a new subarray here).</li>
+              <li>Update global maximum: <code>maxSum = Math.max(-2, 1) = 1</code>.</li>
             </ul>
           </li>
           <li><strong>Step 3 (Index i = 2, Value = -3):</strong>
             <ul>
-              <li>Calculate new running sum: <code>Math.max(-3, currSum + (-3)) = Math.max(-3, 1 - 3) = -2</code>.</li>
-              <li>So, <code>currSum = -2</code> (we continue the subarray because <code>-2</code> is better than
-                starting fresh with <code>-3</code>).</li>
-              <li>Update global maximum: <code>maxSum = Math.max(1, -2) = 1</code>.</li>
+              <li>Evaluate: <code>Math.max(-3, 1 - 3) = -2</code>.</li>
+              <li><code>currSum</code> becomes <code>-2</code> (we append the element because extending is better than starting a new subarray at <code>-3</code>).</li>
+              <li><code>maxSum</code> remains <code>1</code>.</li>
             </ul>
           </li>
           <li><strong>Step 4 (Index i = 3, Value = 4):</strong>
             <ul>
-              <li>Calculate new running sum: <code>Math.max(4, currSum + 4) = Math.max(4, -2 + 4) = 4</code>.</li>
-              <li>So, <code>currSum = 4</code> (we start a new subarray since <code>4</code> is greater than the
-                accumulated <code>2</code>).</li>
+              <li>Evaluate: <code>Math.max(4, -2 + 4) = 4</code>.</li>
+              <li><code>currSum</code> becomes <code>4</code> (we discard the negative history and start a new subarray here).</li>
               <li>Update global maximum: <code>maxSum = Math.max(1, 4) = 4</code>.</li>
             </ul>
           </li>
           <li><strong>Step 5 (Index i = 4, Value = -1):</strong>
             <ul>
-              <li>Calculate new running sum: <code>Math.max(-1, 4 - 1) = 3</code>. So, <code>currSum = 3</code>.</li>
-              <li>Update global maximum: <code>maxSum = Math.max(4, 3) = 4</code>.</li>
+              <li>Evaluate: <code>Math.max(-1, 4 - 1) = 3</code>. So, <code>currSum = 3</code>.</li>
+              <li><code>maxSum</code> remains <code>4</code>.</li>
             </ul>
           </li>
           <li><strong>Step 6 (Index i = 5, Value = 2):</strong>
             <ul>
-              <li>Calculate new running sum: <code>Math.max(2, 3 + 2) = 5</code>. So, <code>currSum = 5</code>.</li>
+              <li>Evaluate: <code>Math.max(2, 3 + 2) = 5</code>. So, <code>currSum = 5</code>.</li>
               <li>Update global maximum: <code>maxSum = Math.max(4, 5) = 5</code>.</li>
             </ul>
           </li>
           <li><strong>Step 7 (Index i = 6, Value = 1):</strong>
             <ul>
-              <li>Calculate new running sum: <code>Math.max(1, 5 + 1) = 6</code>. So, <code>currSum = 6</code>.</li>
+              <li>Evaluate: <code>Math.max(1, 5 + 1) = 6</code>. So, <code>currSum = 6</code>.</li>
               <li>Update global maximum: <code>maxSum = Math.max(5, 6) = 6</code>.</li>
             </ul>
           </li>
           <li><strong>Step 8 (Index i = 7, Value = -5):</strong>
             <ul>
-              <li>Calculate new running sum: <code>Math.max(-5, 6 - 5) = 1</code>. So, <code>currSum = 1</code>.</li>
-              <li>Update global maximum: <code>maxSum = Math.max(6, 1) = 6</code>.</li>
+              <li>Evaluate: <code>Math.max(-5, 6 - 5) = 1</code>. So, <code>currSum = 1</code>.</li>
+              <li><code>maxSum</code> remains <code>6</code>.</li>
             </ul>
           </li>
           <li><strong>Step 9 (Index i = 8, Value = 4):</strong>
             <ul>
-              <li>Calculate new running sum: <code>Math.max(4, 1 + 4) = 5</code>. So, <code>currSum = 5</code>.</li>
-              <li>Update global maximum: <code>maxSum = Math.max(6, 5) = 6</code>.</li>
+              <li>Evaluate: <code>Math.max(4, 1 + 4) = 5</code>. So, <code>currSum = 5</code>.</li>
+              <li><code>maxSum</code> remains <code>6</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 10 (Completion):</strong> The iteration completes, and the maximum subarray sum recorded is
-            <code>6</code> (corresponding to the segment <code>[4, -1, 2, 1]</code>).</li>
+          <li><strong>Step 10 (Completion):</strong> The loop finishes, and the maximum subarray sum recorded is <code>6</code> (corresponding to <code>[4, -1, 2, 1]</code>).</li>
         </ol>
 
-        <h2>Key Explanations</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <h2>Code Highlights &amp; Explanations</h2>
+        <p>The key highlights of our Java implementation:</p>
         <ul>
-          <li><code>currSum = Math.max(nums[i], currSum + nums[i])</code>: This is the core dynamic programming state
-            transition. It decides whether the current element should extend the previous subarray or start a new one.
-          </li>
-          <li><code>maxSum = Math.max(maxSum, currSum)</code>: This ensures we capture the peak value of
-            <code>currSum</code> at any point during the single-pass traversal.</li>
+          <li><code>currSum = Math.max(nums[i], currSum + nums[i])</code> is the core state transition. It determines whether the current element should extend the previous subarray or start a new one.</li>
+          <li><code>maxSum = Math.max(maxSum, currSum)</code> ensures we record the peak running sum seen at any point during the single-pass traversal.</li>
         </ul>
 
         <h2>Full Code Solution</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem using both naive search and the optimized Kadane's algorithm, along with console logging.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 import java.util.Arrays;
-
+ 
 public class MaximumSubarray {
-
+ 
     // Brute Force - O(n^2)
     public int maxSubArrayBrute(int[] nums) {
         int max = Integer.MIN_VALUE;
@@ -283,8 +281,8 @@ public class MaximumSubarray {
         }
         return max;
     }
-
-    // Optimized - O(n) (Kadane&#x27;s Algorithm)
+ 
+    // Optimized - O(n) (Kadane's Algorithm)
     public int maxSubArray(int[] nums) {
         int maxSum = nums[0], currSum = nums[0];
         for (int i = 1; i &lt; nums.length; i++) {
@@ -293,33 +291,30 @@ public class MaximumSubarray {
         }
         return maxSum;
     }
-
+ 
     public static void main(String[] args) {
         MaximumSubarray solver = new MaximumSubarray();
         int[] nums = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
-
-        System.out.println(&quot;--- Maximum Subarray (Kadane&#x27;s) Demonstration ---&quot;);
-        System.out.println(&quot;Input Array: &quot; + Arrays.toString(nums));
-
-        System.out.println(&quot;\nExecuting Kadane&#x27;s Algorithm...&quot;);
+ 
+        System.out.println("--- Maximum Subarray (Kadane's) Demonstration ---");
+        System.out.println("Input Array: " + Arrays.toString(nums));
+ 
+        System.out.println("\nExecuting Kadane's Algorithm...");
         int maxSum = nums[0], currSum = nums[0];
-        System.out.printf(&quot;Initial state: currSum = %d, maxSum = %d\n&quot;, currSum, maxSum);
+        System.out.printf("Initial state: currSum = %d, maxSum = %d\n", currSum, maxSum);
         
         for (int i = 1; i &lt; nums.length; i++) {
             currSum = Math.max(nums[i], currSum + nums[i]);
             maxSum = Math.max(maxSum, currSum);
-            System.out.printf(&quot;After element %d (val=%d): currSum = %d, maxSum = %d\n&quot;, 
+            System.out.printf("After element %d (val=%d): currSum = %d, maxSum = %d\n", 
                 i, nums[i], currSum, maxSum);
         }
-        System.out.println(&quot;Maximum contiguous subarray sum: &quot; + solver.maxSubArray(nums));
+        System.out.println("Maximum contiguous subarray sum: " + solver.maxSubArray(nums));
     }
-}
-</code></pre>
-
-        <h2>Summary</h2>
-        <p>Solving the <strong>Maximum Subarray (Kadane's Algorithm)</strong> problem highlights how we can leverage key
-          data structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to
-          significantly optimize runtime and simplify code complexity.</p>
+}</code></pre>
+ 
+        <h2>Conclusion &amp; Takeaways</h2>
+        <p>Solving the <strong>Maximum Subarray</strong> problem using Kadane's Algorithm highlights the power of dynamic programming to reduce time complexity. By making localized greedy choices and resetting negative subproblems, we convert an $O(n^2)$ search into a clean $O(n)$ single-pass solution.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

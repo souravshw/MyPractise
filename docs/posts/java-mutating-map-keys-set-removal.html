@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -144,65 +144,64 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In Java, hash-based collections (like <code>HashMap</code> and <code>HashSet</code>) rely on the hash code of
-          an object to locate its bucket. If an object is inserted as a key, and then one of its fields used in
-          <code>hashCode()</code> calculation is mutated, the object's hash code changes. This leaves the object
-          "trapped" in its old bucket, making it impossible to find or remove.</p>
-
-        <p>In this guide, we will walk through a code trace where mutating a key field breaks set containment and
-          prevents object removal.</p>
-
-        
-
+        <p>Hash-based collections in Java—such as <code>HashMap</code> and <code>HashSet</code>—are designed for near-instantaneous <code>O(1)</code> access time. Under the hood, these collections utilize an object's <strong><code>hashCode()</code></strong> value to determine the specific memory bucket index where the object should be stored. However, this design carries a hidden, highly dangerous trap: if an object is added to a set or used as a map key, and you subsequently mutate one of its fields that participates in the <code>hashCode()</code> calculation, the object's hash code will change. Because the collection does not dynamically re-hash elements when their properties change, the mutated object remains physically stuck in its original bucket. When you later attempt to retrieve, contain-check, or remove the object, Java calculates its new hash code, looks in the wrong bucket, finds nothing, and fails silently. In this guide, we will trace a code scenario to see how key mutation traps elements in memory.</p>
+ 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Analogy: 
-          <p>Imagine a school mail sorter room:</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The School Sorter Mailbox
+          </div>
+          <p>To visualize this error, imagine a school mailroom containing a wall of labeled sorting boxes:</p>
           <ul>
-            <li>You receive a letter labeled for <strong>Mailbox 2</strong>. The sorter places it in slot 2.</li>
-            <li>While no one is looking, a student changes the label on the envelope to read <strong>Mailbox 1</strong>
-              (mutating a field).</li>
-            <li>Later, you want to retrieve the envelope. The sorter checks the label, sees it says Mailbox 1, and goes
-              to <strong>Slot 1</strong> to look for it.</li>
-            <li>Because Slot 1 is empty, the sorter returns and says: "Sorry, your letter doesn't exist!" even though it
-              is still sitting inside Slot 2. It is lost forever.</li>
+            <li><strong>The Initial Sorting:</strong> You receive a letter for a student. You calculate that the letter belongs in <strong>Mailbox 2</strong> based on the envelope's details, and you place it in Slot 2.</li>
+            <li><strong>The Secret Mutation:</strong> While no one is looking, a student erases the label details on the envelope and writes new info that corresponds to <strong>Mailbox 1</strong> (mutating the comparison fields).</li>
+            <li><strong>The Retrieval Failure:</strong> Later, you want to retrieve the letter. You read the modified envelope details, conclude it belongs in Mailbox 1, and search inside <strong>Slot 1</strong>. Because Slot 1 is completely empty, you conclude the letter does not exist.</li>
           </ul>
+          The letter remains trapped in Slot 2 indefinitely, invisible to the sorting system because its address no longer matches its location.
         </div>
 
         <h2>1. The Mutability Code Scenario</h2>
-        <p>Let's look at this implementation using a helper class <code>KeyMaster</code>:</p>
+        <p>Here is a mutable class definition where the hash code calculation depends directly on a mutable field:</p>
 
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">import java.util.HashSet;
 import java.util.Set;
-
+ 
 class KeyMaster {
     public int i;
-
+ 
     public KeyMaster(int i) {
         this.i = i;
     }
-
+ 
     public boolean equals(Object o) {
         return i == ((KeyMaster) o).i;
     }
-
+ 
     public int hashCode() {
         return i; // Hash code depends directly on mutable field 'i'
     }
 }</code></pre>
-
+ 
         <h2>2. Tracing the Execution</h2>
-        <p>Now let's trace the main method operations step by step:</p>
+        <p>Now, let's trace the execution steps when we insert objects, mutate a field, and attempt to clean them up:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">public static void main(String[] args) {
     Set&lt;KeyMaster&gt; set = new HashSet&lt;&gt;();
     KeyMaster k1 = new KeyMaster(1);
     KeyMaster k2 = new KeyMaster(2);
-
+ 
     set.add(k1);
     set.add(k1); // Duplicate addition is ignored
     set.add(k2);
     set.add(k2); // Duplicate addition is ignored
-
+ 
     System.out.print(set.size() + ":"); // PRINTS: 2:
     
     // TRAP: Mutate k2's comparison field!
@@ -216,29 +215,21 @@ class KeyMaster {
     set.remove(k2);
     System.out.print(set.size());       // PRINTS: 1 (k2 CANNOT be found or removed!)
 }</code></pre>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Why did set.remove(k2) fail?
-          </div>
-          <p>
-            When <code>k2</code> was added, it had <code>i = 2</code>, so its hash code was <code>2</code>. HashSet
-            stored it inside bucket index 2.
-            When we did <code>k2.i = 1;</code>, its hash code became <code>1</code>.
-            When we called <code>set.remove(k2)</code>, HashSet evaluated its current hash code (<code>1</code>) and
-            checked bucket index 1.
-            Because bucket index 1 was empty (we already removed `k1`), the HashSet concluded <code>k2</code> wasn't in
-            the collection and did nothing. `k2` remains stuck in bucket index 2!
-          </p>
-        </div>
-
-        <h2>Takeaways</h2>
-        <p>To avoid this collection trap:
+ 
+        <h2>Under the Hood: Why the Trap Fails</h2>
+        <p>Let's trace the exact bucket state transitions to see why <code>set.remove(k2)</code> fails:
+        <ol>
+          <li><strong>At Addition:</strong> When <code>k2</code> is added, <code>i = 2</code>. The HashSet calculates <code>hashCode() = 2</code> and places <code>k2</code> in bucket 2.</li>
+          <li><strong>At Mutation:</strong> When you change <code>k2.i = 1</code>, the object remains in bucket 2, but its runtime <code>hashCode()</code> updates to <code>1</code>.</li>
+          <li><strong>At Removal:</strong> When you call <code>set.remove(k2)</code>, the set evaluates the object's current hash code (<code>1</code>) and searches bucket 1. Since bucket 1 is empty (or holds other entries), the set concludes <code>k2</code> does not exist. The reference remains trapped in bucket 2, causing a silent memory leak.</li>
+        </ol>
+        </p>
+ 
+        <h2>Conclusion &amp; Design Best Practices</h2>
+        <p>To prevent this collection trap, follow these core rules:
         <ul>
-          <li>Always design your Map keys and Set elements to be <strong>immutable</strong> (use <code>final</code>
-            fields).</li>
-          <li>If you must modify properties of an element inside a Set or Map, remove the object first, mutate the
-            field, and re-add it.</li>
+          <li><strong>Prioritize Immutability:</strong> Always design map keys and set elements using immutable fields (such as <code>final</code> properties) so their hash codes cannot change after construction.</li>
+          <li><strong>The Remove-Modify-Add Pattern:</strong> If you absolutely must modify an element's fields, first remove the object from the collection, perform the modification, and then re-add it to ensure it is placed in the correct bucket.</li>
         </ul>
         </p>
       </div>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -133,7 +133,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Palindrome Linked List in Java</h1>
@@ -141,14 +141,13 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Understanding the Challenge</h2>
-        <p>The <strong>Palindrome Linked List</strong> problem asks us to determine if a given singly linked list is a
-          palindrome (i.e., reads the same forwards and backwards).</p>
-        <p>For example, the list <code>1 -> 2 -> 2 -> 1</code> is a palindrome, while the list <code>1 -> 2 -> 3</code>
-          is not. The primary constraint is doing this in <code>O(n)</code> time complexity and <code>O(1)</code> space
-          complexity. Since we cannot traverse a singly linked list backwards, this requires a clever combination of
-          list operations.</p>
+        <h2>What We're Solving &amp; Sequential Symmetry</h2>
+        <p>Verifying symmetry across linear data streams is a common task in algorithmic logic. The <strong>Palindrome Linked List</strong> problem asks us to determine if a given singly linked list reads the same forward and backward.</p>
 
+        <p>For example, the list <code>1 -> 2 -> 2 -> 1 -> null</code> represents a palindrome, whereas the list <code>1 -> 2 -> 3 -> null</code> does not.</p>
+
+        <p>The primary constraint of this problem is to achieve our result in linear <code>O(n)</code> time complexity using only constant <code>O(1)</code> auxiliary space. Because a singly linked list lacks backward pointers, traversing backward is impossible without modification, forcing us to use a creative combination of pointer manipulation techniques.</p>
+ 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/palindrome_linked_list.svg"
@@ -158,97 +157,91 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine writing a word on a strip of paper. To check if it is a palindrome, you could fold the strip of
-            paper exactly in half. Once folded, you compare the letter on the top page with the corresponding letter
-            directly beneath it. For a linked list, we can perform this "fold" by finding the exact middle of the list,
-            reversing the entire second half of the list, and then comparing the first half and the reversed second half
-            step-by-step from their respective headers!</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Paper Fold Metaphor
+          </div>
+          <p>To build intuition for the optimal in-place check, imagine a word written on a strip of paper:</p>
+          <ul>
+            <li><strong>Folding in Half:</strong> To check if the word is a palindrome, you can fold the strip of paper exactly in the middle.</li>
+            <li><strong>Top vs Bottom Comparisons:</strong> Once folded, you compare the letter on the top page with the corresponding letter directly beneath it. If every letter matches, the word is symmetric.</li>
+            <li><strong>Applying to Lists:</strong> In a linked list, we can perform this "fold" dynamically. First, we locate the exact middle of the list. Then, we reverse the second half of the list in-place. Finally, we traverse both halves simultaneously from their respective starting heads, comparing node values step-by-step.</li>
+          </ul>
+          This physical paper-folding technique is the basis for our constant-space checks.
         </div>
 
-        <h2>The Approach</h2>
-        <h3>1. Auxiliary Stack / List Approach (O(n) Space)</h3>
-        <p>We can copy all list values into an ArrayList or push them onto a Stack, and then check for palindrome
-          properties using standard arrays/stack mechanisms. While straightforward, this requires <code>O(n)</code>
-          extra storage space, which violates the strict constant space constraint.</p>
+        <h2>The Strategy</h2>
+        <h3>1. Auxiliary Stack Approach (O(n) Space)</h3>
+        <p>A simple way to verify symmetry is to copy all node values into a list or push them onto a stack. We then read the list or pop values from the stack to verify if they match the original sequence. While simple, this approach requires <code>O(n)</code> extra memory, which violates the strict <code>O(1)</code> space requirement.</p>
 
         <h3>2. Middle Reversal Optimization (O(n) Time, O(1) Space)</h3>
-        <p>We can achieve the result in-place using three main steps:
-        <ol>
-          <li>Find the middle of the linked list using the two-pointer **fast and slow** technique (where
-            <code>fast</code> moves twice as fast as <code>slow</code>).</li>
-          <li>Reverse the second half of the linked list starting from the middle node (<code>slow</code>).</li>
-          <li>Compare the values of the first half (starting at <code>head</code>) and the reversed second half
-            (starting at the new head of the reversed portion) node by node.</li>
-        </ol>
-        After checking, we can optionally reverse the second half back to restore the original list structure. This runs
-        in linear <code>O(n)</code> time using only <code>O(1)</code> memory.
+        <p>We can solve the problem in-place using three coordinated phases:
+        <ul>
+          <li><strong>Find the Middle:</strong> We use the two-pointer <strong>fast and slow</strong> technique (where <code>fast</code> moves at double the speed of <code>slow</code>). By the time <code>fast</code> reaches the end of the list, <code>slow</code> is guaranteed to be at the middle node.</li>
+          <li><strong>Reverse the Second Half:</strong> We reverse the entire second half of the list starting from the <code>slow</code> node.</li>
+          <li><strong>Compare Halves:</strong> We initialize two pointers: one at the start of the first half (<code>head</code>) and one at the head of the reversed second half. We compare their values node-by-node. If any values mismatch, the list is not a palindrome.</li>
+        </ul>
+        After checking, we can optionally reverse the second half again to restore the original list structure. This runs in linear <code>O(n)</code> time using only <code>O(1)</code> memory.
         </p>
-
-        <h2>Tracing the Logic</h2>
-        <p>Let's trace the algorithm on the linked list <code>1 -> 2 -> 2 -> 1 -> null</code>:</p>
+ 
+        <h2>Detailed Trace Walkthrough</h2>
+        <p>Let's trace this middle reversal algorithm step-by-step on <code>1 -> 2 -> 2 -> 1 -> null</code>:</p>
         <ol>
-          <li><strong>Step 1 (Find Middle):</strong>
+          <li><strong>Step 1 (Locate Middle):</strong>
             <ul>
-              <li>Initialize <code>slow</code> and <code>fast</code> pointers at <code>head</code> (node
-                <code>1</code>).</li>
-              <li>Iteration 1: <code>slow = 2</code> (second node), <code>fast = 2</code> (third node).</li>
-              <li>Iteration 2: <code>slow = 2</code> (third node), <code>fast = null</code>.</li>
-              <li>The loop terminates since <code>fast</code> is null. The middle of the list is at <code>slow</code>
-                (the third node <code>2</code>).</li>
+              <li>Initialize <code>slow</code> and <code>fast</code> pointers at <code>head</code> (node <code>1</code>).</li>
+              <li><strong>Iteration 1:</strong> <code>slow</code> advances to the second node <code>2</code>; <code>fast</code> advances two steps to the third node <code>2</code>.</li>
+              <li><strong>Iteration 2:</strong> <code>slow</code> advances to the third node <code>2</code>; <code>fast</code> advances to <code>null</code>.</li>
+              <li>The loop terminates. The middle of the list is at <code>slow</code> (the third node <code>2</code>).</li>
             </ul>
           </li>
           <li><strong>Step 2 (Reverse Second Half):</strong>
             <ul>
-              <li>We call our reverse function on the second half starting at <code>slow</code>:
-                <code>2 -> 1 -> null</code>.</li>
-              <li>This returns the reversed chain: <code>1 -> 2 -> null</code>.</li>
+              <li>We call our list reversal helper on the second half starting at <code>slow</code> (<code>2 -> 1 -> null</code>).</li>
+              <li>The helper returns the reversed chain: <code>1 -> 2 -> null</code>.</li>
             </ul>
           </li>
           <li><strong>Step 3 (Compare Halves):</strong>
             <ul>
-              <li>Initialize <code>firstHalf = head</code> (node <code>1</code>) and
-                <code>secondHalf = reversedHead</code> (node <code>1</code>).</li>
-              <li>Compare node values:
+              <li>Set <code>firstHalf = head</code> (node <code>1</code>) and <code>secondHalf</code> to the reversed head (node <code>1</code>).</li>
+              <li>Compare values:
                 <ul>
-                  <li>Step 3a: <code>firstHalf.val (1) == secondHalf.val (1)</code>. Match. Advance pointers.</li>
-                  <li>Step 3b: <code>firstHalf.val (2) == secondHalf.val (2)</code>. Match. Advance pointers.</li>
+                  <li>Step 3a: <code>firstHalf.val (1) == secondHalf.val (1)</code>. Match. Advance pointers: <code>firstHalf</code> becomes node <code>2</code>, <code>secondHalf</code> becomes node <code>2</code>.</li>
+                  <li>Step 3b: <code>firstHalf.val (2) == secondHalf.val (2)</code>. Match. Advance pointers: <code>secondHalf</code> becomes <code>null</code>.</li>
                 </ul>
               </li>
-              <li>Since <code>secondHalf</code> reaches <code>null</code>, the comparison finishes successfully.</li>
+              <li>Since <code>secondHalf</code> is <code>null</code>, the verification completes successfully.</li>
             </ul>
           </li>
-          <li><strong>Step 4 (Completion):</strong> All elements matched, so the method returns <code>true</code>. The
-            list is confirmed as a palindrome.</li>
+          <li><strong>Step 4 (Completion):</strong> All compared values matched, so the method returns <code>true</code>.</li>
         </ol>
 
-        <h2>Code Breakdown</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <h2>Code Highlights &amp; Explanations</h2>
+        <p>Key sections of our Java implementation:</p>
         <ul>
-          <li><code>while (fast != null && fast.next != null) { slow = slow.next; fast = fast.next.next; }</code>:
-            Classic slow/fast algorithm. When <code>fast</code> reaches the end, <code>slow</code> is guaranteed to be
-            at the middle node of the list.</li>
-          <li><code>ListNode secondHalf = reverseList(slow);</code>: Inverts the second half, allowing us to traverse
-            the second half forward rather than backward.</li>
-          <li><code>if (firstHalf.val != secondHalf.val) return false;</code>: Immediately rejects the list as a
-            palindrome upon detecting the first mismatch.</li>
+          <li><code>while (fast != null &amp;&amp; fast.next != null)</code> ensures correct slow/fast pointer traversal for both even and odd length lists.</li>
+          <li><code>reverseList(slow)</code> inverts the link directions of the second half of the list in-place.</li>
+          <li><code>firstHalf.val != secondHalf.val</code> provides an early exit, returning <code>false</code> as soon as a mismatch is detected.</li>
         </ul>
 
         <h2>Full Code Solution</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves this problem, featuring in-place middle reversal and comparison, along with a main test runner.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 public class PalindromeLinkedList {
-
+ 
     public static class ListNode {
         public int val;
         public ListNode next;
         public ListNode(int val) { this.val = val; }
     }
-
+ 
     // Optimized - Reverse 2nd Half + Compare - O(n)
     public boolean isPalindrome(ListNode head) {
         if (head == null || head.next == null) return true;
@@ -272,7 +265,7 @@ public class PalindromeLinkedList {
         }
         return true;
     }
-
+ 
     private ListNode reverseList(ListNode head) {
         ListNode prev = null;
         while (head != null) {
@@ -283,24 +276,21 @@ public class PalindromeLinkedList {
         }
         return prev;
     }
-
+ 
     public static void main(String[] args) {
         PalindromeLinkedList solver = new PalindromeLinkedList();
         ListNode head = new ListNode(1);
         head.next = new ListNode(2);
         head.next.next = new ListNode(2);
         head.next.next.next = new ListNode(1);
-
-        System.out.println(&quot;--- Palindrome Linked List Demonstration ---&quot;);
-        System.out.println(&quot;Is Palindrome: &quot; + solver.isPalindrome(head));
+ 
+        System.out.println("--- Palindrome Linked List Demonstration ---");
+        System.out.println("Is Palindrome: " + solver.isPalindrome(head));
     }
-}
-</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>Solving the <strong>Palindrome Linked List</strong> problem highlights how we can leverage key data
-          structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly
-          optimize runtime and simplify code complexity.</p>
+}</code></pre>
+ 
+        <h2>Conclusion &amp; Takeaways</h2>
+        <p>Checking linked list symmetry in constant space highlights the utility of multi-pointer coordination and temporary link reversals. By finding the middle node, reversing the second half, and sweeping forward, we avoid auxiliary storage arrays and solve the problem in a single linear pass.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

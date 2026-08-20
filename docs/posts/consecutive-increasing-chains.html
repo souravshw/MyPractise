@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -143,11 +143,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>An interesting coding problem is to find the <strong>longest chain of numbers</strong> in an array where each
-          number in the chain is exactly 1 larger than the one before it, and we must preserve the array order (we can
-          only search forward, skipping elements that don't fit).</p>
+        <p>Array search problems are fundamental to computer science, but adding order constraints can make them challenging. A classic example is the <strong>Longest Consecutive Increasing Chain</strong> problem. The goal is to find the longest sequence of numbers in an array where each subsequent number is exactly one unit larger than its predecessor. Crucially, you must maintain the array's original ordering. This means you can only scan forward, skipping any intermediate numbers that do not fit the sequence.</p>
 
-        <p>Let's understand how we search for these runs using a simple card-stacking game analogy.</p>
+        <p>For instance, given the array <code>[0, 1, 26, 8, 9, 2, 3, 27, 1, 0, 4]</code>, the longest consecutive increasing chain is <code>0 &rarr; 1 &rarr; 2 &rarr; 3 &rarr; 4</code>, which has a length of <code>5</code>. The values <code>26</code>, <code>8</code>, <code>9</code>, and <code>27</code> are simply skipped because they do not continue the incrementing pattern. Finding this sequence requires traversing the array carefully, checking all potential starting numbers.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -158,67 +156,48 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine you have cards spread out in a row on a table. You want to construct the longest possible sequence
-            of cards that increase by exactly 1 (like <code>0 → 1 → 2 → 3 → 4</code>).</p>
-          <p>However, you must follow a strict rule: <strong>you can only pick cards from left to right</strong> (no
-            backtracking!).</p>
-          <ul>
-            <li>You start with the first card (e.g. <code>0</code>).</li>
-            <li>You scan the table to the right looking for a card that is exactly <code>1</code>.</li>
-            <li>Once you find <code>1</code>, you continue scanning to the right from that spot looking for a
-              <code>2</code>.</li>
-            <li>You skip unrelated cards (like <code>26</code> or <code>8</code>) that lie in between because they don't
-              help build the run.</li>
-            <li>After trying every card as a starting point, the longest card run wins!</li>
-          </ul>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Card Run Metaphor
+          </div>
+          <p>To understand this, imagine a card game where you lay out a single row of numbered cards on a table from left to right. Your objective is to build the longest run of cards that increase by exactly one (like <code>0 &rarr; 1 &rarr; 2 &rarr; 3 &rarr; 4</code>).</p>
+          <p>However, you must follow a strict rule: <strong>you can only scan the cards from left to right</strong>. You cannot jump backward. You pick your starting card, say <code>0</code>. Next, you scan to the right looking for a card labeled <code>1</code>. When you find it, you immediately start looking from that position to the right for a <code>2</code>. You ignore unrelated cards (like a <code>26</code> or a <code>8</code>) because they don't fit the sequence. Once you scan the entire row, you record the run's length, then start over using the next card as your starting point to see if you can build an even longer run.</p>
         </div>
+
+        <h2>The Algorithmic Strategy</h2>
+        <p>To implement this logic in Java, we can use a nested loop strategy:
+        <ul>
+          <li><strong>Outer Loop:</strong> This loop designates each index in the array as a potential starting point for a sequence.</li>
+          <li><strong>Inner Loop:</strong> Starting from the next index (<code>j = i + 1</code>), this loop scans forward looking for elements that are exactly one value higher than the current value in our sequence.</li>
+          <li><strong>Tracking State:</strong> We maintain a <code>previous</code> variable to keep track of the last matched value and a <code>count</code> variable to measure the current sequence length. Every time we find a match, we increment <code>count</code> and update <code>previous</code> to the matched value.</li>
+          <li><strong>Updating the Maximum:</strong> At the end of each outer loop scan, we check if our current run is the longest we've found so far and update <code>maxCount</code> if necessary.</li>
+        </ul>
+        </p>
 
         <h2>Walkthrough of the Main Method Scenario</h2>
-        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 1: Setting up the cards
-          </div>
-          <p>The program declares our unsorted numeric array:</p>
-          <pre><code class="language-java">int[] arr = {0, 1, 26, 8, 9, 2, 3, 27, 1, 0, 4};
-int count = 0;
-int maxCount = 0;</code></pre>
-        </div>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 2: Tracing the first loop run (starting at index 0)
-          </div>
-          <p>The loop starts at <code>i = 0</code> (value <code>0</code>). We look forward in the array for
-            <code>previous + 1</code>:</p>
-          <ul>
-            <li><strong>Index 1:</strong> Value is <code>1</code>. <code>1 - 0 = 1</code>. Matches! Count increases to
-              1, previous becomes 1.</li>
-            <li><strong>Indices 2, 3, 4:</strong> Values are 26, 8, 9. Difference is not 1. Skipped.</li>
-            <li><strong>Index 5:</strong> Value is <code>2</code>. <code>2 - 1 = 1</code>. Matches! Count increases to
-              2, previous becomes 2.</li>
-            <li><strong>Index 6:</strong> Value is <code>3</code>. <code>3 - 2 = 1</code>. Matches! Count increases to
-              3, previous becomes 3.</li>
-            <li><strong>Indices 7, 8, 9:</strong> Skipped.</li>
-            <li><strong>Index 10:</strong> Value is <code>4</code>. <code>4 - 3 = 1</code>. Matches! Count increases to
-              4, previous becomes 4.</li>
-          </ul>
-          <p>At the end of the scan, the program updates the scoreboard: <code>maxCount = max(0, 4 + 1) = 5</code>.</p>
-        </div>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 3: Checking subsequent starting points
-          </div>
-          <p>The outer loop moves to index 1 (starting at value <code>1</code>), index 2 (starting at <code>26</code>),
-            and so on. None of these runs can reach a length of 5. The program prints the winning run length:
-            <strong>5</strong>.</p>
-        </div>
+        <p>Let's trace this logic using the array <code>[0, 1, 26, 8, 9, 2, 3, 27, 1, 0, 4]</code>:
+        <ol>
+          <li><strong>Starting at index 0 (Value 0):</strong>
+            <ul>
+              <li>We scan to the right. At index 1, we find <code>1</code> (which is <code>0 + 1</code>). Match! Our count becomes <code>1</code> and <code>previous</code> becomes <code>1</code>.</li>
+              <li>We skip <code>26</code>, <code>8</code>, <code>9</code>.</li>
+              <li>At index 5, we find <code>2</code> (which is <code>1 + 1</code>). Match! Our count becomes <code>2</code> and <code>previous</code> becomes <code>2</code>.</li>
+              <li>At index 6, we find <code>3</code> (which is <code>2 + 1</code>). Match! Our count becomes <code>3</code> and <code>previous</code> becomes <code>3</code>.</li>
+              <li>We skip <code>27</code>, <code>1</code>, <code>0</code>.</li>
+              <li>At index 10, we find <code>4</code> (which is <code>3 + 1</code>). Match! Our count becomes <code>4</code> and <code>previous</code> becomes <code>4</code>.</li>
+              <li>The loop ends. Including the starting element, the chain length is <code>5</code> (<code>maxCount = 5</code>).</li>
+            </ul>
+          </li>
+          <li><strong>Subsequent starting points:</strong> The outer loop shifts to index 1 (starting at value <code>1</code>), then index 2 (value <code>26</code>), and so on. None of these starting points can produce a chain longer than <code>5</code> elements, so the maximum remains <code>5</code>.</li>
+        </ol>
+        </p>
 
         <h2>Java Solution</h2>
-        <p>Below is the complete Java code demonstrating nested scans for increasing sequences:</p>
+        <p>Here is the complete Java implementation of this algorithm. It runs through the array using nested loops and prints the length of the longest chain found.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.accolite;
@@ -250,11 +229,9 @@ public class TestSecondProblem {
         System.out.println(maxCount); // Outputs: 5
     }
 }</code></pre>
-
-        <h2>Final Thoughts</h2>
-        <p>By using nested loops, we can track the progress of runs starting at every index position in our array.
-          Keeping a <code>maxCount</code> variable allows us to record and update the longest run found, ensuring we get
-          the correct output without losing our cards!</p>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>This nested loop approach guarantees that we check every possible starting point, making it highly robust. The time complexity is <code>O(N^2)</code> in the worst case because of the nested scanning structure, while the space complexity is a constant <code>O(1)</code> as we only need a few integer variables to track the state. This is an excellent entry-level array optimization puzzle.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -138,59 +138,66 @@
       </header>
 
       <div class="article-body">
-        <p>In Java, multitasking is achieved using threads. To write code that runs concurrently on a separate CPU core,
-          you must define the execution payload. Java offers two primary ways to create threads: **extending the
-          <code>Thread</code> class<strong> or </strong>implementing the <code>Runnable</code> interface**.</p>
+        <p>Modern processor architectures rely heavily on concurrent execution to maximize efficiency. In Java, the fundamental unit of concurrent execution is the <strong>Thread</strong>. To delegate a task to run asynchronously alongside the main program flow, you must define a custom execution payload. Java provides two classic built-in mechanisms to achieve this: <strong>extending the <code>Thread</code> class</strong> or <strong>implementing the <code>Runnable</code> interface</strong>.</p>
 
+        <p>While both achieve concurrent execution, they represent completely different object-oriented designs. Choosing the wrong mechanism can restrict your class inheritance options and complicate thread pool integration. In this guide, we will analyze both mechanisms, compare their features, and trace a full code implementation.</p>
+ 
+        <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/thread-creation.svg" alt="Thread Class vs Runnable Interface Visual"
             style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
+        <!-- Analogy Box -->
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine you run a pizza shop and need to make deliveries:</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Pizza Shop Deliveries
+          </div>
+          <p>To visualize the difference between these two approaches, imagine managing a busy city pizza shop:</p>
           <ul>
-            <li><strong>Extending Thread:</strong> You hire a dedicated <strong>Pizza Delivery Driver
-                (MyThread)</strong> who has a built-in delivery cycle. This person does nothing but deliver pizza. This
-              is simple, but now you cannot hire them to clean the kitchen because their entire identity is tied to
-              being a driver.</li>
-            <li><strong>Implementing Runnable:</strong> You write down a <strong>recipe checklist index card
-                (MyRunnable)</strong> containing the steps for making a delivery. You can hand this card to any employee
-              you already have (the generic Thread wrapper) or throw it into a kitchen team tasks bin (a Thread Pool).
-              This is highly flexible!</li>
+            <li><strong>Extending Thread (The Dedicated Pizza Delivery Driver):</strong> You hire a worker whose entire identity is defined as a Pizza Delivery Driver (<code>MyThread</code>). They come with a built-in delivery cycle. This setup is simple to deploy immediately, but it is highly rigid: because Java class inheritance is single-parent, this employee cannot help with kitchen cleanup or phone orders because their class lineage is locked as a driver.</li>
+            <li><strong>Implementing Runnable (The Recipe Checklist Card):</strong> Instead of hiring a specialized driver, you write down delivery steps on a recipe index card (<code>MyRunnable</code>). You can hand this index card to *any* employee you currently have, or toss it into a kitchen task queue (representing a Thread Pool).</li>
           </ul>
+          Using <code>Runnable</code> keeps your tasks decoupled from the physical threads executing them, giving you massive design flexibility.
         </div>
 
         <h2>Extending Thread vs. Implementing Runnable</h2>
         <table>
           <thead>
             <tr>
-              <th>Feature</th>
-              <th>Extending Thread</th>
-              <th>Implementing Runnable</th>
+              <th>Feature Description</th>
+              <th>Extending the Thread Class</th>
+              <th>Implementing the Runnable Interface</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Inheritance Limit</td>
-              <td>Multiple inheritance blocked (Java classes can only extend one class).</td>
-              <td>Can extend any parent class while implementing Runnable.</td>
+              <td>Class Inheritance Limit</td>
+              <td>Restricted: Java allows extending only one class. Extending Thread blocks further inheritance.</td>
+              <td>Unrestricted: Your class can inherit from any domain parent class while implementing the interface.</td>
             </tr>
             <tr>
-              <td>Decoupling</td>
-              <td>Task logic and execution management are tightly coupled.</td>
-              <td>Decoupled: Task logic can be passed to Executor pools easily.</td>
+              <td>Architecture Decoupling</td>
+              <td>Tightly Coupled: The task logic is merged directly with the operating system thread execution class.</td>
+              <td>Loosely Coupled: Task payload is fully isolated, making it easy to submit tasks to thread pools.</td>
             </tr>
             <tr>
-              <td>Object Sharing</td>
-              <td>Each thread owns its instance variables.</td>
-              <td>Multiple threads can share a single Runnable instance.</td>
+              <td>Resource Sharing</td>
+              <td>Isolated: Each thread instance holds its own unique state fields.</td>
+              <td>Shared: A single Runnable instance can be shared concurrently across multiple active threads.</td>
             </tr>
           </tbody>
         </table>
 
-        <h2>Full Code Solution</h2>
+        <h2>Full Code Implementation</h2>
+        <p>Here is a complete Java program demonstrating how to define, initialize, and execute threads using both class extension and interface implementation:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.threadsExample;
  
 public class ThreadExample {
@@ -232,11 +239,11 @@ class SecondSimpleThread implements Runnable {
         }
     }
 }</code></pre>
+ 
+        <h2>Conclusion &amp; Production Guidelines</h2>
+        <p>In production-grade enterprise code, implementing <code>Runnable</code> (or the newer <code>Callable</code> interface which supports returning values and throwing checked exceptions) is the recommended standard. Implementing <code>Runnable</code> is also the foundation for Java's functional programming. Since <code>Runnable</code> is a functional interface (having a single abstract <code>run()</code> method), it can be expressed directly as a lambda expression: <code>new Thread(() -> System.out.println("Running")).start();</code>. This allows for extremely compact asynchronous task submission without creating boilerplate subclass definitions.</p>
 
-        <h2>Final Thoughts</h2>
-        <p>In modern production environments, implementing `Runnable` (or `Callable`) is the recommended best practice.
-          It maintains class inheritance flexibility and allows you to submit tasks directly to concurrency frameworks
-          like ExecutorService.</p>
+        <p>By keeping your execution payloads decoupled from thread management, you can seamlessly transition tasks to concurrency frameworks like <code>ExecutorService</code>, customize thread pools, and write clean, scalable asynchronous code.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

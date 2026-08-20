@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -134,7 +134,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Lowest Common Ancestor (LCA) in Java</h1>
@@ -142,15 +142,19 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>What We're Solving</h2>
-        <p>The <strong>Lowest Common Ancestor (LCA)</strong> of two nodes <code>p</code> and <code>q</code> in a binary
-          tree is defined as the lowest node in the tree that has both <code>p</code> and <code>q</code> as descendants
-          (where we allow a node to be a descendant of itself).</p>
-        <p>For example, in a tree with root <code>3</code>, and child nodes <code>p = 5</code> and <code>q = 1</code>,
-          the LCA is the root <code>3</code> itself because both nodes diverge from it. If <code>p = 5</code> and
-          <code>q = 4</code> (where 4 is a child of 5), the LCA is <code>5</code>. This algorithm is widely used in
-          relational databases, organization chart software, and inheritance mapping compilers.</p>
+        <h2>What We're Solving &amp; Structural Splits</h2>
+        <p>In computer science, identifying the convergence point of divergent branches is a classic problem with significant architectural applications. The <strong>Lowest Common Ancestor (LCA)</strong> of two nodes <code>p</code> and <code>q</code> in a binary tree is defined as the lowest (deepest) node in the tree that has both <code>p</code> and <code>q</code> as descendants. Under this definition, we permit a node to be a descendant of itself.</p>
 
+        <p>For example, in a tree with root <code>3</code>, and child nodes <code>p = 5</code> and <code>q = 1</code>, the LCA is the root <code>3</code> itself because both nodes split directly from it. If <code>p = 5</code> and <code>q = 4</code> (where <code>4</code> reports directly underneath <code>5</code>), the LCA is <code>5</code> since <code>5</code> is a descendant of itself and sits above <code>4</code>.</p>
+
+        <p>Understanding the LCA pattern is critical for solving structural and hierarchical issues in engineering:
+        <ul>
+          <li><strong>Relational Databases:</strong> Tracing nested folder paths or categorical hierarchies to locate shared directories.</li>
+          <li><strong>Organization Management Tools:</strong> Identifying shared decision-makers or common reporting line supervisors.</li>
+          <li><strong>Inheritance Mapping:</strong> Finding closest parent interfaces or classes in object-oriented compiler trees.</li>
+        </ul>
+        </p>
+ 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/lowest_common_ancestor.svg"
@@ -160,99 +164,89 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          Think of it like: 
-          <p>Imagine a company org chart, which is structured like a tree. You have two employees, Alice (p) and Bob
-            (q). You want to find their Lowest Common Ancestor, which represents their nearest shared manager who has
-            authority over both of them. If Alice and Bob work in completely different departments (e.g., Engineering
-            and Marketing), their nearest common manager is the CEO at the top split point. However, if Alice is a
-            Senior Engineer and Bob is a Junior Engineer reporting directly to Alice, then Alice herself is their
-            nearest common manager, as she has authority over Bob and is a descendant of herself in the org chart
-            hierarchy!</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: Corporate Org Chart
+          </div>
+          <p>To visualize the Lowest Common Ancestor, imagine a company organizational chart:</p>
+          <ul>
+            <li><strong>Shared Manager (Split Departments):</strong> Think of two employees, Alice (representing node <code>p</code>) who works in Software Engineering, and Bob (representing node <code>q</code>) who works in Marketing. If you want to find their Lowest Common Ancestor, you trace their reporting lines up until they meet. Because their departments are completely separate, their nearest shared manager is the CEO at the top.</li>
+            <li><strong>Direct Manager (Subordinate Relationship):</strong> Now, think of Alice as the VP of Engineering and Bob as a Senior Developer who reports directly to her. If you trace their lineage, Alice already sits above Bob, and since she has authority over herself as well, she is their nearest shared manager.</li>
+          </ul>
+          The LCA represents this closest intersection point of authority.
         </div>
 
         <h2>The Approach</h2>
-        <h3>1. Post-Order Recursive DFS Search (O(n) Time, O(h) Space)</h3>
-        <p>We traverse the tree recursively. For any given node:
+        <h3>Post-Order DFS Recursive Strategy (O(n) Time, O(h) Space)</h3>
+        <p>We can solve this problem elegantly using a post-order Depth-First Search (DFS) traversal. The recursive logic works from the bottom up, evaluating subtrees and bubbling search states to parent frames:
         <ul>
-          <li>If the current node is <code>null</code>, or equals either <code>p</code> or <code>q</code>, we return the
-            current node. This represents finding one of our target nodes or hitting a leaf boundary.</li>
-          <li>We recursively search the left subtree:
-            <code>TreeNode left = lowestCommonAncestor(root.left, p, q)</code>.</li>
-          <li>We recursively search the right subtree:
-            <code>TreeNode right = lowestCommonAncestor(root.right, p, q)</code>.</li>
-          <li>If both <code>left</code> and <code>right</code> search results are non-null, it means one target node was
-            found in the left subtree and the other was found in the right subtree. Therefore, the current node is their
-            split point, which makes it the LCA.</li>
-          <li>If only one of them is non-null, it means both target nodes reside in that non-null subtree, so we pass
-            that result up to the parent caller.</li>
+          <li><strong>Base Case Check:</strong> If the current node is <code>null</code> (empty leaf boundary), or matches either <code>p</code> or <code>q</code>, we return the current node. This signal indicates we have either hit a dead end or found one of our target nodes.</li>
+          <li><strong>Subtree Searches:</strong> We recursively search the left child (<code>left = lowestCommonAncestor(root.left, p, q)</code>) and the right child (<code>right = lowestCommonAncestor(root.right, p, q)</code>).</li>
+          <li><strong>Evaluating Convergence:</strong>
+            <ul>
+              <li><strong>Split Point:</strong> If both <code>left</code> and <code>right</code> searches return non-null results, it means one target node was found on the left branch and the other on the right branch. The current node is therefore the unique meeting point, so we return it.</li>
+              <li><strong>Single Branch Matches:</strong> If only one of the subtree searches returns a non-null node, it means both targets reside along that path. We bubble that non-null node up to the parent.</li>
+              <li><strong>No Matches:</strong> If both search branches return <code>null</code>, we return <code>null</code>.</li>
+            </ul>
+          </li>
         </ul>
-        This traverses each node once, giving <code>O(n)</code> time complexity. The space complexity is
-        <code>O(h)</code> due to the recursion call stack.
+        This traverses each node once, giving <code>O(n)</code> time complexity. The space complexity is <code>O(h)</code> due to the recursion call stack.
         </p>
-
-        <h2>Walking Through the Logic</h2>
-        <p>Let's trace the recursive LCA algorithm on a tree with root <code>3</code>, left child <code>5</code>, right
-          child <code>1</code>. We want to find the LCA of <code>p = 5</code> and <code>q = 1</code>:</p>
+ 
+        <h2>Detailed Trace Walkthrough</h2>
+        <p>Let's trace this recursive algorithm on a simple binary tree where root <code>3</code> has left child <code>5</code> and right child <code>1</code>. We seek the LCA of <code>p = 5</code> and <code>q = 1</code>:</p>
         <ol>
-          <li><strong>Step 1 (Root call):</strong> Start at root node <code>3</code>.
+          <li><strong>Step 1 (Root Call):</strong> We invoke <code>lowestCommonAncestor(3, 5, 1)</code>.
             <ul>
-              <li>We call <code>lowestCommonAncestor(3, 5, 1)</code>.</li>
-              <li>Since 3 is not null, and doesn't equal p (5) or q (1), we proceed to search left and right.</li>
+              <li>Node <code>3</code> is not null and matches neither <code>5</code> nor <code>1</code>. We must search both subtrees.</li>
             </ul>
           </li>
-          <li><strong>Step 2 (Search Left Subtree of 3):</strong> We call
-            <code>lowestCommonAncestor(3.left, 5, 1)</code> which is <code>lowestCommonAncestor(5, 5, 1)</code>.
+          <li><strong>Step 2 (Left Subtree Search):</strong> We invoke <code>lowestCommonAncestor(3.left, 5, 1)</code> &rarr; <code>lowestCommonAncestor(5, 5, 1)</code>.
             <ul>
-              <li>Since the node is <code>5</code>, which matches <code>p = 5</code>, the base case triggers!</li>
-              <li>The method immediately returns node <code>5</code> to the root caller.</li>
+              <li>The current node matches <code>p = 5</code>, triggering our base case. The method immediately returns node <code>5</code> to the root caller.</li>
             </ul>
           </li>
-          <li><strong>Step 3 (Search Right Subtree of 3):</strong> We call
-            <code>lowestCommonAncestor(3.right, 5, 1)</code> which is <code>lowestCommonAncestor(1, 5, 1)</code>.
+          <li><strong>Step 3 (Right Subtree Search):</strong> We invoke <code>lowestCommonAncestor(3.right, 5, 1)</code> &rarr; <code>lowestCommonAncestor(1, 5, 1)</code>.
             <ul>
-              <li>Since the node is <code>1</code>, which matches <code>q = 1</code>, the base case triggers!</li>
-              <li>The method immediately returns node <code>1</code> to the root caller.</li>
+              <li>The current node matches <code>q = 1</code>, triggering our base case. The method immediately returns node <code>1</code> to the root caller.</li>
             </ul>
           </li>
-          <li><strong>Step 4 (Resolve at Root 3):</strong>
+          <li><strong>Step 4 (Resolution at Root):</strong>
             <ul>
               <li>We receive <code>left = 5</code> and <code>right = 1</code>.</li>
-              <li>Since both <code>left</code> and <code>right</code> are non-null, the split point condition matches:
-                <code>if (left != null && right != null) return root;</code>.</li>
+              <li>Since both variables are non-null, the split point condition matches: <code>if (left != null && right != null) return root;</code>.</li>
               <li>The root node <code>3</code> is returned as the LCA.</li>
             </ul>
           </li>
-          <li><strong>Step 5 (Completion):</strong> The algorithm completes and correctly returns node <code>3</code>.
-          </li>
+          <li><strong>Step 5 (Termination):</strong> The root frame completes execution, returning <code>3</code>.</li>
         </ol>
 
         <h2>How the Code Works</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <p>The key highlights of our Java implementation:</p>
         <ul>
-          <li><code>if (root == null || root == p || root == q) return root;</code>: The recursive base case. It stops
-            the search and returns the node as soon as we find either <code>p</code> or <code>q</code>, or hit a leaf.
-          </li>
-          <li><code>if (left != null && right != null) return root;</code>: The core split condition. If both subtrees
-            returned a match, the current node is the lowest common ancestor of the two targets.</li>
-          <li><code>return left != null ? left : right;</code>: If only one subtree returned a match, it means both
-            nodes are on that side, so we bubble that match up.</li>
+          <li><code>if (root == null || root == p || root == q) return root;</code>: The recursive base case. It stops the search and returns the node as soon as we find either <code>p</code> or <code>q</code>, or hit a leaf.</li>
+          <li><code>if (left != null &amp;&amp; right != null) return root;</code>: The core split condition. If both subtrees returned a match, the current node is the lowest common ancestor of the two targets.</li>
+          <li><code>return left != null ? left : right;</code>: If only one subtree returned a match, it means both nodes are on that side, so we bubble that match up.</li>
         </ul>
 
-        <h2>The Java Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <h2>Full Java Solution</h2>
+        <p>Below is the complete Java implementation featuring the recursive DFS algorithm, along with a main runner method to trace the node values.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 public class LowestCommonAncestor {
-
+ 
     public static class TreeNode {
         public int val;
         public TreeNode left, right;
         public TreeNode(int val) { this.val = val; }
     }
-
+ 
     // Recursive DFS - O(n)
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null || root == p || root == q) return root;
@@ -261,7 +255,7 @@ public class LowestCommonAncestor {
         if (left != null &amp;&amp; right != null) return root;
         return (left != null) ? left : right;
     }
-
+ 
     public static void main(String[] args) {
         LowestCommonAncestor solver = new LowestCommonAncestor();
         TreeNode root = new TreeNode(3);
@@ -269,18 +263,15 @@ public class LowestCommonAncestor {
         TreeNode q = new TreeNode(1);
         root.left = p;
         root.right = q;
-
-        System.out.println(&quot;--- Lowest Common Ancestor Demonstration ---&quot;);
+ 
+        System.out.println("--- Lowest Common Ancestor Demonstration ---");
         TreeNode lca = solver.lowestCommonAncestor(root, p, q);
-        System.out.println(&quot;LCA Val: &quot; + lca.val);
+        System.out.println("LCA Val: " + lca.val);
     }
-}
-</code></pre>
-
-        <h2>Summary</h2>
-        <p>Solving the <strong>Lowest Common Ancestor (LCA)</strong> problem highlights how we can leverage key data
-          structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly
-          optimize runtime and simplify code complexity.</p>
+}</code></pre>
+ 
+        <h2>Conclusion &amp; Takeaways</h2>
+        <p>Solving the <strong>Lowest Common Ancestor (LCA)</strong> problem highlights how we can leverage key data structures and bottom-up recursive backtracking to partition comparative branches. By evaluating subproblem returns at each parent pivot, we convert a global search tree traversal into an elegant $O(n)$ comparative flow.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

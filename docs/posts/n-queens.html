@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -134,7 +134,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding N-Queens in Java</h1>
@@ -142,132 +142,117 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Problem Breakdown</h2>
-        <p>The <strong>N-Queens</strong> puzzle is a classic constraint satisfaction problem in computer science. The
-          goal is to place <code>N</code> chess queens on an <code>N &times; N</code> chessboard such that no two queens
-          can attack each other. </p>
-        <p>In chess, a queen is the most powerful piece; it can attack any other piece located in the same
-          <strong>row</strong>, <strong>column</strong>, or along either of its two <strong>diagonals</strong> (primary
-          and secondary). To solve this puzzle, we must find all unique grid layouts where <code>N</code> queens coexist
-          in absolute peace.
-          For example, for a <code>4 &times; 4</code> board, there are exactly 2 unique solutions.
-        </p>
+        <h2>What We're Solving &amp; Chessboard Rules</h2>
+        <p>Solving geometric placement challenges under strict threat boundaries is a cornerstone of constraint programming. The <strong>N-Queens</strong> puzzle is a classic constraint satisfaction problem in computer science. The goal is to place <code>N</code> chess queens on an <code>N &times; N</code> chessboard such that no two queens can attack each other.</p>
 
-        
-
+        <p>In the rules of chess, a queen is the most versatile and powerful piece on the board: it can strike horizontally along its row, vertically along its column, or diagonally in all four directions. To solve this puzzle, we must determine all valid configurations where <code>N</code> queens can coexist without any overlap of their paths of attack. For a standard <code>8 &times; 8</code> board, there are 92 unique solutions; for a smaller <code>4 &times; 4</code> board, there are exactly 2.</p>
+ 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Analogy: 
-          <p>Imagine you are hosting a peace summit with <code>N</code> highly volatile diplomats. If any two diplomats
-            are placed in the same line of sight (horizontally, vertically, or diagonally), they will break out into an
-            argument. You have <code>N</code> rows of office spaces to place them. You start by placing the first
-            diplomat in row 1, column 1. You then look for a safe office in row 2. If you find one, you place the second
-            diplomat and proceed to row 3. If you reach row 3 and find that no office is safe, you realize your earlier
-            placement in row 2 was a mistake. You must retreat (backtrack) to row 2, move that diplomat to their next
-            option, and try again. By systematically making a choice, moving forward, and retreating when hitting a
-            dead-end, you find a peaceful arrangement for all diplomats.</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: Diplomat Office Assignment
+          </div>
+          <p>To visualize this step-by-step trial and error search, imagine assigning offices to volatile delegates:</p>
+          <ul>
+            <li><strong>Conflict Zones:</strong> You are hosting a summit with <code>N</code> delegates. If any two delegates share a line of sight (horizontally, vertically, or diagonally), they will argue.</li>
+            <li><strong>Row Constraints:</strong> You have an <code>N &times; N</code> grid of offices, and you must place exactly one delegate in each row of offices.</li>
+            <li><strong>Trial &amp; Placement:</strong> You assign row 1's delegate to the first column. You then look for a safe office in row 2 that does not conflict with the delegate in row 1.</li>
+            <li><strong>Encountering a Dead-End:</strong> You proceed to row 3, but realize every single office in row 3 is within the line of sight of your delegates in rows 1 and 2.</li>
+            <li><strong>Backtracking:</strong> Instead of giving up, you recognize that your choice in row 2 was incorrect. You step back to row 2, relocate that delegate to the next safe column option, and try to proceed forward again.</li>
+          </ul>
+          This systematic choice, forward exploration, and immediate retreat upon hitting a dead-end is the essence of backtracking.
         </div>
 
-        <h2>Solving the Problem</h2>
+        <h2>The Strategy</h2>
         <h3>Recursive Backtracking with Pruning (Time O(N!), Space O(N))</h3>
-        <p>Since we must place exactly one queen per row, we can simplify our search space by traversing the board
-          row-by-row. Starting at row 0:
+        <p>Let's look at the implementation details of this recursive search strategy:
         <ul>
-          <li><strong>Base Case:</strong> If the current <code>row</code> matches <code>N</code>, we have placed all
-            queens successfully. We copy the current board state and add it to our results list.</li>
-          <li><strong>Column Iteration:</strong> For the current <code>row</code>, we try to place a queen in each
-            column <code>col</code> from <code>0</code> to <code>N - 1</code>.</li>
-          <li><strong>Safety Check:</strong> Before placing a queen at <code>board[row][col]</code>, we check if it is
-            safe. Since we build the board top-to-bottom, we only check for threats above:
+          <li><strong>Row-by-Row Search:</strong> Since we know each row must contain exactly one queen, we can structure our search space to traverse the chessboard row-by-row, starting at row <code>0</code>. This reduces the problem complexity.</li>
+          <li><strong>Base Case:</strong> If our current <code>row</code> variable equals <code>N</code>, we have successfully placed a queen in every row without conflicts. We convert the current board state into a list of strings and add it to our results collection.</li>
+          <li><strong>Column Exploration:</strong> At the current <code>row</code>, we loop through each column <code>col</code> from <code>0</code> to <code>N - 1</code> and check if placing a queen at <code>board[row][col]</code> is safe.</li>
+          <li><strong>Safety Verification:</strong> Since we build the board top-to-bottom, we only need to verify if there are existing queens in the rows <em>above</em> the current row. Specifically:
             <ol>
-              <li>Vertically upwards in the same column <code>col</code>.</li>
-              <li>Diagonally upwards to the left (primary diagonal direction).</li>
-              <li>Diagonally upwards to the right (secondary diagonal direction).</li>
+              <li>Vertically upwards in the same column.</li>
+              <li>Diagonally upwards to the left (primary diagonal).</li>
+              <li>Diagonally upwards to the right (secondary diagonal).</li>
             </ol>
           </li>
-          <li><strong>Explore and Backtrack:</strong> If safe, we place the queen (<code>board[row][col] = 'Q'</code>),
-            recurse to <code>row + 1</code>, and then backtrack by removing the queen
-            (<code>board[row][col] = '.'</code>) before trying the next column.</li>
+          <li><strong>State Restoration:</strong> If the position is safe, we mark it (<code>board[row][col] = 'Q'</code>) and recurse to <code>row + 1</code>. Once that recursive path completes, we restore the board cell (<code>board[row][col] = '.'</code>) to clean up the state before evaluating the next column.</li>
         </ul>
         </p>
-
-        <h2>How It Works</h2>
-        <p>Let's trace the backtracking search for <code>N = 4</code>. We start with an empty board:</p>
+ 
+        <h2>Detailed Trace Walkthrough</h2>
+        <p>Let's trace the backtracking execution path for a <code>4 &times; 4</code> board (<code>N = 4</code>):</p>
         <ol>
           <li><strong>Step 1 (Row 0):</strong>
             <ul>
-              <li>Place queen at <code>col = 0</code>. Row 0: <code>[Q, ., ., .]</code>. Recurse to row 1.</li>
+              <li>Place a queen at column <code>0</code>. Row 0: <code>[Q, ., ., .]</code>. Recurse to row 1.</li>
             </ul>
           </li>
           <li><strong>Step 2 (Row 1):</strong>
             <ul>
-              <li><code>col = 0</code> (attacks <code>(0,0)</code> column).</li>
-              <li><code>col = 1</code> (attacks <code>(0,0)</code> diagonal).</li>
-              <li><code>col = 2</code> is safe! Place queen. Row 1: <code>[., ., Q, .]</code>. Recurse to row 2.</li>
+              <li>Column <code>0</code>: Under attack from <code>(0,0)</code>.</li>
+              <li>Column <code>1</code>: Under attack diagonally from <code>(0,0)</code>.</li>
+              <li>Column <code>2</code>: Safe! Place queen &rarr; Row 1: <code>[., ., Q, .]</code>. Recurse to row 2.</li>
             </ul>
           </li>
           <li><strong>Step 3 (Row 2):</strong>
             <ul>
-              <li><code>col = 0</code> (attacks <code>(0,0)</code> column).</li>
-              <li><code>col = 1</code> (attacks <code>(1,2)</code> diagonal).</li>
-              <li><code>col = 2</code> (attacks <code>(1,2)</code> column).</li>
-              <li><code>col = 3</code> (attacks <code>(1,2)</code> diagonal).</li>
-              <li>No columns are safe in Row 2! Backtrack to Row 1.</li>
+              <li>Column <code>0</code>: Attacks column <code>0</code> of Row 0.</li>
+              <li>Column <code>1</code>: Attacks diagonally from Row 1 <code>(1,2)</code>.</li>
+              <li>Column <code>2</code>: Attacks column <code>2</code> of Row 1.</li>
+              <li>Column <code>3</code>: Attacks diagonally from Row 1 <code>(1,2)</code>.</li>
+              <li><strong>Dead-End:</strong> No column is safe in Row 2. Backtrack to Row 1.</li>
             </ul>
           </li>
-          <li><strong>Step 4 (Backtrack to Row 1):</strong>
+          <li><strong>Step 4 (Row 1 Backtrack):</strong>
             <ul>
-              <li>Remove queen from <code>col = 2</code>. Try <code>col = 3</code> (safe!). Row 1:
-                <code>[., ., ., Q]</code>. Recurse to row 2.</li>
+              <li>Remove queen from Column <code>2</code>. Try Column <code>3</code> (safe) &rarr; Row 1: <code>[., ., ., Q]</code>. Recurse to row 2.</li>
             </ul>
           </li>
           <li><strong>Step 5 (Row 2):</strong>
             <ul>
-              <li><code>col = 1</code> is safe! Place queen. Row 2: <code>[., Q, ., .]</code>. Recurse to row 3.</li>
+              <li>Column <code>1</code> is safe! Place queen &rarr; Row 2: <code>[., Q, ., .]</code>. Recurse to row 3.</li>
             </ul>
           </li>
           <li><strong>Step 6 (Row 3):</strong>
             <ul>
-              <li>All columns are under attack! <code>col = 0</code>, <code>1</code>, <code>2</code>, <code>3</code> are
-                invalid. Backtrack to Row 2.</li>
+              <li>Column <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code> are all under attack.</li>
+              <li><strong>Dead-End:</strong> Backtrack to Row 2.</li>
             </ul>
           </li>
-          <li><strong>Step 7 (Backtrack recursively):</strong>
+          <li><strong>Step 7 (Recursive Retreat):</strong>
             <ul>
-              <li>Remove queen from Row 2, <code>col = 1</code>. Backtrack to Row 1. Remove queen from Row 1,
-                <code>col = 3</code>. Backtrack to Row 0.</li>
-              <li>Move Row 0 queen to <code>col = 1</code>: Row 0: <code>[., Q, ., .]</code>. This branch eventually
-                finds a valid solution:
-                <br>Row 0: <code>[., Q, ., .]</code>, Row 1: <code>[., ., ., Q]</code>, Row 2:
-                <code>[Q, ., ., .]</code>, Row 3: <code>[., ., Q, .]</code>.
-              </li>
+              <li>Remove queen from Row 2 <code>col = 1</code>. Backtrack to Row 1.</li>
+              <li>Remove queen from Row 1 <code>col = 3</code>. Backtrack to Row 0.</li>
+              <li>Move Row 0 queen to column <code>1</code> &rarr; Row 0: <code>[., Q, ., .]</code>.</li>
+              <li>This branch eventually finds a valid solution: Row 0: <code>[., Q, ., .]</code>, Row 1: <code>[., ., ., Q]</code>, Row 2: <code>[Q, ., ., .]</code>, Row 3: <code>[., ., Q, .]</code>.</li>
             </ul>
           </li>
         </ol>
 
-        <h2>Key Explanations</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <h2>Code Highlights &amp; Explanations</h2>
+        <p>Key sections of our Java implementation:</p>
         <ul>
-          <li><code>if (row == board.length)</code>: The base case confirming a complete board solution. We build a list
-            of strings representing the board and add it to our answers.</li>
-          <li><code>if (isSafe(board, row, col))</code>: The pruning helper that stops recursion on invalid paths early,
-            preventing unnecessary operations.</li>
-          <li><code>board[row][col] = 'Q'; backtrack(row + 1, ...); board[row][col] = '.';</code>: The
-            choose-explore-unchoose backtracking pattern. Setting the cell back to <code>'.'</code> is crucial so that
-            adjacent column scans starting at this row see an empty board.</li>
+          <li><code>board[row][col] = 'Q'; backtrack(row + 1); board[row][col] = '.'</code> implements state choice and restoration.</li>
+          <li><code>isSafe(board, row, col)</code> implements early pruning, preventing the algorithm from exploring branches that are already invalid.</li>
         </ul>
 
         <h2>Full Code Solution</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete, self-contained Java source code that solves the N-Queens problem, including a main driver to print the board layouts.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 import java.util.*;
-
+ 
 public class NQueens {
-
+ 
     // Backtracking - O(n!) Time, O(n) Space
     public List&lt;List&lt;String&gt;&gt; solveNQueens(int n) {
         List&lt;List&lt;String&gt;&gt; res = new ArrayList&lt;&gt;();
@@ -278,7 +263,7 @@ public class NQueens {
         backtrack(0, board, res);
         return res;
     }
-
+ 
     private void backtrack(int row, char[][] board, List&lt;List&lt;String&gt;&gt; res) {
         // Base case: If all rows are filled, we found a valid placement
         if (row == board.length) {
@@ -289,22 +274,22 @@ public class NQueens {
             res.add(list);
             return;
         }
-
+ 
         // Try placing a queen in each column of the current row
         for (int col = 0; col &lt; board.length; col++) {
             if (isSafe(board, row, col)) {
                 // 1. Choose: Place the queen
                 board[row][col] = 'Q';
-
+ 
                 // 2. Explore: Recurse to place the queen in the next row
                 backtrack(row + 1, board, res);
-
+ 
                 // 3. Unchoose: Backtrack by removing the queen
                 board[row][col] = '.';
             }
         }
     }
-
+ 
     private boolean isSafe(char[][] board, int row, int col) {
         // Check vertical column above
         for (int i = 0; i &lt; row; i++) {
@@ -312,28 +297,28 @@ public class NQueens {
                 return false;
             }
         }
-
+ 
         // Check top-left diagonal
         for (int i = row - 1, j = col - 1; i &gt;= 0 &amp;&amp; j &gt;= 0; i--, j--) {
             if (board[i][j] == 'Q') {
                 return false;
             }
         }
-
+ 
         // Check top-right diagonal
         for (int i = row - 1, j = col + 1; i &gt;= 0 &amp;&amp; j &lt; board.length; i--, j++) {
             if (board[i][j] == 'Q') {
                 return false;
             }
         }
-
+ 
         return true;
     }
-
+ 
     public static void main(String[] args) {
         NQueens solver = new NQueens();
         int n = 4;
-
+ 
         System.out.println("--- N-Queens Demonstration ---");
         System.out.println("Chessboard Size: " + n + "x" + n);
         List&lt;List&lt;String&gt;&gt; solutions = solver.solveNQueens(n);
@@ -348,13 +333,10 @@ public class NQueens {
             System.out.println();
         }
     }
-}
-</code></pre>
-
-        <h2>Wrapping Up</h2>
-        <p>The N-Queens problem is a beautiful showcase of the power of backtracking. By recursively placing queens row
-          by row and checking constraints on the fly, we skip millions of invalid chess layouts, finding the valid
-          layouts efficiently.</p>
+}</code></pre>
+ 
+        <h2>Conclusion &amp; Takeaways</h2>
+        <p>The N-Queens problem is a beautiful showcase of the power of backtracking. By recursively placing queens row by row and checking constraints on the fly, we skip millions of invalid chess layouts, finding the valid layouts efficiently.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

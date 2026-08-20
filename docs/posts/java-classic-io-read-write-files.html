@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -133,7 +133,7 @@
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
-          <span class="post-category">Java</span>
+          <span class="post-category">Java IO & NIO</span>
           <span class="post-date">June 19, 2026</span>
           <span>•</span>
           <span class="post-read-time">4 min read</span>
@@ -143,42 +143,45 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>Before Java NIO introduced path routing wrappers, Java relied on its classic stream-based classes in the
-          <code>java.io</code> package. These classes are designed to wrap around each other, building a pipeline to
-          read or write characters efficiently.</p>
+        <p>Before Java NIO (Non-blocking IO) introduced modern paths and channel-based packages, Java applications relied exclusively on the classic stream-based classes in <code>java.io</code>. The core design philosophy of classic Java IO is the <strong>Decorator Pattern</strong>, where classes are designed to wrap around one another.</p>
 
-        <p>In this guide, we will look at how to read file contents using <code>BufferedReader</code> and how to write
-          lines using <code>PrintWriter</code>.</p>
-
-        
-
+        <p>Each layer of the wrapper adds a specific capability—such as buffering, filtering, or formatted writing—to build a specialized data pipeline. For beginners, the sheer number of classes (like <code>FileInputStream</code>, <code>FileReader</code>, <code>BufferedReader</code>) can feel overwhelming. However, they fall into clear categories based on whether they process raw binary bytes or human-readable character text. In this guide, we will focus on the classic character-stream pipeline for reading and writing files efficiently using <code>FileReader</code>, <code>BufferedReader</code>, and <code>PrintWriter</code>.</p>
+ 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Analogy: 
-          <p>Imagine reading water out of a deep well:</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Well, The Straw, and The Thermos
+          </div>
+          <p>To understand why Java IO uses these nested wrappers, imagine trying to drink water out of a deep well:
           <ul>
-            <li><strong>The Straw (<code>FileReader</code>):</strong> This is a very thin straw that lets you sip water
-              one single droplet (character) at a time. It is slow and tedious for drinking.</li>
-            <li><strong>The Thermos Bucket (<code>BufferedReader</code>):</strong> You place a thermos bucket at the end
-              of the straw. It sucks up a large mouthful of water at once and stores it, allowing you to drink a whole
-              glass (readLine) instantly.</li>
+            <li><strong>The Straw (<code>FileReader</code>):</strong> If you drop a very thin straw down the well, you can only sip the water droplet by droplet. This is slow and requires constant physical effort (making a round trip to the disk for every single character).</li>
+            <li><strong>The Thermos Bucket (<code>BufferedReader</code>):</strong> To make this efficient, you connect a thermos bucket to the top of the straw. The bucket pulls up a large quantity of water at once and stores it in memory. Now, when you want to drink, you can swallow a whole glass of water (<code>readLine()</code>) instantly without waiting.</li>
+            <li><strong>The Funnel (<code>PrintWriter</code>):</strong> When putting water back into another container, you use a funnel with measurement markings, letting you pour water in exact amounts (like formatted <code>println()</code> lines) rather than dumping it all at once.</li>
           </ul>
+          </p>
         </div>
 
-        <h2>1. Reading Files with <code>BufferedReader</code></h2>
-        <p>To read a file line-by-line, we wrap a raw <code>FileReader</code> inside a <code>BufferedReader</code> to
-          enable buffering capability:</p>
+        <h2>Reading Files with <code>BufferedReader</code></h2>
+        <p>To read a file line-by-line, we instantiate a <code>FileReader</code> pointing to our target file. Because <code>FileReader</code> reads characters individually, we immediately wrap it in a <code>BufferedReader</code>. The <code>BufferedReader</code> allocates an internal memory buffer (by default 8 KB). As we call <code>readLine()</code>, it reads blocks of characters from the disk into the buffer, serving them to our application instantly. Once the end of the file is reached, <code>readLine()</code> returns <code>null</code>.</p>
 
+        <p>Here is how to read file contents using the classic <code>BufferedReader</code> approach, ensuring proper resource closure:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
+ 
 public class FileRead {
     public static void main(String[] args) {
         String content = textFromFile();
         System.out.println(content);
     }
-
+ 
     private static String textFromFile() {
         FileReader f = null;
         try {
@@ -205,20 +208,22 @@ public class FileRead {
         return null;
     }
 }</code></pre>
+ 
+        <h2>Writing Files with <code>PrintWriter</code></h2>
+        <p>Writing files follows a matching pipeline. We start with a <code>FileWriter</code>, which writes individual characters to disk. To write complete lines or formatted output easily, we wrap it in a <code>PrintWriter</code>. The <code>PrintWriter</code> provides the familiar methods we use with <code>System.out</code>, such as <code>print()</code>, <code>println()</code>, and <code>printf()</code>. Crucially, when writing files, we must always invoke <code>close()</code> or <code>flush()</code> on our writer; otherwise, data stored in memory buffers may never be written to the disk.</p>
 
-        <h2>2. Writing Files with <code>PrintWriter</code></h2>
-        <p>To write text lines to a file, we wrap a <code>FileWriter</code> inside a <code>PrintWriter</code>, which
-          gives us access to convenient methods like <code>println()</code>:</p>
+        <p>Here is how to write lines of text to a file using the classic <code>PrintWriter</code> wrapping pattern:</p>
 
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
-
+ 
 public class FileWrite {
     public static void main(String[] args) {
         textToFile("Hello World.", "Classic IO is cool.", "Goodbye!");
     }
-
+ 
     private static void textToFile(String... lines) {
         PrintWriter w = null;
         try {
@@ -236,11 +241,9 @@ public class FileWrite {
         }
     }
 }</code></pre>
-
-        <h2>Wrapping Up</h2>
-        <p>While newer Java versions offer simpler one-liners to read files (like <code>Files.readString()</code>),
-          understanding classic IO stream wrapping remains essential for handling large files without crashing memory.
-        </p>
+ 
+        <h2>Conclusion & Modern Alternatives</h2>
+        <p>Although modern Java versions offer convenient utility methods like <code>Files.readString()</code> or <code>Files.writeString()</code> for quick one-liners, the classic wrapped IO streams remain crucial. They allow us to process large multi-gigabyte log files line-by-line without running out of JVM heap space. Mastering these decorators is essential for any backend developer handling high-volume file processing.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -144,80 +144,85 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In Java, when you instantiate a child class object (e.g. <code>new Child()</code>), a cascade of static
-          blocks, instance blocks, and constructor calls executes across the parent-child inheritance layout. This
-          sequence is a classic interview favorite and represents how Java guarantees parent state is safe before
-          loading child state.</p>
+        <p>In object-oriented programming, understanding class loading and initialization is essential for debugging object state. In Java, when you instantiate a subclass using <code>new SubClass()</code>, the JVM does not simply trigger the subclass constructor.</p>
 
-        <p>In this guide, we will trace the exact console output order of an inheritance hierarchy containing static and
-          instance initialization blocks.</p>
-
-        
-
+        <p>Instead, a strictly orchestrated cascade of static initialization blocks, instance initialization blocks, and constructors executes across the entire parent-child hierarchy. This initialization sequence is a common topic in technical interviews, as it tests your understanding of class loaders, memory allocation, and object state safety. By ensuring that parent class fields and behaviors are fully initialized before subclass construction begins, Java guarantees object-oriented integrity. In this guide, we will trace the exact execution flow of static and instance initialization blocks under inheritance.</p>
+ 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine building a massive Sports Complex (Parent) containing a swimming pool center (Child):</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Sports Complex & Swimming Pool
+          </div>
+          <p>To visualize this hierarchy, imagine constructing a massive Sports Complex (acting as the <code>Parent</code> class) that contains a specialized indoor Swimming Pool Center (acting as the <code>Child</code> subclass).</p>
           <ul>
-            <li><strong>Static Blocks (Foundation):</strong> First, the construction crew pours the foundation of the
-              main complex. Then, they lay the pipes for the pool. This only happens <strong>once</strong> when the
-              center is built.</li>
-            <li><strong>Instance Blocks (Guest Arrivals):</strong> When a guest walks into the swimming pool:
-              1. First, they must go through the main complex ticket lobby (Parent instance block).
-              2. Then, they go into the swimming pool locker room (Child instance block).
-              This happens for <strong>every visitor</strong> (new instance creation).</li>
+            <li><strong>Static Blocks (The Infrastructure):</strong> Before any guest can enter, the construction crew must lay down the fundamental infrastructure. First, they pour the foundation for the main complex (Parent static block). Then, they lay the filtration systems and piping for the pool (Child static block). This class loading phase happens exactly <strong>once</strong>, before any guest arrives.</li>
+            <li><strong>Instance Blocks (Guest Check-In):</strong> When a guest visits the complex to swim:
+              <ol>
+                <li>First, they must check in at the main sports complex ticket lobby (Parent instance block).</li>
+                <li>Next, they enter the pool's locker room to change (Child instance block).</li>
+              </ol>
+              This check-in sequence happens for <strong>every single visitor</strong> (new instance creation).
+            </li>
           </ul>
         </div>
 
-        <h2>1. The Inheritance Code Structure</h2>
-        <p>Let's look at a class layout with static and instance blocks on both <code>Parent</code> and
-          <code>Child</code> classes:</p>
+        <h2>Strict Initialization Sequence Rules</h2>
+        <p>When instantiating a subclass, the JVM follows a four-step execution hierarchy:
+        <ol>
+          <li><strong>Static Initializers (Parent first, then Child):</strong> When the class loader loads the classes, all static initialization blocks run once in order of inheritance, from the top superclass down to the subclass.</li>
+          <li><strong>Instance Initializers (Parent first):</strong> Right before a constructor executes, the instance initialization blocks for that class run. The JVM processes the parent class first, calling the parent instance block.</li>
+          <li><strong>Parent Constructor:</strong> The parent class constructor runs, establishing the superclass state.</li>
+          <li><strong>Subclass Initializers & Constructor:</strong> Finally, the child instance blocks execute, followed by the child constructor body itself.</li>
+        </ol>
+        </p>
 
+        <h2>The Inheritance Code Structure</h2>
+        <p>Let's look at a class layout with static and instance blocks on both <code>Parent</code> and <code>Child</code> classes:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">class Parent {
     static {
         System.out.println("Parent static block");
     }
-
+ 
     {
         System.out.println("Parent instance block");
     }
 }
-
+ 
 class Child extends Parent {
     static {
         System.out.println("Child static block");
     }
-
+ 
     {
         System.out.println("Child instance block");
     }
 }
-
+ 
 public class MockInterview {
     public static void main(String[] args) {
         new Child(); // Instantiate Child
     }
 }</code></pre>
-
-        <h2>2. Tracing the Console Output</h2>
-        <p>When the program executes `new Child()`, here is the exact order of logs printed to the console:</p>
+ 
+        <h2>Tracing the Console Output</h2>
+        <p>When the program executes <code>new Child()</code>, here is the exact order of logs printed to the console:
         <ol>
-          <li><code>Parent static block</code> — Runs when the Parent class is loaded. Static blocks always run first,
-            starting from the top of the inheritance chain.</li>
+          <li><code>Parent static block</code> — Runs when the Parent class is loaded. Static blocks always run first, starting from the top of the inheritance chain.</li>
           <li><code>Child static block</code> — Runs when the Child class is loaded.</li>
-          <li><code>Parent instance block</code> — Runs because Parent constructor initialization begins. Instance
-            blocks execute right before the constructor body.</li>
-          <li><code>Child instance block</code> — Runs because Child constructor initialization begins, after the Parent
-            setup finishes.</li>
+          <li><code>Parent instance block</code> — Runs because Parent constructor initialization begins. Instance blocks execute right before the constructor body.</li>
+          <li><code>Child instance block</code> — Runs because Child constructor initialization begins, after the Parent setup finishes.</li>
         </ol>
-
-        <h2>Summary</h2>
-        <p>Java guarantees that:
-        <ul>
-          <li>All static loads occur first (Parent then Child) once.</li>
-          <li>All instance initialization loads occur for every new object (Parent block, then Child block).</li>
-        </ul>
         </p>
+ 
+        <h2>Conclusion & Best Practices</h2>
+        <p>Understanding this execution flow is critical when designing complex inheritance hierarchies, particularly when subclass state depends on parent fields. By relying on Java's strict parent-first initialization order, you can safely initialize configuration parameters, register hooks, and avoid runtime <code>NullPointerException</code> errors caused by uninitialized parent states.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

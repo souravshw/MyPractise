@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -132,7 +132,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Implement Queue using Stacks in Java</h1>
@@ -140,20 +140,16 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Understanding the Challenge</h2>
-        <p>The <strong>Implement Queue using Stacks</strong> problem challenges us to build a standard First-In,
-          First-Out (FIFO) queue using only two Last-In, First-Out (LIFO) stacks.</p>
-        <p>A queue supports operations like:
+        <p>In computer science, stacks and queues represent the two most fundamental linear data structures, distinguished by their element access patterns. A <strong>Stack</strong> operates on a Last-In, First-Out (LIFO) basis, while a <strong>Queue</strong> operates on a First-In, First-Out (FIFO) basis.</p>
+
+        <p>A popular technical interview question challenges developers to implement a standard FIFO queue using only two LIFO stacks. The queue must support four standard operations:
         <ul>
-          <li><code>push(x)</code>: Push element x to the back of queue.</li>
-          <li><code>pop()</code>: Removes the element from the front of the queue and returns it.</li>
-          <li><code>peek()</code>: Get the front element.</li>
-          <li><code>empty()</code>: Return whether the queue is empty.</li>
+          <li><code>push(x)</code>: Appends element <code>x</code> to the back of the queue.</li>
+          <li><code>pop()</code>: Removes and returns the element at the front.</li>
+          <li><code>peek()</code>: Returns the element at the front without removing it.</li>
+          <li><code>empty()</code>: Returns a boolean indicating whether the queue is empty.</li>
         </ul>
-        A stack only allows us to push and pop from the top (LIFO). To build a FIFO structure, we must find a way to
-        reverse the order of elements so that the oldest elements (which are at the bottom of a stack) become accessible
-        at the top. This is a common interview question that tests your understanding of data structures, amortized
-        complexity, and stack manipulation.
+        To bridge the gap between LIFO and FIFO behaviors, we must utilize a second stack to reverse the order of elements. In this guide, we will analyze this reversal mechanism and implement a space-efficient solution in Java.
         </p>
 
         <!-- Post Illustration Image -->
@@ -165,137 +161,103 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine you have a stack of cafeteria trays in a narrow dispenser. When you put trays in, they stack on top
-            (Last-In). Customers want the bottom tray because it was placed there first (First-Out). To serve them, you
-            grab another empty dispenser, move the trays one by one from the first dispenser to the second. This action
-            completely reverses their order! Now, the oldest tray is at the top of the second dispenser. Customers can
-            now take trays from the second dispenser. You only need to move trays over when the second dispenser becomes
-            completely empty.</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Cafeteria Tray Dispensers
+          </div>
+          <p>To understand how we can convert LIFO to FIFO using two stacks, imagine a cafeteria tray dispenser. Cafeteria trays stack on top of each other. If you stack trays labeled <code>1</code>, <code>2</code>, and <code>3</code> into Dispenser A, tray <code>3</code> sits at the top (Last-In).</p>
+          <p>However, customers want the tray at the bottom (<code>1</code>) because it was placed there first (FIFO).</p>
+          <p>To solve this:
+          <ol>
+            <li>You grab a second empty tray dispenser (Dispenser B).</li>
+            <li>You transfer the trays from Dispenser A to Dispenser B one by one.</li>
+            <li>This action completely reverses their order! Tray <code>3</code> goes to the bottom of Dispenser B, tray <code>2</code> sits in the middle, and tray <code>1</code> (the oldest tray) is now at the top.</li>
+            <li>Customers can now take trays directly from Dispenser B.</li>
+          </ol>
+          You only need to repeat this transfer process when Dispenser B becomes completely empty.
+          </p>
         </div>
 
-        <h2>Solving the Problem</h2>
-        <h3>Two-Stack Order Reversal (Amortized O(1) Time, O(n) Space)</h3>
-        <p>We maintain two stacks:
+        <h2>The Algorithmic Strategy</h2>
+        <p>To implement this logic, we maintain two stacks in Java:
         <ul>
-          <li><code>inputStack</code>: Dedicated to receiving new elements when <code>push(x)</code> is called.</li>
-          <li><code>outputStack</code>: Dedicated to serving elements for <code>pop()</code> and <code>peek()</code>.
-          </li>
+          <li><code>inputStack</code>: Serves as the write buffer. Every call to <code>push(x)</code> simply pushes the element onto this stack.</li>
+          <li><code>outputStack</code>: Serves as the read buffer. Calls to <code>pop()</code> and <code>peek()</code> draw elements directly from the top of this stack.</li>
         </ul>
-        Here is how the operations work:
+        When a read operation (<code>pop()</code> or <code>peek()</code>) is requested:
         <ul>
-          <li><strong>Push:</strong> Simply push the element onto <code>inputStack</code>. This is a fast
-            <code>O(1)</code> operation.</li>
-          <li><strong>Pop/Peek:</strong> We want to get the oldest element, which resides at the top of
-            <code>outputStack</code>.
-            <ul>
-              <li>If <code>outputStack</code> is not empty, we simply pop/peek from it.</li>
-              <li>If <code>outputStack</code> is empty, we transfer all elements from <code>inputStack</code> to
-                <code>outputStack</code> by popping them one by one and pushing them onto <code>outputStack</code>. This
-                reverses their order, positioning the oldest element at the top. We then pop/peek from
-                <code>outputStack</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Empty:</strong> The queue is empty only when both <code>inputStack</code> and
-            <code>outputStack</code> are empty.</li>
+          <li>If <code>outputStack</code> contains elements, we pop or peek from it immediately.</li>
+          <li>If <code>outputStack</code> is empty, we transfer all elements from <code>inputStack</code> to <code>outputStack</code> using a loop: <code>outputStack.push(inputStack.pop())</code>. This reverses the elements, placing the oldest elements at the top. We then complete the read operation from <code>outputStack</code>.</li>
         </ul>
-        While a transfer takes <code>O(n)</code> time, each element is pushed and popped at most a constant number of
-        times. Thus, the amortized time complexity per operation is <code>O(1)</code>.
         </p>
 
-        <h2>Step-by-Step Execution</h2>
-        <p>Let's trace a sequence of operations:</p>
+        <h2>Step-by-Step Scenario Walkthrough</h2>
+        <p>Let's trace a series of actions:
         <ol>
-          <li><strong>Step 1 (Initialization):</strong> Initialize two empty stacks: <code>inputStack = []</code> and
-            <code>outputStack = []</code>.</li>
-          <li><strong>Step 2 (Push 1):</strong> Push 1 onto <code>inputStack</code>.
+          <li><strong>Push 1, then Push 2:</strong> Elements are added to the write buffer: <code>inputStack = [1, 2]</code>, <code>outputStack = []</code>.</li>
+          <li><strong>Peek:</strong> Since <code>outputStack</code> is empty, we transfer elements:
             <ul>
-              <li><code>inputStack = [1]</code>, <code>outputStack = []</code></li>
+              <li>Pop <code>2</code> from <code>inputStack</code> and push to <code>outputStack</code>.</li>
+              <li>Pop <code>1</code> from <code>inputStack</code> and push to <code>outputStack</code>.</li>
+              <li>States: <code>inputStack = []</code>, <code>outputStack = [2, 1]</code>.</li>
+              <li>We peek at the top of <code>outputStack</code>, returning <code>1</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 3 (Push 2):</strong> Push 2 onto <code>inputStack</code>.
-            <ul>
-              <li><code>inputStack = [1, 2]</code>, <code>outputStack = []</code></li>
-            </ul>
-          </li>
-          <li><strong>Step 4 (Peek):</strong>
-            <ul>
-              <li><code>outputStack</code> is empty, so we transfer elements from <code>inputStack</code>.</li>
-              <li>Pop 2 from <code>inputStack</code>, push to <code>outputStack</code>. State:
-                <code>inputStack = [1]</code>, <code>outputStack = [2]</code>.</li>
-              <li>Pop 1 from <code>inputStack</code>, push to <code>outputStack</code>. State:
-                <code>inputStack = []</code>, <code>outputStack = [2, 1]</code>.</li>
-              <li>Peek at the top of <code>outputStack</code>: returns <code>1</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 5 (Pop):</strong>
-            <ul>
-              <li><code>outputStack</code> is not empty, so we pop the top element from <code>outputStack</code>:
-                returns <code>1</code>.</li>
-              <li>State: <code>inputStack = []</code>, <code>outputStack = [2]</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 6 (Push 3):</strong> Push 3 onto <code>inputStack</code>.
-            <ul>
-              <li><code>inputStack = [3]</code>, <code>outputStack = [2]</code></li>
-            </ul>
-          </li>
-          <li><strong>Step 7 (Pop):</strong>
-            <ul>
-              <li><code>outputStack</code> is not empty, so we pop from it: returns <code>2</code>.</li>
-              <li>State: <code>inputStack = [3]</code>, <code>outputStack = []</code>.</li>
-            </ul>
-          </li>
+          <li><strong>Pop:</strong> <code>outputStack</code> is not empty, so we pop the top element, returning <code>1</code>. States: <code>inputStack = []</code>, <code>outputStack = [2]</code>.</li>
+          <li><strong>Push 3:</strong> Add to write buffer: <code>inputStack = [3]</code>, <code>outputStack = [2]</code>.</li>
+          <li><strong>Pop:</strong> <code>outputStack</code> is not empty. We pop from it, returning <code>2</code>. States: <code>inputStack = [3]</code>, <code>outputStack = []</code>.</li>
         </ol>
+        </p>
 
-        <h2>Code Breakdown</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <h2>Key Code Explanations</h2>
+        <p>Here is why the main logic in the solution is important:
         <ul>
-          <li><code>inputStack.push(x)</code>: Keep the write path extremely simple and fast (O(1)).</li>
-          <li><code>while (!inputStack.isEmpty()) outputStack.push(inputStack.pop())</code>: The transfer logic that
-            reverses the order of elements. By doing this lazily (only when the read stack is empty), we achieve O(1)
-            amortized performance.</li>
-          <li><code>inputStack.isEmpty() && outputStack.isEmpty()</code>: Ensures we correctly track elements across
-            both buffers before declaring the queue empty.</li>
+          <li><code>inputStack.push(x)</code>: Keeps the write path extremely simple and fast <code>O(1)</code>.</li>
+          <li><code>while (!inputStack.isEmpty()) outputStack.push(inputStack.pop())</code>: The transfer logic that reverses the order of elements. By doing this lazily (only when the read stack is empty), we achieve <code>O(1)</code> amortized performance.</li>
+          <li><code>inputStack.isEmpty() && outputStack.isEmpty()</code>: Ensures we correctly track elements across both buffers before declaring the queue empty.</li>
         </ul>
+        </p>
 
-        <h2>Java Solution</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <h2>Java Implementation Code</h2>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 import java.util.Stack;
-
+ 
 public class QueueUsingStacks {
-
+ 
     public static class MyQueue {
         private final Stack&lt;Integer&gt; inputStack = new Stack&lt;&gt;();
         private final Stack&lt;Integer&gt; outputStack = new Stack&lt;&gt;();
-
+ 
         /** Push element x to the back of queue. */
         public void push(int x) {
             inputStack.push(x);
         }
-
+ 
         /** Removes the element from in front of queue and returns that element. */
         public int pop() {
             shiftStacks();
             return outputStack.pop();
         }
-
+ 
         /** Get the front element. */
         public int peek() {
             shiftStacks();
             return outputStack.peek();
         }
-
+ 
         /** Returns whether the queue is empty. */
         public boolean empty() {
             return inputStack.isEmpty() && outputStack.isEmpty();
         }
-
+ 
         /** Helper method to transfer elements from input stack to output stack when empty. */
         private void shiftStacks() {
             if (outputStack.isEmpty()) {
@@ -305,7 +267,7 @@ public class QueueUsingStacks {
             }
         }
     }
-
+ 
     public static void main(String[] args) {
         MyQueue queue = new MyQueue();
         System.out.println("--- Implement Queue using Stacks Demonstration ---");
@@ -323,13 +285,10 @@ public class QueueUsingStacks {
         System.out.println("Pop (removed front): " + queue.pop());   // Should be 2
         System.out.println("Is Queue empty? " + queue.empty());     // Should be false
     }
-}
-</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>Implementing a queue using stacks is a classic lesson in amortized analysis. By using a secondary stack to
-          lazily reverse the element order, we preserve the FIFO contract while maintaining highly efficient runtime
-          execution.</p>
+}</code></pre>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>By lazily shifting elements from the input stack to the output stack, we ensure that each element is pushed and popped at most twice. This yields an <strong>amortized time complexity of <code>O(1)</code></strong> per operation, and a space complexity of <code>O(N)</code> to store the elements. This is the most optimal way to implement a FIFO contract using LIFO components.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

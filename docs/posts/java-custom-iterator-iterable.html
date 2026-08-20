@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -129,49 +129,74 @@
 
       <header class="article-header">
         <div class="post-meta">
-          <span class="post-category">Java & Distributed Systems</span>
+          <span class="post-category">Java Core & OOP</span>
           <span class="post-date">June 20, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Implementing Custom Iterator and Iterable in Java</h1>
       </header>
 
       <div class="article-body">
-        <p>In Java, any collection that can be traversed using the enhanced for-each loop
-          (<code>for (Type item : collection)</code>) must implement the <code>Iterable</code> interface. Under the
-          hood, this interface returns an <code>Iterator</code>, which handles checking for next items and moving the
-          index cursor forward.</p>
+        <p>In Java programming, the enhanced <code>for-each</code> loop (<code>for (Type item : collection)</code>) is the standard syntax for traversing arrays and collection classes. Behind this syntax sugar lies a strict interface contract. Any class that you want to loop over using the <code>for-each</code> loop must implement the <strong><code>Iterable</code></strong> interface.</p>
 
+        <p>When a class implements <code>Iterable</code>, it promises to supply a helper object known as an <strong><code>Iterator</code></strong>, which handles the actual mechanics of tracking indices and retrieving elements. By custom-implementing these two interfaces, you can expose your own custom data structures—such as binary trees, linked lists, database result sets, or custom matrices—to Java's standard looping tools. In this guide, we will break down the design pattern of <code>Iterator</code> and <code>Iterable</code> and build a custom iterable class in Java.</p>
+ 
+        <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/custom-iterable.svg" alt="Visualizing Iterator and Iterable structure"
             style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
+        <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Analogy: 
-          <p>Imagine you have a <strong>deck of cards (the Iterable container)</strong>. The deck itself just holds the
-            cards; it doesn't know how to deal them one-by-one safely.</p>
-          <p>So, you place the deck inside a <strong>mechanical dealer machine (the Iterator)</strong>. When you ask the
-            machine:
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Deck of Cards and Dealing Machine
+          </div>
+          <p>To visualize this design pattern, imagine you are hosting a poker night.</p>
           <ul>
-            <li><strong><code>hasNext()</code>:</strong> The machine checks if there is at least one card remaining
-              inside the slot.</li>
-            <li><strong><code>next()</code>:</strong> The machine slides the top card out to you and moves the internal
-              spring cursor up by one slot so it's ready for the next request.</li>
+            <li><strong>The <code>Iterable</code> Container (The Card Deck):</strong> The card deck is simply a physical container that holds the cards. The deck itself is static; it does not know the rules of dealing, how many players are at the table, or which card is currently at the top of the pile.</li>
+            <li><strong>The <code>Iterator</code> Helper (The Dealing Shoe):</strong> To start playing, you place the deck inside a mechanical card dealing shoe. When you interact with this dealing shoe, you ask it two questions:
+              <ol>
+                <li><strong><code>hasNext()</code>:</strong> The machine checks if there is at least one card remaining inside the dispenser slot.</li>
+                <li><strong><code>next()</code>:</strong> The machine slides the top card out to you and slides the next card into place, moving its internal mechanical cursor forward by one.</li>
+              </ol>
+            </li>
           </ul>
-          </p>
+          The card deck is the <code>Iterable</code> because it can be dealt, and the mechanical shoe is the <code>Iterator</code> because it does the work of dealing.
         </div>
 
-        <h2>Implementing Custom Iterator in Java</h2>
-        <p>To make a custom class iterable, you must:</p>
+        <h2>The Java Contract</h2>
+        <p>To make your own class iterable, you must follow a two-part contract:
         <ol>
-          <li>Implement <code>Iterable&lt;T&gt;</code> on your container class, which requires implementing the method
-            <code>public Iterator&lt;T&gt; iterator()</code>.</li>
-          <li>Write a helper class implementing <code>Iterator&lt;T&gt;</code> that tracks a cursor position and
-            implements <code>hasNext()</code> and <code>next()</code>.</li>
+          <li><strong>Implement <code>Iterable&lt;T&gt;</code>:</strong> Your container class implements <code>Iterable&lt;T&gt;</code>. This requires overriding the <code>iterator()</code> method to return a fresh instance of your iterator class.</li>
+          <li><strong>Implement <code>Iterator&lt;T&gt;</code>:</strong> You define a class (often an inner class) that implements <code>Iterator&lt;T&gt;</code>. This requires overriding two main methods:
+            <ul>
+              <li><code>boolean hasNext()</code>: Returns <code>true</code> if there are more elements to traverse.</li>
+              <li><code>T next()</code>: Returns the next element in the iteration and advances the cursor. If no elements remain, it should throw a <code>NoSuchElementException</code>.</li>
+            </ul>
+          </li>
         </ol>
+        </p>
 
+        <h2>Step-by-Step Execution Tracing</h2>
+        <p>Let's trace how the JVM executes the <code>for-each</code> loop:
+        <ul>
+          <li>First, the compiler translates the loop into an explicit iterator retrieval: <code>Iterator&lt;String&gt; it = collection.iterator();</code>.</li>
+          <li>Next, it runs a <code>while</code> loop using the iterator's state: <code>while(it.hasNext()) { String item = it.next(); System.out.println(item); }</code>.</li>
+          <li>Because our <code>CustomIterator</code> inner class has direct access to the outer class's <code>elements</code> array, it reads the elements sequentially using its private <code>cursor</code> pointer, incrementing it with <code>cursor++</code> on every call to <code>next()</code>.</li>
+        </ul>
+        </p>
+
+        <h2>Java Implementation Code</h2>
+        <p>Below is a complete Java implementation showcasing a custom collection class that implements <code>Iterable</code>, allowing it to be traversed directly using a standard <code>for-each</code> loop:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.myPractice;
  
 import java.util.Iterator;
@@ -190,7 +215,7 @@ public class IterableInterfaceImplementation implements Iterable&lt;String&gt; {
  
         @Override
         public boolean hasNext() {
-            return cursor < elements.length;
+            return cursor &lt; elements.length;
         }
  
         @Override
@@ -209,11 +234,11 @@ public class IterableInterfaceImplementation implements Iterable&lt;String&gt; {
         }
     }
 }</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>By custom-implementing `Iterator` and `Iterable`, you can expose custom internal structures (like binary
-          trees, graphs, or encrypted lists) to simple standard loops, keeping your code clean and unified.</p>
+ 
+        <h2>Conclusion & Design Benefits</h2>
+        <p>Custom iterators are a powerful way to encapsulate the internal representation of your data structures. By implementing <code>Iterable</code>, you allow client code to loop over complex graphs, custom trees, or paginated API results using clean, idiomatic Java loops. This hides traversal complexity, keeps your API clean, and maintains standard collections integration.</p>
       </div>
+
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

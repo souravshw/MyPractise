@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -132,7 +132,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Merge Intervals in Java</h1>
@@ -140,140 +140,137 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Understanding the Problem</h2>
-        <p>The <strong>Merge Intervals</strong> problem asks us to take an array of intervals where
-          <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>, and merge all overlapping intervals,
-          returning an array of the non-overlapping intervals that cover all the input intervals.</p>
+        <h2>What We're Solving & Scheduling Constraints</h2>
+        <p>Consolidating overlapping intervals is a classic algorithmic challenge frequently asked during technical screens. The <strong>Merge Intervals</strong> problem provides us with a collection of numerical intervals, where each <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>. The task is to identify and combine any overlapping ranges, returning an array of non-overlapping intervals that cover the entire span of the input.</p>
+
         <p>For example, if the input is <code>[[1, 3], [2, 6], [8, 10], [15, 18]]</code>:
         <ul>
-          <li>Intervals <code>[1, 3]</code> and <code>[2, 6]</code> overlap because 2 is less than or equal to 3. We
-            merge them into <code>[1, 6]</code>.</li>
-          <li>Interval <code>[8, 10]</code> doesn't overlap with <code>[1, 6]</code> or <code>[15, 18]</code>.</li>
-          <li>The final output is <code>[[1, 6], [8, 10], [15, 18]]</code>.</li>
+          <li><strong>Overlap Check:</strong> The first two intervals, <code>[1, 3]</code> and <code>[2, 6]</code>, share a boundary overlap because the start of the second interval (<code>2</code>) is less than or equal to the end of the first interval (<code>3</code>). We merge them into a single consolidated interval: <code>[1, 6]</code>.</li>
+          <li><strong>No Overlap:</strong> The interval <code>[8, 10]</code> does not share any overlap with either <code>[1, 6]</code> or <code>[15, 18]</code>.</li>
+          <li><strong>Merged Result:</strong> The final output is <code>[[1, 6], [8, 10], [15, 18]]</code>.</li>
         </ul>
-        This problem is widely used in scheduling systems, calendar booking apps, database query range optimizer logic,
-        and graphics rendering. If we compare all pairs of intervals to see if they overlap, it takes
-        <code>O(n<sup>2</sup>)</code>. We can optimize this using a sorting-based greedy approach.
         </p>
 
-        
-
+        <p>This problem is a vital building block in several real-world contexts:
+        <ul>
+          <li><strong>Calendar & Booking Software:</strong> Consolidating overlapping meetings or reservations to represent free and busy blocks.</li>
+          <li><strong>Compiler Design:</strong> Optimizing memory register allocations by finding the active lifespans of variables.</li>
+          <li><strong>Database Query Optimizers:</strong> Merging separate query ranges into single consolidated scans to minimize disk reads.</li>
+        </ul>
+        </p>
+ 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Analogy: 
-          <p>Imagine you manage a conference room. Multiple people have booked slots throughout the day, but some
-            bookings overlap (e.g., Alice booked 1:00 PM to 3:00 PM, and Bob booked 2:00 PM to 4:00 PM). To clean up the
-            master schedule, you write down all bookings on a timeline sorted by their start times. You start with the
-            first booking. If the next booking starts before or exactly when the current booking ends, you merge them
-            into a single continuous block (from 1:00 PM to 4:00 PM). If there is a gap (e.g., the next booking starts
-            at 8:00 PM), you close the current block, save it, and start a new block.</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: Conference Room Schedule
+          </div>
+          <p>To visualize this approach, imagine managing a busy community conference room:</p>
+          <ul>
+            <li><strong>Chronological Ambiguity:</strong> Throughout the day, different teams request booking slots, but their requests are written on separate slips of paper and turned in randomly.</li>
+            <li><strong>Timeline Ordering:</strong> To make sense of the schedule, you arrange the slips of paper on a timeline sorted by their start times.</li>
+            <li><strong>Greedy Consolidation:</strong> You take the first slip of paper. If the next booking starts before (or exactly when) the current one finishes, you paste them together, forming a single continuous meeting block. If there is a gap (e.g., the current meeting ends at 4:00 PM and the next starts at 8:00 PM), you finalize the current block, write it down on your clean master schedule, and start a new block starting with that 8:00 PM request.</li>
+          </ul>
+          Sorting by start times ensures we can resolve all overlaps in a single pass.
         </div>
 
         <h2>The Approach</h2>
         <h3>Sorting & Greedy Merging (O(n log n) Time, O(n) Space)</h3>
-        <p>The key insight is that sorting the intervals by their start times resolves chronological ambiguity.
-          Here is our approach:
+        <p>The core strategy relies on sorting the array of intervals by their starting values (<code>O(n log n)</code> time complexity). By arranging the list chronologically, we guarantee that if any interval overlaps with preceding intervals, it must overlap with the one directly preceding it.
         <ol>
-          <li><strong>Sort:</strong> We sort the array of intervals based on their start times:
-            <code>a[0] - b[0]</code>.</li>
-          <li><strong>Iterate and Merge:</strong> We initialize a list for our merged results and keep a reference to a
-            active tracking interval, starting with the first sorted interval.
-            For each subsequent interval in the sorted array:
+          <li><strong>Chronological Sort:</strong> We sort the intervals based on start time: <code>Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]))</code>.</li>
+          <li><strong>Iterative Scan:</strong> We maintain a tracking window, called <code>activeInterval</code>, initialized to the first sorted interval. We then traverse the remaining list:
             <ul>
-              <li>If the current interval's start time is less than or equal to our active interval's end time, they
-                overlap. We merge them by updating the active interval's end time to the maximum of its current end time
-                and the current interval's end time: <code>active[1] = Math.max(active[1], current[1])</code>.</li>
-              <li>Otherwise, they do not overlap. We add the active interval to our results list and set the active
-                interval to be the current interval.</li>
+              <li><strong>Merge Condition:</strong> If the current interval's start value is less than or equal to the active interval's end value, they overlap. We merge them by setting the active interval's end value to the maximum of the two: <code>activeInterval[1] = Math.max(activeInterval[1], current[1])</code>.</li>
+              <li><strong>Split Condition:</strong> If the current interval's start value is strictly greater than the active interval's end value, there is a gap. We add the active interval to our results list and update <code>activeInterval</code> to point to the current interval.</li>
             </ul>
           </li>
-          <li><strong>Record Last Interval:</strong> After traversing the array, we append the final active interval to
-            our results.</li>
+          <li><strong>Capture Final State:</strong> Once the loop completes, we append the final <code>activeInterval</code> to our output collection.</li>
         </ol>
-        Sorting dominates the time complexity at <code>O(n log n)</code>, while the merge loop runs in linear
-        <code>O(n)</code> time.
+        Sorting dominates the time complexity at <code>O(n log n)</code>, while the merge loop runs in linear <code>O(n)</code> time.
         </p>
-
-        <h2>Step-by-Step Execution</h2>
-        <p>Let's trace the algorithm with <code>intervals = [[1, 3], [8, 10], [2, 6], [15, 18]]</code>:</p>
+ 
+        <h2>Detailed Trace Walkthrough</h2>
+        <p>Let's trace this logic step-by-step using the input array <code>intervals = [[1, 3], [8, 10], [2, 6], [15, 18]]</code>:</p>
         <ol>
-          <li><strong>Step 1 (Sorting):</strong> Sort intervals by start time.
+          <li><strong>Step 1 (Sorting):</strong> Sort intervals by their start values:
             <ul>
-              <li>Sorted: <code>[[1, 3], [2, 6], [8, 10], [15, 18]]</code>.</li>
+              <li>Sorted list: <code>[[1, 3], [2, 6], [8, 10], [15, 18]]</code>.</li>
             </ul>
           </li>
           <li><strong>Step 2 (Initialize):</strong>
             <ul>
-              <li>Set <code>active = [1, 3]</code>, <code>result = []</code>.</li>
+              <li>We assign <code>activeInterval = [1, 3]</code> and create an empty result list.</li>
             </ul>
           </li>
-          <li><strong>Step 3 (Interval 1: [2, 6]):</strong>
+          <li><strong>Step 3 (First Loop Item: [2, 6]):</strong>
             <ul>
-              <li>Compare start: <code>2 &lt;= active.end (3)</code>. They overlap!</li>
-              <li>Merge: Update <code>active.end = Math.max(3, 6) = 6</code>.</li>
-              <li>Current active: <code>[1, 6]</code>.</li>
+              <li>We compare start values: <code>2</code> is less than or equal to the active end value <code>3</code>.</li>
+              <li>Overlap detected! We merge by updating the active end value: <code>activeInterval[1] = Math.max(3, 6) = 6</code>.</li>
+              <li>Active interval is now <code>[1, 6]</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 4 (Interval 2: [8, 10]):</strong>
+          <li><strong>Step 4 (Second Loop Item: [8, 10]):</strong>
             <ul>
-              <li>Compare start: <code>8 &gt; active.end (6)</code>. No overlap.</li>
-              <li>Save active: Add <code>[1, 6]</code> to <code>result</code>.</li>
-              <li>Update active: <code>active = [8, 10]</code>.</li>
-              <li>Current result: <code>[[1, 6]]</code>.</li>
+              <li>We compare start values: <code>8</code> is strictly greater than the active end value <code>6</code>.</li>
+              <li>No overlap! We save the active interval <code>[1, 6]</code> to our result list: <code>result = [[1, 6]]</code>.</li>
+              <li>Update our active tracker: <code>activeInterval = [8, 10]</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 5 (Interval 3: [15, 18]):</strong>
+          <li><strong>Step 5 (Third Loop Item: [15, 18]):</strong>
             <ul>
-              <li>Compare start: <code>15 &gt; active.end (10)</code>. No overlap.</li>
-              <li>Save active: Add <code>[8, 10]</code> to <code>result</code>.</li>
-              <li>Update active: <code>active = [15, 18]</code>.</li>
-              <li>Current result: <code>[[1, 6], [8, 10]]</code>.</li>
+              <li>We compare start values: <code>15</code> is strictly greater than the active end value <code>10</code>.</li>
+              <li>No overlap! We save the active interval <code>[8, 10]</code> to our result list: <code>result = [[1, 6], [8, 10]]</code>.</li>
+              <li>Update our active tracker: <code>activeInterval = [15, 18]</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 6 (Loop Finish):</strong> Loop ends. Add the final <code>active</code> interval
-            <code>[15, 18]</code> to <code>result</code>.</li>
-          <li><strong>Step 7 (Final Output):</strong> Return <code>[[1, 6], [8, 10], [15, 18]]</code>.</li>
+          <li><strong>Step 6 (Loop Termination):</strong>
+            <ul>
+              <li>The loop ends. We append our final active tracker <code>[15, 18]</code> to our result list: <code>result = [[1, 6], [8, 10], [15, 18]]</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Step 7 (Final Output):</strong> We convert our list into a 2D array and return it.</li>
         </ol>
 
         <h2>Code Breakdown</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <p>Low-level implementation highlights of our Java solution:</p>
         <ul>
-          <li><code>Arrays.sort(intervals, (a, b) -&gt; Integer.compare(a[0], b[0]));</code>: Sorting simplifies
-            interval traversal by converting a two-dimensional overlap problem into a linear timeline comparison.</li>
-          <li><code>if (current[1] &gt;= intervals[i][0])</code>: Evaluates if the current interval starts before or
-            exactly at the active interval's boundary, confirming an overlap.</li>
-          <li><code>current[1] = Math.max(current[1], intervals[i][1]);</code>: Merges the overlapping windows by
-            expanding the active interval to the furthest end time.</li>
+          <li><code>Integer.compare(a[0], b[0])</code> avoids integer subtraction overflow issues during comparator evaluation.</li>
+          <li><code>mergedList.add(activeInterval)</code> passes object references. Because we modify the active interval arrays in-place (<code>activeInterval[1] = Math.max(...)</code>), the merged list reflects all updates correctly.</li>
+          <li><code>toArray(new int[mergedList.size()][])</code> converts our dynamic collection back to a raw 2D primitive array.</li>
         </ul>
 
         <h2>Java Solution</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete Java implementation featuring the chronological sorting comparator, along with a main execution runner to print the results.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+ 
 public class MergeIntervals {
-
+ 
     // Sorting & Greedy Merge: Time O(N log N), Space O(N)
     public int[][] merge(int[][] intervals) {
         if (intervals == null || intervals.length &lt;= 1) {
             return intervals;
         }
-
+ 
         // Sort intervals based on their start values
         Arrays.sort(intervals, (a, b) -&gt; Integer.compare(a[0], b[0]));
-
+ 
         List&lt;int[]&gt; mergedList = new ArrayList&lt;&gt;();
         int[] activeInterval = intervals[0];
-
+ 
         for (int i = 1; i &lt; intervals.length; i++) {
             int[] current = intervals[i];
-
+ 
             // If current interval overlaps with the active one, merge them
             if (activeInterval[1] &gt;= current[0]) {
                 activeInterval[1] = Math.max(activeInterval[1], current[1]);
@@ -283,29 +280,28 @@ public class MergeIntervals {
                 activeInterval = current;
             }
         }
-
+ 
         // Add the last active interval
         mergedList.add(activeInterval);
-
+ 
         return mergedList.toArray(new int[mergedList.size()][]);
     }
-
+ 
     public static void main(String[] args) {
         MergeIntervals solver = new MergeIntervals();
         int[][] intervals = {{1, 3}, {2, 6}, {8, 10}, {15, 18}};
-
+ 
         System.out.println("--- Merge Intervals Demonstration ---");
         System.out.println("Input Intervals: " + Arrays.deepToString(intervals));
         int[][] result = solver.merge(intervals);
         System.out.println("Merged Intervals: " + Arrays.deepToString(result)); // Expected: [[1, 6], [8, 10], [15, 18]]
     }
-}
-</code></pre>
-
-        <h2>Summary</h2>
-        <p>The Merge Intervals problem is a perfect demonstration of using sorting to unlock greedy optimizations. By
-          establishing a guaranteed chronological order, we can merge overlapping segments in a single linear pass.</p>
+}</code></pre>
+ 
+        <h2>Conclusion & Takeaways</h2>
+        <p>The Merge Intervals problem is a perfect demonstration of using sorting to unlock greedy optimizations. By establishing a guaranteed chronological order, we can merge overlapping segments in a single linear pass.</p>
       </div>
+
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

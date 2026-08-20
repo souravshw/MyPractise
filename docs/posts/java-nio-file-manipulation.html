@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -133,7 +133,7 @@
       <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
-          <span class="post-category">Java</span>
+          <span class="post-category">Java IO & NIO</span>
           <span class="post-date">June 19, 2026</span>
           <span>•</span>
           <span class="post-read-time">3 min read</span>
@@ -143,47 +143,56 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>In Java 7, Oracle introduced <strong>NIO.2</strong> (Non-blocking I/O) which replaced the old
-          <code>java.io.File</code> class. By separating file operations into two utility structures—<code>Path</code>
-          (representing where a file is) and <code>Files</code> (containing actual actions)—Java became much safer,
-          faster, and more robust.</p>
+        <p>For many years, Java developers relied on the classic <code>java.io.File</code> class for all file and directory operations. While functional, the old <code>File</code> class suffered from significant design flaws: it lacked robust exception handling (many operations simply returned <code>false</code> on failure), offered poor metadata support, and struggled to handle symbolic links.</p>
 
-        <p>In this guide, we will look at how to create, delete, and move files using Java's modern NIO.2 library.</p>
-
-        
-
+        <p>To resolve these limitations, Java 7 introduced <strong>NIO.2</strong> (Non-blocking I/O version 2) inside the <code>java.nio.file</code> package. By separating file locations from the operations performed on them, NIO.2 created a modern, safe, and thread-safe pipeline. In this guide, we will explore the core pillars of NIO.2—<code>Path</code> and <code>Files</code>—and learn how to create, move, and delete files.</p>
+ 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Metaphor: 
-          <p>Imagine managing boxes inside a warehouse:</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Warehouse Address and Crane Operator
+          </div>
+          <p>To understand how NIO.2 separates concerns, imagine managing storage crates inside a multi-story shipping warehouse:</p>
           <ul>
-            <li><strong>The Address (<code>Path</code>):</strong> A piece of paper that reads: "Row 3, Shelf B, Box 5".
-              It doesn't contain a box, it is just a written locator description.</li>
-            <li><strong>The Crane Operator (<code>Files</code>):</strong> This is the machine that takes the address,
-              goes to the shelf, and actually creates, relocates, or deletes the box.</li>
+            <li><strong>The Address Card (<code>Path</code>):</strong> You write down a location locator on an index card: "Building A, Row 4, Aisle C, Box 12". The index card does not actually contain the crate, and it does not guarantee that a crate exists at that location yet. It is simply a structured description of a path.</li>
+            <li><strong>The Crane Machine (<code>Files</code>):</strong> To execute actions, you hand the index card to the crane operator. The operator uses the path to locate the crate and physically performs actions on it—such as placing a new crate (<code>createFile()</code>), moving the crate to a different aisle (<code>move()</code>), or carrying it to the incinerator (<code>delete()</code>).</li>
           </ul>
+          In this system, <code>Path</code> is the address card, and <code>Files</code> is the crane operator.
         </div>
 
         <h2>1. Defining a File Path</h2>
-        <p>In NIO.2, we define locators using the <code>Paths.get()</code> helper, which returns a <code>Path</code>
-          instance:</p>
+        <p>In NIO.2, we define a file locator using the <code>Path</code> interface. We construct instances using helper methods like <code>Paths.get()</code> or the modern <code>Path.of()</code> introduced in Java 11. These locators can represent absolute filesystem paths or relative project paths:</p>
         <pre><code class="language-java">import java.nio.file.Path;
 import java.nio.file.Paths;
-
+ 
 Path path = Paths.get("C:/Users/soushaw/Desktop/testfile.txt");</code></pre>
-
+ 
         <h2>2. Creating, Deleting, and Moving Files</h2>
-        <p>Once you have a <code>Path</code> reference, you pass it to static helper methods inside the
-          <code>Files</code> utility class:</p>
+        <p>Once a <code>Path</code> is defined, we pass it as a parameter to static utility methods inside the <code>Files</code> class. Crucially, NIO.2 methods accept optional flags for fine-grained control:
+        <ul>
+          <li><code>StandardCopyOption.REPLACE_EXISTING</code>: Overwrites target files when moving or copying.</li>
+          <li><code>LinkOption.NOFOLLOW_LINKS</code>: Prevents following symbolic links when reading attributes.</li>
+        </ul>
+        All <code>Files</code> operations are throwing methods; if a directory does not exist or access is denied, they throw a detailed <code>IOException</code> instead of silently returning <code>false</code> like the old <code>File</code> class did. This allows for clean, structured try-catch recovery.
+        </p>
+
+        <p>Here is a complete Java program demonstrating how to define paths and safely execute creation, relocation, and deletion actions using NIO.2:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+ 
 public class FileManip {
     public static void main(String[] args) {
         Path path = Paths.get("C:/Users/soushaw/Desktop/testfile.txt");
-
+ 
         // 1. Creating a file
         try {
             Files.createFile(path);
@@ -191,7 +200,7 @@ public class FileManip {
         } catch (IOException e) {
             System.out.println("Could not create file: " + e.getMessage());
         }
-
+ 
         // 2. Moving a file
         try {
             Path targetPath = Paths.get("C:/Users/soushaw/Desktop/archive/testfile.txt");
@@ -200,7 +209,7 @@ public class FileManip {
         } catch (IOException e) {
             System.out.println("Could not move file: " + e.getMessage());
         }
-
+ 
         // 3. Deleting a file
         try {
             Path targetPath = Paths.get("C:/Users/soushaw/Desktop/archive/testfile.txt");
@@ -211,11 +220,9 @@ public class FileManip {
         }
     }
 }</code></pre>
-
-        <h2>Wrapping Up</h2>
-        <p>Java NIO.2 is the standard for file management in modern enterprise applications. Its method calls (like
-          <code>Files.deleteIfExists()</code>) prevent resource leaks and throw clear exceptions, protecting your
-          program from unexpected system lockouts.</p>
+ 
+        <h2>Conclusion & Modern Practices</h2>
+        <p>The separation of concerns in Java NIO.2 makes file manipulation highly reliable. By utilizing <code>Files</code> and <code>Path</code>, you gain access to modern features like stream-based directory walking (<code>Files.walk()</code>), file visitor operations, and automatic symbol link tracking. It is the standard approach for any modern, high-performance Java application.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

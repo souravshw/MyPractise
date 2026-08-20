@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -130,7 +130,6 @@
         </ol>
       </nav>
 
-      <!-- Article Header Metadata -->
       <header class="article-header">
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
@@ -143,15 +142,15 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>This guide explores two distinct Java topics often encountered in technical interviews: how to flatten nested
-          arrays to find min/max values using Streams, and how Java handles multiple interface inheritance name clashes,
-          famously known as the <strong>Diamond Problem</strong>.</p>
+        <p>Java developers often face challenges that seem unrelated but stem from the same core concept: resolving structural nesting and namespace collisions. In this article, we'll dive into two distinct topics frequently asked in Java interviews:
+        <ol>
+          <li><strong>Flattening Multidimensional Arrays:</strong> How to combine nested arrays (like a 2D matrix) into a single, flat stream to easily compute minimum and maximum values using the Java Stream API.</li>
+          <li><strong>Interface Default Method Conflicts (The Diamond Problem):</strong> How Java resolves name clashes when a class implements multiple interfaces that define default methods with the exact same signature.</li>
+        </ol>
+        Both topics test your understanding of Java’s language model and its modern utility APIs. Let’s break them down.
+        </p>
 
-        <p>Let's break down both concepts using simple real-world analogies and trace how Java resolves them.</p>
-
-        
-
-        <!-- Analogy Box 1 -->
+        <!-- Analogy Box A -->
         <div class="analogy-box">
           <div class="analogy-box-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -159,15 +158,14 @@
               <line x1="12" y1="16" x2="12" y2="12" />
               <line x1="12" y1="8" x2="12.01" y2="8" />
             </svg>
-            Analogy A: Finding the Smallest and Largest Toys
+            Analogy A: Finding the Smallest and Largest Numbers
           </div>
-          <p>Imagine you have two baskets (rows of a 2D array) containing numbered balls. To find the overall smallest
-            (minimum) and largest (maximum) numbers, you do not check each basket separately. Instead, you dump all
-            balls onto a <strong>single flat carpet</strong> (flatMap), sort them in a line, and pick the first ball
-            (min) and the last ball (max).</p>
+          <p>Imagine you are given a basket containing smaller, separate boxes of toys. Inside each box, there are numbered blocks. If you want to find the overall smallest and largest numbers among all the boxes, checking each box individually and keeping track of the local minimum and maximum is tedious.</p>
+          <p>Instead, the easiest method is to dump all the numbered blocks onto a single flat table. Once they are laid out in a single flat row (flattened), you can sort them in a line and immediately pick the first block (minimum) and the last block (maximum).</p>
+          <p>In Java, we do exactly this using <strong>Streams</strong> and <code>flatMapToInt</code>. We convert the 2D array into a stream of rows, flatten it into a single primitive <code>IntStream</code>, and then query the stream properties.</p>
         </div>
 
-        <!-- Analogy Box 2 -->
+        <!-- Analogy Box B -->
         <div class="analogy-box" style="border-left-color: var(--accent-color);">
           <div class="analogy-box-title" style="color: var(--accent-color);">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -175,72 +173,30 @@
               <line x1="12" y1="16" x2="12" y2="12" />
               <line x1="12" y1="8" x2="12.01" y2="8" />
             </svg>
-            Analogy B: The Conflicting School Rules (The Diamond Problem)
+            Analogy B: Conflicting Group Rules (The Diamond Problem)
           </div>
-          <p>Imagine a student belongs to two clubs, <strong>Club One</strong> and <strong>Club Two</strong>. Both clubs
-            have a default rule for how members should state their name:</p>
+          <p>In Java 8, default methods were introduced to allow interfaces to carry method implementations. While this resolved API evolution problems, it reintroduced a classic multiple inheritance conflict: the <strong>Diamond Problem</strong>.</p>
+          <p>Consider a student who joins two groups: <strong>Club A</strong> and <strong>Club B</strong>. Both groups have a default rule:
           <ul>
-            <li><strong>Club One:</strong> *"By default, say your name is 'One'!"*</li>
-            <li><strong>Club Two:</strong> *"By default, say your name is 'Two'!"*</li>
+            <li>Club A: *"If asked, say you belong to Group A."*</li>
+            <li>Club B: *"If asked, say you belong to Group B."*</li>
           </ul>
-          <p>If the student is asked to state their name, they get stuck in a dilemma—which club's rule should they
-            follow? This is the <strong>Diamond Problem</strong>.</p>
-          <p>To resolve this conflict, Java forces the student class to write their own custom rule, overriding the
-            default behavior to clarify which name to output.</p>
+          If someone asks the student which group they belong to, the student faces a dilemma. The rules conflict, and they don't know which default implementation to execute.</p>
+          <p>To prevent ambiguity, the Java compiler raises a compile-time error. It forces the developer to explicitly override the conflicting method in the implementing class. Inside the class, you can write a custom name or explicitly invoke one of the parent interface's default methods using the syntax <code>ParentInterface.super.methodName()</code>.</p>
         </div>
 
-        <h2>Walkthrough of the Main Method Scenario</h2>
-        <p>Let's trace how the program executes step-by-step from the entry point of the main method:</p>
+        <h2>Step-by-Step Scenario Walkthrough</h2>
+        <p>Let's trace the stream processing on a 2D array: <code>int[][] arr = {{1, 100}, {50, 130}}</code>:
+        <ul>
+          <li><code>Arrays.stream(arr)</code>: Converts the grid into a stream of 1D arrays: <code>[{1, 100}, {50, 130}]</code>.</li>
+          <li><code>flatMapToInt(Arrays::stream)</code>: Flattens these arrays, merging their elements into a continuous primitive <code>IntStream</code>: <code>[1, 100, 50, 130]</code>.</li>
+          <li><code>.sorted()</code>: Sorts the numbers in ascending order: <code>[1, 50, 100, 130]</code>.</li>
+        </ul>
+        The first element in this sorted stream is the minimum value (<code>1</code>), and the final element is the maximum value (<code>130</code>).
+        </p>
 
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 1: Setting up the 2D array
-          </div>
-          <p>The program declares a simple 2x2 grid representing numeric bounds:</p>
-          <pre><code class="language-java">int[][] arr = {{1, 100}, {50, 130}};</code></pre>
-          <p>This array stores the values: 1, 100, 50, and 130.</p>
-        </div>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 2: Processing the Stream
-          </div>
-          <p>The program converts the array into a stream, merges the rows, and sorts the results:</p>
-          <pre><code class="language-java">Arrays.stream(arr).flatMapToInt(Arrays::stream).sorted();</code></pre>
-          <ul>
-            <li><code>Arrays.stream(arr)</code> creates a stream of the rows: <code>[{1, 100}, {50, 130}]</code>.</li>
-            <li><code>flatMapToInt(Arrays::stream)</code> flattens the rows into a single primitive integer stream:
-              <code>[1, 100, 50, 130]</code>.</li>
-            <li><code>.sorted()</code> sorts them in order: <code>[1, 50, 100, 130]</code>. The first element is the min
-              (1), and the last is the max (130).</li>
-          </ul>
-        </div>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 3: Understanding Interface Default Methods
-          </div>
-          <p>The program declares two interfaces containing default implementation behaviors:</p>
-          <pre><code class="language-java">interface One {
-    default String getName() { return "One"; }
-}
-interface Two {
-    default String getName() { return "Two"; }
-}</code></pre>
-          <p>If a class attempts to implement both interfaces (<code>class Child implements One, Two</code>), the Java
-            compiler will throw an error: <em>"inherits unrelated defaults for getName()"</em>. To fix this, the class
-            must explicitly override the method to resolve the collision:
-          <pre><code class="language-java">class Child implements One, Two {
-    @Override
-    public String getName() {
-        return One.super.getName(); // Explicitly chooses One's default
-    }
-}</code></pre>
-          </p>
-        </div>
-
-        <h2>Full Code Solution</h2>
-        <p>Below is the complete Java code demonstrating array flatmapping and default interface declarations:</p>
+        <h2>Java Implementation Code</h2>
+        <p>Below is the complete Java code demonstrating array flatmapping and interface inheritance resolution:</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.accolite;
@@ -253,9 +209,13 @@ public class MinMaxFromMultiDimentionalArray {
         int[][] arr = {{1, 100}, {50, 130}};
  
         // Flattens and sorts the 2D array elements
-        Arrays.stream(arr)
-              .flatMapToInt(Arrays::stream)
-              .sorted();
+        int[] flattened = Arrays.stream(arr)
+                                .flatMapToInt(Arrays::stream)
+                                .sorted()
+                                .toArray();
+                                
+        System.out.println("Min: " + flattened[0]);
+        System.out.println("Max: " + flattened[flattened.length - 1]);
     }
 }
  
@@ -269,13 +229,18 @@ interface Two {
     default String getName() {
         return "Two";
     }
+}
+ 
+class Child implements One, Two {
+    @Override
+    public String getName() {
+        // Explicitly resolve ambiguity
+        return One.super.getName();
+    }
 }</code></pre>
-
-        <h2>Final Thoughts</h2>
-        <p>Flatmapping nested collections resolves layout barriers, allowing you to easily sort and search elements
-          across dimensions. In Java's object model, default methods inside interfaces provide great flexibility, but
-          implementing multiple interfaces with identical defaults requires explicit overriding to resolve compile-time
-          inheritance conflicts.</p>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>Flatmapping nested data structures runs in <code>O(N)</code> linear time (where <code>N</code> is the total number of elements) and simplifies grid processing. Resolving interface collisions is a compiler requirement that ensures type safety and predictable runtime behavior. Together, these patterns form the basis of clean, modern Java development.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

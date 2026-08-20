@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -143,11 +143,9 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>A <strong>loop or cycle</strong> in a linked list happens when a node points back to a node we have already
-          visited instead of pointing to <code>null</code>. If we try to traverse this list, our code will run forever
-          in an infinite loop, freezing the program!</p>
+        <p>Detecting loops inside singly linked lists is a common problem in software engineering. A loop occurs when a node's pointer links back to a previously visited node instead of pointing to <code>null</code>. If your traversal logic is not prepared for this, it will loop indefinitely, locking up threads and causing system crashes.</p>
 
-        <p>Let's look at how we can detect this loop easily using a simple room-and-sticky-note analogy.</p>
+        <p>While Floyd's two-pointer algorithm is highly popular, another straightforward method is the <strong>Visited State Flag</strong> approach. By adding a simple boolean state variable to each node, we can track our traversal history directly. This article explains how this visited state approach works, its real-world analogy, and its technical trade-offs.</p>
 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -158,56 +156,52 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Analogy: 
-          <p>Imagine you are exploring a series of connected rooms (Nodes). Each room has a single door leading to the
-            next room.</p>
-          <p>You want to check if you are walking in a circle. Here is your plan:</p>
-          <ul>
-            <li>Every time you walk into a room, you put a <strong>bright neon sticky note</strong> on the door (we mark
-              <code>isTraversed = true</code>).</li>
-            <li>Before you walk through any door, you check if there is already a sticky note on it.</li>
-            <li>If you find a sticky note, you shout: <strong>"Loop Detected! I've been in this room before!"</strong>
-            </li>
-            <li>If you reach a dead end (a room with no door to follow, i.e., <code>null</code>), you know there is no
-              loop!</li>
-          </ul>
-        </div>
-
-        <h2>Walkthrough of the Loop Detection Scenario</h2>
-        <p>Let's trace how the program executes step-by-step from the entry point of a loop checking method:</p>
-
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 1: Setting up our Nodes
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Maze and Neon Sticky Notes
           </div>
-          <p>We create three nodes representing our list. We also deliberately point Node C back to Node B to form a
-            cycle:</p>
-          <pre><code class="language-java">Node1 c = new Node1("Node C", null); // we will point it to B later
-Node1 b = new Node1("Node B", c);
-Node1 a = new Node1("Node A", b);
-c.nextNode = b; // Cycle created! C -> B</code></pre>
+          <p>To understand the visited flag approach, imagine exploring a maze composed of consecutive rooms. Each room has a single door leading to the next room.</p>
+          <p>To ensure you don't walk in circles, you decide to use a pack of bright neon sticky notes:
+          <ul>
+            <li>Every time you enter a room, you check the door.</li>
+            <li>If there is already a sticky note on the door, you immediately know you've been here before. You stop and declare: <strong>"Loop Detected!"</strong></li>
+            <li>If the door has no sticky note, you place one on it and continue to the next room.</li>
+            <li>If you reach a dead end (a room with no exit door, i.e., <code>null</code>), you know the path is loop-free.</li>
+          </ul>
+          In code, the rooms represent <code>Node</code> instances, and the sticky notes represent a <code>boolean isTraversed</code> instance variable.
+          </p>
         </div>
 
-        <div class="analogy-box" style="border-left-color: var(--accent-color);">
-          <div class="analogy-box-title" style="color: var(--accent-color);">
-            Step 2: Tracking Visited Rooms
-          </div>
-          <p>We start checking for loops starting from the head (Node A):</p>
-          <ul>
-            <li><strong>Check Node A:</strong> Is Node A visited? No (<code>isTraversed</code> is false). Mark Node A as
-              visited: <code>a.isTraversed = true</code>. Move to Node B.</li>
-            <li><strong>Check Node B:</strong> Is Node B visited? No. Mark Node B: <code>b.isTraversed = true</code>.
-              Move to Node C.</li>
-            <li><strong>Check Node C:</strong> Is Node C visited? No. Mark Node C: <code>c.isTraversed = true</code>.
-              Move to Node C's next node: Node B.</li>
-            <li><strong>Check Node B again:</strong> Is Node B visited? <strong>Yes!</strong>
-              (<code>b.isTraversed == true</code>). A loop is detected! The program immediately returns true.</li>
-          </ul>
-        </div>
+        <h2>Algorithmic Logic</h2>
+        <p>To implement this visited flag approach in Java:
+        <ul>
+          <li>We add a boolean field <code>isTraversed</code> to our node class.</li>
+          <li>When traversing the list, we iterate from node to node:
+            <ul>
+              <li>If we reach a node where <code>isTraversed</code> is already <code>true</code>, we immediately return <code>true</code>, indicating a cycle.</li>
+              <li>Otherwise, we set <code>isTraversed</code> to <code>true</code> and move to the next node.</li>
+            </ul>
+          </li>
+          <li>If the traversal reaches <code>null</code> without encountering any marked nodes, we return <code>false</code>.</li>
+        </ul>
+        </p>
+
+        <h2>Step-by-Step Scenario Trace</h2>
+        <p>Let's trace this walkthrough using a list: <code>Node A &rarr; Node B &rarr; Node C &rarr; Node B</code> (forming a cycle B &rarr; C &rarr; B):
+        <ul>
+          <li><strong>Start at Node A:</strong> We check Node A's <code>isTraversed</code> flag. It is <code>false</code>. We mark it <code>true</code> and move to Node B.</li>
+          <li><strong>Inspect Node B:</strong> We check Node B's flag. It is <code>false</code>. We mark it <code>true</code> and move to Node C.</li>
+          <li><strong>Inspect Node C:</strong> We check Node C's flag. It is <code>false</code>. We mark it <code>true</code> and move to Node C's next node: Node B.</li>
+          <li><strong>Inspect Node B again:</strong> We check Node B's flag. It is <code>true</code>! The program halts and returns <code>true</code>, indicating a loop.</li>
+        </ul>
+        </p>
 
         <h2>Implementation in Java</h2>
-        <p>Below is the complete Java code demonstrating how `Node1` utilizes the `isTraversed` boolean state flag to
-          detect a cycle:</p>
+        <p>Below is the complete Java code demonstrating how <code>Node1</code> utilizes the <code>isTraversed</code> boolean state flag to detect a cycle:</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.accolite;
@@ -258,11 +252,15 @@ class Node1 {
         return nextNode;
     }
 }</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>By using a simple <code>boolean isTraversed</code> flag inside our list nodes, we can easily check for loop
-          cycles in a single pass. This visited flag approach runs in O(N) time and requires minimal extra code to
-          implement!</p>
+ 
+        <h2>Conclusion & Practical Trade-offs</h2>
+        <p>The visited flag approach runs in <code>O(N)</code> linear time complexity. Its main advantage is its simplicity and ease of debugging. However, it has key practical trade-offs:
+        <ul>
+          <li><strong>Memory Overhead:</strong> Adding a boolean variable to every node increases the memory footprint, especially for large datasets.</li>
+          <li><strong>Mutating State:</strong> It modifies the list's nodes. If multiple threads traverse the list simultaneously, or if you need to perform multiple traversals, you must reset the flags to <code>false</code> first, introducing overhead.</li>
+        </ul>
+        For stateless, read-only lists, alternative algorithms like Floyd's Cycle Detection or a separate <code>HashSet</code> visited log are generally preferred. Nonetheless, the visited flag method is an intuitive, easy-to-understand solution for simple pointer traversal problems.</p>
+      </div>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

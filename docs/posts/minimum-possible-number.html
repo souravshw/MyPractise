@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -132,48 +132,104 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 20, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Constructing the Minimum Possible Number using Counting Sort</h1>
       </header>
 
+      <!-- Article Body -->
       <div class="article-body">
-        <p>If you are given a long string of numeric digits, like <code>"50122"</code>, and asked to rearrange the
-          digits to construct the smallest possible number, the standard sorting approach (O(N Log N)) is to sort
-          characters. However, since the digit range is very small (only digits 0 to 9), we can optimize this to O(N)
-          using <strong>Counting Sort</strong>.</p>
+        <h2>What We're Solving &amp; Complexity Bounds</h2>
+        <p>Arranging a collection of numeric digits to construct the smallest representation is a common algorithmic puzzle. If you are given a long string of numeric digits, such as <code>"50122"</code>, and asked to rearrange the digits to construct the smallest possible number, the standard approach is to perform comparison-based character sorting. However, standard sorting algorithms like Merge Sort or Quick Sort require <code>O(n log n)</code> time.</p>
 
+        <p>Since the range of digits is extremely small and fixed (only ten possible digits: <code>0</code> through <code>9</code>), we can optimize this sorting task to a linear <code>O(n)</code> runtime using <strong>Counting Sort</strong> (also known as bucket sort logic). By allocating a small bucket array to count frequencies, we eliminate character comparisons entirely.</p>
+ 
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/minimum-number.svg" alt="Visualizing digit count sorting"
             style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
+        <!-- Analogy Box -->
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine you have a messy pile of numbered toy tiles (digits). You want to align them to make the smallest
-            number possible.</p>
-          <p>Instead of comparing tiles, you place 10 plastic trays labeled <strong>0 to 9</strong> on the table. You
-            pick up each tile from the pile and drop it in its matching tray:
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Multi-Tray Sort
+          </div>
+          <p>To visualize this approach, imagine organizing a messy pile of numbered toy tiles (each showing a single digit from 0 to 9):</p>
           <ul>
-            <li>All `0` tiles go to tray 0, all `1` tiles to tray 1, and so on.</li>
+            <li><strong>Tray Sorting:</strong> Instead of comparing tiles pair-by-pair, you place 10 plastic trays labeled <code>0</code> to <code>9</code> on a table.</li>
+            <li><strong>Counting:</strong> You pick up each tile from the pile one by one and drop it into its matching labeled tray. All <code>0</code> tiles go to tray <code>0</code>, all <code>1</code> tiles go to tray <code>1</code>, and so on.</li>
+            <li><strong>Reconstruction:</strong> To write down the smallest number, you simply look at the trays from left to right, starting at tray <code>0</code> and finishing at tray <code>9</code>. You pick up all the tiles from each tray in order and lay them out side-by-side.</li>
           </ul>
-          </p>
-          <p>To write down the smallest number, you simply look at the trays from left to right (0 first, then 1, then
-            2...) and lay out all the tiles from each tray in order! You get <code>"01225"</code>.</p>
+          This simple tray sorting technique avoids all comparisons and directly yields the sorted string <code>"01225"</code>.
         </div>
 
-        <h2>Walking Through the Logic</h2>
+        <h2>The Strategy</h2>
+        <h3>Algorithmic Mechanics (Bucket Allocation)</h3>
+        <p>Let's look at the implementation details of this linear-time sorting method:
+        <ul>
+          <li><strong>Frequency Array:</strong> We allocate an integer array <code>arr</code> of size <code>10</code> (indices <code>0</code> to <code>9</code>) to store digit counts.</li>
+          <li><strong>Single-Pass Accumulation:</strong> We convert the input string to a character array and loop through it once. For each character, we determine its numeric value and increment the corresponding index in our frequency array: <code>arr[digit]++</code>.</li>
+          <li><strong>String Assembly:</strong> We initialize a <code>StringBuilder</code>. We loop through our frequency array from index <code>0</code> to <code>9</code>. If the count at the current index <code>i</code> is non-zero, we append the digit <code>i</code> to our string builder exactly as many times as its count specifies.</li>
+          <li><strong>Printing the Result:</strong> The final constructed string represents the minimum possible number.</li>
+        </ul>
+        </p>
+
+        <h2>Detailed Trace Walkthrough</h2>
+        <p>Let's trace this counting sort execution step-by-step using the input string <code>"5012267075766"</code>:</p>
         <ol>
-          <li>Set up a bucket array of size 9 (or 10) to hold digit counts: <code>int[] arr = new int[10];</code>.</li>
-          <li>Convert the input number string to a character array.</li>
-          <li>For each character, parse it as an integer index and increment the count in your bucket array:
-            <code>arr[digit]++</code>.</li>
-          <li>Set up a <code>StringBuilder</code>.</li>
-          <li>Loop from index 0 to 9 in the bucket array. If the count in the bucket is non-zero, append that digit
-            index to the string builder as many times as its count specifies.</li>
-          <li>Print the finished string.</li>
+          <li><strong>Step 1 (Initialize Buckets):</strong>
+            <ul>
+              <li>Create frequency array <code>arr</code> of size 10, initialized to all zeros.</li>
+            </ul>
+          </li>
+          <li><strong>Step 2 (Frequencies Scan):</strong>
+            <ul>
+              <li>Traverse the input characters: <code>5</code>, <code>0</code>, <code>1</code>, <code>2</code>, <code>2</code>, <code>6</code>, <code>7</code>, <code>0</code>, <code>7</code>, <code>5</code>, <code>7</code>, <code>6</code>, <code>6</code>.</li>
+              <li>Update frequency indices:
+                <ul>
+                  <li><code>arr[0] = 2</code> (digits: <code>0</code>, <code>0</code>)</li>
+                  <li><code>arr[1] = 1</code> (digits: <code>1</code>)</li>
+                  <li><code>arr[2] = 2</code> (digits: <code>2</code>, <code>2</code>)</li>
+                  <li><code>arr[5] = 2</code> (digits: <code>5</code>, <code>5</code>)</li>
+                  <li><code>arr[6] = 3</code> (digits: <code>6</code>, <code>6</code>, <code>6</code>)</li>
+                  <li><code>arr[7] = 3</code> (digits: <code>7</code>, <code>7</code>, <code>7</code>)</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><strong>Step 3 (Reconstruction):</strong>
+            <ul>
+              <li>We scan from index <code>0</code> to <code>9</code>:
+                <ul>
+                  <li>Index <code>0</code> count is <code>2</code> &rarr; Append <code>"00"</code>.</li>
+                  <li>Index <code>1</code> count is <code>1</code> &rarr; Append <code>"1"</code>.</li>
+                  <li>Index <code>2</code> count is <code>2</code> &rarr; Append <code>"22"</code>.</li>
+                  <li>Index <code>5</code> count is <code>2</code> &rarr; Append <code>"55"</code>.</li>
+                  <li>Index <code>6</code> count is <code>3</code> &rarr; Append <code>"666"</code>.</li>
+                  <li>Index <code>7</code> count is <code>3</code> &rarr; Append <code>"777"</code>.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><strong>Step 4 (Completion):</strong>
+            <ul>
+              <li>The resulting string builder content is <code>"0012255666777"</code>, which is printed to the console.</li>
+            </ul>
+          </li>
         </ol>
+
+        <h2>Code Highlights &amp; Explanations</h2>
+        <p>Key aspects of our Java implementation:</p>
+        <ul>
+          <li><code>Integer.parseInt(String.valueOf(ch))</code> parses each character digit into its corresponding bucket index.</li>
+          <li>The nested loops reconstruction prints digits in sorted order without utilizing any comparator logic.</li>
+        </ul>
 
         <h2>The Java Code</h2>
         <pre><code class="language-java">package io.practise.string;
@@ -205,10 +261,9 @@ public class PrintMinimumPossibleNumber {
         System.out.println("Minimum possible number: " + stringBuilder);
     }
 }</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>By counting frequencies instead of comparisons, we achieve O(N) linear runtime. This makes sorting millions
-          of digits run instantaneously.</p>
+ 
+        <h2>Conclusion &amp; Takeaways</h2>
+        <p>By replacing comparison-based sorting with element frequency counting, we achieve O(N) linear runtime. This makes sorting millions of digits run instantaneously. This optimization is a powerful reminder that bounded data ranges allow us to bypass general-case complexity bounds entirely.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

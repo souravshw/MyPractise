@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -134,7 +134,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Longest Palindromic Substring in Java</h1>
@@ -142,15 +142,19 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>The Challenge</h2>
-        <p>The <strong>Longest Palindromic Substring</strong> problem requires us to find the longest contiguous
-          sequence of characters in a string that reads the same forwards and backwards.</p>
-        <p>For example, in the string <code>s = "babad"</code>, the longest palindromic substring is either
-          <code>"bab"</code> or <code>"aba"</code>, both of length <code>3</code>. In <code>s = "cbbd"</code>, the
-          longest palindromic substring is <code>"bb"</code> of length <code>2</code>. Finding symmetric structures
-          inside larger sequences is important in bioinformatics (e.g., DNA sequencing and folding patterns) and
-          compilers.</p>
+        <h2>What We're Solving &amp; Mirror Structures</h2>
+        <p>Finding palindromes within larger string sequences is a classic string analysis challenge frequently featured in technical interviews. The <strong>Longest Palindromic Substring</strong> problem requires us to locate the longest contiguous block of characters that reads exactly the same both forwards and backwards.</p>
 
+        <p>For example, in the string <code>s = "babad"</code>, the longest palindromic substring is either <code>"bab"</code> or <code>"aba"</code>, both having a length of <code>3</code>. In <code>s = "cbbd"</code>, the longest palindromic substring is <code>"bb"</code> of length <code>2</code>.</p>
+
+        <p>Locating symmetric regions is crucial in several computational domains:
+        <ul>
+          <li><strong>Bioinformatics:</strong> Used to detect inverted repeats in DNA strands, which indicate protein folding sites and transcription regulations.</li>
+          <li><strong>Data Compression:</strong> Identifying recurring mirror sequences allows optimization of dictionary-based compression codecs.</li>
+          <li><strong>Natural Language Processing:</strong> Helpful in spell-checking, text segmentation, and semantic structural parsing.</li>
+        </ul>
+        </p>
+ 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/longest_palindromic_substring.svg"
@@ -160,105 +164,94 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Metaphor: 
-          <p>Imagine walking down a path lined with letter blocks. You want to find the longest mirrored section of
-            blocks. To do this, you stop at each block (and also in the gaps between blocks) and act as a reflection
-            center. You stretch your left arm to the left and your right arm to the right, looking at the letter blocks
-            under your hands. As long as the two blocks you are touching match, you stretch further out. The moment
-            there is a mismatch, you stop and measure the distance between your hands. The maximum span you achieve
-            during this walk represents the longest palindromic segment!</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Reflection Walk
+          </div>
+          <p>To visualize the expansion strategy, imagine walking down a long pathway lined with letter blocks:</p>
+          <ul>
+            <li><strong>Outside-In Checking (Brute Force):</strong> To check if a segment is symmetric, you walk to the outer ends and step inward one block at a time, checking if the letters match. If you do this for every possible pair of block combinations, you will be exhausted (this scales quadratically).</li>
+            <li><strong>Inside-Out Checking (The Expansion Walk):</strong> Instead, you stand on a single block (or stand in the gap *between* two blocks) and act as a mirror center. You stretch out both arms simultaneously. As long as the letters under your left and right hands are identical, you take a step outward and stretch again.</li>
+          </ul>
+          The moment your hands touch different letters, you stop, record the span distance, and move to the next block center. The largest span you achieve during your walk is the longest palindromic substring.
         </div>
 
-        <h2>The Logic Behind It</h2>
-        <h3>1. The Brute Force Approach (O(nÂ³))</h3>
-        <p>We check every possible substring in the string, verify if it is a palindrome, and track the longest. With
-          <code>O(nÂ²)</code> substrings and <code>O(n)</code> verification time per substring, the total time complexity
-          is a highly inefficient <code>O(nÂ³)</code>.</p>
+        <h2>Solving the Problem</h2>
+        <h3>1. The Brute Force Search (O(n&sup3;) Complexity)</h3>
+        <p>A naive solution generates every possible substring within the input string and verifies if it is a palindrome. Generating all substrings takes <code>O(n&sup2;)</code> iterations, and verifying each palindrome takes <code>O(n)</code> character comparisons. The cumulative <code>O(n&sup3;)</code> runtime makes it completely unusable for large datasets.</p>
 
-        <h3>2. Expand Around Center Approach (O(nÂ²) Time, O(1) Space)</h3>
-        <p>Instead of checking substrings from the outside in, we can start from every potential palindrome center and
-          expand outwards. A string of length <code>n</code> has <code>2n - 1</code> potential centers (each of the
-          <code>n</code> characters, and each of the <code>n - 1</code> spaces between adjacent characters). For each
-          center, we expand as long as the left and right characters match. This reduces the time complexity to
-          <code>O(nÂ²)</code> while using no extra storage space, which is optimal for a simple array traversal.</p>
+        <h3>2. The Expand Around Center Method (O(n&sup2;) Time, O(1) Space)</h3>
+        <p>An elegant optimization is to treat every character and space as a potential palindrome center and expand outwards. A string of length <code>n</code> contains exactly <code>2n - 1</code> possible centers: <code>n</code> centers on the characters themselves (odd-length palindromes like <code>"aba"</code>) and <code>n - 1</code> centers in the gaps between characters (even-length palindromes like <code>"abba"</code>).</p>
+        
+        <p>For each center, we expand outward using two pointers until a character mismatch occurs or we hit the boundaries. This reduces the runtime to <code>O(n&sup2;)</code> while maintaining <code>O(1)</code> space, which is highly efficient.</p>
 
-        <h2>How It Works</h2>
-        <p>Let's trace the Expand Around Center algorithm on the string <code>s = "babad"</code>:</p>
+        <h2>Detailed Trace Walkthrough</h2>
+        <p>Let's trace the Expand Around Center algorithm step-by-step on the string <code>s = "babad"</code>:</p>
         <ol>
-          <li><strong>Step 1 (Initialization):</strong> We initialize two pointers to track the start and end of our
-            longest palindrome: <code>start = 0</code>, <code>end = 0</code>.</li>
+          <li><strong>Step 1 (Initialization):</strong> We set pointers to record our maximum palindrome span: <code>start = 0</code>, <code>end = 0</code>.</li>
           <li><strong>Step 2 (Index i = 0, Character 'b'):</strong>
             <ul>
-              <li>Odd expansion (center at <code>i = 0, j = 0</code>): Matches <code>'b'</code>. Out of bounds
-                immediately. Length = <code>1</code>.</li>
-              <li>Even expansion (center between index <code>0</code> and <code>1</code>): Left is <code>'b'</code>,
-                right is <code>'a'</code> (mismatch). Length = <code>0</code>.</li>
-              <li>Max length = <code>1</code>. Pointers stay: <code>start = 0, end = 0</code>.</li>
+              <li>Odd expansion (centered at <code>0</code>): Matches <code>'b'</code>. Out of bounds immediately. Length = <code>1</code>.</li>
+              <li>Even expansion (centered between <code>0</code> and <code>1</code>): Left is <code>'b'</code>, right is <code>'a'</code> (mismatch). Length = <code>0</code>.</li>
+              <li>Max length = <code>1</code>. Pointers remain: <code>start = 0, end = 0</code>.</li>
             </ul>
           </li>
           <li><strong>Step 3 (Index i = 1, Character 'a'):</strong>
             <ul>
-              <li>Odd expansion (center at <code>i = 1, j = 1</code>): Matches <code>'a'</code>. Expand outwards: left
-                index <code>0 ('b')</code> matches right index <code>2 ('b')</code>. Expand outwards: out of bounds.
-                Length = <code>3</code> (substring <code>"bab"</code>).</li>
-              <li>Even expansion (center between index <code>1</code> and <code>2</code>): Left is <code>'a'</code>,
-                right is <code>'b'</code> (mismatch). Length = <code>0</code>.</li>
-              <li>Max length is <code>3</code>. Since <code>3 > (end - start + 1)</code>, we update:
-                <code>start = 1 - (3 - 1)/2 = 0</code>, <code>end = 1 + 3/2 = 2</code>. Substring is <code>"bab"</code>.
-              </li>
+              <li>Odd expansion (centered at <code>1</code>): Matches <code>'a'</code>. We step outward: left index <code>0 ('b')</code> matches right index <code>2 ('b')</code>. We step outward again: left index <code>-1</code> is out of bounds. Length = <code>3</code> (substring <code>"bab"</code>).</li>
+              <li>Even expansion (centered between <code>1</code> and <code>2</code>): Left is <code>'a'</code>, right is <code>'b'</code> (mismatch). Length = <code>0</code>.</li>
+              <li>Max length is <code>3</code>. Since <code>3 &gt; (end - start + 1)</code>, we update pointers: <code>start = 1 - (3 - 1)/2 = 0</code>, <code>end = 1 + 3/2 = 2</code>. Current longest: <code>"bab"</code>.</li>
             </ul>
           </li>
           <li><strong>Step 4 (Index i = 2, Character 'b'):</strong>
             <ul>
-              <li>Odd expansion (center at <code>i = 2, j = 2</code>): Matches <code>'b'</code>. Expand: left index
-                <code>1 ('a')</code> matches right index <code>3 ('a')</code>. Substring <code>"aba"</code>. Expand:
-                left index <code>0 ('b')</code> mismatches right index <code>4 ('d')</code>. Length = <code>3</code>.
-              </li>
-              <li>Even expansion (center between index <code>2</code> and <code>3</code>): Left is <code>'b'</code>,
-                right is <code>'a'</code> (mismatch). Length = <code>0</code>.</li>
-              <li>Max length is <code>3</code>, which is not larger than our current max <code>3</code>. Pointers
-                remain: <code>start = 0, end = 2</code>.</li>
+              <li>Odd expansion (centered at <code>2</code>): Matches <code>'b'</code>. Step outward: left index <code>1 ('a')</code> matches right index <code>3 ('a')</code>. Substring <code>"aba"</code>. Step outward: left index <code>0 ('b')</code> mismatches right index <code>4 ('d')</code>. Length = <code>3</code>.</li>
+              <li>Even expansion (centered between <code>2</code> and <code>3</code>): Mismatch between <code>'b'</code> and <code>'a'</code>. Length = <code>0</code>.</li>
+              <li>Max length is <code>3</code>. Since <code>3</code> is not strictly larger than our current span of <code>3</code>, the pointers remain: <code>start = 0, end = 2</code>.</li>
             </ul>
           </li>
           <li><strong>Step 5 (Index i = 3, Character 'a'):</strong>
             <ul>
-              <li>Odd expansion: yields length <code>1</code>. Even expansion: yields length <code>0</code>.</li>
+              <li>Odd expansion yields <code>1</code>. Even expansion yields <code>0</code>.</li>
             </ul>
           </li>
           <li><strong>Step 6 (Index i = 4, Character 'd'):</strong>
             <ul>
-              <li>Odd expansion: yields length <code>1</code>. Even expansion: yields length <code>0</code>.</li>
+              <li>Odd expansion yields <code>1</code>. Even expansion yields <code>0</code>.</li>
             </ul>
           </li>
-          <li><strong>Step 7 (Completion):</strong> The loop terminates. We return the substring from
-            <code>start (0)</code> to <code>end (2)</code> inclusive, which is <code>"bab"</code> (or <code>"aba"</code>
-            depending on comparison details).</li>
+          <li><strong>Step 7 (Completion):</strong>
+            <ul>
+              <li>Loop terminates. We extract <code>s.substring(start, end + 1)</code> which maps to <code>s.substring(0, 3)</code>, returning <code>"bab"</code> (or <code>"aba"</code> depending on check order).</li>
+            </ul>
+          </li>
         </ol>
 
         <h2>How the Code Works</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <p>The key highlights of our Java implementation:</p>
         <ul>
-          <li><code>expandAroundCenter(s, i, i)</code>: Expands centered at character <code>i</code>, looking for
-            odd-length palindromes (e.g., <code>"aba"</code>).</li>
-          <li><code>expandAroundCenter(s, i, i + 1)</code>: Expands centered in the gap between <code>i</code> and
-            <code>i+1</code>, looking for even-length palindromes (e.g., <code>"abba"</code>).</li>
-          <li><code>while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right))</code>: The expansion
-            condition. It ensures the search stays within bounds and only extends while characters match.</li>
+          <li><code>expand(s, i, i)</code> checks for odd palindromes centered at <code>i</code>.</li>
+          <li><code>expand(s, i, i + 1)</code> checks for even palindromes centered in the gap between <code>i</code> and <code>i + 1</code>.</li>
+          <li><code>while (left &gt;= 0 &amp;&amp; right &lt; s.length() &amp;&amp; s.charAt(left) == s.charAt(right))</code> is the expansion condition, stepping outwards (<code>left--</code>, <code>right++</code>) as long as symmetry holds.</li>
+          <li><code>return right - left - 1</code> calculates the palindrome length (correcting for the off-by-one mismatch step).</li>
         </ul>
 
         <h2>Full Code Solution</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <p>Below is the complete Java implementation featuring both the brute-force search and the optimized <code>O(n&sup2;)</code> Expand Around Center algorithm, along with a main runner method.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 public class LongestPalindromicSubstring {
-
+ 
     // Brute Force - O(n^3)
     public String longestPalindromeBrute(String s) {
         int maxLen = 0;
-        String result = &quot;&quot;;
+        String result = "";
         for (int i = 0; i &lt; s.length(); i++) {
             for (int j = i; j &lt; s.length(); j++) {
                 String sub = s.substring(i, j + 1);
@@ -270,7 +263,7 @@ public class LongestPalindromicSubstring {
         }
         return result;
     }
-
+ 
     private boolean isPalindrome(String str) {
         int l = 0, r = str.length() - 1;
         while (l &lt; r) {
@@ -278,10 +271,10 @@ public class LongestPalindromicSubstring {
         }
         return true;
     }
-
+ 
     // Optimized - O(n^2) Expand Around Center
     public String longestPalindrome(String s) {
-        if (s == null || s.length() &lt; 1) return &quot;&quot;;
+        if (s == null || s.length() &lt; 1) return "";
         int start = 0, end = 0;
         for (int i = 0; i &lt; s.length(); i++) {
             int len1 = expand(s, i, i); // Odd length
@@ -294,7 +287,7 @@ public class LongestPalindromicSubstring {
         }
         return s.substring(start, end + 1);
     }
-
+ 
     private int expand(String s, int left, int right) {
         while (left &gt;= 0 &amp;&amp; right &lt; s.length() &amp;&amp; s.charAt(left) == s.charAt(right)) {
             left--;
@@ -302,25 +295,23 @@ public class LongestPalindromicSubstring {
         }
         return right - left - 1;
     }
-
+ 
     public static void main(String[] args) {
         LongestPalindromicSubstring solver = new LongestPalindromicSubstring();
-        String s = &quot;babad&quot;;
-
-        System.out.println(&quot;--- Longest Palindromic Substring Demonstration ---&quot;);
-        System.out.println(&quot;Input String: &quot; + s);
-
+        String s = "babad";
+ 
+        System.out.println("--- Longest Palindromic Substring Demonstration ---");
+        System.out.println("Input String: " + s);
+ 
         String result = solver.longestPalindrome(s);
-        System.out.println(&quot;Longest Palindrome: &quot; + result);
+        System.out.println("Longest Palindrome: " + result);
     }
-}
-</code></pre>
-
-        <h2>Wrapping Up</h2>
-        <p>Solving the <strong>Longest Palindromic Substring</strong> problem highlights how we can leverage key data
-          structures and algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly
-          optimize runtime and simplify code complexity.</p>
+}</code></pre>
+ 
+        <h2>Conclusion &amp; Takeaways</h2>
+        <p>Solving the <strong>Longest Palindromic Substring</strong> problem highlights how we can optimize string processing by changing the direction of comparisons. Expanding outward from potential centers rather than scanning substrings from the outside inward reduces comparison redundancy and achieves a highly optimized solution.</p>
       </div>
+
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

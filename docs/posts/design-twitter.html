@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -134,7 +134,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Design Twitter in Java</h1>
@@ -142,128 +142,101 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>Understanding the Problem</h2>
-        <p>Designing a simplified version of a social network like <strong>Twitter</strong> is a classic Object-Oriented
-          Design (OOD) and algorithms problem. The system must support core social media interactions like posting
-          tweets, following or unfollowing users, and generating a dynamic news feed of the 10 most recent tweets.</p>
-        <p>Specifically, the system must implement:
+        <p>System design interviews often feature the challenge of <strong>Designing Twitter</strong> (or a similar social media feed). This problem is highly effective because it tests both Object-Oriented Design (OOD) modeling and algorithmic optimization. The system needs to support basic operations like posting tweets, following or unfollowing other users, and constructing a chronological news feed of the 10 most recent tweets.</p>
+
+        <p>Specifically, the required operations are:
         <ul>
-          <li><code>postTweet(userId, tweetId)</code>: Compose a new tweet by a user. Each tweet must be ordered
-            chronologically.</li>
-          <li><code>follow(followerId, followeeId)</code>: Allow a follower to subscribe to a followee's tweets.</li>
-          <li><code>unfollow(followerId, followeeId)</code>: Unsubscribe a follower from a followee's tweets.</li>
-          <li><code>getNewsFeed(userId)</code>: Retrieve the 10 most recent tweet IDs in the user's news feed, collected
-            from both the user and anyone they follow, sorted in descending chronological order.</li>
+          <li><code>postTweet(userId, tweetId)</code>: Composes a new tweet. Tweets must be ordered chronologically.</li>
+          <li><code>follow(followerId, followeeId)</code>: Subscribes a user to another user's tweets.</li>
+          <li><code>unfollow(followerId, followeeId)</code>: Unsubscribes a user.</li>
+          <li><code>getNewsFeed(userId)</code>: Retrieves the 10 most recent tweet IDs in the user's feed, originating from either the user themselves or anyone they currently follow, sorted in descending chronological order.</li>
         </ul>
-        The primary challenge is generating the news feed efficiently. Instead of copying all tweets into a global list
-        and sorting themâ€”which is highly inefficientâ€”we model each user's tweets as a <strong>Singly Linked
-          List</strong> and perform a <strong>k-way merge</strong> using a <strong>PriorityQueue</strong> (Max-Heap) to
-        gather the top 10 tweets.
+        The main engineering hurdle lies in generating the news feed efficiently under high load. A naive solution that merges all tweets into a giant list and sorts them is too slow. Instead, we model each user's history as a <strong>Singly Linked List</strong> of tweets and perform a <strong>k-way merge</strong> using a <strong>PriorityQueue</strong> (Max-Heap).
         </p>
 
-        
+        <!-- Post Illustration Image -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="../images/design_twitter.png"
+            alt="Illustration of Twitter OOD Feed Generation using PriorityQueue in Java"
+            style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+        </div>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Metaphor: 
-          <p>Imagine you subscribe to several physical bulletin boards in a campus (representing the users you follow).
-            Each bulletin board has messages pinned to it in descending chronological order (the newest message on top
-            of the older ones). To construct your own daily digest feed of the top 10 newest messages across all boards
-            you follow, you walk to each board, take the very top message, and lay them out on a table. You compare
-            their dates, pick the single newest one, and put it in your digest. Then, you go back to the bulletin board
-            that message came from, take its next message, and add it to your table's options. By systematically
-            comparing the top messages and replacing the picked one with its predecessor, you fill your digest with the
-            top 10 newest messages without sorting everything on every board. In software, each bulletin board's pile is
-            a Singly Linked List of tweets, and the table on which we compare messages is a Max-Priority Queue.</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Bulletin Board Digest
+          </div>
+          <p>To understand this k-way merge strategy, imagine you subscribe to several physical bulletin boards across a university campus. Each board contains flyers pinned in chronological order, with the newest flyers placed on top.</p>
+          <p>Your task is to create a daily personal digest showing the top 10 newest flyers across all the boards you follow. To do this efficiently without sorting every single flyer on campus, you follow a simple system:
+          <ol>
+            <li>You visit each followed board and copy down only the details of the single newest flyer on the very top.</li>
+            <li>You place these top flyers on a table and compare their timestamps.</li>
+            <li>You take the newest flyer from the table and add it to your digest list.</li>
+            <li>Next, you return to the board that the flyer came from, retrieve its second flyer, and place it on the table.</li>
+            <li>You repeat this process until you have gathered 10 flyers in your digest.</li>
+          </ol>
+          By comparing only the top elements of each pre-sorted list, you compile the top 10 newest flyers in minimal steps. In our Java code, each board's flyer stack is a linked list of tweets, and the table we use for comparison is a <strong>PriorityQueue</strong>.
+          </p>
         </div>
 
-        <h2>Core Algorithm</h2>
-        <h3>Object Modeling + K-Way Merge (O(F log F) News Feed Generation)</h3>
-        <p>We model the entities object-oriented style:
+        <h2>The Object-Oriented Data Model</h2>
+        <p>To implement this, we design two core entities:
         <ul>
-          <li><strong>Tweet Class:</strong> Acts as a node in a linked list. It contains a <code>tweetId</code>, a
-            global <code>time</code> timestamp (incremented on each post), and a <code>next</code> reference pointing to
-            the next older tweet from the same user.</li>
-          <li><strong>User Class:</strong> Stores a user <code>id</code>, a <code>followed</code> set containing the
-            user IDs of people they follow, and a <code>head</code> reference pointing to the head of their Tweet linked
-            list. By default, a user follows themselves so their own posts appear in their feed.</li>
-          <li><strong>News Feed Generation:</strong> To merge tweets from <code>F</code> followed users:
-            <ol>
-              <li>We fetch the head tweet of each followed user and insert it into a Max-PriorityQueue sorted by
-                timestamp.</li>
-              <li>We poll the newest tweet from the queue, add its ID to the result feed, and if the tweet has a
-                <code>next</code> pointer, we insert that next tweet back into the queue.</li>
-              <li>We repeat this process until we have retrieved 10 tweets or the queue runs dry. This avoids looking at
-                older, irrelevant tweets.</li>
-            </ol>
+          <li><strong><code>Tweet</code> Class:</strong> Represents a single post. It acts as a node in a linked list, holding its <code>tweetId</code>, a global <code>timestamp</code> (incremented with each new post), and a <code>next</code> pointer pointing to the next older tweet by the same user. Prepended insertion ensures new posts become the head of the list in <code>O(1)</code> time.</li>
+          <li><strong><code>User</code> Class:</strong> Holds a user <code>id</code>, a <code>followed</code> set containing the IDs of other users, and a <code>head</code> reference to the user's newest <code>Tweet</code> node. A user is initialized to automatically follow themselves.</li>
+        </ul>
+        </p>
+
+        <h2>Feed Generation via K-Way Merge</h2>
+        <p>When <code>getNewsFeed(userId)</code> is called:
+        <ol>
+          <li>We initialize a Max-Heap (PriorityQueue) that compares tweets by timestamp.</li>
+          <li>We loop through the list of users that the target user follows, retrieving the <code>head</code> tweet of each user's linked list and offering it to the queue.</li>
+          <li>In a loop running at most 10 times, we poll the newest tweet from the heap, add it to our results list, and if that tweet has a <code>next</code> pointer, we insert that subsequent tweet back into the heap.</li>
+        </ol>
+        This guarantees we only look at the most relevant tweets, resulting in an efficient runtime of <code>O(F log F)</code> where <code>F</code> is the number of followed users.
+        </p>
+
+        <h2>Step-by-Step Scenario Trace</h2>
+        <p>Let's trace a concrete scenario where User 1 follows User 2. User 1 posts Tweet 5, and User 2 posts Tweet 6:
+        <ul>
+          <li><strong>Post Tweets:</strong> User 1's tweet list is <code>Tweet(5, time=0) &rarr; null</code>. User 2's tweet list is <code>Tweet(6, time=1) &rarr; null</code>.</li>
+          <li><strong>Follow:</strong> User 1 follows User 2, so User 1's follow set is <code>{1, 2}</code>.</li>
+          <li><strong>Heap Initialization:</strong> When generating the feed for User 1, we insert the head tweets of User 1 (<code>Tweet 5</code>) and User 2 (<code>Tweet 6</code>) into the PriorityQueue. The queue sorts them: <code>[Tweet 6 (time=1), Tweet 5 (time=0)]</code>.</li>
+          <li><strong>Merge Loop:</strong>
+            <ul>
+              <li><strong>Iteration 1:</strong> We poll the newest tweet <code>Tweet 6</code> and add it to our feed. Its <code>next</code> pointer is null, so no new tweet is pushed. Feed is <code>[6]</code>.</li>
+              <li><strong>Iteration 2:</strong> We poll <code>Tweet 5</code> and add it to our feed. Its <code>next</code> pointer is null. Feed is <code>[6, 5]</code>.</li>
+              <li>The queue is empty, so we stop and return <code>[6, 5]</code>.</li>
+            </ul>
           </li>
         </ul>
         </p>
 
-        <h2>Step-by-Step Execution</h2>
-        <p>Let's trace a scenario where User 1 follows User 2. User 1 posts Tweet 5, and User 2 posts Tweet 6:</p>
-        <ol>
-          <li><strong>Step 1 (Post Tweets):</strong>
-            <ul>
-              <li>User 1 posts Tweet 5 (timestamp t=0). User 1's tweet list: <code>Tweet(5, t=0) &rarr; null</code>.
-              </li>
-              <li>User 2 posts Tweet 6 (timestamp t=1). User 2's tweet list: <code>Tweet(6, t=1) &rarr; null</code>.
-              </li>
-            </ul>
-          </li>
-          <li><strong>Step 2 (Follow):</strong>
-            <ul>
-              <li>User 1 follows User 2. User 1's followed set: <code>{1, 2}</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 3 (getNewsFeed(1)):</strong>
-            <ul>
-              <li>Gather head tweets for followed users <code>{1, 2}</code>:
-                <br>User 1 head: <code>Tweet(5, t=0)</code>
-                <br>User 2 head: <code>Tweet(6, t=1)</code>
-              </li>
-              <li>Insert heads into Max-PriorityQueue. PQ state: <code>[Tweet(6, t=1), Tweet(5, t=0)]</code> (newest
-                first).</li>
-            </ul>
-          </li>
-          <li><strong>Step 4 (Extract News Feed):</strong>
-            <ul>
-              <li><strong>Extraction 1:</strong> Poll newest tweet from PQ: <code>Tweet(6, t=1)</code>. Append ID
-                <code>6</code> to feed list.
-                <br>Feed: <code>[6]</code>. Since <code>Tweet(6).next</code> is null, nothing is added back.
-              </li>
-              <li><strong>Extraction 2:</strong> Poll next newest tweet from PQ: <code>Tweet(5, t=0)</code>. Append ID
-                <code>5</code> to feed list.
-                <br>Feed: <code>[6, 5]</code>. Since <code>Tweet(5).next</code> is null, nothing is added back.
-              </li>
-              <li>PQ is now empty. Return result feed: <code>[6, 5]</code>.</li>
-            </ul>
-          </li>
-        </ol>
-
-        <h2>Code Walkthrough</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <h2>Key Code Explanations</h2>
+        <p>Here is why the main logic in the solution is important:
         <ul>
-          <li><code>t.next = head; head = t;</code>: Prepends the new tweet to the user's list. This runs in
-            <code>O(1)</code> time and naturally places the newest tweet at the head position.</li>
-          <li><code>PriorityQueue&lt;Tweet&gt; pq = new PriorityQueue&lt;&gt;((a, b) -&gt; b.time - a.time);</code>: A
-            custom Max-Heap comparator. This ensures that when we peek or poll from the queue, we always fetch the tweet
-            with the highest timestamp (most recent).</li>
-          <li><code>if (t.next != null) pq.offer(t.next);</code>: The k-way merge step. Since each user's tweet list is
-            already sorted, we only need to compare the next oldest tweet of the user whose tweet we just pulled.</li>
+          <li><code>t.next = head; head = t;</code>: Prepends the new tweet to the user's list. This runs in <code>O(1)</code> time and naturally places the newest tweet at the head position.</li>
+          <li><code>PriorityQueue&lt;Tweet&gt; pq = new PriorityQueue&lt;&gt;((a, b) -&gt; b.time - a.time);</code>: A custom Max-Heap comparator. This ensures that when we peek or poll from the queue, we always fetch the tweet with the highest timestamp (most recent).</li>
+          <li><code>if (t.next != null) pq.offer(t.next);</code>: The k-way merge step. Since each user's tweet list is already sorted, we only need to compare the next oldest tweet of the user whose tweet we just pulled.</li>
         </ul>
+        </p>
 
-        <h2>Java Solution</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <h2>Java Implementation Code</h2>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 import java.util.*;
-
+ 
 public class DesignTwitter {
-
+ 
     public static class Twitter {
         // Global chronological counter to stamp tweets upon creation
         private static int timeStamp = 0;
@@ -308,20 +281,20 @@ public class DesignTwitter {
                 head = t;
             }
         }
-
+ 
         // Map to keep track of all users in the system
         private final Map&lt;Integer, User&gt; userMap = new HashMap&lt;&gt;();
-
+ 
         public Twitter() {
             // Constructor
         }
-
+ 
         // Compose a new tweet
         public void postTweet(int userId, int tweetId) {
             userMap.putIfAbsent(userId, new User(userId));
             userMap.get(userId).post(tweetId);
         }
-
+ 
         // Retrieve the 10 most recent tweets in the user's news feed
         public List&lt;Integer&gt; getNewsFeed(int userId) {
             List&lt;Integer&gt; res = new ArrayList&lt;&gt;();
@@ -350,14 +323,14 @@ public class DesignTwitter {
             }
             return res;
         }
-
+ 
         // Follow a user
         public void follow(int followerId, int followeeId) {
             userMap.putIfAbsent(followerId, new User(followerId));
             userMap.putIfAbsent(followeeId, new User(followeeId));
             userMap.get(followerId).follow(followeeId);
         }
-
+ 
         // Unfollow a user
         public void unfollow(int followerId, int followeeId) {
             if (userMap.containsKey(followerId)) {
@@ -365,7 +338,7 @@ public class DesignTwitter {
             }
         }
     }
-
+ 
     public static void main(String[] args) {
         Twitter twitter = new Twitter();
         System.out.println("--- Design Twitter Demonstration ---");
@@ -386,11 +359,9 @@ public class DesignTwitter {
     }
 }
 </code></pre>
-
-        <h2>Wrapping Up</h2>
-        <p>Designing Twitter demonstrates the efficiency of custom objects and list abstractions. By modeling tweets as
-          linked lists and merging them through a Max-Priority Queue, we compile a localized news feed in logarithmic
-          time, keeping operations fast and scalable.</p>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>By avoiding a full global sort, our k-way merge keeps feed retrieval fast even as users follow hundreds of accounts. Posting a tweet is a constant <code>O(1)</code> operation, and fetching the feed runs in <code>O(F log F)</code> time. This demonstrates how selecting the right combination of data structures can produce highly scalable backend systems.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

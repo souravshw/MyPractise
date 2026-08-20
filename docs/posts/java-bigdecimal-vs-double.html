@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -129,50 +129,53 @@
 
       <header class="article-header">
         <div class="post-meta">
-          <span class="post-category">Java & Distributed Systems</span>
+          <span class="post-category">Java Core & OOP</span>
           <span class="post-date">June 20, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">BigDecimal vs. Double for Financial Calculations in Java</h1>
       </header>
 
+      <!-- Article Body -->
       <div class="article-body">
-        <p>In Java, primitive types like <code>double</code> and <code>float</code> are binary floating-point numbers.
-          They are designed for fast scientific and graphics computations but cannot represent base-10 decimals like
-          <code>0.1</code> exactly. Doing math on them leads to weird precision discrepancies like
-          <code>0.1 + 0.2 = 0.30000000000000004</code>.</p>
+        <p>When writing financial applications, e-commerce checkout systems, or accounting platforms in Java, calculation precision is an absolute requirement, not a luxury. In these contexts, using standard floating-point primitive types like <code>double</code> or <code>float</code> can introduce silent, dangerous rounding errors that lead to financial discrepancies.</p>
 
-        <p>For financial systems, accounting ledger entries, or tax calculations, these tiny rounding errors build up
-          and lead to significant discrepancies. The standard solution in Java is **<code>BigDecimal</code>**.</p>
-
+        <p>Primitives like <code>double</code> are binary floating-point numbers designed for high-performance scientific simulations and computer graphics, where computational speed is prioritized over exact decimal representation. However, they cannot represent common base-10 decimals like <code>0.1</code> or <code>0.01</code> exactly. When doing basic arithmetic on <code>double</code> values, we encounter baffling results like <code>0.1 + 0.2</code> yielding <code>0.30000000000000004</code>. Over millions of transactional computations, these tiny trailing fractions compound, leading to massive accounting discrepancies. To solve this, Java provides the <strong><code>BigDecimal</code></strong> class.</p>
+ 
+        <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/bigdecimal-vs-double.svg" alt="BigDecimal vs Double Precision Visual"
             style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
+        <!-- Analogy Box -->
         <div class="analogy-box">
-          An Analogy: 
-          <p>Imagine you are measuring precise cuts for a wooden model airplane:</p>
-          <p>If you use a <strong>fat permanent marker (double)</strong>, the ink line is thick and smudged. It's fast
-            to draw, but when you cut along the line, you will be off by a fraction of a millimeter (rounding error).
-            That's okay for building a dog house, but not for precision machinery.</p>
-          <p>If you use a <strong>sharp pencil and grid ruler (BigDecimal)</strong>, you count individual tiny grid
-            boxes. You place the point exactly on the grid intersection. It takes longer, but the result is
-            mathematically exact down to the last decimal point.</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Thick Marker vs The Mechanical Pencil
+          </div>
+          <p>To visualize why these rounding errors occur, imagine you are cutting out wooden pieces to build a scale model airplane:</p>
+          <ul>
+            <li><strong>The Thick Permanent Marker (<code>double</code>):</strong> If you draw your cutting lines using a thick marker, the line has physical width and smudged edges. It is fast and easy to mark, but when you cut along the line, you will be off by a fraction of a millimeter. While this tiny error is negligible for a backyard doghouse, it will prevent a precision model's wings from fitting together.</li>
+            <li><strong>The Mechanical Pencil and Grid Ruler (<code>BigDecimal</code>):</strong> If you use a sharp mechanical pencil and align your points exactly with a grid ruler, it takes longer to mark and calculate. However, the resulting cuts are mathematically exact down to the micrometer.</li>
+          </ul>
+          In this metaphor, <code>double</code> is the marker, and <code>BigDecimal</code> is the precision grid ruler.
         </div>
 
-        <h2>Why does Double fail?</h2>
-        <p>Double uses the <strong>IEEE 754 standard</strong> which stores fractions in base-2 powers (1/2, 1/4, 1/8,
-          etc.). Decimals like <code>0.1</code> (1/10) cannot be represented as finite sums of base-2 fractions,
-          creating an infinite repeating fraction in binary, which is truncated and rounded, introducing a tiny error.
-        </p>
+        <h2>Why Binary Floating-Point Fails</h2>
+        <p>The root cause lies in how numbers are stored in memory. A <code>double</code> uses the <strong>IEEE 754 standard</strong>, representing fractions as binary powers of two (such as 1/2, 1/4, 1/8, and 1/16). Decimals like <code>0.1</code> (1/10) cannot be expressed as a finite sum of base-2 fractions. This results in an infinite repeating fraction in binary, similar to how 1/3 (0.3333...) is infinite in base-10. Because computer registers have finite memory, this repeating binary fraction is truncated, introducing a minute rounding error.</p>
+ 
+        <p>Conversely, <code>BigDecimal</code> represents numbers as an <strong>unscaled integer</strong> (such as <code>12345</code>) and a <strong>scale</strong> (such as <code>2</code>, indicating the decimal point position, representing <code>123.45</code>). Internally, it performs exact integer arithmetic, ensuring that no base-10 fractions are lost.</p>
 
-        <p><code>BigDecimal</code> stores two values: an <strong>unscaled integer</strong> (e.g. <code>12345</code>) and
-          a <strong>scale</strong> (e.g. <code>2</code>, representing <code>123.45</code>), meaning it performs exact
-          integer math internally and shifts the decimal point dynamically.</p>
+        <h2>Java Implementation Code</h2>
+        <p>Here is a complete Java implementation comparing the subtraction behavior of <code>double</code> against <code>BigDecimal</code>:</p>
 
-        <h2>Implementation in Java</h2>
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.myPractice;
  
 import java.math.BigDecimal;
@@ -193,11 +196,11 @@ public class BigDecimalClass {
         System.out.println("BigDecimal difference: " + bdResult); // Prints 0.01
     }
 }</code></pre>
-
-        <h2>Final Thoughts</h2>
-        <p>Never use float or double for money. Always declare financial variables as `BigDecimal` using the
-          <strong>String constructor</strong> (e.g., `new BigDecimal("0.1")`) to guarantee absolute precision.</p>
+ 
+        <h2>Conclusion &amp; Best Practices</h2>
+        <p>When working with money, interest rates, or tax percentages, never use <code>double</code> or <code>float</code>. Always declare variables as <code>BigDecimal</code> and initialize them using the <strong>String constructor</strong> (e.g., <code>new BigDecimal("0.1")</code>). Avoid the double constructor (e.g., <code>new BigDecimal(0.1)</code>), as it will import the floating-point rounding error directly into your <code>BigDecimal</code> instance. Additionally, for comparison operations, always use <code>compareTo()</code> rather than <code>equals()</code>, since <code>equals()</code> considers scale (making <code>0.1</code> and <code>0.10</code> unequal), whereas <code>compareTo()</code> compares mathematical value.</p>
       </div>
+
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
         <div class="post-navigation">

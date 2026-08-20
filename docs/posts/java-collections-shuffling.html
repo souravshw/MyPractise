@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -131,39 +131,52 @@
         <div class="post-meta">
           <span class="post-category">Java Concurrency</span>
           <span class="post-date">June 20, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Shuffling Lists in Java using Collections.shuffle()</h1>
       </header>
 
       <div class="article-body">
-        <p>In game development (like card games) or content recommendation algorithms (like generating a random music
-          playlist), we need to randomize the order of elements in a collection. Java's <code>Collections</code>
-          framework provides a built-in utility method for this:
-          **<code>Collections.shuffle(List&lt;?&gt; list)</code>**.</p>
+        <p>In software development, randomizing the order of elements in a collection is a common requirement. Whether you are building card games, generating quiz questionnaires with shuffled answers, setting up randomized music playlists, or feeding data into machine learning algorithms for training batches, you need a reliable way to scramble lists.</p>
 
-        <p>This method runs in linear time O(N), swapping elements randomly from back to front using the Fisher-Yates
-          shuffle algorithm under the hood.</p>
-
+        <p>Java's standard library provides a direct, built-in utility for this inside the <code>Collections</code> framework: <strong><code>Collections.shuffle(List&lt;?&gt; list)</code></strong>. This method operates in linear O(N) time complexity and modifies the provided list in-place. By utilizing a proven randomizing algorithm under the hood, Java saves developers from writing custom, bug-prone shuffling routines. In this guide, we will explore how <code>Collections.shuffle()</code> works and walk through a playlist randomizer example.</p>
+ 
+        <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/collections-shuffle.svg" alt="Visualizing Collections.shuffle operations"
             style="max-width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
         </div>
 
+        <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Analogy: 
-          <p>Imagine you have a deck of playing cards stacked in perfect numerical order: A, 2, 3, 4, 5...</p>
-          <p>To prepare the game, you throw the cards into a <strong>tumbling drum machine
-              (Collections.shuffle)</strong>. The machine rotates, spinning and scrambling the cards in random
-            directions. When the machine stops and you pull them out, the deck is completely randomized, giving you a
-            fair and unpredictable sequence (e.g. 3, A, 5, 2, 4).</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Deck Shuffling Drum
+          </div>
+          <p>To visualize this utility, imagine you have a fresh deck of playing cards arranged in perfect numerical order: Ace of Spades, 2 of Spades, 3 of Spades, all the way to King of Hearts.</p>
+          <p>If you want to shuffle them manually, you might make mistakes or leave patterns. Instead, you throw the entire deck into a <strong>tumbling raffle drum (representing <code>Collections.shuffle()</code>)</strong>. You turn the crank, spinning the drum. The machine tumbles and scrambles the cards in completely random directions. When you open the latch and pull the cards out, the deck is thoroughly randomized (yielding an unpredictable order like 3, Ace, 10, 5, 2, Jack). Every card has an equal probability of landing at any position in the deck.</p>
         </div>
 
-        <h2>Java Solution</h2>
-        <p>Below, we load a list of custom Song objects and randomize their playback order using Collections.shuffle:
+        <h2>Behind the Scenes: The Fisher-Yates Algorithm</h2>
+        <p>Under the hood, <code>Collections.shuffle()</code> implements a version of the <strong>Fisher-Yates shuffle algorithm</strong> (also known as the Knuth shuffle). The algorithm works backwards:
+        <ul>
+          <li>It starts at the last index of the list <code>i = N - 1</code>.</li>
+          <li>It generates a random index <code>j</code> such that <code>0 &lt;= j &lt;= i</code>.</li>
+          <li>It swaps the elements at index <code>i</code> and index <code>j</code>.</li>
+          <li>It decrements <code>i</code> and repeats the process until it reaches the front of the list.</li>
+        </ul>
+        This ensures that every element has an equal probability of ending up in any position. By avoiding naive shuffling mistakes (like swapping each element with a random index in the entire list, which introduces statistical bias), Fisher-Yates guarantees that all N! permutations of the list are equally likely.
         </p>
 
+        <h2>Java Implementation Code</h2>
+        <p>Below, we load a list of custom <code>Song</code> objects and randomize their playback order using <code>Collections.shuffle</code>:</p>
+
+        <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise;
  
 import java.util.Arrays;
@@ -205,10 +218,9 @@ class Song {
         return "Song{name='" + name + "'}";
     }
 }</code></pre>
-
-        <h2>Final Thoughts</h2>
-        <p>The `Collections.shuffle()` method modifies the target list in-place. If you want to retain the original
-          order of the list, copy the list first before invoking the shuffle command.</p>
+ 
+        <h2>Conclusion & Best Practices</h2>
+        <p>The <code>Collections.shuffle()</code> method operates <strong>in-place</strong>, meaning it mutates the original list directly. If you need to preserve the original sorting order of your elements, you must copy the list first (for example, <code>List&lt;Song&gt; shuffledList = new ArrayList&lt;&gt;(originalList);</code>) before invoking the shuffle command. Additionally, if you require reproducible shuffles for unit testing or gaming seeds, you can pass a custom <code>Random</code> instance: <code>Collections.shuffle(list, new Random(seed))</code>.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -134,7 +134,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Edit Distance in Java</h1>
@@ -142,24 +142,20 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>The Challenge</h2>
-        <p>The <strong>Edit Distance</strong> (or Levenshtein Distance) problem asks us to find the minimum number of
-          operations required to convert a string <code>word1</code> to another string <code>word2</code>.</p>
-        <p>You have three operations permitted on a word:
+        <p>Measuring the similarity between two pieces of text is a foundational task in computer science. Whether it is matching query strings in search engines, correcting typos in word processors, aligning DNA sequences, or determining differences in code files via version control, we need a precise way to calculate string discrepancy. This discrepancy is measured using the <strong>Edit Distance</strong> (commonly known as the Levenshtein Distance). The problem asks us to compute the minimum number of single-character operations required to transform one string (<code>word1</code>) into another (<code>word2</code>).</p>
+
+        <p>We are permitted three basic operations to edit the string:
         <ol>
-          <li><strong>Insert</strong> a character</li>
-          <li><strong>Delete</strong> a character</li>
-          <li><strong>Replace</strong> a character</li>
+          <li><strong>Insert</strong> a single character</li>
+          <li><strong>Delete</strong> a single character</li>
+          <li><strong>Replace</strong> one character with another</li>
         </ol>
-        For example, converting <code>word1 = "horse"</code> to <code>word2 = "ros"</code> takes 3 operations:
+        For example, transforming the word <code>horse</code> to <code>ros</code> takes exactly three operations:
         <ul>
-          <li><code>horse</code> -> <code>rorse</code> (replace 'h' with 'r')</li>
-          <li><code>rorse</code> -> <code>rose</code> (remove 'r')</li>
-          <li><code>rose</code> -> <code>ros</code> (remove 'e')</li>
+          <li>Replace <code>h</code> with <code>r</code> (<code>horse</code> &rarr; <code>rorse</code>)</li>
+          <li>Delete the second <code>r</code> (<code>rorse</code> &rarr; <code>rose</code>)</li>
+          <li>Delete the final <code>e</code> (<code>rose</code> &rarr; <code>ros</code>)</li>
         </ul>
-        This problem is a cornerstone of spell-checkers, DNA sequence analysis, natural language processing, and the
-        popular <code>diff</code> utility. Since recursive exploration results in exponential complexity, we utilize a
-        two-dimensional Dynamic Programming table to solve it.
         </p>
 
         <!-- Post Illustration Image -->
@@ -170,123 +166,95 @@
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          An Everyday Metaphor: 
-          <p>Imagine a typesetter aligning letters on a press. Converting a blank page to the word "ros" takes 3
-            insertions. Converting "horse" to a blank page takes 5 deletions. To align any partial word A of length
-            <code>i</code> with word B of length <code>j</code>, the typesetter references a ledger. If the last letters
-            match, they cost $0 and we copy the cost of matching the prefixes of length <code>i-1</code> and
-            <code>j-1</code>. If they mismatch, the typesetter compares three actions: replacing the character (ledger
-            cell at <code>i-1, j-1</code>), deleting it (ledger cell at <code>i-1, j</code>), or inserting one (ledger
-            cell at <code>i, j-1</code>), pays $1 for the cheapest action, and notes the result.</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Printing Press Typesetter
+          </div>
+          <p>To understand how edit distance works, think of a traditional typesetter arranging metal letters on a manual printing press. Suppose the typesetter wants to modify a word already set on the plate.</p>
+          <p>Each modification—picking up a new letter block (insertion), removing an existing letter block (deletion), or swapping one letter block for another (replacement)—takes effort and cost.</p>
+          <p>To find the cheapest way to transform a long word, the typesetter keeps a ledger. When aligning the letters of both words step-by-step:
+          <ul>
+            <li>If the letters under inspection match perfectly, the typesetter pays nothing ($0) and copies the cost of the previous sub-alignment.</li>
+            <li>If the letters mismatch, the typesetter compares three possibilities: replacing the letter (diagonal cell in the ledger), deleting the letter (cell above), or inserting a letter (cell to the left). They choose the cheapest option, add a cost of $1, and record it in the ledger.</li>
+          </ul>
+          </p>
         </div>
 
-        <h2>The Strategy</h2>
-        <h3>2D Dynamic Programming (O(m * n) Time, O(m * n) Space)</h3>
-        <p>Let <code>m</code> be the length of <code>word1</code> and <code>n</code> be the length of
-          <code>word2</code>. We create a 2D grid <code>dp</code> of size <code>(m + 1) &times; (n + 1)</code>, where
-          <code>dp[i][j]</code> represents the minimum edit distance between the prefix <code>word1[0..i-1]</code> and
-          <code>word2[0..j-1]</code>.
+        <h2>Dynamic Programming Strategy</h2>
+        <p>Since comparing all possible operations recursively leads to duplicate subproblems and exponential time complexity, we use <strong>2D Dynamic Programming</strong>.</p>
+ 
+        <p>If the lengths of <code>word1</code> and <code>word2</code> are <code>m</code> and <code>n</code> respectively, we construct a 2D table <code>dp</code> of size <code>(m + 1) &times; (n + 1)</code>. The cell <code>dp[i][j]</code> stores the minimum edit distance to transform the prefix <code>word1[0..i-1]</code> into the prefix <code>word2[0..j-1]</code>.
         <ul>
           <li><strong>Base Cases:</strong>
             <ul>
-              <li>Converting an empty string to a prefix of length <code>j</code> takes <code>j</code> insertions:
-                <code>dp[0][j] = j</code>.</li>
-              <li>Converting a prefix of length <code>i</code> to an empty string takes <code>i</code> deletions:
-                <code>dp[i][0] = i</code>.</li>
+              <li>An empty source string requires <code>j</code> insertions to match a target string of length <code>j</code> (<code>dp[0][j] = j</code>).</li>
+              <li>A source string of length <code>i</code> requires <code>i</code> deletions to match an empty target string (<code>dp[i][0] = i</code>).</li>
             </ul>
           </li>
-          <li><strong>State Transition:</strong> For each character index <code>i</code> in <code>word1</code> and
-            <code>j</code> in <code>word2</code>:
+          <li><strong>State Transition:</strong>
             <ul>
-              <li>If the characters match (<code>word1.charAt(i - 1) == word2.charAt(j - 1)</code>), no operation is
-                required: <code>dp[i][j] = dp[i - 1][j - 1]</code>.</li>
-              <li>If they mismatch, we take the minimum cost of the three operations and add 1:
-                <br><code>dp[i][j] = 1 + Math.min(dp[i - 1][j - 1] (Replace), Math.min(dp[i - 1][j] (Delete), dp[i][j - 1] (Insert)))</code>
+              <li>If the current characters match (<code>word1.charAt(i-1) == word2.charAt(j-1)</code>), no new operation is needed: <code>dp[i][j] = dp[i-1][j-1]</code>.</li>
+              <li>If they mismatch, we find the minimum cost among replace, delete, and insert operations, and add 1:
+                <br><code>dp[i][j] = 1 + Math.min(dp[i-1][j-1], Math.min(dp[i-1][j], dp[i][j-1]))</code>
               </li>
             </ul>
           </li>
         </ul>
-        The value in the bottom-right cell, <code>dp[m][n]</code>, is our final answer.
+        The bottom-right cell value <code>dp[m][n]</code> represents our final solution.
         </p>
 
-        <h2>Tracing the Logic</h2>
-        <p>Let's trace the DP matrix setup and transition steps for <code>word1 = "cat"</code> and
-          <code>word2 = "cut"</code>:</p>
+        <h2>Step-by-Step Scenario Walkthrough</h2>
+        <p>Let's trace the logic with the words <code>"cat"</code> and <code>"cut"</code>:
         <ol>
-          <li><strong>Step 1 (Matrix Setup):</strong> Initialize <code>dp</code> array of size <code>4 &times; 4</code>:
-            <ul>
-              <li>Row 0 (empty <code>word1</code>): <code>[0, 1, 2, 3]</code></li>
-              <li>Col 0 (empty <code>word2</code>): <code>[0], [1], [2], [3]</code></li>
-            </ul>
-          </li>
-          <li><strong>Step 2 (Cell (1, 1) - 'c' vs 'c'):</strong>
-            <ul>
-              <li>Characters match! <code>dp[1][1] = dp[0][0] = 0</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 3 (Cell (1, 2) - 'c' vs 'cu'):</strong>
-            <ul>
-              <li>Mismatch.
-                <code>dp[1][2] = 1 + min(dp[0][1] (replace), dp[0][2] (insert), dp[1][1] (delete)) = 1 + min(1, 2, 0) = 1</code>.
-              </li>
-            </ul>
-          </li>
-          <li><strong>Step 4 (Cell (2, 2) - 'ca' vs 'cu'):</strong>
-            <ul>
-              <li>Mismatch. Characters are 'a' and 'u'.
-                <code>dp[2][2] = 1 + min(dp[1][1] (replace: 0), dp[1][2] (insert: 1), dp[2][1] (delete: 1)) = 1 + 0 = 1</code>.
-              </li>
-            </ul>
-          </li>
-          <li><strong>Step 5 (Cell (3, 3) - 'cat' vs 'cut'):</strong>
-            <ul>
-              <li>Characters 't' and 't' match! <code>dp[3][3] = dp[2][2] = 1</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 6 (Result):</strong> The bottom-right cell value is 1, which represents replacing 'a' with
-            'u' in "cat" to get "cut". We return <code>1</code>.</li>
+          <li><strong>Initial Grid:</strong> The row 0 is initialized to <code>[0, 1, 2, 3]</code> and column 0 is initialized to <code>[0, 1, 2, 3]</code>.</li>
+          <li><strong>Aligning 'c' and 'c' (Cell 1,1):</strong> Since the characters match, we inherit the diagonal value: <code>dp[1][1] = dp[0][0] = 0</code>.</li>
+          <li><strong>Aligning 'ca' and 'cu' (Cell 2,2):</strong> Characters mismatch ('a' vs 'u'). We look at the adjacent values: replace (<code>dp[1][1] = 0</code>), delete (<code>dp[2][1] = 1</code>), and insert (<code>dp[1][2] = 1</code>). The minimum is <code>0</code>. Adding <code>1</code> gives <code>dp[2][2] = 1</code>.</li>
+          <li><strong>Aligning 'cat' and 'cut' (Cell 3,3):</strong> Characters match ('t' vs 't'). We inherit the diagonal value: <code>dp[3][3] = dp[2][2] = 1</code>.</li>
         </ol>
+        The final edit distance is <code>1</code>, representing replacing <code>a</code> with <code>u</code>.
+        </p>
 
-        <h2>How the Code Works</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <h2>Key Code Explanations</h2>
+        <p>Here is why the main logic in the solution is important:
         <ul>
-          <li><code>dp[i][0] = i; dp[0][j] = j;</code>: Correctly handles the boundary conditions where one of the input
-            strings is empty, defining deletion and insertion baselines.</li>
-          <li><code>word1.charAt(i - 1) == word2.charAt(j - 1)</code>: Checks if characters are identical. Matching
-            letters require zero operations, allowing us to inherit the diagonal cost directly.</li>
-          <li><code>Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1]))</code>: The core choice. Computes
-            the optimal subproblem path out of a replace, delete, or insert operation.</li>
+          <li><code>dp[i][0] = i; dp[0][j] = j;</code>: Correctly handles the boundary conditions where one of the input strings is empty, defining deletion and insertion baselines.</li>
+          <li><code>word1.charAt(i - 1) == word2.charAt(j - 1)</code>: Checks if characters are identical. Matching letters require zero operations, allowing us to inherit the diagonal cost directly.</li>
+          <li><code>Math.min(replace, Math.min(delete, insert))</code>: The core choice. Computes the optimal subproblem path out of a replace, delete, or insert operation.</li>
         </ul>
+        </p>
 
-        <h2>The Java Code</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <h2>Java Implementation Code</h2>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 public class EditDistance {
-
+ 
     // 2D Dynamic Programming: Time O(M * N), Space O(M * N)
     public int minDistance(String word1, String word2) {
         if (word1 == null || word2 == null) {
             return 0;
         }
-
+ 
         int m = word1.length();
         int n = word2.length();
         int[][] dp = new int[m + 1][n + 1];
-
+ 
         // Base Case: Convert word1[0..i] to empty word2
         for (int i = 0; i &lt;= m; i++) {
             dp[i][0] = i;
         }
-
+ 
         // Base Case: Convert empty word1 to word2[0..j]
         for (int j = 0; j &lt;= n; j++) {
             dp[0][j] = j;
         }
-
+ 
         // Fill the DP table
         for (int i = 1; i &lt;= m; i++) {
             for (int j = 1; j &lt;= n; j++) {
@@ -302,28 +270,25 @@ public class EditDistance {
                 }
             }
         }
-
+ 
         return dp[m][n];
     }
-
+ 
     public static void main(String[] args) {
         EditDistance solver = new EditDistance();
         String w1 = "horse";
         String w2 = "ros";
-
+ 
         System.out.println("--- Edit Distance Demonstration ---");
         System.out.println("Source Word: " + w1);
         System.out.println("Target Word: " + w2);
         int distance = solver.minDistance(w1, w2);
         System.out.println("Minimum Edit Distance (operations): " + distance); // Expected: 3
     }
-}
-</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>Edit Distance is a classic example of 2D Dynamic Programming. By mapping prefix relationships onto a grid and
-          reusing matching results, we reduce what would be an exponential recursive search into a clean
-          <code>O(m * n)</code> grid traversal.</p>
+}</code></pre>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>This dynamic programming solution executes in <code>O(m * n)</code> time complexity and uses <code>O(m * n)</code> space complexity. By storing subproblem solutions, we solve the edit distance problem efficiently, making it suitable for practical NLP and text comparison tasks.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">

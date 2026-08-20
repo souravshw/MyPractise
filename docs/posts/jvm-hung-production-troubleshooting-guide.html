@@ -144,14 +144,10 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <p>It's 2:00 AM. Your phone alerts start firing. A critical Spring Boot microservice is completely unresponsive.
-          The load balancer is reporting HTTP 504 Gateway Timeouts, and API requests are backing up. You check the app
-          logs—they have completely stopped moving. <strong>The JVM is hung in production.</strong></p>
+        <p>It is 2:00 AM on a Sunday. Your monitoring system alerts start firing. A critical Java service is completely unresponsive. The load balancer is throwing HTTP 504 Gateway Timeouts, API request queues are backing up, and user traffic is starting to fail. You shell into the server and tail the logs—they have completely stopped moving. <strong>The JVM is hung in production.</strong></p>
 
-        <p>Your team's immediate reaction might be to restart the server to restore service. However, <strong>restarting
-            the JVM without capturing diagnostics kills the crime scene</strong>, ensuring the bug will return tomorrow.
-          Here is an architect's step-by-step playbook to debug and fix a hung JVM under pressure.</p>
-
+        <p>In the heat of a production outage, the natural instinct of many operations teams is to immediately restart the application to restore service. However, <strong>restarting the JVM without capturing diagnostic data is like washing away a crime scene</strong>. The immediate pressure is relieved, but the underlying issue remains a mystery, guaranteeing that the exact same bug will return to haunt you tomorrow. This guide outlines a systematic, step-by-step production incident response playbook to diagnose a hung JVM under pressure before safely restarting the service.</p>
+ 
         <!-- Post Illustration Image -->
         <div style="text-align: center; margin-bottom: 2rem;">
           <img src="../images/jvm-hung-troubleshooting.svg" alt="JVM Hung Troubleshooting Pathway flowchart"
@@ -166,89 +162,75 @@
               <line x1="12" y1="16" x2="12" y2="12" />
               <line x1="12" y1="8" x2="12.01" y2="8" />
             </svg>
-            Incidents Explained Simply
+            Production Incidents Explained Simply
           </div>
-          <p>When the kitchen (JVM) stops sending out meals (API responses), it usually happens in one of two ways:</p>
+          <p>When a server environment stops processing incoming API requests, the deadlock or freeze typically manifests in one of two distinct patterns:</p>
           <ul>
-            <li><strong>The Hamster on a Wheel (High CPU):</strong> The chef is moving at lightning speed but getting
-              absolutely nothing done. This represents an infinite loop or severe Garbage Collection thrashing where
-              100% of resources are consumed in vain.</li>
-            <li><strong>The Sleeping Guard (Normal CPU):</strong> The chef is sitting completely idle, staring at the
-              phone, doing nothing. This represents threads blocked waiting for a lock (deadlock), waiting for a slow
-              external API (missing socket timeouts), or waiting for a database connection (pool exhaustion).</li>
+            <li><strong>The Hamster on a Wheel (High CPU):</strong> The processor is running at 100% capacity, yet no real work is getting done. This is usually caused by an infinite loop in the application code, or severe Garbage Collection thrashing where the JVM spends all of its compute cycles trying to reclaim tiny fractions of memory.</li>
+            <li><strong>The Sleeping Guard (Low or Normal CPU):</strong> The system is sitting completely idle, consuming virtually zero CPU. In this case, the threads are blocked—either waiting on a database connection pool, starved for external API socket responses, or locked in a mutual dependency deadlock.</li>
           </ul>
         </div>
+
         <h2>Step 1: Isolate the Affected Instance (Mitigate User Impact)</h2>
-        <p>Before launching complex diagnostic tools, stop client impact. However, <strong>do not restart the
-            application yet</strong>. Doing so destroys all transient in-memory states needed to identify the root
-          cause.</p>
+        <p>Before executing diagnostic commands, you must stop the user impact. Your primary goal is to isolate the broken instance without destroying the diagnostic evidence in the heap and call stack:
         <ul>
-          <li><strong>Drain Traffic:</strong> Remove the affected instance from the load balancer rotation or Kubernetes
-            service discovery pool.</li>
-          <li><strong>Keep the Process Alive:</strong> Ensure the container or VM remains running so you can connect to
-            the JVM and gather logs/dumps.</li>
+          <li><strong>Drain Traffic:</strong> Remove the failing node from the load balancer rotation, route traffic away in your API gateway, or modify Kubernetes service discovery tags to stop new requests from hitting the instance.</li>
+          <li><strong>Keep the Process Running:</strong> Do not terminate, reboot, or kill the container. Keep the VM active so that you can attach diagnostics tools and inspect the frozen memory state.</li>
         </ul>
+        </p>
 
         <h2>Step 2: Check Whether the JVM is Responsive</h2>
-        <p>Confirm the Java process is actually running on the server and check if it is responsive to basic
-          administrative command-line tools.</p>
-        <p>First, list the active Java processes using <code>jps</code> (Java Process Status Tool) or <code>ps</code>:
-        </p>
+        <p>Before diving into deep dumps, confirm if the Java process is actually running on the server and check if the runtime environment is responsive to basic administrative command-line tools.</p>
+        
+        <p>First, list the active Java processes using <code>jps</code> (Java Process Status Tool) or a standard <code>ps</code> command to identify the process ID (PID):</p>
         <pre><code class="language-bash"># Find the Java Process ID (PID)
 jps -l
 # Or alternatively on generic Linux:
 ps -ef | grep java</code></pre>
-        <p>Once you have the <code>&lt;pid&gt;</code>, check if the JVM is responding to basic commands by querying its
-          uptime. If this command hangs or fails, the JVM is completely frozen (often due to kernel locks or a heavy
-          Stop-the-World GC pause):</p>
+
+        <p>Once you have the <code>&lt;pid&gt;</code>, check if the JVM is responding to basic commands by querying its uptime. If this command hangs or fails, the JVM is completely frozen (often due to kernel locks or a heavy Stop-the-World GC pause):</p>
         <pre><code class="language-bash"># Check JVM Uptime
 jcmd &lt;pid&gt; VM.uptime</code></pre>
 
         <h2>Step 3: Capture Thread Dumps (Take 3–5 Snapshots)</h2>
-        <p>Thread dumps show what every thread is doing, which locks are held, and which threads are waiting.
-          <strong>Always capture multiple thread dumps spaced 5–10 seconds apart.</strong> This is crucial to
-          distinguish between a thread that is completely blocked and a thread that is executing a very slow but
-          progressive operation.</p>
+        <p>Thread dumps show what every thread is doing, which locks are held, and which threads are waiting. <strong>Always capture multiple thread dumps spaced 5–10 seconds apart.</strong> This is crucial to distinguish between a thread that is completely blocked and a thread that is executing a very slow but progressive operation.</p>
+        
         <p>Using <code>jcmd</code> (recommended for modern JDKs):</p>
         <pre><code class="language-bash"># Capture thread snapshot
 jcmd &lt;pid&gt; Thread.print > thread_dump_1.txt
 # Wait 5 seconds, capture the second snapshot
 jcmd &lt;pid&gt; Thread.print > thread_dump_2.txt</code></pre>
+        
         <p>Using <code>jstack</code>:</p>
         <pre><code class="language-bash">jstack -l &lt;pid&gt; > thread_dump_1.txt</code></pre>
-        <p>If the JVM process is completely unresponsive to standard Java utilities, send a OS signal (which forces the
-          JVM to print a thread dump to its standard output log):</p>
+        
+        <p>If the JVM process is completely unresponsive to standard Java utilities, send an OS signal (which forces the JVM to print a thread dump to its standard output log):</p>
         <pre><code class="language-bash">kill -3 &lt;pid&gt;</code></pre>
 
         <h2>Step 4: Check CPU and Memory Usage</h2>
-        <p>Run standard OS-level monitoring tools to identify resource allocation. This will dictate your
-          troubleshooting path (High CPU vs. Low CPU):</p>
+        <p>Run standard OS-level monitoring tools to identify resource allocation. This will dictate your troubleshooting path (High CPU vs. Low CPU):</p>
         <pre><code class="language-bash"># Monitor system-wide CPU and memory
 top
 # Or htop if installed:
 htop</code></pre>
-        <p>Look at the <code>%CPU</code> and <code>%MEM</code> columns for your Java process. Also check if the host
-          memory is exhausted, forcing the OS to swap memory page blocks to disk:</p>
+        
+        <p>Look at the <code>%CPU</code> and <code>%MEM</code> columns for your Java process. Also check if the host memory is exhausted, forcing the OS to swap memory page blocks to disk:</p>
         <pre><code class="language-bash"># Check physical memory allocation
 free -m
 # Monitor virtual memory state
 vmstat 1 5</code></pre>
 
         <h2>Step 5: Troubleshoot High CPU (Thread to Stack Trace Mapping)</h2>
-        <p>If your JVM process is consuming <strong>~100% CPU</strong>, it means one or more threads are stuck in an
-          infinite loop or performing heavy calculations. Map the high-CPU OS threads back to Java lines of code:</p>
+        <p>If your JVM process is consuming <strong>~100% CPU</strong>, it means one or more threads are stuck in an infinite loop or performing heavy calculations. Map the high-CPU OS threads back to Java lines of code:</p>
 
         <h4 style="color:var(--accent-color);">A. Find the Stuck OS Thread ID</h4>
-        <p>Run <code>top</code> with thread monitoring enabled to locate which specific thread IDs (TIDs) are pegging
-          the CPU:</p>
+        <p>Run <code>top</code> with thread monitoring enabled to locate which specific thread IDs (TIDs) are pegging the CPU:</p>
         <pre><code class="language-bash"># List all native threads under the Java process
 top -Hp &lt;pid&gt;</code></pre>
-        <p>Identify the thread at the top of the list. Write down its decimal <strong>TID</strong> (e.g.,
-          <code>2458</code>).</p>
+        <p>Identify the thread at the top of the list. Write down its decimal <strong>TID</strong> (e.g., <code>2458</code>).</p>
 
         <h4 style="color:var(--accent-color);">B. Convert the Thread ID to Hexadecimal</h4>
-        <p>Java thread dumps index native thread IDs (<code>nid</code>) in hexadecimal. Convert your decimal thread ID
-          using <code>printf</code>:</p>
+        <p>Java thread dumps index native thread IDs (<code>nid</code>) in hexadecimal. Convert your decimal thread ID using <code>printf</code>:</p>
         <pre><code class="language-bash"># Convert 2458 to hex format
 printf "%x\n" 2458
 # Outputs: 99a</code></pre>
@@ -257,35 +239,26 @@ printf "%x\n" 2458
         <p>Open your thread dump and search for the hexadecimal native thread ID prefix (<code>0x99a</code>):</p>
         <pre><code class="language-bash"># Find the culprit thread in the dump file
 grep -A 20 "0x99a" thread_dump_1.txt</code></pre>
-        <p>This outputs the stack trace of the high-CPU thread, showing you the exact class name and line number
-          executing the loop.</p>
+        <p>This outputs the stack trace of the high-CPU thread, showing you the exact class name and line number executing the loop.</p>
 
         <h2>Step 6: Troubleshoot Low CPU / Normal CPU Hangs</h2>
-        <p>If the CPU usage is near 0% but the application is hung, threads are waiting on resources (the
-          <strong>Sleeping Guard</strong> scenario). Open your thread dump and check the thread states for the following
-          signatures:</p>
+        <p>If the CPU usage is near 0% but the application is hung, threads are waiting on resources (the <strong>Sleeping Guard</strong> scenario). Open your thread dump and check the thread states for the following signatures:</p>
 
         <h4 style="color:var(--accent-color);">A. Database Connection Pool Exhaustion</h4>
-        <p>If you see dozens of application threads in a <code>WAITING</code> state trying to acquire a connection from
-          a pool (like HikariCP), your database pool is exhausted. Look for stack traces mentioning:</p>
+        <p>If you see dozens of application threads in a <code>WAITING</code> state trying to acquire a connection from a pool (like HikariCP), your database pool is exhausted. Look for stack traces mentioning:</p>
         <pre><code class="language-text">"http-nio-8080-exec-5" #25 daemon prio=5
   java.lang.Thread.State: WAITING (on object monitor)
     at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:169)</code></pre>
-        <p>This means your API threads are waiting forever because database connections are not being released back to
-          the pool (or the pool size is too small for the traffic volume).</p>
+        <p>This means your API threads are waiting forever because database connections are not being released back to the pool (or the pool size is too small for the traffic volume).</p>
 
         <h4 style="color:var(--accent-color);">B. Missing External API Socket Timeouts</h4>
-        <p>If threads are in a <code>RUNNABLE</code> or <code>SOCKET_READ</code> state but aren't moving, they are
-          likely waiting for an external HTTP server to respond. By default, many Java HTTP clients have
-          <strong>infinite socket read timeouts</strong>. If the remote system hangs, your JVM threads hang forever.</p>
+        <p>If threads are in a <code>RUNNABLE</code> or <code>SOCKET_READ</code> state but aren't moving, they are likely waiting for an external HTTP server to respond. By default, many Java HTTP clients have <strong>infinite socket read timeouts</strong>. If the remote system hangs, your JVM threads hang forever.</p>
         <pre><code class="language-text">java.lang.Thread.State: RUNNABLE
   at java.net.SocketInputStream.socketRead0(Native Method)</code></pre>
 
         <h2>Step 7: Check for Java Deadlocks</h2>
-        <p>A deadlock occurs when Thread 1 holds Lock A and waits for Lock B, while Thread 2 holds Lock B and waits for
-          Lock A.</p>
-        <p>The <code>jstack</code> tool automatically scans for deadlocks. Scroll to the <strong>very bottom of your
-            thread dump</strong> file. If a deadlock exists, Java will print it prominently:</p>
+        <p>A deadlock occurs when Thread 1 holds Lock A and waits for Lock B, while Thread 2 holds Lock B and waits for Lock A.</p>
+        <p>The <code>jstack</code> tool automatically scans for deadlocks. Scroll to the <strong>very bottom of your thread dump</strong> file. If a deadlock exists, Java will print it prominently:</p>
         <pre><code class="language-text">Found one Java-level deadlock:
 =============================
 "Thread-1":
@@ -296,10 +269,8 @@ grep -A 20 "0x99a" thread_dump_1.txt</code></pre>
   which is held by "Thread-1"</code></pre>
 
         <h2>Step 8: Investigate GC Thrashing</h2>
-        <p>If the JVM is spending <strong>98% of its time doing GC</strong> and reclaiming less than 2% of the heap, it
-          thrashing. The application freezes because the JVM performs constant Stop-the-World collections, preventing
-          application threads from executing. This eventually triggers:
-          <code>java.lang.OutOfMemoryError: GC overhead limit exceeded</code>.</p>
+        <p>If the JVM is spending <strong>98% of its time doing GC</strong> and reclaiming less than 2% of the heap, it is thrashing. The application freezes because the JVM performs constant Stop-the-World collections, preventing application threads from executing. This eventually triggers: <code>java.lang.OutOfMemoryError: GC overhead limit exceeded</code>.</p>
+        
         <p>Run <code>jstat</code> to check the GC behavior in real time (capturing stats every 1 second):</p>
         <pre><code class="language-bash"># Monitor GC metrics
 jstat -gcutil &lt;pid&gt; 1000 10</code></pre>
@@ -312,63 +283,50 @@ jstat -gcutil &lt;pid&gt; 1000 10</code></pre>
         </p>
 
         <h2>Step 9: Capture Heap Dumps for Memory Analysis</h2>
-        <p>If the JVM is stuck in a GC loop or running out of memory, you must capture a heap dump to analyze which
-          objects are filling up the memory (the warehouse audit).</p>
+        <p>If the JVM is stuck in a GC loop or running out of memory, you must capture a heap dump to analyze which objects are filling up the memory (the warehouse audit).</p>
+        
         <p>Run <code>jmap</code> or <code>jcmd</code> to capture the heap snapshot:</p>
         <pre><code class="language-bash"># Capture heap dump (Warning: This will pause the JVM temporarily!)
 jmap -dump:format=b,file=heapdump.hprof &lt;pid&gt;
 # Or using jcmd:
 jcmd &lt;pid&gt; GC.heap_dump /tmp/heapdump.hprof</code></pre>
-        <p>Once downloaded, load the <code>.hprof</code> file into an analyzer tool like <strong>Eclipse Memory Analyzer
-            (MAT)</strong> or <strong>VisualVM</strong>. Look for the <strong>"Leak Suspects"</strong> report to see if
-          static collections, unclosed streams, or query caches are accumulating memory.</p>
+        
+        <p>Once downloaded, load the <code>.hprof</code> file into an analyzer tool like <strong>Eclipse Memory Analyzer (MAT)</strong> or <strong>VisualVM</strong>. Look for the <strong>"Leak Suspects"</strong> report to see if static collections, unclosed streams, or query caches are accumulating memory.</p>
 
         <h2>Step 10: Perform a Safe Service Restart</h2>
-        <p>Once you have securely collected and verified all diagnostics (thread dumps, native CPU mappings, heap
-          dumps), you can safely restart the application server to restore traffic and system health.</p>
+        <p>Once you have securely collected and verified all diagnostics (thread dumps, native CPU mappings, heap dumps), you can safely restart the application server to restore traffic and system health.</p>
 
-        <h2>Section 11: External Resource Problems & Best Practices</h2>
+        <h2>Section 11: External Resource Problems &amp; Best Practices</h2>
 
         <h4 style="color:var(--accent-color);">A. External Resource Problems</h4>
-        <p>A JVM can appear hung because of OS-level socket blockages. If the OS socket buffers are full, writing to
-          output streams will block the thread.</p>
+        <p>A JVM can appear hung because of OS-level socket blockages. If the OS socket buffers are full, writing to output streams will block the thread.</p>
         <p>Check the count of open sockets and their state connection records:</p>
         <pre><code class="language-bash"># Check TCP connection status
 netstat -an | grep 8080
 # Or using the faster ss command:
 ss -s</code></pre>
-        <p>If you see a massive count of connections in <code>CLOSE_WAIT</code> state, it means the remote client closed
-          the socket, but your Java application failed to call <code>close()</code> on the socket stream, leaking file
-          descriptors until the JVM ran out.</p>
+        <p>If you see a massive count of connections in <code>CLOSE_WAIT</code> state, it means the remote client closed the socket, but your Java application failed to call <code>close()</code> on the socket stream, leaking file descriptors until the JVM ran out.</p>
 
         <h4 style="color:var(--accent-color);">B. Spring Boot Actuator Debugging</h4>
-        <p>When running Spring Boot microservices, you don't always need command-line tools to capture diagnostics. If
-          you have enabled the <strong>Spring Boot Actuator</strong>, you can download thread and heap dumps securely
-          over HTTP:</p>
+        <p>When running Spring Boot microservices, you don't always need command-line tools to capture diagnostics. If you have enabled the <strong>Spring Boot Actuator</strong>, you can download thread and heap dumps securely over HTTP:</p>
         <pre><code class="language-bash"># Download Thread Dump as JSON
 curl -X GET http://localhost:8080/actuator/threaddump > threaddump.json
-
+ 
 # Trigger and download Heap Dump
 curl -X GET http://localhost:8080/actuator/heapdump > heapdump.hprof</code></pre>
-        <p>Make sure these endpoints are <strong>protected with spring-security</strong> in production so unauthorized
-          users cannot access sensitive memory dumps!</p>
+        <p>Make sure these endpoints are <strong>protected with spring-security</strong> in production so unauthorized users cannot access sensitive memory dumps!</p>
 
         <h4 style="color:var(--accent-color);">C. Production Best Practices</h4>
-        <p>To ensure you have the diagnostics when a hang occurs next time, configure your JVM with these fail-safe
-          parameters in your startup script:</p>
+        <p>To ensure you have the diagnostics when a hang occurs next time, configure your JVM with these fail-safe parameters in your startup script:</p>
         <pre><code class="language-bash"># JVM Startup Parameters for auto-diagnosis
 java -XX:+HeapDumpOnOutOfMemoryError \
      -XX:HeapDumpPath=/var/log/jvm_dumps/ \
      -Xlog:gc*,gc+age=trace,safepoint:file=/var/log/gc.log:time,uptime,pid:filecount=5,filesize=100M \
      -jar app.jar</code></pre>
         <ul>
-          <li><strong>HeapDumpOnOutOfMemoryError:</strong> Automatically captures the hprof file the moment memory runs
-            out, saving the crime scene.</li>
-          <li><strong>GC Logging (-Xlog:gc):</strong> Writes a rotating trace of GC pauses and gen allocations to check
-            memory history.</li>
-          <li><strong>Explicit Timeouts:</strong> Always configure connection and read timeouts on database pools (e.g.
-            <code>connectionTimeout = 30000</code> in HikariCP) and REST API clients (e.g. RestTemplate, WebClient).
-          </li>
+          <li><strong>HeapDumpOnOutOfMemoryError:</strong> Automatically captures the hprof file the moment memory runs out, saving the crime scene.</li>
+          <li><strong>GC Logging (-Xlog:gc):</strong> Writes a rotating trace of GC pauses and gen allocations to check memory history.</li>
+          <li><strong>Explicit Timeouts:</strong> Always configure connection and read timeouts on database pools (e.g. <code>connectionTimeout = 30000</code> in HikariCP) and REST API clients (e.g. RestTemplate, WebClient).</li>
         </ul>
       </div>
       <!-- Navigation & Related Articles -->

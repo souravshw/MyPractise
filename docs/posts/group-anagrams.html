@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -133,7 +133,7 @@
         <div class="post-meta">
           <span class="post-category">Algorithms</span>
           <span class="post-date">June 26, 2026</span>
-          <span>â€¢</span>
+          <span>•</span>
           <span class="post-read-time">4 min read</span>
         </div>
         <h1 class="article-title">Understanding Group Anagrams in Java</h1>
@@ -141,117 +141,80 @@
 
       <!-- Article Body -->
       <div class="article-body">
-        <h2>What We're Solving</h2>
-        <p>The <strong>Group Anagrams</strong> problem asks us to group an array of strings such that all strings that
-          are anagrams of each other are placed in the same sublist.</p>
-        <p>For example, given the input array <code>["eat", "tea", "tan", "ate", "nat", "bat"]</code>, we want to return
-          a list of groups: <code>[["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]</code>. The groups can be returned in
-          any order. The challenge is organizing these strings efficiently when the array contains thousands of words.
-        </p>
+        <p>In string manipulation, determining whether two words contain the exact same characters in different orders is a classic challenge. Two such words are called <strong>anagrams</strong> (e.g., <code>silent</code> and <code>listen</code>). A common backend engineering task is grouping a massive list of words into buckets of anagrams.</p>
 
-        
+        <p>Given an array of strings, our goal is to group the anagrams together. For example, given the input array <code>["eat", "tea", "tan", "ate", "nat", "bat"]</code>, we want to identify and group the matching sets to output <code>[["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]</code>.</p>
+ 
+        <p>To accomplish this efficiently for large dictionaries containing thousands of words, we need to map strings to a common canonical form. This guide details how to solve this using a hashing strategy in Java.
+        </p>
 
         <!-- Analogy Box -->
         <div class="analogy-box">
-          A Simple Metaphor: 
-          <p>Imagine you have a stack of unsorted letters. Each letter has letters written on it in a random order (e.g.
-            "eat", "tea", "ate"). To organize them, you decide to rearrange the letters of each word alphabetically.
-            This sorted word acts as a unique signature or "fingerprint" (e.g., all three words sort to "aet"). You
-            label filing folders with these sorted fingerprints. As you process each letter, you sort its letters, find
-            the matching folder, and drop it in. At the end, every folder contains words that are perfect anagrams of
-            each other!</p>
+          <div class="analogy-box-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Real-World Analogy: The Alphabetical Folder Filing System
+          </div>
+          <p>To visualize the sorting-and-grouping strategy, imagine a clerk organizing a stack of unsorted word cards.</p>
+          <p>To file them systematically, the clerk decides on a standardized indexing rule:
+          <ol>
+            <li>When the clerk picks up a card (e.g., <code>tea</code>), they rearrange its letters alphabetically to create a unique fingerprint (e.g., <code>aet</code>).</li>
+            <li>The clerk checks their filing cabinet for a folder labeled with this fingerprint (<code>aet</code>).</li>
+            <li>If no such folder exists, they create one.</li>
+            <li>They file the original card (<code>tea</code>) inside the <code>aet</code> folder.</li>
+            <li>As they repeat this process, cards like <code>eat</code> and <code>ate</code> also sort to <code>aet</code> and end up in the same folder.</li>
+          </ol>
+          At the end of the day, each folder in the cabinet contains a group of perfect anagrams.
+          </p>
         </div>
 
-        <h2>Solving the Problem</h2>
-        <h3>1. The Naive Approach (O(nÂ² * k))</h3>
-        <p>We can check every pair of strings using a nested loop, comparing if they are anagrams. When we find matches,
-          we group them. This has a quadratic complexity of <code>O(nÂ² * k)</code> where <code>k</code> is the maximum
-          length of a string, which is extremely slow for larger datasets.</p>
-
-        <h3>2. HashMap with Sorted Key Fingerprints (O(n * k log k))</h3>
-        <p>We can use a HashMap where the key is the sorted version of a string (its canonical form/fingerprint), and
-          the value is a list of all strings that match that sorted key.
+        <h2>Algorithmic Solutions</h2>
+        <h3>1. The Brute-Force Approach (O(N&sup2; * K) Time)</h3>
+        <p>We can check every pair of strings using a nested loop, checking if they are anagrams. When we find matches, we group them and mark them as visited. This quadratic approach is highly inefficient for large inputs, especially when dealing with thousands of words.</p>
+ 
+        <h3>2. HashMap Categorization (O(N * K log K) Time)</h3>
+        <p>We use a <code>HashMap</code> where the key is the sorted canonical representation of a word, and the value is a list of all strings that match that key:
         <ul>
-          <li>We iterate through each string in the array.</li>
-          <li>For each string, we convert it to a character array, sort it alphabetically, and convert it back to a
-            string to form our key.</li>
-          <li>We check if the key is already in the map. If not, we add it with a new list. Then, we add the original
-            string to that key's list.</li>
+          <li>We loop through the input strings.</li>
+          <li>For each word, we convert it to a character array, sort it alphabetically, and construct a new string to serve as our unique map key.</li>
+          <li>We check if the key is present in the map, initialize the list if absent, and append our original word to it.</li>
+          <li>Finally, we return the values of the map as our grouped list.</li>
         </ul>
-        This runs in <code>O(n * k log k)</code> time (where <code>n</code> is the number of strings and <code>k</code>
-        is the maximum string length), which is highly efficient.
+        This runs in linear-logarithmic time, making it highly suitable for large dictionaries.
         </p>
 
-        <h2>Step-by-Step Execution</h2>
-        <p>Let's trace the HashMap-based grouping on the array
-          <code>strs = ["eat", "tea", "tan", "ate", "nat", "bat"]</code>:</p>
-        <ol>
-          <li><strong>Step 1 (Initialization):</strong> Initialize an empty HashMap: <code>map = {}</code>.</li>
-          <li><strong>Step 2 (Word "eat"):</strong>
-            <ul>
-              <li>Sort the letters: <code>"eat"</code> sorted alphabetically becomes <code>"aet"</code>.</li>
-              <li>Check if key <code>"aet"</code> exists in the map. It does not.</li>
-              <li>Create a new list for <code>"aet"</code> and add <code>"eat"</code>. Map:
-                <code>{"aet": ["eat"]}</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 3 (Word "tea"):</strong>
-            <ul>
-              <li>Sort the letters: <code>"tea"</code> sorted becomes <code>"aet"</code>.</li>
-              <li>Key <code>"aet"</code> already exists in the map.</li>
-              <li>Add <code>"tea"</code> to its list. Map: <code>{"aet": ["eat", "tea"]}</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 4 (Word "tan"):</strong>
-            <ul>
-              <li>Sort the letters: <code>"tan"</code> sorted becomes <code>"ant"</code>.</li>
-              <li>Key <code>"ant"</code> does not exist. Create list and add. Map:
-                <code>{"aet": ["eat", "tea"], "ant": ["tan"]}</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 5 (Word "ate"):</strong>
-            <ul>
-              <li>Sort the letters: <code>"ate"</code> sorted becomes <code>"aet"</code>.</li>
-              <li>Add to list: Map: <code>{"aet": ["eat", "tea", "ate"], "ant": ["tan"]}</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 6 (Word "nat"):</strong>
-            <ul>
-              <li>Sort the letters: <code>"nat"</code> sorted becomes <code>"ant"</code>.</li>
-              <li>Add to list: Map: <code>{"aet": ["eat", "tea", "ate"], "ant": ["tan", "nat"]}</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 7 (Word "bat"):</strong>
-            <ul>
-              <li>Sort the letters: <code>"bat"</code> sorted becomes <code>"abt"</code>. Key does not exist.</li>
-              <li>Add: Map: <code>{"aet": ["eat", "tea", "ate"], "ant": ["tan", "nat"], "abt": ["bat"]}</code>.</li>
-            </ul>
-          </li>
-          <li><strong>Step 8 (Completion):</strong> The iteration is complete. We return the values of the map as a list
-            of lists: <code>[["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]</code>.</li>
-        </ol>
-
-        <h2>Code Walkthrough</h2>
-        <p>Here is why the main logic in the solution is important:</p>
+        <h2>Step-by-Step Scenario Walkthrough</h2>
+        <p>Let's trace the HashMap strategy on the array <code>["eat", "tea", "tan"]</code>:
         <ul>
-          <li><code>char[] chars = s.toCharArray(); Arrays.sort(chars);</code>: Standardizes any anagram permutation
-            into a single unique sorted key representation.</li>
-          <li><code>map.computeIfAbsent(key, k -> new ArrayList<>()).add(s);</code>: An elegant Java utility that
-            initializes a new list for a key if it is missing, then adds the string, avoiding nested null checks.</li>
+          <li><strong>Word "eat":</strong> Alphabetical sort gives key <code>"aet"</code>. Key <code>"aet"</code> is missing. We create a list and insert the word. Map: <code>{"aet": ["eat"]}</code>.</li>
+          <li><strong>Word "tea":</strong> Sort gives key <code>"aet"</code>. The key already exists. We append <code>tea</code> to the list. Map: <code>{"aet": ["eat", "tea"]}</code>.</li>
+          <li><strong>Word "tan":</strong> Sort gives key <code>"ant"</code>. Key is missing. We create a list and insert the word. Map: <code>{"aet": ["eat", "tea"], "ant": ["tan"]}</code>.</li>
         </ul>
+        The loop finishes, and the map values are returned as a grouped list.
+        </p>
 
-        <h2>Implementation in Java</h2>
-        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a
-          <code>main</code> method that traces the execution with console outputs.</p>
+        <h2>Key Code Explanations</h2>
+        <p>Here is why the main logic in the solution is important:
+        <ul>
+          <li><code>char[] chars = str.toCharArray(); Arrays.sort(chars);</code>: Standardizes any anagram permutation into a single unique sorted key representation.</li>
+          <li><code>map.computeIfAbsent(key, k -> new ArrayList<>()).add(str);</code>: An elegant Java utility that initializes a new list for a key if it is missing, then adds the string, avoiding nested null checks.</li>
+        </ul>
+        </p>
+
+        <h2>Java Implementation Code</h2>
+        <p>Below is the complete, self-contained Java source code that solves this problem. It also includes a <code>main</code> method that traces the execution with console outputs.</p>
 
         <!-- Prism.js Code Snippet -->
         <pre><code class="language-java">package io.practise.dsa;
-
+ 
 import java.util.*;
-
+ 
 public class GroupAnagrams {
-
-    // Brute Force - O(n^2 * k log k)
+ 
+    // Brute Force - O(n^2 * k)
     public List&lt;List&lt;String&gt;&gt; groupAnagramsBrute(String[] strs) {
         List&lt;List&lt;String&gt;&gt; res = new ArrayList&lt;&gt;();
         boolean[] visited = new boolean[strs.length];
@@ -270,18 +233,18 @@ public class GroupAnagrams {
         }
         return res;
     }
-
+ 
     private boolean isAnagram(String s, String t) {
         if (s.length() != t.length()) return false;
         int[] count = new int[26];
         for (int i = 0; i &lt; s.length(); i++) {
-            count[s.charAt(i) - &#x27;a&#x27;]++;
-            count[t.charAt(i) - &#x27;a&#x27;]--;
+            count[s.charAt(i) - 'a']++;
+            count[t.charAt(i) - 'a']--;
         }
         for (int c : count) if (c != 0) return false;
         return true;
     }
-
+ 
     // Optimized - O(n * k log k) with HashMap
     public List&lt;List&lt;String&gt;&gt; groupAnagrams(String[] strs) {
         Map&lt;String, List&lt;String&gt;&gt; map = new HashMap&lt;&gt;();
@@ -293,24 +256,21 @@ public class GroupAnagrams {
         }
         return new ArrayList&lt;&gt;(map.values());
     }
-
+ 
     public static void main(String[] args) {
         GroupAnagrams solver = new GroupAnagrams();
-        String[] strs = {&quot;eat&quot;, &quot;tea&quot;, &quot;tan&quot;, &quot;ate&quot;, &quot;nat&quot;, &quot;bat&quot;};
-
-        System.out.println(&quot;--- Group Anagrams Demonstration ---&quot;);
-        System.out.println(&quot;Input: &quot; + Arrays.toString(strs));
-
+        String[] strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
+ 
+        System.out.println("--- Group Anagrams Demonstration ---");
+        System.out.println("Input: " + Arrays.toString(strs));
+ 
         List&lt;List&lt;String&gt;&gt; result = solver.groupAnagrams(strs);
-        System.out.println(&quot;Grouped Anagrams: &quot; + result);
+        System.out.println("Grouped Anagrams: " + result);
     }
-}
-</code></pre>
-
-        <h2>Takeaways</h2>
-        <p>Solving the <strong>Group Anagrams</strong> problem highlights how we can leverage key data structures and
-          algorithmic paradigms (like two pointers, hash maps, or dynamic programming) to significantly optimize runtime
-          and simplify code complexity.</p>
+}</code></pre>
+ 
+        <h2>Conclusion & Complexity Analysis</h2>
+        <p>Our optimized HashMap solution runs in <code>O(N * K log K)</code> time complexity (where <code>N</code> is the number of strings and <code>K</code> is the maximum string length, due to sorting character arrays of size <code>K</code>) and uses <code>O(N * K)</code> space to store the map. By mapping varying anagrams to a standardized canonical key, we group related strings in a single pass.</p>
       </div>
       <!-- Navigation & Related Articles -->
       <section class="post-navigation-related" id="post-navigation-related">
